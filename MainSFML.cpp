@@ -64,7 +64,6 @@ using namespace FTGL;
 #include "Utils.h"
 #include "fs.h"
 #include "Alloca.h"
-#include "Memory.h"
 #include "Containers.h"
 
 //
@@ -147,7 +146,6 @@ inline void Free() {
 void Terminate (const int type) {
 	//
 	Free();
-	FreeMemory();
 	FreeCursor();
 	Config->SaveToFile ("Config.thm");
 	//
