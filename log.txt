@@ -1,6 +1,6 @@
-DEBUG /home/int64/Projects/ge
+DEBUG /home/int64/Projects/2D-Map-Editor
 DEBUG OpenGL Version : 3.3
-ERROR OpenGL error 0x500
+ERROR OpenGL error 0x501
 ERROR Shader program: 
 ERROR Shader program: 
 ERROR Shader program: 
