@@ -11,5 +11,6 @@ freetype2
 glm
 tinyxml
 jpeg
+
 run in terminal:
 for Linux Debug: sh make/linux_debug.sh
