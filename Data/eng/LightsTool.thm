@@ -1,0 +1,63 @@
+// Surface Tool ------------------>
+
+pLightGroups (Panel)
+	Parent  : pDetails;
+	Size    : 0, 64;
+	Clamp   : 64, 64;
+	Resize  : True;
+	Align   : Top;
+	CanHide : True;
+	Visible : False;
+	Caption : "Lights";
+	TabJoin	: LightElement;
+end;
+
+//
+pLights (Panel)
+	Parent : pDetails;
+	Size    : 0, 200;
+	Clamp   : 50, 485;
+	Resize  : True;
+	Align   : Top;
+	Join	: pLightGroups;
+end;
+//
+lmLights (ListMenu)
+	Parent : pLights;
+	Pos : 10, 0;
+	Transparent : True;
+	CheckList : True;
+	Align : Center;
+end;
+//
+pLightsTool (Panel) 
+	Parent : pDetails;
+	Size    : 0, 32;
+	Clamp   : 32, 32;
+	Resize  : False;
+	Align   : Top;
+	Scroll  : False;
+	Join	: pLights;
+end;
+
+//
+liLightsMainGroup (ListItem) Parent : None; Caption : "Main"; end;
+lmLightGroupes (ListMenu)
+	Parent	: None;
+	Items	: liLightsMainGroup;
+	Size	: 150, 0;
+end;
+//
+gbLightsGrpoups (GroupedElements) Parent : pLightGroups; Pos : 0, 10; Align : Center; end;
+dmLightGroups (DropMenu) Parent : gbLightsGrpoups; Menu : lmLightGroupes; Caption : ""; Size : 36, 21; Icon : 11, 9; ShowIcon : True; Flat : False; ShowText : False; end;
+eLightGroupName (Edit) Parent : gbLightsGrpoups; Text : "Main"; end;
+bAddLightGroup (Button) Parent : gbLightsGrpoups; Flat : False; Size : 24, 21; ShowIcon : True; Icon : 1, 5; end;
+bDeleteLightGroup (Button) Parent : gbLightsGrpoups; Flat : False; Size : 24, 21; ShowIcon : True; Icon : 3, 5; Enabled : False; end;
+
+gbLights     (GroupedElements) Parent : pLightsTool; Pos : 0, 5; Align : Center; end;
+bDeleteLight (Button) Parent : gbLights; Flat : False; ShowIcon : True; Pos : 218,  8; Icon : 3, 5; Caption : "Delete"; Enabled : False; end;
+bAddLight    (Button) Parent : gbLights; Flat : False; ShowIcon : True; Pos : 218,  8; Icon : 1, 5; Caption : "Add"; end;
+
+// <------------------ Surface Tool
+
+

@@ -1,0 +1,90 @@
+// Set Polygon
+// Created by Kabylin Andrey
+//----------------------------------------------------------------------------//
+
+SetPolygonDialog (Dialog)
+	Parent : Root;
+	Size : 1000, 640;
+	Pos : 100, 100;
+	Scroll : False;
+	Caption : "Set Polygon";
+end;
+
+pBottom (Panel)
+	//
+	Parent  : SetPolygonDialog;
+	Size    : 0, 35;
+	Clamp   : 35, 35;
+	Resize  : False;
+	Align   : Bottom;
+	Scroll	: False;
+	ActionColor : True;
+end;
+
+pParams (Panel)
+	//
+	Parent  : SetPolygonDialog;
+	Size    : 250, 225;
+	Clamp   : 200, 200;
+	Resize  : False;
+	Align   : Right;
+	Scroll	: False;
+end;
+
+pBrowse (Panel)
+	//
+	Parent  : SetPolygonDialog;
+	Size    : 0, 26;
+	Clamp   : 26, 26;
+	Resize  : False;
+	Align   : Center;
+	Scroll	: True;
+	UseInColor : True;
+end;
+
+pParamsGroup (Panel)
+	Parent : pParams;
+	Size    : 0, 200;
+	Clamp   : 100, 300;
+	Resize  : False;
+	Align   : Top;
+	CanHide : True;
+	Caption : "Shape";
+end;
+
+Transparent (ColorPanel)
+	Parent : pBrowse;
+	Color  : 0,0,0,0;
+	Pos    : 10, 10;
+end;
+
+
+gbFN (GroupedElements) Parent : pBottom; Pos : 0, 8; Align : Right; end;
+bCancel (Button) Parent : gbFN; Flat : False; Size : 150, 21; Icon : 1, 9; Caption : "Cancel"; end;
+bOK (Button) Parent : gbFN; Flat : False; Size : 150, 21; Icon : 4, 1; Caption : "OK"; end;
+
+// Parameters
+liBox     (ListItem) Parent : None; Caption : "Box";     Icon : 11, 7; Checked : True; Flat : True; end;
+liCircle  (ListItem) Parent : None; Caption : "Circle";  Icon : 10, 7; Flat : True; end;
+liPolygon (ListItem) Parent : None; Caption : "Polygon"; Icon : 11, 8; Flat : True; end;
+
+lmType (ListMenu)
+	Parent	: pParamsGroup;
+	CheckList   : True;
+	Align   : Center;
+	Items	: liBox, liCircle, liPolygon;
+	Size	: 145, 0;
+	Pos		: 10, 0;
+	Transparent : True;
+end;
+
+gSnap (GroupedElements) Parent : pParamsGroup; Pos : 0, 95; Align : Center; end;
+lSnap (Label) Parent : pParamsGroup; Size : 100, 0; Pos : 15, 85; Caption : "Snap"; end;
+eSnap (Edit) Parent : gSnap; Text : "0"; After : "px"; TrackBar : True; end;
+dmSnap (CheckButton) Parent : gSnap; Size : 25, 21; Icon : 7, 2; ClickIcon : 8, 2; Pos : 435, 3; ShowIcon : True; Checked : False; end;
+//eAngle (Edit) Parent : pParamsGroup; Pos : 10, 155; Align : Center; Text : "32 px"; end;
+
+gZoom (GroupedElements) Parent : pParamsGroup; Pos : 0, 140; Align : Center; end;
+lZoom (Label) Parent : pParamsGroup; Size : 100, 0; Pos : 15, 130; Caption : "Zoom"; end;
+eZoom (Edit) Parent : gZoom; Text : "100"; After : "%"; Range : 20, 800; TrackBar : True; Filter : Int; IntFilter : True; end;
+bZoom (Button) Parent : gZoom; Size : 25, 21; Icon : 9, 4; Pos : 435, 3; ShowIcon : True; Checked : False; end;

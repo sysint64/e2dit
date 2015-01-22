@@ -1,0 +1,63 @@
+// Surface Tool ------------------>
+
+pPolygonGroups (Panel)
+	Parent  : pDetails;
+	Size    : 0, 64;
+	Clamp   : 64, 64;
+	Resize  : True;
+	Align   : Top;
+	CanHide : True;
+	Visible : False;
+	Caption : "Polygons";
+	TabJoin	: PolygonElement;
+end;
+
+//
+pPolygons (Panel)
+	Parent : pDetails;
+	Size    : 0, 200;
+	Clamp   : 50, 485;
+	Resize  : True;
+	Align   : Top;
+	Join	: pPolygonGroups;
+end;
+//
+lmPolygons (ListMenu)
+	Parent : pPolygons;
+	Pos : 10, 0;
+	Transparent : True;
+	CheckList : True;
+	Align : Center;
+end;
+//
+pPolygonsTool (Panel) 
+	Parent : pDetails;
+	Size    : 0, 32;
+	Clamp   : 32, 32;
+	Resize  : False;
+	Align   : Top;
+	Scroll  : False;
+	Join	: pPolygons;
+end;
+
+//
+liPolygonsMainGroup (ListItem) Parent : None; Caption : "Main"; end;
+lmPolygonGroupes (ListMenu)
+	Parent	: None;
+	Items	: liPolygonsMainGroup;
+	Size	: 150, 0;
+end;
+//
+gbPolygonsGrpoups (GroupedElements) Parent : pPolygonGroups; Pos : 0, 10; Align : Center; end;
+dmPolygonGroups (DropMenu) Parent : gbPolygonsGrpoups; Menu : lmPolygonGroupes; Caption : ""; Size : 36, 21; Icon : 6, 4; ShowIcon : True; Flat : False; ShowText : False; end;
+ePolygonGroupName (Edit) Parent : gbPolygonsGrpoups; Text : "Main"; end;
+bAddPolygonGroup (Button) Parent : gbPolygonsGrpoups; Flat : False; Size : 24, 21; ShowIcon : True; Icon : 1, 5; end;
+bDeletePolygonGroup (Button) Parent : gbPolygonsGrpoups; Flat : False; Size : 24, 21; ShowIcon : True; Icon : 3, 5; Enabled : False; end;
+
+gbPolygons     (GroupedElements) Parent : pPolygonsTool; Pos : 0, 5; Align : Center; end;
+bDeletePolygon (Button) Parent : gbPolygons; Flat : False; ShowIcon : True; Pos : 218,  8; Icon : 3, 5; Caption : "Delete"; Enabled : False; end;
+bAddPolygon    (Button) Parent : gbPolygons; Flat : False; ShowIcon : True; Pos : 218,  8; Icon : 1, 5; Caption : "Add"; end;
+
+// <------------------ Surface Tool
+
+

@@ -1,0 +1,117 @@
+
+PreferencesDialog (Dialog)
+	Parent : Root;
+	Size : 535, 325;
+	Pos : 100, 100;
+	Scroll : False;
+	Caption : "User Preferences";
+end;
+
+ActionsPanel (Panel)
+	Parent : PreferencesDialog;
+	Align  : Bottom;
+	Size   : 0, 35; 
+	Resize : False;
+	ActionColor : True;
+end;
+
+MenuPanel (Panel)
+	Parent : PreferencesDialog;
+	Align  : Left;
+	Size   : 150, 0;
+	Clamp  : 150, 150;
+	UseInColor : True;
+	Resize : False;
+	Scroll	: False;
+end;
+
+// File Menu
+liGeneral  (ListItem) Parent : None; Caption : "General";  Icon : 2, 3;  end;
+liTheme    (ListItem) Parent : None; Caption : "Theme";    Icon : 4, 3; end;
+liHotKeys  (ListItem) Parent : None; Caption : "Hot Keys"; Icon : 6, 3; end;
+liImport   (ListItem) Parent : None; Caption : "Import";   Icon : 7, 3; end;
+liLibs     (ListItem) Parent : None; Caption : "Libs";     Icon : 7, 3; end;
+liCompiler (ListItem) Parent : None; Caption : "Compiler"; Icon : 1, 3; Checked : True;end;
+
+//include "PreferencesGeneralTab.thm";
+//include "PreferencesThemeTab.thm";
+//include "PreferencesHotKeysTab.thm";
+//include "PreferencesImportTab.thm";
+//include "PreferencesLibsTab.thm";
+//include "PreferencesCompilerTab.thm";
+
+pGeneral (Panel)
+	Parent : PreferencesDialog;
+	Align  : Center;
+	TabJoin : liGeneral;
+end;
+
+pTheme (Panel)
+	Parent : PreferencesDialog;
+	Align  : Center;
+	TabJoin : liTheme;
+end;
+
+pHotKeys (Panel)
+	Parent : PreferencesDialog;
+	Align  : Center;
+	TabJoin : liHotKeys;
+end;
+
+pImport (Panel)
+	Parent : PreferencesDialog;
+	Align  : Center;
+	TabJoin : liImport;
+end;
+
+pLibs (Panel)
+	Parent : PreferencesDialog;
+	Align  : Center;
+	TabJoin : liLibs;
+end;
+
+//
+lmMenu (ListMenu)
+	Parent	: MenuPanel;
+	CheckList   : True;
+	//Align   : Center;
+	Items	: liGeneral, liTheme, liHotKeys, liImport, liLibs, liCompiler;
+	Size	: 145, 0;
+	Transparent : True;
+end;
+
+gbActions (GroupedElements) Parent : ActionsPanel; Pos : 0,8; Align : Right; end;
+bCancel   (Button) Parent : gbActions; Size : 100, 21; Icon : 1, 9; Caption : "Cancel"; end;
+bOk       (Button) Parent : gbActions; Size : 100, 21; Icon : 4, 1; Caption : "OK";     end;
+//
+
+pCompiler (Panel)
+	Parent : PreferencesDialog;
+	Align  : Center;
+	TabJoin : liCompiler;
+end;
+
+lCompilerPath  (Label)           Parent : pCompiler; Pos : 15, 15; Caption : "Compiler Path"; end;
+gbCompilerPath (GroupedElements) Parent : pCompiler; Pos : 0 , 25; Align : Center; end;
+eCompilerPath  (Edit)            Parent : gbCompilerPath; Text : "C:\Program Files\Game Engineer\Compiler"; end;
+bCompilerPath  (Button)			 Parent : gbCompilerPath; Size : 23, 0; Icon : 2, 1; end;
+
+lLinkerPath  (Label)           Parent : pCompiler; Pos : 15, 60; Caption : "Linker Path"; end;
+gbLinkerPath (GroupedElements) Parent : pCompiler; Pos : 0 , 70; Align : Center; end;
+eLinkerPath  (Edit)            Parent : gbLinkerPath; Text : "C:\Program Files\Game Engineer\LLVM\lld"; end;
+bLinkerPath  (Button)		   Parent : gbLinkerPath; Size : 23, 0; Icon : 2, 1; end;
+
+lLLVMPath  (Label)           Parent : pCompiler; Pos : 15, 105; Caption : "LLVM Path"; end;
+gbLLVMPath (GroupedElements) Parent : pCompiler; Pos : 0 , 115; Align : Center; end;
+eLLVMPath  (Edit)            Parent : gbLLVMPath; Text : "C:\Program Files\Game Engineer\LLVM\bin"; end;
+bLLVMPath  (Button)		 	 Parent : gbLLVMPath; Size : 23, 0; Icon : 2, 1; end;
+
+lLang  (Label) Parent : pCompiler; Pos : 15, 150; Caption : "Language"; end;
+gbLang (GroupedElements) Parent : pCompiler; Pos : 0, 160; Align : Center; end;
+
+blAPC (CheckButton) Parent : gbLang; Icon : 1, 9; Caption : "Aphalin"; Checked : True; end;
+bCPP  (CheckButton) Parent : gbLang; Icon : 4, 1; Caption : "C++";      end;
+bJava (CheckButton) Parent : gbLang; Icon : 4, 1; Caption : "Java";     end;
+
+cbOpt   (CheckBox) Parent : pCompiler; Caption : "Optimizations"; Pos : 10, 190; end;
+cbFatal (CheckBox) Parent : pCompiler; Caption : "Fatal Errors";   Pos : 190, 190; Checked : True; end;

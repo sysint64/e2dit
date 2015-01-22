@@ -1,0 +1,26 @@
+DEBUG /home/int64/Projects/ge
+DEBUG OpenGL Version : 3.3
+ERROR OpenGL error 0x500
+ERROR Shader program: 
+ERROR Shader program: 
+ERROR Shader program: 
+ERROR Shader program: 
+ERROR Shader program: 
+DEBUG Data/eng/TilesTool.thm
+DEBUG Data/eng/MapEditor.thm
+DEBUG !!!
+DEBUG Data/eng/PointsTool.thm
+DEBUG Data/eng/MapEditor.thm
+DEBUG !!!
+DEBUG Data/eng/LightsTool.thm
+DEBUG Data/eng/MapEditor.thm
+DEBUG !!!
+DEBUG Data/eng/PolygonsTool.thm
+DEBUG Data/eng/MapEditor.thm
+DEBUG !!!
+DEBUG Data/eng/SpritesTool.thm
+DEBUG Data/eng/MapEditor.thm
+DEBUG !!!
+DEBUG Data/eng/MainMenu.thm
+DEBUG Data/eng/MapEditor.thm
+DEBUG !!!

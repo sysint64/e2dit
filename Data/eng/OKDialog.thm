@@ -1,0 +1,32 @@
+
+OKDialog (Dialog)
+	Parent : Root;
+	Size : 400, 100;
+	Pos : 100, 100;
+	Scroll : False;
+	Caption : "";
+end;
+
+ActionsPanel (Panel)
+	Parent : OKDialog;
+	Align  : Bottom;
+	Size   : 0, 35; 
+	Resize : False;
+	ActionColor : True;
+end;
+
+pMain (Panel)
+	Parent : OKDialog;
+	Align  : Center;
+end;
+
+iError   (Image) Parent : pMain; Texture : "msgicons"; Offset : 0, 0; Size : 48, 48; Pos : 8, 8;   end;
+iInfo    (Image) Parent : pMain; Texture : "msgicons"; Offset : 48, 0; Size : 48, 48; Pos : 8, 8;   end;
+iWarning (Image) Parent : pMain; Texture : "msgicons"; Offset : 96, 0; Size : 48, 48; Pos : 8, 8;   end;
+
+bOk (Button) Parent : ActionsPanel; Caption : "OK"; Icon : 4, 1; Pos : 270, 8; Size : 120, 0; end;
+lMessage (Label) Parent : pMain; Caption : ""; Pos : 85, 30; end;
+
+//Ганкель. Теория комплексных числовых систем 
+//Тропфке История элементарной математики
+//Перманентность

@@ -1,0 +1,54 @@
+#ifndef H_CONFIG
+#define H_CONFIG
+//
+
+// Static
+static int		WindowWidth  = 1400;
+static int		WindowHeight = 840;
+static int		ScreenWidth;
+static int		ScreenHeight;
+static int		OGLMajor = 3;
+static int		OGLMinor = 3;
+static int		AntiAliasing = 16;
+static int		MouseX, MouseY;
+static int		Shift;
+static float	CurrTime, DeltaTime, LastTime;
+static float	FPS;
+static string	CurrentTheme = "Dark";
+static string	lang = "eng";
+static bool		DialogOpened;
+static bool		HideCursor = false;
+static string	ExeDir;
+const float		pi = 3.1415926535f;
+static int		LastTexID = 0;
+static int		LastTexN  = 0;
+
+// Extension
+static bool		VAOEXT = true;
+char			*LastErrMsg;
+sf::Window 		*MainWindow;
+sf::WindowHandle aWindowHandle;
+
+#ifdef _win_
+	#define DirSlash '\\'
+#endif
+
+#ifdef _linux_
+	#define DirSlash '/'
+#endif
+
+#ifdef _darwin_
+	#define DirSlash '/'
+#endif
+
+#define PtrSize 8
+// Definitions
+#define ProgramName "Game Engineer"
+#define Uint16 unsigned short
+#define BYTE   unsigned char
+
+#define ARRAYSIZE(a) ((sizeof(a) / sizeof(*(a))) / static_cast<size_t>(!(sizeof(a) % sizeof(*(a)))))
+#define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
+#define MAX(X,Y) ((X) > (Y) ? (X) : (Y))
+
+#endif

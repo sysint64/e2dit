@@ -1,0 +1,10 @@
+soil
+glew32
+opengl32
+glu32
+sfwml-2.1
+ftgl
+freetype2
+glm
+tinyxml
+jpeg

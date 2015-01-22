@@ -1,0 +1,192 @@
+// File Browser (Finder)
+// Created by Kabylin Andrey
+//----------------------------------------------------------------------------//
+
+// Open & Save Dialog
+//---------------------------------------------------------------------------->
+
+FinderDialog (Dialog)
+	Parent : Root;
+	Size : 1000, 640;
+	Pos : 100, 100;
+	Scroll : False;
+end;
+
+pTop (Panel)
+	//
+	Parent  : FinderDialog;
+	Size    : 0, 26;
+	Clamp   : 26, 26;
+	Resize  : False;
+	Align   : Top;
+	Scroll	: False;
+end;
+
+pStat (Panel)
+	//
+	Parent  : FinderDialog;
+	Size    : 0, 21;
+	Clamp   : 21, 21;
+	Resize  : False;
+	Align   : Bottom;
+	Scroll	: False;
+	ActionColor : True;
+end;
+
+pLeft (Panel)
+	//
+	Parent  : FinderDialog;
+	Size    : 200, 0;
+	Clamp   : 200, 300;
+	Resize  : True;
+	Align   : Left;
+	Scroll	: True;
+end;
+
+pBottom (Panel)
+	//
+	Parent  : FinderDialog;
+	Size    : 0, 55;
+	Clamp   : 0, 0;
+	Resize  : False;
+	Align   : Top;
+	Scroll	: False;
+end;
+
+pPreview (Panel)
+	//
+	Parent  : FinderDialog;
+	Size    : 250, 55;
+	Clamp   : 0, 0;
+	Resize  : False;
+	Align   : Right;
+	Scroll	: False;
+	UseInColor : True;
+end;
+
+pBrowse (Panel)
+	//
+	Parent  : FinderDialog;
+	Size    : 0, 26;
+	Clamp   : 26, 26;
+	Resize  : False;
+	Align   : Center;
+	Scroll	: True;
+	UseInColor : True;
+end;
+
+//
+
+pPlaces (Panel)
+	//
+	Parent  : pLeft;
+	Align : Top;
+	CanHide : True;
+	Caption : "Places";
+	Size : 0, 170;
+	Clamp : 0, 0;
+	Scroll	: False;
+	Resize  : False;
+end;
+
+pDevices (Panel)
+	//
+	Parent  : pLeft;
+	Align : Top;
+	CanHide : True;
+	Caption : "Devices";
+	Size : 0, 205;
+	Clamp : 0, 0;
+	Scroll	: False;
+	Resize  : False;
+end;
+
+// Navigation
+gbNav (GroupedElements) Parent : pTop; Pos : 0, 2; end;
+
+bPrev (Button) Parent : gbNav; Flat : False; Size : 24, 21; Icon : 1, 7; end;
+bNext (Button) Parent : gbNav; Flat : False; Size : 24, 21; Icon : 2, 7; end;
+bUp   (Button) Parent : gbNav; Flat : False; Size : 24, 21; Icon : 6, 8; end;
+bUpd  (Button) Parent : gbNav; Flat : False; Size : 24, 21; Icon : 3, 7; end;
+
+//
+gbLayout (GroupedElements) Parent : pTop; Pos : 0, 2; Align : Right; end;
+
+bA (CheckButton) Parent : gbLayout; Size : 24, 21; Icon : 8, 8; Checked : True; end;
+bB (CheckButton) Parent : gbLayout; Size : 24, 21; Icon : 9, 8; end;
+bC (CheckButton) Parent : gbLayout; Size : 24, 21; Icon : 10, 8; end;
+
+//
+bCreateFolder (Button) Parent : pTop; Flat : False; Size : 120, 21; Pos : 118,  2; Icon : 7, 8; Caption : "Create Folder"; end;
+
+// Places
+
+liRecent (ListItem) Parent : None; Caption : "Recent"; Icon : 5, 9; Flat : True; end;
+liHome (ListItem) Parent : None; Caption : "Home"; Icon : 8, 9; Flat : True; end;
+liDesktop (ListItem) Parent : None; Caption : "Desktop"; Icon : 7, 9; Flat : True; end;
+liVideos (ListItem) Parent : None; Caption : "Videos"; Icon : 6, 9; Flat : True; end;
+liDocuments (ListItem) Parent : None; Caption : "Documents"; Icon : 3, 9; Flat : True; end;
+liDownloads (ListItem) Parent : None; Caption : "Downloads"; Icon : 1, 10; Flat : True; end;
+liPictures (ListItem) Parent : None; Caption : "Pictures"; Icon : 2, 9; Flat : True; end;
+liMusics (ListItem) Parent : None; Caption : "Musics"; Icon : 4, 9; Flat : True; end;
+
+//
+
+lmPlaces (ListMenu)
+	Parent : pPlaces;
+	Items  : liRecent, liHome, liDesktop, liVideos, liDocuments, liDownloads, liPictures, liMusics;
+	Pos : 10, 0;
+	Transparent : True;
+	CheckList : True;
+	Align : Center;
+end;
+
+// Devices
+//
+
+lmDrives (ListMenu)
+	Parent : pDevices;
+	Pos : 10, 0;
+	Transparent : True;
+	CheckList : True;
+	Align : Center;
+end;
+
+// FN
+
+lFileName (Label)
+	Parent : pBottom;
+	Caption : "File Name";
+	Pos : 10, 15;
+end;
+
+// File Types
+gbFT (GroupedElements) Parent : pTop; Pos : 240, 2; end;
+bFTGE (CheckButton) Parent : gbFT; Size : 24, 21; Icon : 3, 6; Checked : True; end;
+bFTGEScript (CheckButton) Parent : gbFT; Size : 24, 21; Icon : 6, 6; end;
+bFTPicture (CheckButton) Parent : gbFT; Size : 24, 21; Icon : 4, 6; end;
+bFTSound (CheckButton) Parent : gbFT; Size : 24, 21; Icon : 7, 6; end;
+bFTVideo (CheckButton) Parent : gbFT; Size : 24, 21; Icon : 5, 6; end;
+bFTFont (CheckButton) Parent : gbFT; Size : 24, 21; Icon : 8, 6; end;
+bFTText (CheckButton) Parent : gbFT; Size : 24, 21; Icon : 9, 6; end;
+
+// File Name
+gbFN (GroupedElements) Parent : pBottom; Pos : 0, 25; Align : Center; end;
+
+eFileName (Edit) Parent : gbFN; end;
+bCancel (Button) Parent : gbFN; Flat : False; Size : 100, 21; Icon : 1, 9; Caption : "Cancel"; end;
+bOk (Button) Parent : gbFN; Flat : False; Size : 150, 21; Icon : 4, 1; Caption : "Save Level|Save Project|Open Level|Open Project|Open Audio|Open Video|Open Picture|Open DLang File|Save DLang File"; end;
+
+//
+
+lmFiles (ListMenu)
+	Parent : pBrowse;
+	Pos : 10, 0;
+	Transparent : True;
+	CheckList : True;
+	Align : Center;
+end;
+
+iGrid    (Image) Parent : pPreview; Texture : "imagegrid"; Offset : 0, 0; Size : 240, 240; Pos : 2, 2; Visible : false; end;
+iPreview (Image) Parent : pPreview; Texture : "previewfloat"; Offset : 0, 0; Size : 240, 240; Pos : 2, 2; Visible : false; end;
+iPreviewBorder (Image) Parent : pPreview; Texture : "preview"; Offset : 0, 0; Size : 240, 240; Pos : 2, 2;   end;

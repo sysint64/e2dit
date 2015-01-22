@@ -1,0 +1,56 @@
+
+ColorDialog (Dialog)
+	Parent : Root;
+	Size : 543, 290;
+	Pos : 100, 100;
+	Scroll : False;
+	Caption : "Color Pallete";
+end;
+
+pColorDialog (Panel) Parent : ColorDialog; Align : Center; end;
+
+pColorsPanel (Panel) Parent : ColorDialog; Pos : 10, 20; Size : 256, 256; UseInColor : True; end;
+pColorsLine  (Panel) Parent : ColorDialog; Pos : 283, 20; Size : 18 , 256; UseInColor : True; end;
+iColorCursor (Image) Parent : pColorsPanel; Texture : "uiskin"; Pos : -7, -7; Offset : 201, 258; Size : 15, 15;  end;
+iLineCursor  (Image) Parent : ColorDialog;  Texture : "uiskin"; Pos : 272, 16; Offset : 128, 282; Size : 40, 9;  end;
+
+pColorsLineBorder  (ColorPanel) Parent : pColorDialog; Pos : 281, 18; Size : 22 , 260; Color : 200, 200, 200, 30; ShowGrid : False; end;
+pColorsPanelBorder (ColorPanel) Parent : pColorDialog; Pos : 8  , 18; Size : 260, 260; Color : 200, 200, 200, 30; ShowGrid : False; end;
+pColorsBorder (ColorPanel) Parent : pColorDialog; Pos : 316, 22; Size : 84, 68; Color : 200, 200, 200, 30; ShowGrid : False; end;
+
+pNewColor (ColorPanel) Parent : pColorDialog; Pos : 318, 24; Size : 80, 32; UseInColor : True; end;
+lNewColor (Label)      Parent : pColorDialog; Caption : "New"; Pos : 316, 12; Size : 78, 0; TextAlign : Center; end;
+
+pCurColor (ColorPanel) Parent : pColorDialog; Pos : 318, 56; Size : 80, 32; Color : 100, 10, 0, 50; end;
+lCurColor (Label)      Parent : pColorDialog; Caption : "Current"; Pos : 316, 100; Size : 78, 0; TextAlign : Center; end;
+
+gHSB  (GroupedElements) Parent : ColorDialog; Pos : 402, 70; end;
+gRGB  (GroupedElements) Parent : ColorDialog; Pos : 465, 70; end;
+gLab  (GroupedElements) Parent : ColorDialog; Pos : 142, 290; Visible : False; end;
+
+bHSB_H (CheckButton) Parent : gHSB; Caption : "H"; Size : 20, 21; TextAlign : Left; Checked : True; end;
+bHSB_S (CheckButton) Parent : gHSB; Caption : "S"; Size : 20, 21; TextAlign : Left; end;
+bHSB_B (CheckButton) Parent : gHSB; Caption : "B"; Size : 20, 21; TextAlign : Left; end;
+
+bRGB_R (CheckButton) Parent : gRGB; Caption : "R"; Size : 20, 21; TextAlign : Left; end;
+bRGB_G (CheckButton) Parent : gRGB; Caption : "G"; Size : 20, 21; TextAlign : Left; end;
+bRGB_B (CheckButton) Parent : gRGB; Caption : "B"; Size : 20, 21; TextAlign : Left; end;
+
+//
+eHSB_H (Edit) Parent : pColorDialog; Text : "360"; Before : "H:"; After : "°"; Size : 105, 0; Pos : 316, 115; Filter : Int; IntFilter : True; Range : 0, 360; TrackBar : True; end;
+eHSB_S (Edit) Parent : pColorDialog; Text : "100"; Before : "S:"; After : "%"; Size : 105, 0; Pos : 316, 145; Filter : Int; IntFilter : True; Range : 0, 100; TrackBar : True; end;
+eHSB_B (Edit) Parent : pColorDialog; Text : "100"; Before : "B:"; After : "%"; Size : 105, 0; Pos : 316, 175; Filter : Int; IntFilter : True; Range : 0, 100; TrackBar : True; end;
+
+//
+eRGB_R (Edit) Parent : pColorDialog; Text : "255"; Before : "R:"; Size : 105, 0; Pos : 430, 115; Filter : Int; IntFilter : True; Range : 0, 255; TrackBar : True; end;
+eRGB_G (Edit) Parent : pColorDialog; Text : "255"; Before : "G:"; Size : 105, 0; Pos : 430, 145; Filter : Int; IntFilter : True; Range : 0, 255; TrackBar : True; end;
+eRGB_B (Edit) Parent : pColorDialog; Text : "255"; Before : "B:"; Size : 105, 0; Pos : 430, 175; Filter : Int; IntFilter : True; Range : 0, 255; TrackBar : True; end;
+
+eAlpha (Edit) Parent : pColorDialog; Text : "100"; Before : "A:"; After : "%"; Size : 105, 0; Pos : 430, 205; Filter : Int; IntFilter : True; Range : 0, 100; TrackBar : True; end;
+eHexColor (Edit) Parent : pColorDialog; Text : "ffffff"; Before : "#"; Size : 105, 0; Pos : 316, 205; Filter : Hex; end;
+//
+lLast (Label) Parent : pColorDialog; Caption : "Last colors"; Pos : 316, 240; end;
+pLast (Panel) Parent : pColorDialog; Pos : 315, 250; Size : 220, 28; Scroll : False; end;
+
+bOk     (Button) Parent : pColorDialog; Caption : "OK";     Icon : 4, 1; Pos : 412, 20; Size : 123, 0; end;
+bCancel (Button) Parent : pColorDialog; Caption : "Cancel"; Icon : 1, 9; Pos : 412, 45; Size : 123, 0; end;
