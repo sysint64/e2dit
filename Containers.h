@@ -9,7 +9,6 @@
 template <typename Type> class HashSet {
 private:
 	struct ItemT { char *id; Type Obj; };
-	LinearBuffer *MemoryBuffer;
 	vector<int> ItemsArr;
 	//
 public:
@@ -100,6 +99,8 @@ public:
 	}
 	//
 };
+
+/* This is just a test */
 
 template <class T>
 class nvector : public vector<T> {

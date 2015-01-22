@@ -14,7 +14,7 @@ void AnimData2D::SetFrame(const int Frame) {
 // Initialize
 void AnimData2D::Init() {
 	//
-	OffsetsTable = (glm::vec2**)LinearAlloc(&TablesBuffer, sizeof(glm::vec2*)*hCount, 4);
+	/*OffsetsTable = (glm::vec2**)LinearAlloc(&TablesBuffer, sizeof(glm::vec2*)*hCount, 4);
 	//
 	for (int i = 0; i < hCount; i++) {
 		OffsetsTable[i] = (glm::vec2*)LinearAlloc(&TablesBuffer, sizeof(glm::vec2)*vCount, 4);
@@ -28,7 +28,7 @@ void AnimData2D::Init() {
 		//
 	}
 	//
-	Time = 0.0f;
+	Time = 0.0f;*/
 	//
 }
 

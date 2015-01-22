@@ -63,7 +63,6 @@ using namespace FTGL;
 #include "Config.h"
 #include "Utils.h"
 #include "fs.h"
-#include "Alloca.h"
 #include "Containers.h"
 
 //
