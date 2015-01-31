@@ -1,4 +1,0 @@
-#ifndef CPP_UICODEEDITOR
-#define CPP_UICODEEDITOR
-
-#endif
