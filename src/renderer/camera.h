@@ -1,11 +1,11 @@
 /* E2DIT - 2D Map Editor for game
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 
+ * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * You should have received a copy of the GNU General Public 
+ * You should have received a copy of the GNU General Public
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  * Boston, MA 02111-1307, USA.
@@ -16,6 +16,9 @@
 /** @file camera.h
     @brief 2D Camera
 */
+
+#ifndef E2DIT_RENDERER_CAMERA_H
+#define E2DIT_RENDERER_CAMERA_H
 
 #include "../math/glm.h"
 #include <string>
@@ -28,11 +31,11 @@ public:
 	float zoom;
 	bool needUpdate;
 	glm::vec2 position;
-	
+
 	glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
 	glm::mat4 MVPMatrix;
-	
+
 	glm::ivec2 size;
 	std::wstring name;
 
@@ -40,7 +43,7 @@ public:
 	int viewHeight;
 
 	/* Methods */
-	
+
 	Camera (int width, int height);
 
 	/** Update camera position and set needUpdate = true for
@@ -62,3 +65,5 @@ public:
 
 	void update();
 };
+
+#endif
