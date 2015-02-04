@@ -79,9 +79,9 @@ void BaseObject::updateModelMatrix() {
 	glm::mat4 mt = glm::translate (glm::mat4 (1.0f), glm::vec3 (position, 0.0f));
 	glm::mat4 ms = glm::scale     (glm::mat4 (1.0f), glm::vec3 (scale, 1.0f));
 
-	modelMatrix = mt*mr*ms;
-	MVPMatrix   = modelMatrix;
-	MVPMatrix   = camera->MVPMatrix*modelMatrix;
-	needUpdate  = false;
+	modelMatrix  = mt*mr*ms;
+	MVPMatrix    = modelMatrix;
+	MVPMatrix    = camera->MVPMatrix*modelMatrix;
+	needUpdate   = false;
 
 }
