@@ -27,8 +27,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
 
-//Application app;
-
 /* Main */
 
 int main() {
@@ -145,6 +143,7 @@ int main() {
 				case sf::Event::TextEntered : core->onTextEntered (ev.text.unicode);  break;
 				case sf::Event::KeyReleased : core->onKeyReleased (ev.key.code);      break;
 
+				default : break;
 			}
 
 		}
