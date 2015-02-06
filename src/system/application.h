@@ -1,4 +1,7 @@
-/* 
+/*
+ * E2DIT - is a 2D Map Editor to create a levels for 2d games
+ * Copyright (C) 2015 Kabylin Andrey <andrey@kabylin.ru>
+
  * This file is part of E2DIT.
 
  * E2DIT is free software: you can redistribute it and/or modify

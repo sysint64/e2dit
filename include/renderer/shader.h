@@ -1,7 +1,4 @@
 /*
- * E2DIT - is a 2D Map Editor to create a levels for 2d games
- * Copyright (C) 2015 Kabylin Andrey <andrey@kabylin.ru>
- 
  * This file is part of E2DIT-GAPI.
 
  * E2DIT-GAPI is free software: you can redistribute it and/or modify
@@ -16,4 +13,38 @@
 
  * You should have received a copy of the GNU Lesser General Public License
  * along with E2DIT-GAPI. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+
+#ifndef H_E2DIT_RENDERER_SHADER
+#define H_E2DIT_RENDERER_SHADER
+
+#include <string>
+#include <map>
+#include "string.h"
+#include "GL/glew.h"
+#include "system/application.h"
+
+class Shader {
+private:
+	typedef std::map<std::string, GLuint> Locations;
+	Application *app;
+
+	GLint shaderStatus  (GLuint &shader , GLenum param) const;
+	GLint programStatus (GLuint &program, GLenum param) const;
+
+public:
+
+	std::string fileName;
+	Locations locations;
+
+	GLuint program;
+
+	void bind() const;
+	void unbind() const;
+
+	Shader (const char *fileName);
+};
+
+#endif
