@@ -28,7 +28,7 @@
 #define E2DIT_SYSTEM_APPLICATION_H
 
 #include <SFML/Window.hpp>
-#include "../../logger.h"
+#include "system/logger.h"
 
 class Application {
 public:

@@ -16,3 +16,13 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+
+#include <vector>
+#include <glm/glm.hpp>
+
+class UIElement;
+class UIManager {
+public:
+	std::vector<UIElement*> elements;
+	std::vector<glm::vec4>  scissorStack;
+};

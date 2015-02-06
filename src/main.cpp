@@ -25,10 +25,11 @@
  */
 
 #include "config.h"
-#include "logger.h"
 #include "GL/glew.h"
-#include "src/system/application.h"
-#include "src/core/core.h"
+
+#include "system/logger.h"
+#include "system/application.h"
+#include "core/core.h"
 
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
