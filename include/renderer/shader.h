@@ -1,7 +1,7 @@
 /*
  * This file is part of E2DIT-GAPI.
 
- * E2DIT-GAPI is free software: you can redistribute it and/or modify
+ * E2DIT-GAPI is free library: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of
  * the License, or (at your option) any later version.
@@ -24,7 +24,7 @@
 #include <map>
 #include "string.h"
 #include "GL/glew.h"
-#include "system/application.h"
+#include "utility/application.h"
 
 class Shader {
 private:

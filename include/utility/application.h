@@ -20,42 +20,46 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-/** @file core.h
-    @brief
+/** @file application.h
+    @brief handle application, main parameters and events
 */
 
-#ifndef E2DIT_CORE_H
-#define E2DIT_CORE_H
+#ifndef E2DIT_SYSTEM_APPLICATION_H
+#define E2DIT_SYSTEM_APPLICATION_H
 
-#include "utility/application.h"
+#include <SFML/Window.hpp>
+#include "utility/logger.h"
 
-class Application;
-class Core {
+class Application {
 public:
 
-	Application *app;
+	/* Window */
 
-	/* Constructor */
+	int screenWidth  = 0;
+	int screenHeight = 0;
+	int windowWidth  = 0;
+	int windowHeight = 0;
 
-	 Core();
-	~Core();
+	sf::WindowHandle windowHandle;
 
-	/* Events */
+	/* OpenGL */
 
-	void onKeyPressed  (int key);
-	void onKeyReleased (int key);
-	void onTextEntered (unsigned int key);
-	void onMouseMove   (int x, int y);
-	void onMouseDown   (int x, int y, int button);
-	void onMouseUp     (int x, int y, int button);
-	void onDblClick    (int x, int y, int button);
-	void onMouseWheel  (int x, int y, int button);
-	void onResize      (int width, int height);
+	bool VAOEXT   = false;
+	int  OGLMajor = 3;
+	int  OGLMinor = 3;
+
+	/* Cursor */
+
+	int mouseX, mouseY;
+	int clickX, clickY;
+
+	/* Log */
+
+	Logger log;
 
 	/* */
 
-	void render();
-	void step();
+	static Application *getInstance();
 
 };
 

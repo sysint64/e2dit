@@ -4,7 +4,7 @@
 
  * This file is part of E2DIT-GAPI.
 
- * E2DIT-GAPI is free software: you can redistribute it and/or modify
+ * E2DIT-GAPI is free library: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of
  * the License, or (at your option) any later version.
@@ -20,16 +20,27 @@
 
 #include "renderer/data_render.h"
 
-/* Constructor & Destructor */
+/**
+ * Constructor
+ */
 
 DataRender::DataRender() {
+
+	/* Get Application Instance &
+	   Set default Render Mode */
 
 	app = Application::getInstance();
 	renderMode = GL_TRIANGLES;
 
 }
 
+/**
+ * Destructor
+ */
+
 DataRender::~DataRender() {
+
+	/* Delete all buffers */
 
 	glDeleteBuffers (1, &vId);
 	glDeleteBuffers (1, &tId);
@@ -37,33 +48,46 @@ DataRender::~DataRender() {
 
 }
 
-/* Initialize VBO */
+/**
+ * Create VBO
+ * @param dynamic if true then data may change
+ */
 
 void DataRender::createVBO (const bool dynamic) {
+
+	/* Create Vertex Buffer */
 
 	glGenBuffers (1, &vId);
 	glBindBuffer (GL_ARRAY_BUFFER, vId);
 
+	/* Get Vertex buffer Size */
+
 	const int vbufSize = sizeof(GLfloat)*2*vertexBuffer.size();
 
+	/* set Mode for Buffer */
+
 	if (!dynamic) {
+
+		/* Static Object */
 
 		glBufferData (GL_ARRAY_BUFFER, vbufSize, &vertexBuffer[0], GL_STATIC_DRAW);
 
 	} else {
+
+		/* Dynamic Object */
 
 		glBufferData    (GL_ARRAY_BUFFER, vbufSize, 0, GL_STREAM_DRAW);
 		glBufferSubData (GL_ARRAY_BUFFER, 0, vbufSize, &vertexBuffer[0]);
 
 	}
 
-	/* TexCoord Buffer */
+	/* Create TexCoord Buffer */
 
 	glGenBuffers (1, &tId);
 	glBindBuffer (GL_ARRAY_BUFFER, tId);
 	glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat)*2*vbufSize, &texCoordsBuffer[0], GL_STATIC_DRAW);
 
-	/* Indices Buffer */
+	/* Create Indices Buffer */
 
 	glGenBuffers (1, &iId);
 	glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, iId);
@@ -84,21 +108,25 @@ void DataRender::createVBO (const bool dynamic) {
 
 }
 
-/* Initialize VAO */
+/**
+ * Create VAO for OpenGL 2.1
+ */
 
 void DataRender::createVAO_21() {
+
+	/* Create VAO buffer */
 
 	glGenVertexArrays (1, &VAO);
 	glBindVertexArray (VAO);
 
-	/* Vertices */
+	/* Setup Vertices */
 
 	glVertexAttribPointer (0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*2*vertexBuffer.size(), 0);
 	glEnableClientState   (GL_VERTEX_ARRAY);
 	glBindBuffer          (GL_ARRAY_BUFFER, vId);
 	glVertexPointer       (2, GL_FLOAT, 0, NULL);
 
-	/* Tex Coords */
+	/* Setup Tex Coords */
 
 	glEnableClientState   (GL_TEXTURE_COORD_ARRAY);
 	glBindBuffer          (GL_ARRAY_BUFFER, tId);
@@ -106,14 +134,22 @@ void DataRender::createVAO_21() {
 
 }
 
+/**
+ * Create VAO for OpenGL 3.3
+ */
+
 void DataRender::createVAO_33() {
+
+	/* Create VAO buffer */
 
 	glGenVertexArrays (1, &VAO);
 	glBindVertexArray (VAO);
 
-	int attrLoc      = 0;
+	/* Location of Attribute */
 
-	/* Vertices */
+	int attrLoc = 0;
+
+	/* Setup Vertices */
 
 	attrLoc = 0; // in_Position
 
@@ -121,7 +157,7 @@ void DataRender::createVAO_33() {
 	glEnableVertexAttribArray (attrLoc);
 	glVertexAttribPointer     (attrLoc, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 
-	/* Tex Coords */
+	/* Setup Tex Coords */
 
 	attrLoc = 1; // in_TexCoord
 
@@ -131,11 +167,17 @@ void DataRender::createVAO_33() {
 
 }
 
+/**
+ * Create VAO for OpenGL 4.3
+ */
+
 void DataRender::createVAO_43() {
 
 }
 
-/* Render */
+/**
+ * Bind VBO Buffers
+ */
 
 void DataRender::bindVBO() const {
 
@@ -143,8 +185,12 @@ void DataRender::bindVBO() const {
 
 	if (app->VAOEXT) {
 
+		/* bind */
+
 		glBindVertexArray (VAO);
 		glBindBuffer      (GL_ELEMENT_ARRAY_BUFFER, iId);
+
+		/* Exit from function */
 
 		return;
 
@@ -152,24 +198,28 @@ void DataRender::bindVBO() const {
 
 	/* Without VAO */
 
-	/* TexCoords */
+	/* Bind TexCoords */
 
 	glEnableClientState   (GL_TEXTURE_COORD_ARRAY);
 	glBindBuffer          (GL_ARRAY_BUFFER, tId);
 	glTexCoordPointer     (2, GL_FLOAT, 0, NULL);
 
-	/* Vertices */
+	/* Bin Vertices */
 
 	glVertexAttribPointer (0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*2*vertexBuffer.size(), 0);
 	glEnableClientState   (GL_VERTEX_ARRAY);
 	glBindBuffer          (GL_ARRAY_BUFFER, vId);
 	glVertexPointer       (2, GL_FLOAT, 0, NULL);
 
-	/* Indices */
+	/* Bin Indices */
 
 	glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, iId);
 
 }
+
+/**
+ * Render VBO Data
+ */
 
 void DataRender::renderVBO() {
 
@@ -182,8 +232,15 @@ void DataRender::renderVBO() {
 
 	}
 
-	if (renderMode == GL_NONE)
+	/* if Render Mode if GL_NONE */
+
+	if (renderMode == GL_NONE) {
+
+		/* Skip Render */
+
 		return;
+
+	}
 
 	/* Render */
 
@@ -191,6 +248,10 @@ void DataRender::renderVBO() {
 	render();
 
 }
+
+/**
+ * Render
+ */
 
 void DataRender::render() const {
 

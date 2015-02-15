@@ -20,42 +20,27 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-/** @file core.h
-    @brief
+/** @file logger.h
+    @brief make logs
 */
 
-#ifndef E2DIT_CORE_H
-#define E2DIT_CORE_H
+#ifndef E2DIT_LOGGER_H
+#define E2DIT_LOGGER_H
 
-#include "utility/application.h"
+#include <cstdio>
+#include <cstring>
+#include <cstdarg>
+#include <string>
 
-class Application;
-class Core {
+/* */
+
+class Logger {
 public:
 
-	Application *app;
+	std::string fileName;
 
-	/* Constructor */
-
-	 Core();
-	~Core();
-
-	/* Events */
-
-	void onKeyPressed  (int key);
-	void onKeyReleased (int key);
-	void onTextEntered (unsigned int key);
-	void onMouseMove   (int x, int y);
-	void onMouseDown   (int x, int y, int button);
-	void onMouseUp     (int x, int y, int button);
-	void onDblClick    (int x, int y, int button);
-	void onMouseWheel  (int x, int y, int button);
-	void onResize      (int width, int height);
-
-	/* */
-
-	void render();
-	void step();
+	void create (const char *fileName);
+	void write  (const char *format, ...);
 
 };
 

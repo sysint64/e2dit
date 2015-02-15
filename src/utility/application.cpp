@@ -20,43 +20,22 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-/** @file core.h
-    @brief
+/** @file application.cpp
+    @brief handle application, main parameters and events
 */
-
-#ifndef E2DIT_CORE_H
-#define E2DIT_CORE_H
 
 #include "utility/application.h"
 
-class Application;
-class Core {
-public:
+Application *Application::getInstance() {
 
-	Application *app;
+	static Application *app = 0;
 
-	/* Constructor */
+	if (!app) {
 
-	 Core();
-	~Core();
+		app = new Application();
 
-	/* Events */
+	}
 
-	void onKeyPressed  (int key);
-	void onKeyReleased (int key);
-	void onTextEntered (unsigned int key);
-	void onMouseMove   (int x, int y);
-	void onMouseDown   (int x, int y, int button);
-	void onMouseUp     (int x, int y, int button);
-	void onDblClick    (int x, int y, int button);
-	void onMouseWheel  (int x, int y, int button);
-	void onResize      (int width, int height);
+	return app;
 
-	/* */
-
-	void render();
-	void step();
-
-};
-
-#endif
+}

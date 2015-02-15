@@ -25,7 +25,6 @@
 */
 
 #include "core.h"
-#include "../system/application.h"
 
 void Core::onKeyPressed (int key) {
 

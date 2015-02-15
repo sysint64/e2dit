@@ -20,43 +20,39 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-/** @file core.h
-    @brief
+/** @file logger.cpp
+    @brief make logs
 */
 
-#ifndef E2DIT_CORE_H
-#define E2DIT_CORE_H
+#include "utility/logger.h"
 
-#include "utility/application.h"
+#include <cstdio>
+#include <cstring>
+#include <cstdarg>
 
-class Application;
-class Core {
-public:
+void Logger::create (const char *fileName) {
 
-	Application *app;
+	FILE *output;
 
-	/* Constructor */
+	if ((output = fopen (fileName, "w")) != NULL)
+		fclose(output);
 
-	 Core();
-	~Core();
+	this->fileName = fileName;
 
-	/* Events */
+}
 
-	void onKeyPressed  (int key);
-	void onKeyReleased (int key);
-	void onTextEntered (unsigned int key);
-	void onMouseMove   (int x, int y);
-	void onMouseDown   (int x, int y, int button);
-	void onMouseUp     (int x, int y, int button);
-	void onDblClick    (int x, int y, int button);
-	void onMouseWheel  (int x, int y, int button);
-	void onResize      (int width, int height);
+void Logger::write (const char *format, ...) {
 
-	/* */
+	va_list ap;
+	FILE    *output;
 
-	void render();
-	void step();
+	if ((output = fopen (fileName.c_str(), "a+")) == NULL)
+		return;
 
-};
+	va_start (ap, format);
+	vfprintf (output, format, ap);
+	va_end   (ap);
 
-#endif
+	fclose   (output);
+
+}

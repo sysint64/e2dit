@@ -24,11 +24,11 @@
  * @brief main() entrypoint implementation for e2dit
  */
 
-#include "config.h"
+#include "utility/config.h"
 #include "GL/glew.h"
 
-#include "system/logger.h"
-#include "system/application.h"
+#include "utility/logger.h"
+#include "utility/application.h"
 #include "core/core.h"
 
 #include <SFML/System.hpp>
