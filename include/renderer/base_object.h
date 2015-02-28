@@ -23,7 +23,7 @@
 #include "data_render.h"
 #include "camera.h"
 #include "shader.h"
-#include "math/utils.h"
+#include "utility/math.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -49,6 +49,10 @@ public:
 	glm::vec2   scale;
 
 	virtual void render();
+	virtual ~BaseObject() {}
+
+	BaseObject (DataRender *data, Camera *camera)
+		: data(data), camera (camera) {};
 
 	glm::vec2 worldToScreen () const;
 	glm::vec2 worldToScreen (const glm::vec2 &screenPos) const;

@@ -28,6 +28,10 @@
 #include <map>
 #include "stdio.h"
 #include "utility/application.h"
+#include <boost/filesystem.hpp>
+#include "utility/exceptions.h"
+
+namespace fs = boost::filesystem;
 
 class DataMap {
 private:
@@ -45,12 +49,12 @@ private:
 
 	/* Data Functiosn */
 
-	struct DataFuncs {
+	struct DataParams {
 
-		std::map <std::string, std::vector<DataVal> > func;
+		std::map <std::string, std::vector<DataVal> > params;
 		bool def;
 
-	} typedef DataFuncs;
+	} typedef DataParams;
 
 	/* In File */
 
@@ -63,14 +67,14 @@ private:
 	float		 numVal;
 	int			 lastChar = ' ';
 	int			 posno, lineno; // Line & Pos
+	bool		 end = false;
 
 	/* Data */
 
 	std::vector<int> bytecode;
 	std::vector<int> offsetStack; // Files offset in bytes
 
-	/**/
-
+	/**/ 
 	Application *app;
 
 	/* Lexer */
@@ -128,13 +132,14 @@ public:
 
 	/* Data */
 
-	std::map<std::string, struct DataFuncs> data;
+	std::map<std::string, struct DataParams> element;
 	bool haltIfErr = false;
+	std::string fileName;
 
 	/* Methods */
 
 	DataMap ();
-	DataMap (const char *fileName, ReadType rt);
+	DataMap (const char *fileName, ReadType rt = rtText);
 
 	virtual void loadFromText (const char *fileName);
 	virtual void loadFromBin  (const char *fileName);

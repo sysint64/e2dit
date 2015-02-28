@@ -35,18 +35,18 @@ GLint Shader::shaderStatus (GLuint &shader, GLenum param) const {
 
 	glGetShaderiv (shader, param, &status);
 
-    /* Check status */
+	/* Check status */
 
 	if (status != GL_TRUE) {
 
-        /* If fail, then write error to log */
+		/* If fail, then write error to log */
 
 		glGetShaderInfoLog (shader, 1024, &length, buffer);
 		app->log.write ("Shader error: %s\n", (const char*) buffer);
 
 	}
 
-    /* return Shader Status */
+	/* return Shader Status */
 
 	return status;
 
@@ -67,7 +67,7 @@ GLint Shader::programStatus (GLuint &program, GLenum param) const {
 
 	glGetProgramiv (program, param, &status);
 
-    /* Check status */
+	/* Check status */
 
 	if (status != GL_TRUE) {
 
@@ -78,7 +78,7 @@ GLint Shader::programStatus (GLuint &program, GLenum param) const {
 
 	}
 
-    /* return Program Status */
+	/* return Program Status */
 
 	return status;
 
@@ -111,42 +111,42 @@ void Shader::unbind() const {
 
 Shader::Shader (const char *fileName) {
 
-    /* Get Application Instance */
+	/* Get Application Instance */
 
 	app = Application::getInstance();
 
-    /* Open Shader File */
+	/* Open Shader File */
 
 	this->fileName = std::string (fileName);
 	FILE *in = fopen (fileName, "r");
 
-    /* Text Buffers */
+	/* Text Buffers */
 
 	char fp[20048], vp[20048]; // Text Buffers
 	int  fi  = 0;  int vi = 0; // Counters
 
-    /* Current Text Buffer & Counter */
+	/* Current Text Buffer & Counter */
 
     char *cp = fp;  // Current Buffer
 	int  *ci = &fi; // Current Counter
 
-    /* Current Char */
+	/* Current Char */
 
 	char ch;
 
-    /* Traverse all file */
+	/* Traverse all file */
 
 	while (!feof (in)) {
 
-        /* Get Char */
+		/* Get Char */
 
 		ch = fgetc (in);
 
-        /* if is not macros */
+		/* if is not macros */
 
 		if (ch != '#') {
 
-            /* just add new char on current buffer */
+			/* just add new char on current buffer */
 
 			cp[*ci] = ch; (*ci)++;
 			continue;
@@ -158,22 +158,22 @@ Shader::Shader (const char *fileName) {
 		char id[256]; // Macros Buffer
 		int  ii = 0;
 
-        /* Get new char */
+		/* Get new char */
 
 		ch = fgetc (in);
 
-        /* While not end line or file */
+		/* While not end line or file */
 
 		while (ch != EOF && ch != '\n' && ch != '\r') {
 
-            /* Add new char on macros name & get next char */
+			/* Add new char on macros name & get next char */
 
 			id[ii] = ch; ii++;
 			ch = fgetc (in);
 
 		}
 
-        /* end mactos */
+		/* end mactos */
 
 		id[ii] = '\0';
 
@@ -181,27 +181,27 @@ Shader::Shader (const char *fileName) {
 
 		if (!strcmp (id ,"vertex shader\0")) {
 
-            /* It is Vertex shader, set Vertex buffer
-               and counter */
+			/* It is Vertex shader, set Vertex buffer
+			   and counter */
 
 			cp = vp;
 			ci = &vi;
 
 		} else if (!strcmp (id ,"fragment shader\0")) {
 
-            /* It is Fragment shader, set Fragment buffer
-               and counter */
+			/* It is Fragment shader, set Fragment buffer
+			   and counter */
 
 			cp = fp;
 			ci = &fi;
 
 		} else {
 
-            /* It is other macros */
+			/* It is other macros */
 
 			cp[*ci] = '#'; (*ci)++;
 
-            /* Copy Macros name to current buffer */
+			/* Copy Macros name to current buffer */
 
 			for (int i = 0; i < ii; i++) {
 
@@ -214,7 +214,7 @@ Shader::Shader (const char *fileName) {
 
 	}
 
-    /* End File, close */
+	/* End File, close */
 
 	fp[fi] = '\0'; vp[vi] = '\0';
 	fclose (in);
@@ -238,7 +238,7 @@ Shader::Shader (const char *fileName) {
 	glCompileShader (fs);
 	shaderStatus    (fs, GL_COMPILE_STATUS);
 
-    /* Create Program  */
+	/* Create Program  */
 
 	program = glCreateProgram();
 

@@ -21,19 +21,59 @@
  */
 
 #include "ui/element.h"
+#include "ui/manager.h"
 
-void UIElement::dblClick (int x, int y, int shift) {
+void UIElement::dblClick (int x, int y, int button) {
+
+	if (!visible) return;
+	if (onMouseDown == nullptr || !enabled || ! enter)
+		return;
+
+	onDblClick (this, x, y, button);
 
 }
 
-void UIElement::mouseDown (int x, int y, int shift) {
+void UIElement::mouseDown (int x, int y, int button) {
+
+	if (!visible) return;
+	if (onMouseDown == nullptr || !enabled || ! enter)
+		return;
+
+	onMouseDown (this, x, y, button);
 
 }
 
-void UIElement::mouseUp (int x, int y, int shift) {
+void UIElement::mouseUp (int x, int y, int button) {
+
+	if (!enabled || !enter)
+		return;
+
+	click = false;
+	enter = false;
+
+	if (onClick != nullptr)
+		onClick (this);
 
 }
 
-void UIElement::keyPressed (Uint16 key) {
+void UIElement::keyPressed (int key) {
+
+	if (!visible) return;
+	if (onKeyPressed == nullptr || !enabled)
+	
+	onKeyPressed (this, key);
+	
+}
+
+void UIElement::focus() {
+
+	if (!manager->dialogOpened || inDialog)
+		focused = true;
+
+}
+
+void UIElement::unfocus() {
+
+	manager->unfocusedElements.push_back (this);
 
 }

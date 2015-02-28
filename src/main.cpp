@@ -29,15 +29,23 @@
 
 #include "utility/logger.h"
 #include "utility/application.h"
+#include "utility/data_map.h"
 #include "core/core.h"
 
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
 
+namespace fs = boost::filesystem;
+
 /* Main */
 
-int main() {
+int main (int argc,char** argv) {
+
+	fs::path full_path (fs::initial_path<fs::path>());
+    full_path = fs::system_complete (fs::path (argv[0]));
+
+    puts (full_path.string().c_str());
 
 	Application *app = Application::getInstance();
 
@@ -115,6 +123,9 @@ int main() {
 	bool running  = true;
 	bool dblClick = false;
 
+	DataMap data ("controls.e2t");
+	exit(0);
+
 	while (running) {
 
 		sf::Event ev;
@@ -132,7 +143,7 @@ int main() {
 
 				/* Mouse */
 
-				case sf::Event::MouseMoved		: core->onMouseMove  (ev.mouseMove.x     , ev.mouseMove  .y);                        break;
+				case sf::Event::MouseMoved			: core->onMouseMove  (ev.mouseMove.x     , ev.mouseMove  .y);                        break;
 				case sf::Event::MouseWheelMoved		: core->onMouseWheel (ev.mouseWheel.delta, ev.mouseWheel .x, ev.mouseWheel.y);       break;
 				case sf::Event::MouseButtonPressed	: core->onMouseDown  (ev.mouseButton.x   , ev.mouseButton.y, ev.mouseButton.button); break;
 				case sf::Event::MouseButtonReleased	:
@@ -166,7 +177,7 @@ int main() {
 		core->step();
 
 		/* Display */
-
+		
 		glFlush();
 		window.display();
 

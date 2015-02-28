@@ -26,7 +26,9 @@
 #include <string>
 #include <vector>
 #include <glm/glm.hpp>
+
 #include "utility/config.h"
+#include "utility/renderer.h"
 
 #include "ui/element.h"
 #include "ui/manager.h"
@@ -38,48 +40,48 @@
 class UIButton : public UIElement {
 protected:
 
-    /* Precomputed tables */
+	/* Precomputed tables */
 
-    int   iWidths [12];    int   iHeights[12];
+	int   iWidths [12];    int   iHeights[12];
 	float fWidths [12];    float fHeights[12];
 	float offsetsX[12];    float offsetsY[12];
 
-    float textColors [12];
+	float textColors [12];
 	float textOffsets[16];
 
-    /* Param Names for load from Layout file */
+	/* Param Names for load from Layout file */
 
-    std::string leavParam  = "buttonleav";
-	std::string enterParam = "buttonenter";
-	std::string clickParam = "buttonclick";
+	std::string leaveElement = "buttonleav";
+	std::string enterElement = "buttonenter";
+	std::string clickElement = "buttonclick";
 
-    /* Render Objects */
+	/* Render Objects */
 
-    BaseObject	*leftElement;
-	BaseObject	*rightElement;
-	BaseObject	*middleElement;
-	BaseObject	*iconElement;
-	BaseObject	*iconElement2;
+	std::shared_ptr<BaseObject> leftElement   = std::make_shared<BaseObject> (manager->uiDataRender, app->screenCamera);
+	std::shared_ptr<BaseObject> rightElement  = std::make_shared<BaseObject> (manager->uiDataRender, app->screenCamera);
+	std::shared_ptr<BaseObject> middleElement = std::make_shared<BaseObject> (manager->uiDataRender, app->screenCamera);
+	std::shared_ptr<BaseObject> iconElement   = std::make_shared<BaseObject> (manager->uiDataRender, app->screenCamera);
+	std::shared_ptr<BaseObject> iconElement2  = std::make_shared<BaseObject> (manager->uiDataRender, app->screenCamera);
 
-    /* Draw Params */
+	/* Draw Text */
 
-    bool NoDrawText;
-	int  IcoOffset;
+	void renderText (Align align, std::string text, int size, int offset = 0);
+	void renderSkin();
 
-    /* Draw Text */
+	/* Precompute */
 
-    void DrawText (int Align, std::string Text, int Size, int Offset = 0);
+	void precomputeElement (const int n, std::string element, std::string params);
+	void precomputeText    (const int n, std::string element);
 
 public:
 
-    std::wstring caption;
+	std::wstring caption;
+	int  icoOffset;
+	bool noRenderText = false;
+	Align textAlign = Align::Left;
 
-    /* */
-
-	~UIButton();
-
-    virtual void precompute();
-	virtual void draw (int x, int y);
+	virtual void precompute()          override;
+	virtual void render (int x, int y) override;
 
 };
 

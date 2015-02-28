@@ -33,7 +33,7 @@ class Application;
 class Core {
 public:
 
-	Application *app;
+	Application *app = Application::getInstance();
 
 	/* Constructor */
 

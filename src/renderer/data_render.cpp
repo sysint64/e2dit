@@ -21,20 +21,6 @@
 #include "renderer/data_render.h"
 
 /**
- * Constructor
- */
-
-DataRender::DataRender() {
-
-	/* Get Application Instance &
-	   Set default Render Mode */
-
-	app = Application::getInstance();
-	renderMode = GL_TRIANGLES;
-
-}
-
-/**
  * Destructor
  */
 
@@ -53,7 +39,7 @@ DataRender::~DataRender() {
  * @param dynamic if true then data may change
  */
 
-void DataRender::createVBO (const bool dynamic) {
+void DataRender::createVBO() {
 
 	/* Create Vertex Buffer */
 
@@ -124,13 +110,13 @@ void DataRender::createVAO_21() {
 	glVertexAttribPointer (0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*2*vertexBuffer.size(), 0);
 	glEnableClientState   (GL_VERTEX_ARRAY);
 	glBindBuffer          (GL_ARRAY_BUFFER, vId);
-	glVertexPointer       (2, GL_FLOAT, 0, NULL);
+	glVertexPointer       (2, GL_FLOAT, 0, nullptr);
 
 	/* Setup Tex Coords */
 
 	glEnableClientState   (GL_TEXTURE_COORD_ARRAY);
 	glBindBuffer          (GL_ARRAY_BUFFER, tId);
-	glTexCoordPointer     (2, GL_FLOAT, 0, NULL);
+	glTexCoordPointer     (2, GL_FLOAT, 0, nullptr);
 
 }
 
@@ -155,7 +141,7 @@ void DataRender::createVAO_33() {
 
 	glBindBuffer              (GL_ARRAY_BUFFER, vId);
 	glEnableVertexAttribArray (attrLoc);
-	glVertexAttribPointer     (attrLoc, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+	glVertexAttribPointer     (attrLoc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	/* Setup Tex Coords */
 
@@ -163,7 +149,7 @@ void DataRender::createVAO_33() {
 
 	glBindBuffer              (GL_ARRAY_BUFFER, tId);
 	glEnableVertexAttribArray (attrLoc);
-	glVertexAttribPointer     (attrLoc, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+	glVertexAttribPointer     (attrLoc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 }
 
@@ -179,7 +165,7 @@ void DataRender::createVAO_43() {
  * Bind VBO Buffers
  */
 
-void DataRender::bindVBO() const {
+void DataRender::bind() const {
 
 	/* Using VAO */
 
@@ -202,14 +188,14 @@ void DataRender::bindVBO() const {
 
 	glEnableClientState   (GL_TEXTURE_COORD_ARRAY);
 	glBindBuffer          (GL_ARRAY_BUFFER, tId);
-	glTexCoordPointer     (2, GL_FLOAT, 0, NULL);
+	glTexCoordPointer     (2, GL_FLOAT, 0, nullptr);
 
 	/* Bin Vertices */
 
 	glVertexAttribPointer (0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*2*vertexBuffer.size(), 0);
 	glEnableClientState   (GL_VERTEX_ARRAY);
 	glBindBuffer          (GL_ARRAY_BUFFER, vId);
-	glVertexPointer       (2, GL_FLOAT, 0, NULL);
+	glVertexPointer       (2, GL_FLOAT, 0, nullptr);
 
 	/* Bin Indices */
 
@@ -221,7 +207,7 @@ void DataRender::bindVBO() const {
  * Render VBO Data
  */
 
-void DataRender::renderVBO() {
+void DataRender::render() {
 
 	/* Check to create VBO */
 
@@ -244,7 +230,7 @@ void DataRender::renderVBO() {
 
 	/* Render */
 
-	bindVBO();
+	bind();
 	render();
 
 }
@@ -253,8 +239,8 @@ void DataRender::renderVBO() {
  * Render
  */
 
-void DataRender::render() const {
+void DataRender::renderVBO() const {
 
-	glDrawElements (renderMode, indices.size(), GL_UNSIGNED_INT, NULL);
+	glDrawElements (renderMode, indices.size(), GL_UNSIGNED_INT, nullptr);
 
 }

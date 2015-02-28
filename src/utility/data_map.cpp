@@ -26,7 +26,11 @@
  * Empty Constructor
  */
 
-DataMap::DataMap () {}
+DataMap::DataMap () {
+
+	app = Application::getInstance();
+
+}
 
 /**
  * Load Data From File
@@ -36,6 +40,8 @@ DataMap::DataMap () {}
  */
 
 DataMap::DataMap (const char *fileName, ReadType rt) {
+
+	app = Application::getInstance();
 
 	switch (rt) {
 
@@ -52,11 +58,28 @@ DataMap::DataMap (const char *fileName, ReadType rt) {
  * @param fileName
  */
 
+
+
 void DataMap::loadFromText (const char *fileName) {
 
 	lineno = 1; posno = 1;
-
 	offsetStack.push_back(0);
+	this->fileName = fileName;
+
+	/* Check file exist */
+
+	if (!fs::exists (fileName)) {
+
+		/* if not exist, then write error to log */
+
+		Application::getInstance()->log.ewrite ("Load data file error, file doesn't exist : %s", fileName);
+		//throw std::runtime_error(Formatter() << "Load data file error, file doesn't exist : " << fileName);
+		
+		/* And Exit */
+
+		return;
+
+	}
 
 	inFile = fopen (fileName, "r");
 	parse();
@@ -70,6 +93,8 @@ void DataMap::loadFromText (const char *fileName) {
  */
 
 void DataMap::loadFromBin (const char *fileName) {
+	
+	this->fileName = fileName;
 
 }
 
@@ -84,21 +109,21 @@ void DataMap::saveToText (const char *fileName) {
 
 	/* Get All Elements */
 
-	for (auto it:data) {
+	for (auto it:element) {
 
 		fputs (it.first.c_str(), outFile); fputs ("\n", outFile);
-		DataFuncs tf = data[it.first];
+		DataParams tf = element[it.first];
 
 		/* Get All Functions */
 
-		for (auto itf:tf.func) {
+		for (auto itf:tf.params) {
 
 			fputs ("	", outFile); fputs (itf.first.c_str(), outFile);
 			fputs (" : ", outFile);	
 
 			/* Get All Values */
 
-			for (auto itv:tf.func[itf.first]) {
+			for (auto itv:tf.params[itf.first]) {
 
 				char splitc = ',';
 				//char splitc = i < tf.func[itf->first].size()-1 ? ',' : ';';

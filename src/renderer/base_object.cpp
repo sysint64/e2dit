@@ -26,17 +26,17 @@
 
 void BaseObject::render() {
 
-    /* if is invisible, then no render */
+	/* if is invisible, then no render */
 
 	if (!visible)
 		return;
 
-    /* If matrices was change, then update it */
+	/* If matrices was change, then update it */
 
 	if (needUpdate)
 		updateModelMatrix();
 
-    /* Render Data */
+	/* Render Data */
 
 	data->render();
 
@@ -73,13 +73,13 @@ glm::vec2 BaseObject::worldToScreen (const glm::vec2 &screenPos) const {
 
 void BaseObject::setRotation (const float ang) {
 
-    /* Check current Angle */
+	/* Check current Angle */
 
 	if (feq<float>(ang, rotation))
 		return;
 
-    /* If angles is difference, then update Angle
-       and need update matrices */
+	/* If angles is difference, then update Angle
+	   and need update matrices */
 
 	rotation   = ang;
 	needUpdate = true;
@@ -93,13 +93,13 @@ void BaseObject::setRotation (const float ang) {
 
 void BaseObject::setPosition (const glm::vec2 &pos) {
 
-    /* Check current Position */
+	/* Check current Position */
 
 	if (feq<float>(pos.x, position.x) && feq<float>(pos.y, position.y))
 		return;
 
-    /* If positions is difference, then update Position
-       and need update matrices */
+	/* If positions is difference, then update Position
+	   and need update matrices */
 
 	position   = pos;
 	needUpdate = true;
@@ -113,13 +113,13 @@ void BaseObject::setPosition (const glm::vec2 &pos) {
 
 void BaseObject::setScale (const glm::vec2 &scl) {
 
-    /* Check current Scale */
+	/* Check current Scale */
 
 	if (feq<float>(scl.x, scale.x) || feq<float>(scl.y, scale.y))
 		return;
 
-    /* If Scales is difference, then update Scale
-       and need update matrices */
+	/* If Scales is difference, then update Scale
+	   and need update matrices */
 
 	scale      = scl;
 	needUpdate = true;
@@ -132,19 +132,19 @@ void BaseObject::setScale (const glm::vec2 &scl) {
 
 void BaseObject::updateModelMatrix() {
 
-    /* Create main matrices */
+	/* Create main matrices */
 
 	glm::mat4 mr = glm::rotate    (glm::mat4 (1.0f), rotation, glm::vec3 (0, 0, 1));
 	glm::mat4 mt = glm::translate (glm::mat4 (1.0f), glm::vec3 (position, 0.0f));
 	glm::mat4 ms = glm::scale     (glm::mat4 (1.0f), glm::vec3 (scale, 1.0f));
 
-    /* Calculate new matrices */
+	/* Calculate new matrices */
 
 	modelMatrix  = mt*mr*ms;
 	MVPMatrix    = modelMatrix;
 	MVPMatrix    = camera->MVPMatrix*modelMatrix;
 
-    /* Matrices is updated */
+	/* Matrices is updated */
 
 	needUpdate   = false;
 

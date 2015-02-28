@@ -354,7 +354,7 @@ char DataMap::lexTokNumber () {
 		} 
 
 		/* Convert string to Number */
-			
+		
 		numVal = strtod (numStr.c_str(), 0);
 		
 		if (scaleStr != "") power = strtod(scaleStr.c_str(), 0);

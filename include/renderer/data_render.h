@@ -29,12 +29,10 @@ class DataRender {
 private:
 	GLuint vId, tId, iId;
 	GLuint VAO;
-	Application *app;
+	Application *app = Application::getInstance();
 	bool created = false;
 
-	void createVBO (const bool dynamic = false);
-	void renderVBO ();
-	void bindVBO   () const;
+	void createVBO();
 
 	void createVAO_21(); // for OpenGL 2.1
 	void createVAO_33(); // for OpenGL 3.3
@@ -46,13 +44,16 @@ public:
 	std::vector <GLuint>    indices;
 
 	bool dynamic;
-	int  renderMode;
+	int  renderMode = GL_TRIANGLES;
 
-	 DataRender();
-	~DataRender();
+	DataRender (bool dynamic = false) : dynamic (dynamic) {}
+	virtual ~DataRender();
 
 	void setAttrs();
-	virtual void render() const;
+	virtual void renderVBO() const;
+
+	void render();
+	void bind() const;
 
 	inline void addVertex (glm::vec2 v, glm::vec2 tc) {
 

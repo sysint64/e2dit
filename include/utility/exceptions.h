@@ -19,32 +19,39 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+ 
+#include <stdexcept>
+#include <sstream>
 
-/** @file logger.h
-    @brief make logs
-*/
+#ifndef E2DIT_UTILITY_EXCEPTIONS_H
+#define E2DIT_UTILITY_EXCEPTIONS_H
 
-#ifndef E2DIT_UTILITY_LOGGER_H
-#define E2DIT_UTILITY_LOGGER_H
-
-#include <cstdio>
-#include <cstring>
-#include <cstdarg>
-#include <string>
-#include "utility/exceptions.h"
-
-/* */
-
-class Logger {
+class Formatter {
 public:
+    Formatter() {}
+    ~Formatter() {}
 
-	std::string fileName;
+    template <typename Type>
+    Formatter & operator << (const Type & value)
+    {
+        stream_ << value;
+        return *this;
+    }
 
-	void create (const char *fileName);
-	void write  (const char *format, ...);
-	void write  (std::stringstream stream, const bool except);
-	void ewrite (const char *format, ...);
+    std::string str() const         { return stream_.str(); }
+    operator std::string () const   { return stream_.str(); }
 
+    enum ConvertToString 
+    {
+        to_str
+    };
+    std::string operator >> (ConvertToString) { return stream_.str(); }
+
+private:
+    std::stringstream stream_;
+
+    Formatter(const Formatter &);
+    Formatter & operator = (Formatter &);
 };
 
 #endif

@@ -29,7 +29,7 @@
 
 Camera::Camera (int width, int height) : viewWidth (width), viewHeight (height) {
 
-    /* Set Base params */
+	/* Set Base params */
 
 	setPosition (glm::vec2(0, 0));
 	zoom = 1.f;
@@ -66,23 +66,23 @@ void Camera::setZoom (float zoom) {
 
 void Camera::updateMatrices() {
 
-    /* Create base Matrices */
+	/* Create base Matrices */
 
 	viewMatrix       = glm::lookAt (glm::vec3 (position, 1), glm::vec3 (position, 0), glm::vec3(0, 1, 0));
 	projectionMatrix = glm::ortho  (0.0f, (float) viewWidth, 0.0f, (float) viewHeight/*, -1.0f, 10.0f*/);
 
-    /* If Zoom greater then normal */
+	/* If Zoom greater then normal */
 
 	if (zoom > 1.f) {
 
-        /* Added scale matrix ti MVP */
+		/* Added scale matrix ti MVP */
 
 		glm::mat4 sm = glm::scale  (glm::mat4 (1.0f), glm::vec3 (zoom, zoom, 1.0f));
 		MVPMatrix    = projectionMatrix*sm*viewMatrix; // Result Matrix
 
 	} else {
 
-        /* Else only projectionMatrix & viewMatrix */
+		/* Else only projectionMatrix & viewMatrix */
 
 		MVPMatrix    = projectionMatrix*viewMatrix;    // Result Matrix
 
@@ -96,7 +96,7 @@ void Camera::updateMatrices() {
 
 void Camera::update() {
 
-    /* If matrices was changes, then update it */
+	/* If matrices was changes, then update it */
 
 	if (needUpdate)
 		updateMatrices();

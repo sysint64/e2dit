@@ -26,47 +26,90 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include "ui/element.h"
+#include "ui/theme.h"
 #include "renderer/shader.h"
+#include "renderer/texture.h"
 #include "renderer/data_render.h"
 #include "renderer/base_object.h"
+#include "utility/application.h"
+#include "utility/math.h"
+#include "utility/input.h"
+
+#define ICONS_COUNT 11
+
+struct {
+
+	std::shared_ptr<Texture> tex;
+
+	float offsetsX[ICONS_COUNT][ICONS_COUNT];
+	float offsetsY[ICONS_COUNT][ICONS_COUNT];
+	float width; float height;
+	float sizeIcon;
+
+} typedef UIIcons;
+
+struct {
+
+	std::shared_ptr<Texture> tex;
+
+	float offsetsX[ICONS_COUNT][ICONS_COUNT];
+	float offsetsY[ICONS_COUNT][ICONS_COUNT];
+	float width; float height;
+	float sizeIcon;
+
+} typedef UIToolIcons;
 
 /* */
 
 class UIManager {
 private:
 	int lastId = 0;
+	Application *app = Application::getInstance();
 
 public:
-	static DataRender *uiDataRender;
 
-	std::map<int, UIElement*> elements;
-	std::vector<glm::vec4>  scissorStack;
+	/* UI State */
+	
+	bool dialogOpened = false;
+	bool freezUI	  = false;
+
+	/* Icons */
+
+	UIIcons     icons;
+	UIToolIcons toolIcons;
+
+	/* Render */
+
+	DataRender *uiDataRender;
+	static const int   themeTexID = 2;
+	float disabledAlpha = 0.65f;
+
+	/* */
+
+	std::map<int, std::shared_ptr<UIElement>> elements;
+	std::vector<glm::vec4>    scissorStack;
+	std::vector<UIElement*>   drawStack;
+	std::vector<UIElement*>   unfocusedElements;
+
+	/* */
 
 	UIElement *focusedElement;
-	Shader    *texShader;
+	Shader    *atlasShader;
 	Shader    *colorShader;
+	UITheme	  *theme;
 
-	 UIManager();
+	 UIManager (Shader *atlasShader, Shader *colorShader);
 	~UIManager();
 
 	void render();
 
-	inline void addElement (UIElement *el) {
+	/* Manager */
 
-		el->manager = this;
-		el->id = lastId;
-		elements[lastId] = el;
+	void addElement    (std::shared_ptr<UIElement> el);
+	void deleteElement (std::shared_ptr<UIElement> el);
+	void deleteElement (const int  id);
 
-		lastId++;
-
-	}
-
-	inline void deleteElement (UIElement *el) {
-
-		elements[el->id] = nullptr;
-		//delete el;
-
-	}
+	/* Scissor */
 
 	void pushScissor (int sx, int sy, int sw, int sh);
 	void popScissor();
@@ -74,11 +117,11 @@ public:
 
 	/* Events */
 
-	void dblClick    (int x, int y, int Shift);
+	void dblClick    (int x, int y, int button);
 
-	void mouseDown   (int x, int y, int Shift);
-	void mouseMove   (int x, int y, int Shift);
-	void mouseUp     (int x, int y, int Shift);
+	void mouseDown   (int x, int y, int button);
+	void mouseMove   (int x, int y, int button);
+	void mouseUp     (int x, int y, int button);
 
 	void keyDown     (int key);
 	void resized     (int width, int height);

@@ -29,6 +29,12 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdarg>
+#include <sstream>
+
+/**
+ * Create Log file
+ * @param fileName
+ */
 
 void Logger::create (const char *fileName) {
 
@@ -40,6 +46,13 @@ void Logger::create (const char *fileName) {
 	this->fileName = fileName;
 
 }
+
+/**
+ * Write log debug or error
+ *
+ * @param format
+ * @param ...
+ */
 
 void Logger::write (const char *format, ...) {
 
@@ -54,5 +67,58 @@ void Logger::write (const char *format, ...) {
 	va_end   (ap);
 
 	fclose   (output);
+
+}
+
+/**
+ * Write log debug or error with
+ * runtime error
+ *
+ * @param format
+ * @param ...
+ */
+
+void Logger::ewrite (const char *format, ...) {
+
+	va_list  ap;
+	FILE    *output;
+	char     buffer[2048];
+
+	if ((output = fopen (fileName.c_str(), "a+")) == NULL)
+		return;
+
+	va_start (ap, format);
+	vfprintf (output, format, ap);
+	va_end   (ap);
+
+	va_start (ap, format);
+	vsprintf (buffer, format, ap);
+	va_end   (ap);
+
+	fclose   (output);
+	throw std::runtime_error (Formatter() << buffer);
+
+}
+
+/**
+ * Write log debug or error with
+ * runtime error if except
+ *
+ * @param stream
+ * @param except
+ */
+
+void Logger::write (std::stringstream stream, const bool except) {
+
+	FILE *output;
+
+	if ((output = fopen (fileName.c_str(), "a+")) == NULL)
+		return;
+
+	fputs  (stream.str().c_str(), output);
+	fclose (output);
+
+	if (except)
+		throw std::runtime_error (Formatter() << stream.str().c_str());
 
 }

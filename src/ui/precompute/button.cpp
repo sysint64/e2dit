@@ -22,6 +22,76 @@
 
 #include "ui/button.h"
 
+/**
+ *
+ */
+
+void UIButton::precomputeElement (const int n, std::string element, std::string params) {
+
+	offsetsX[n] = manager->theme->element[element].params[params][0].num / manager->theme->skin->width;
+	offsetsY[n] = manager->theme->element[element].params[params][1].num / manager->theme->skin->height;
+	fWidths [n] = manager->theme->element[element].params[params][2].num / manager->theme->skin->width;
+	fHeights[n] = manager->theme->element[element].params[params][3].num / manager->theme->skin->height;
+
+	iWidths [n] = floor (manager->theme->element[element].params[params][2].num);
+	iHeights[n] = floor (manager->theme->element[element].params[params][3].num);
+
+}
+
+/**
+ *
+ */
+
+void UIButton::precomputeText (const int n, std::string element) {
+
+	int tcs = n*3; /* Text Color  Index Start */
+	int tos = n*2; /* Text Offset Index Start */
+
+	/* Text Color */
+
+	textColors [tcs+0] = manager->theme->element[element].params["textcolor"][0].num/255.f;
+	textColors [tcs+1] = manager->theme->element[element].params["textcolor"][1].num/255.f;
+	textColors [tcs+2] = manager->theme->element[element].params["textcolor"][2].num/255.f;
+
+	/* Text Offset */
+
+	textOffsets[tos+0] = floor (manager->theme->element[element].params["textoffset"][0].num);
+	textOffsets[tos+1] = floor (manager->theme->element[element].params["textoffset"][1].num);
+
+}
+
+/**
+ *
+ */
+
 void UIButton::precompute() {
+
+	/* Leave */
+
+	precomputeElement (0, leaveElement, "left");
+	precomputeElement (1, leaveElement, "center");
+	precomputeElement (2, leaveElement, "right");
+	precomputeText    (0, leaveElement);
+
+	/* Enter */
+
+	precomputeElement (3, enterElement, "left");
+	precomputeElement (4, enterElement, "center");
+	precomputeElement (5, enterElement, "right");
+	precomputeText    (1, enterElement);
+
+	/* Enter */
+
+	precomputeElement (6, clickElement, "left");
+	precomputeElement (7, clickElement, "center");
+	precomputeElement (8, clickElement, "right");
+	precomputeText    (2, clickElement);
+
+	/* Calculate Size */
+
+	height = iHeights[1];
+
+	if (drawAlign == Align::Left || drawAlign == Align::Right)
+		width += iWidths[0];
 
 }

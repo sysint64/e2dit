@@ -20,31 +20,35 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-/** @file logger.h
-    @brief make logs
-*/
+#ifndef E2DIT_UTILITY_RENDERER_H
+#define E2DIT_UTILITY_RENDERER_H
 
-#ifndef E2DIT_UTILITY_LOGGER_H
-#define E2DIT_UTILITY_LOGGER_H
+#include "utility/application.h"
+#include "GL/glew.h"
 
-#include <cstdio>
-#include <cstring>
-#include <cstdarg>
-#include <string>
-#include "utility/exceptions.h"
+inline void glBegin2D () {
 
-/* */
+	Application *app = Application::getInstance();
 
-class Logger {
-public:
+	glMatrixMode (GL_PROJECTION);
+	
+	glPushMatrix(); glLoadIdentity();
+	
+	gluOrtho2D   (0, app->screenWidth, 0, app->screenHeight);
+	glMatrixMode (GL_MODELVIEW);
 
-	std::string fileName;
+	glPushMatrix(); glLoadIdentity();
 
-	void create (const char *fileName);
-	void write  (const char *format, ...);
-	void write  (std::stringstream stream, const bool except);
-	void ewrite (const char *format, ...);
+}
 
-};
+inline void glEnd2D () {
+
+	glPopMatrix();
+	glMatrixMode (GL_PROJECTION);
+	
+	glPopMatrix();
+	glMatrixMode (GL_MODELVIEW);
+
+}
 
 #endif

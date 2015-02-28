@@ -57,7 +57,7 @@ uipcpp="src/ui/precompute/element.cpp src/ui/precompute/image.cpp src/ui/precomp
         src/ui/precompute/label.cpp"
 
 uicpp="src/ui/manager.cpp src/ui/element.cpp src/ui/image.cpp src/ui/panel.cpp src/ui/button.cpp
-       src/ui/menus.cpp src/ui/edit.cpp src/ui/label.cpp"
+       src/ui/menus.cpp src/ui/edit.cpp src/ui/label.cpp src/ui/theme.cpp"
 
 uilibs="-lftgl -lfreetype -le2dit-gapi -le2dit-utility"
 uiout="./build/libs/libe2dit-ui.so"

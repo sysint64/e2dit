@@ -20,7 +20,8 @@
 #ifndef E2DIT_RENDERER_CAMERA_H
 #define E2DIT_RENDERER_CAMERA_H
 
-#include "math/glm.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <string>
 
 class Camera {

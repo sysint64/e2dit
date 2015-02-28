@@ -33,7 +33,7 @@ Texture::Texture (const char *fileName, GLuint filter, GLuint wrapS, GLuint wrap
 		: filter (filter), wrapS (wrapS), wrapT (wrapT)
 {
 
-    /* Create Texture buffer */
+	/* Create Texture buffer */
 
 	glGenTextures (1, &handle);
 
@@ -41,12 +41,12 @@ Texture::Texture (const char *fileName, GLuint filter, GLuint wrapS, GLuint wrap
 
 	if (!fs::exists (fileName)) {
 
-        /* if not exist, then write error to log */
+		/* if not exist, then write error to log */
 
 		Application::getInstance()->log.write ("Load texture error : %s", fileName);
 		loaded = false;
 
-        /* And Exit */
+		/* And Exit */
 
 		return;
 
@@ -57,7 +57,7 @@ Texture::Texture (const char *fileName, GLuint filter, GLuint wrapS, GLuint wrap
 	data = SOIL_load_image (fileName, &width, &height, nullptr, SOIL_LOAD_RGBA);
 	update();
 
-    /* Save Texture path */
+	/* Save Texture path */
 
 	fs::path p (fileName);
 	this->fileName = p.filename().string();
@@ -70,7 +70,7 @@ Texture::Texture (const char *fileName, GLuint filter, GLuint wrapS, GLuint wrap
 
 Texture::~Texture() {
 
-    /* Destroy buffer & data */
+	/* Destroy buffer & data */
 
 	glDeleteTextures     (1, &handle);
 	SOIL_free_image_data (data);
@@ -103,19 +103,19 @@ void Texture::unbind() const {
 
 void Texture::update() const {
 
-    /* Bind Textuew */
+	/* Bind Textuew */
 
 	glBindTexture   (GL_TEXTURE_2D, handle);
 	glTexImage2D    (GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-    /* Display Parameters */
+	/* Display Parameters */
 
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     wrapS);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     wrapT);
 
-    /* Build Mipmaps if true */
+	/* Build Mipmaps if true */
 
 	if (buildMipmaps) {
 

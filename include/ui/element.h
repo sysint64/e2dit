@@ -24,19 +24,56 @@
 #define E2DIT_UI_ELEMENT_H
 
 #include "utility/config.h"
+#include "utility/application.h"
+#include "utility/string.h"
+#include <functional>
 
+enum class Align {Left, Center, Right, All};
 class UIManager;
 class UIElement {
+protected:
+	Application *app = Application::getInstance();
+
+	/* Icon */
+
+	int iconOffset[2];      bool showIcon      = false;
+	int icon2Offset[2];     bool showIcon2     = false;
+	int clickIconOffset[2]; bool showClickIcon = false;
+
 public:
 	int id;
 
-	int width;
-	int height;
-	int left;
-	int top;
+	int width  , height;
+	int absLeft, absTop;
+	int left   , top;
+
+	bool visible = true;
+	bool enabled = true;
+	bool focused = false;
+
+	bool withoutSkin = false;
+
+	/* Mouse State */
+
+	bool enter = false;
+	bool leave = true;
+	bool click = false;
+
+	bool inDialog = false;
 
 	UIElement *parent;
 	UIManager *manager;
+
+	Align drawAlign;
+
+	/* Functors */
+
+	std::function<void(UIElement*)>                onClick      = nullptr;
+	std::function<void(UIElement*)>                onProgress   = nullptr;
+	std::function<void(UIElement*)>                onUnfocused  = nullptr;
+	std::function<void(UIElement*, Uint16)>        onKeyPressed = nullptr;
+	std::function<void(UIElement*, int, int, int)> onMouseDown  = nullptr;
+	std::function<void(UIElement*, int, int, int)> onDblClick   = nullptr;
 
 	/* Methods */
 
@@ -47,23 +84,31 @@ public:
 
 	}
 
-	void setFocused();
-	void unFocused();
+	virtual ~UIElement() {}
+
+	void focus();
+	void unfocus();
 
 	virtual void precompute() {}
-	virtual void draw (int x, int y) {}
+	virtual void render (int x, int y) {
+
+		left    = x; top    = y;
+		absLeft = x; absTop = y;
+
+	}
 
 	/* Events */
 
-	virtual void dblClick    (int x, int y, int shift);
+	virtual void dblClick    (int x, int y, int button);
 	//
-	virtual void mouseDown   (int x, int y, int shift);
-	virtual void mouseMove   (int x, int y, int shift) {}
-	virtual void mouseUp     (int x, int y, int shift);
+	virtual void mouseDown   (int x, int y, int button);
+	virtual void mouseMove   (int x, int y, int button) {}
+	virtual void mouseUp     (int x, int y, int button);
 	virtual void keyDown     (int key) {}
 	virtual void resized     (int width, int height) {}
-	virtual void keyPressed  (Uint16 key);
-	virtual void textEntered (Uint16 key) {}
+	virtual void keyPressed  (int key);
+	virtual void textEntered (int key) {}
+	virtual void progress() {}
 
 };
 

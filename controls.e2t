@@ -1,0 +1,645 @@
+// Default theme of Game Engineer
+// Dark theme
+// Created by Kabylin Andrey
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+// General
+//----------------------------------------------------------------------------//
+
+General
+// 
+	// Main Fonts
+	Font           : "fonts/ttf-dejavu/DejaVuSans.ttf", 12, true
+	//FontItalic     : "fonts/ttf-dejavu/DejaVuSans-Bold.ttf", 14, true
+	//FontBold       : "fonts/ttf-dejavu/PT_Serif-Web-Regular.ttf", 14, true
+	//
+	MonoFont       : "fonts/ttf-dejavu/DejaVuSansMono.ttf", 14, true
+	MonoFontItalic : "fonts/ttf-dejavu/DejaVuSansMono-Bold.ttf", 14, true
+	MonoFontBold   : "fonts/ttf-dejavu/DejaVuSansMono-Oblique.ttf", 14, true
+	MonoFontBoldItalic : "fonts/ttf-dejavu/DejaVuSansMono-BoldOblique.ttf", 14, true
+	//
+	Split 	         : 44, 35, 3, 21
+	MenuSplit 	     : 10, 141, 2, 2
+	Hr			     : 10, 131, 2, 2
+	Vertex			 : 226, 6, 6, 6
+	NewVertex		 : 226, 16, 6, 6
+	SelVertex		 : 226, 26, 6, 6
+	Target			 : 198, 40, 18, 18
+	ClearColor		 : 51, 51, 51
+	GridColor		 : 61, 61, 61
+	SelectColor		 : 255, 133, 0
+	CameraColor		 : 255, 255, 255
+	RoomBorderColor	 : 104, 104, 141
+
+
+// Panel
+Panel
+//
+	//Color   : 124, 108, 91, 1
+	//ColorIn : 93, 81, 69, 1
+
+	Color       : 114, 114, 114, 1
+	ColorIn     : 70, 70, 70, 1
+	ActionColor : 95, 95, 95, 1
+
+	Split   : 10, 136, 2, 2
+	//SplitIn : 10, 131, 2, 2
+	SplitIn : 10, 141, 2, 2
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 20, 20, 20
+	ShadowColor  : 0 , 0 , 0 
+	//
+	ArrowOpen	: 5 , 21, 10, 10
+	ArrowClose	: 22, 21, 10, 10
+
+
+Dialog
+	TopLeft   : 235, 9, 19, 33
+	TopCenter : 273, 9, 19, 33
+	TopRight  : 312, 9, 19, 33
+	//
+	CenterLeft   : 235, 44, 19, 17
+	CenterCenter : 273, 44, 19, 17
+	CenterRight  : 312, 44, 19, 17
+	//
+	BottomLeft   : 235, 67, 19, 20
+	BottomCenter : 273, 67, 19, 20
+	BottomRight  : 312, 67, 19, 20
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 255, 255, 255
+	ShadowColor  : 0 , 0 , 0 
+
+
+Label
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 0, 0, 0
+	ShadowColor  : 0, 0, 0
+
+
+Split
+	Horizontal : 40, 90 , 2, 2
+	Vertical   : 10, 140, 2, 2
+
+
+ScrollHorizontal
+//
+	Left   : 122, 5, 8, 14
+	Center : 149, 5, 8, 14
+	Right  : 178, 5, 8, 14
+
+
+ScrollVertical
+//
+	Left   : 122, 22, 8, 14
+	Center : 149, 22, 8, 14
+	Right  : 178, 22, 8, 14
+
+
+ScroolButtonLeav
+//
+	Left   : 187, 5, 8, 14
+	Center : 200, 5, 8, 14
+	Right  : 212, 5, 8, 14
+
+
+ScroolButtonEnter
+//
+	Left   : 187, 22, 8, 14
+	Center : 200, 22, 8, 14
+	Right  : 212, 22, 8, 14
+
+
+Tabs
+	Background   : 45 , 226, 5, 80
+	Split		 : 114, 226, 5, 80
+	ShadowHeight : 3
+	TabOffset	 : 12
+
+
+//----------------------------------------------------------------------------//
+// Tab Button
+//----------------------------------------------------------------------------//
+
+TabButtonLeav
+	Stretch      : true
+	Left         : 125, 226, 13, 22
+	Center       : 141, 226, 13, 22
+	Right        : 158, 226, 13, 22
+	Split        : 44, 35, 3, 21
+	IconOffset	 : 8
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 20, 20, 20
+	ShadowColor  : 0 , 0 , 0 
+
+
+TabButtonEnter
+//
+	Stretch      : true
+	Left         : 176, 226, 13, 22
+	Center       : 192, 226, 13, 22
+	Right        : 209, 226, 13, 22
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 40, 40, 40
+	ShadowColor  : 0 , 0 , 0 
+
+
+TabButtonClick
+//
+	Stretch      : true
+	Left         : 125, 253, 13, 22
+	Center       : 142, 253, 13, 22
+	Right        : 158, 253, 13, 22
+	//
+	Shadow       : false
+	TextOffset   : 0,0
+	//
+	TextColor    : 40, 40, 40
+
+
+//----------------------------------------------------------------------------//
+// Button
+//----------------------------------------------------------------------------//
+
+ButtonLeav
+//
+	Stretch      : true
+	Left         : 55, 35, 5, 21
+	Center       : 68, 35, 5, 21
+	Right        : 81, 35, 5, 21
+	Split        : 44, 35, 3, 21
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 20, 20, 20
+	ShadowColor  : 0 , 0 , 0 
+
+
+ButtonEnter
+//
+	Stretch      : true
+	Left         : 55, 59, 5, 21
+	Center       : 68, 59, 5, 21
+	Right        : 81, 59, 5, 21
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 40, 40, 40
+	ShadowColor  : 0 , 0 , 0 
+
+
+ButtonClick
+//
+	Stretch      : true
+	Left         : 55, 83, 5, 21
+	Center       : 68, 83, 5, 21
+	Right        : 81, 83, 5, 21
+	//
+	Shadow       : false
+	TextOffset   : 0,-1
+	//
+	TextColor    : 200, 200, 200
+
+
+//----------------------------------------------------------------------------//
+// FlatButton
+//----------------------------------------------------------------------------//
+
+FlatButtonLeav
+//
+	Stretch      : true
+	Left         : 55, 180, 5, 21
+	Center       : 68, 180, 5, 21
+	Right        : 81, 180, 5, 21
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 0, 0, 0
+	ShadowColor  : 0 , 0 , 0 
+
+
+FlatButtonEnter
+//
+	Stretch      : true
+	Left         : 55, 131, 5, 21
+	Center       : 68, 131, 5, 21
+	Right        : 81, 131, 5, 21
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 0, 0, 0
+	ShadowColor  : 0, 0, 0
+
+
+FlatButtonClick
+//
+	Stretch      : true
+	Left         : 55, 131, 5, 21
+	Center       : 68, 131, 5, 21
+	Right        : 81, 131, 5, 21
+	//
+	Shadow       : false
+	TextOffset   : 0, 0
+	//
+	TextColor    : 0, 0, 0
+
+
+//----------------------------------------------------------------------------//
+// FlatButtonTall
+//----------------------------------------------------------------------------//
+
+TallFlatButtonLeav
+//
+	Stretch      : true
+	Left         : 240, 150, 5, 37
+	Center       : 253, 150, 5, 37
+	Right        : 300, 150, 5, 37
+	//
+	Mask		 : 200, 109, 32, 32
+	Border		 : 200, 148, 32, 32
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 0, 0, 0
+	ShadowColor  : 0 , 0 , 0 
+	DescrColor   : 51, 51, 51
+
+
+TallFlatButtonEnter
+//
+	Stretch      : true
+	Left         : 240, 107, 5, 37
+	Center       : 253, 107, 5, 37
+	Right        : 300, 107, 5, 37
+	//
+	Mask		 : 200, 109, 32, 32
+	Border		 : 200, 148, 32, 32
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 0, 0, 0
+	ShadowColor  : 0, 0, 0
+	DescrColor   : 51, 51, 51
+
+
+TallFlatButtonClick
+//
+	Stretch      : true
+	Left         : 240, 107, 5, 37
+	Center       : 253, 107, 5, 37
+	Right        : 300, 107, 5, 37
+	//
+	Mask		 : 200, 109, 32, 32
+	Border		 : 200, 148, 32, 32
+	//
+	Shadow       : false
+	TextOffset   : 0, 0
+	//
+	TextColor    : 0, 0, 0
+	DescrColor   : 51, 51, 51
+
+
+
+//----------------------------------------------------------------------------//
+// ListItem
+//----------------------------------------------------------------------------//
+
+ListItemLeav
+//
+	Stretch      : true
+	Left         : 55 , 180, 5 , 21
+	Center       : 68 , 180, 5 , 21
+	Right        : 81 , 180, 5 , 21
+	Mark         : 162, 131, 15, 21
+	//
+	Shadow       : false
+	ShadowOffset : 0, 0
+	TextOffset   : 3, 0
+	//
+	TextColor    : 200, 200, 200
+	ShadowColor  : 0 , 0 , 0 
+
+
+ListItemEnter
+//
+	Stretch      : true
+	//Left         : 127, 107, 5 , 21
+	//Center       : 157, 107, 5 , 21
+	//Right        : 188, 107, 5 , 21
+
+	Left         : 129, 107, 5 , 21
+	Center       : 129, 107, 5 , 21
+	Right        : 129, 107, 5 , 21
+	Mark         : 178, 131, 15, 21
+	//
+	Shadow       : false
+	ShadowOffset : 0, 0
+	TextOffset   : 3, 0
+	//
+	TextColor    : 20, 20, 20
+	ShadowColor  : 0 , 0 , 0 
+
+
+//----------------------------------------------------------------------------//
+// Popup
+//----------------------------------------------------------------------------//
+
+ListMenuTop
+//
+	Left         : 123, 39, 8, 8
+	Center       : 157, 39, 8, 8
+	Right        : 189, 39, 8, 8
+
+
+ListMenuCenter
+//
+	Left         : 123, 61, 8, 8
+	Center       : 157, 61, 8, 8
+	Right        : 189, 61, 8, 8
+
+
+ListMenuBottom
+//
+	Left         : 123, 87, 8, 8
+	Center       : 157, 87, 8, 8
+	Right        : 189, 87, 8, 8
+
+
+//----------------------------------------------------------------------------//
+// CheckButton
+//----------------------------------------------------------------------------//
+
+CheckButtonLeav
+//
+	Stretch      : true
+	Left         : 89 , 35, 5, 21
+	Center       : 102, 35, 5, 21
+	Right        : 115, 35, 5, 21
+	Split        : 44 , 35, 3, 21
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 220, 220, 220
+	ShadowColor  : 0  , 0  , 0  
+
+
+CheckButtonEnter
+//
+	Stretch      : true
+	Left         : 89 , 59, 5, 21
+	Center       : 102, 59, 5, 21
+	Right        : 115, 59, 5, 21
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 240, 240, 240
+	ShadowColor  : 0  , 0  , 0  
+
+
+CheckButtonClick
+//
+	Stretch      : true
+	Left         : 89 , 107, 5, 21
+	Center       : 102, 107, 5, 21
+	Right        : 115, 107, 5, 21
+	//
+	Shadow       : false
+	TextOffset   : 0,-1
+	//
+	TextColor    : 0, 0, 0
+
+
+//----------------------------------------------------------------------------//
+// DropList
+//----------------------------------------------------------------------------//
+
+DropListLeav
+//
+	Stretch      : true
+	Left         : 89 , 35, 5 , 21
+	Center       : 102, 35, 5 , 21
+	Right        : 115, 35, 5 , 21
+	Mark         : 40 , 59, 10, 21
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 220, 220, 220
+	ShadowColor  : 0  , 0  , 0  
+
+
+DropListEnter
+//
+	Stretch      : true
+	Left         : 89 , 59, 5, 21
+	Center       : 102, 59, 5, 21
+	Right        : 115, 59, 5, 21
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 240, 240, 240
+	ShadowColor  : 0  , 0  , 0  
+
+
+DropListClick
+//
+	Stretch      : true
+	Left         : 89 , 83, 5, 21
+	Center       : 102, 83, 5, 21
+	Right        : 115, 83, 5, 21
+	//
+	Shadow       : false
+	TextOffset   : 0, 0
+	//
+	TextColor    : 180, 180, 180
+
+
+//----------------------------------------------------------------------------//
+// PopupList
+//----------------------------------------------------------------------------//
+
+PopupListLeav
+//
+	Stretch      : true
+	Left         : 89 , 35, 5 , 21
+	Center       : 102, 35, 5 , 21
+	Right        : 115, 35, 5 , 21
+	Split        : 44 , 35, 3 , 21
+	Mark         : 40 , 59, 10, 21
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 120, 120, 120
+	ShadowColor  : 0  , 0  , 0  
+
+
+PopupListEnter
+//
+	Stretch      : true
+	Left         : 89 , 59, 5, 21
+	Center       : 102, 59, 5, 21
+	Right        : 115, 59, 5, 21
+	//
+	Shadow       : false
+	ShadowOffset : 0,-1
+	TextOffset   : 0, 0
+	//
+	TextColor    : 140, 140, 140
+	ShadowColor  : 0  , 0  , 0  
+
+
+PopupListClick
+//
+	Stretch      : true
+	Left         : 89 , 83, 5, 21
+	Center       : 102, 83, 5, 21
+	Right        : 115, 83, 5, 21
+	//
+	Shadow       : false
+	TextOffset   : 0,-1
+	//
+	TextColor    : 200, 200, 200
+
+
+//----------------------------------------------------------------------------//
+// Label
+//----------------------------------------------------------------------------//
+
+Label
+//
+	Shadow      : false
+	TextOffset  : 0,-1
+	TextColor   : 100, 100, 100
+	ShadowColor : 0, 0, 0
+
+
+//----------------------------------------------------------------------------//
+// CheckBox
+//----------------------------------------------------------------------------//
+
+CheckBoxLeav
+//
+	Unchecked : 3 , 3, 16, 16
+	Checked   : 54, 3, 16, 16
+  
+	Shadow      : true
+	TextColor   : 0, 0, 0
+	TextOffset  : 5, 0
+	ShadowColor : 135, 135, 135
+	ShadowOffset : 5,-1
+
+
+CheckBoxEnter
+//
+	Unchecked : 20, 3, 16, 16
+	Checked   : 71, 3, 16, 16
+  
+	Shadow      : true
+	TextColor   : 0, 0, 0
+	TextOffset  : 5, 0
+	ShadowColor : 135, 135, 135
+	ShadowOffset : 5,-1
+
+
+//----------------------------------------------------------------------------//
+// Edit
+//----------------------------------------------------------------------------//
+
+EditLeav
+//
+	Stretch      : true
+	Shadow       : false
+	Left         : 4 , 35, 5, 21
+	Center       : 16, 35, 5, 21
+	Right        : 30, 35, 5, 21
+	Stick        : 38, 35, 5, 21
+	SelRectColor : 98, 140, 206, 30
+	SelRectOffset: 2 , 2
+	ArrowLeft    : 40, 82, 5, 10
+	ArrowRight   : 45, 82, 5, 10
+	//  
+	TextOffset   : 0, 0
+	//
+	TextColor    : 20, 20, 20
+
+
+EditEnter
+//
+	Stretch      : true
+	Shadow       : false
+	//
+	Left         : 4 , 59, 5, 21
+	Center       : 16, 59, 5, 21
+	Right        : 30, 59, 5, 21
+	//
+	ArrowLeft    : 40, 94, 5, 10
+	ArrowRight   : 45, 94, 5, 10
+	//
+	TextOffset   : 0, 0
+	TextColor    : 40, 40, 40
+
+
+EditClick
+//
+	Stretch      : true
+	Shadow       : false
+	//
+	Left         : 4 , 59, 5, 21
+	Center       : 16, 59, 5, 21
+	Right        : 30, 59, 5, 21
+	//
+	ArrowLeft    : 40, 94, 5, 10
+	ArrowRight   : 45, 94, 5, 10
+	//
+	TextOffset   : 0, 0
+	TextColor    : 40, 40, 40
+
+
+EditFocus
+//
+	Left         : 4 , 83, 5, 21
+	Center       : 16, 83, 5, 21
+	Right        : 30, 83, 5, 21
+
+
+//

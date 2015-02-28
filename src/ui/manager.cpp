@@ -22,7 +22,58 @@
 
 #include "ui/manager.h"
 
-/* Scissor */
+/**
+ * Insert new UI Element and set unique id
+ * @param el: new UI Element
+ */
+
+void UIManager::addElement (std::shared_ptr<UIElement> el) {
+
+	el->manager = this;
+	el->id = lastId;
+	elements[lastId] = el;
+
+	lastId++;
+
+}
+
+/**
+ * Delete element el from manager and memory
+ * @param el: UI Element
+ */
+
+void UIManager::deleteElement (std::shared_ptr<UIElement> el) {
+
+	//elements[el->id] = nullptr;
+	//delete el;
+	elements.erase (el->id);
+
+}
+
+/**
+ * Delete element el from manager and memory by id
+ * @param id: id of UI Element
+ */
+
+void UIManager::deleteElement (const int id) {
+
+	if (elements[id] == nullptr)
+		return;
+
+	elements.erase (id);
+	//delete elements[id];
+	//elements[id] = nullptr;
+
+}
+
+/**
+ * Push new scissor to stack
+ *
+ * @param sx: Scissor Position X
+ * @param sy: Scissor Position Y
+ * @param sw: Scissor Width
+ * @param sh: Scissor Height
+ */
 
 void UIManager::pushScissor (int sx, int sy, int sw, int sh) {
 
@@ -34,6 +85,10 @@ void UIManager::pushScissor (int sx, int sy, int sw, int sh) {
 
 }
 
+/**
+ * Pop scissor fomr stack
+ */
+
 void UIManager::popScissor() {
 
 	scissorStack.pop_back();
@@ -42,6 +97,10 @@ void UIManager::popScissor() {
 	else setScissor();
 
 }
+
+/**
+ * Set OpenGL Scissor by last scissor from stack
+ */
 
 void UIManager::setScissor () {
 
@@ -63,14 +122,192 @@ void UIManager::setScissor () {
 
 }
 
-/* Render */
+/**
+ * Render UI Elements
+ */
 
 void UIManager::render() {
 
-	texShader->bind();
+	/* Bind Theme Skin */
 
+	atlasShader->bind();
 
+	glActiveTexture (GL_TEXTURE3);
+	glBindTexture   (GL_TEXTURE_2D, theme->skin->handle);
+
+	glActiveTexture (GL_TEXTURE2);
+	glBindTexture   (GL_TEXTURE_2D, theme->skin->handle);
+
+	/* Bind UI VBO Data Render */
+
+	uiDataRender->bind();
+
+	glUniform1i (atlasShader->locations["Texture"], themeTexID);
+	glUniform1f (atlasShader->locations["Alpha"  ], 1.0f);
+
+	/* Progress Event */
+
+	for (int i = 0; i < elements.size(); i++) {
+
+		std::shared_ptr<UIElement> el = elements[i];
+		el->progress();
+
+		/* Render UI Elements */
+
+		if (el->visible) {
+			//
+			el->render (el->left, el->top);
+		}
+	}
+
+	/* Render Elements in Stack TODO: to come up with something else */
+
+	for (auto item : drawStack) {
+
+		item->render (item->left, item->top);
+
+	}
+
+	drawStack.clear();
+	atlasShader->unbind();
+
+	if (dialogOpened || freezUI)
+		return;
+
+	/* */
+
+	for (const auto &kvp : elements) {
+
+		std::shared_ptr<UIElement> el = kvp.second;
+
+		if (!el->visible) continue;
+
+		if (!pointInRect (app->mouseX, app->mouseY, el->left,
+						  el->top, el->width, el->height))
+		{
+			
+			el->enter = false;
+			el->click = false;
+
+			continue;
+
+		}
+
+		if (!el->enabled || (el->parent != 0 && !el->parent->enabled)) {
+
+			el->enter = false;
+			el->click = false;
+
+			continue;
+		}
+
+		el->enter = true;
+		
+		if (app->mouseButton == mouseLeft) el->click = true;
+		else el->click = false;
+
+	}
 
 }
 
 /* Events */
+
+/**
+ *
+ */
+
+void UIManager::mouseMove (int x, int y, int button) {
+	
+	for (const auto &kvp : elements) {
+
+		kvp.second->mouseMove (x, y, button);
+
+	}
+	
+}
+
+/**
+ *
+ */
+
+void UIManager::mouseDown (int x, int y, int button) {
+	
+	for (const auto &kvp : elements) {
+
+		kvp.second->mouseDown (x, y, button);
+
+	}
+	
+}
+
+/**
+ *
+ */
+
+void UIManager::dblClick (int x, int y, int button) {
+	
+	for (const auto &kvp : elements) {
+
+		kvp.second->dblClick (x, y, button);
+
+	}
+	
+}
+
+/**
+ *
+ */
+
+void UIManager::mouseUp (int x, int y, int button) {
+	
+	for (const auto &kvp : elements) {
+
+		kvp.second->mouseUp (x, y, button);
+
+	}
+
+	/* Unfocuse all Elements */
+
+	for (auto el : unfocusedElements) {
+
+		if (!el->focused)
+			continue;
+
+		el->focused = false;
+
+		if (el->onUnfocused != nullptr)
+			el->onUnfocused (el);
+	}
+
+	unfocusedElements.clear();
+	
+}
+
+/**
+ *
+ */
+
+void UIManager::keyPressed (int key) {
+
+	for (const auto &kvp : elements) {
+
+		kvp.second->keyPressed (key);
+
+	}
+
+}
+
+/**
+ *
+ */
+
+void UIManager::resized (int width, int height) {
+	
+	for (const auto &kvp : elements) {
+
+		kvp.second->resized (width, height);
+
+	}
+
+}
+

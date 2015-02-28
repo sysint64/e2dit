@@ -20,14 +20,15 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-/** @file core.cpp
-    @brief
-*/
-
 #include "core.h"
+#include "ui/manager.h"
+#include "ui/button.h"
+#include "renderer/sprite.h"
 
 Core::Core() {
-	app = Application::getInstance();
+
+
+
 }
 
 Core::~Core() {
@@ -36,6 +37,8 @@ Core::~Core() {
 /* */
 
 void Core::render() {
+
+
 
 }
 
