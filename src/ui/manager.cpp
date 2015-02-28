@@ -23,6 +23,12 @@
 #include "ui/manager.h"
 
 /**
+ * Constructor
+ */
+
+
+
+/**
  * Insert new UI Element and set unique id
  * @param el: new UI Element
  */

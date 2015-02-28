@@ -28,8 +28,6 @@
 
 DataMap::DataMap () {
 
-	app = Application::getInstance();
-
 }
 
 /**
@@ -41,13 +39,11 @@ DataMap::DataMap () {
 
 DataMap::DataMap (const char *fileName, ReadType rt) {
 
-	app = Application::getInstance();
-
 	switch (rt) {
 
-		case rtBin  : loadFromBin  (fileName); break;
-		case rtText : loadFromText (fileName); break;
-		default     : return;
+		case ReadType::Bin  : loadFromBin  (fileName); break;
+		case ReadType::Text : loadFromText (fileName); break;
+		default             : return;
 
 	}
 

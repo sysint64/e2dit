@@ -105,13 +105,68 @@ void DataMap::lexReopenFile (const char *fileName) {
 }
 
 /**
- * Save next token
+ * Get next token
  */
 
 char DataMap::lexNextToken() {
 
-	curToken = lexToken();
-	return curToken;
+	if (nts < tokenStack.size()) {
+
+		nts++;
+		lexPopToken();
+		
+		return tokenStack[nts].token;
+
+	} else {
+
+		int tok = lexToken();
+		curToken = tok;
+		lexPushToken(); // push to stack
+		nts = tokenStack.size();
+
+		return tok;
+
+	}
+
+}
+
+/**
+ * Get prev token
+ */
+
+char DataMap::lexPrevToken() {
+
+	nts--;
+	lexPopToken();
+	
+	return tokenStack[nts-1].token;
+
+}
+
+/**
+ * Push new Token to Stack
+ */
+
+void DataMap::lexPushToken() {
+
+	tok Tok;
+	Tok.token = curToken;
+	Tok.idstr = idStr;
+	Tok.num   = numVal;
+	
+	tokenStack.push_back(Tok);
+
+}
+
+/**
+ * Pop Token from Stack
+ */
+
+void DataMap::lexPopToken() {
+
+	curToken = tokenStack[nts-1].token;
+	idStr    = tokenStack[nts-1].idstr;
+	numVal   = tokenStack[nts-1].num;
 
 }
 
@@ -243,7 +298,7 @@ char DataMap::lexTokId () {
 
 	}
 	
-	//idStr = LowerCaseS (idStr);
+	std::transform (idStr.begin(), idStr.end(), idStr.begin(), ::tolower);
 	
 	// Key Words
 

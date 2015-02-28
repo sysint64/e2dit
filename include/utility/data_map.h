@@ -33,6 +33,7 @@
 
 namespace fs = boost::filesystem;
 
+enum class ReadType { Text, Bin };
 class DataMap {
 private:
 
@@ -75,16 +76,33 @@ private:
 	std::vector<int> offsetStack; // Files offset in bytes
 
 	/**/ 
-	Application *app;
+	Application *app = Application::getInstance();
+
+	/* Token */
+
+	struct tok {
+
+		int token;
+		std::string idstr;
+		float num;
+
+	} typedef tok;
+
+	std::vector<tok> tokenStack;
+	int				 nts = 0;
 
 	/* Lexer */
 
 	char lexChar();
 	char lexToken();
 	char lexNextToken();
+	char lexPrevToken();
 	char lexStrLen();
 	void lexOpenFile   (const char *fileName);
 	void lexReopenFile (const char *fileName);
+
+	void lexPushToken();
+	void lexPopToken();
 
 	/* */
 
@@ -114,10 +132,12 @@ public:
 	/* Tokens */
 
 	enum Token {
+
 		tok_eof = -1,
-		//
+		
 		tok_id = -2, tok_number = -3, tok_string = -4,
 		tok_begin = -5, tok_end = -6, tok_include = -7
+
 	};
 
 	/* Operands */
@@ -128,8 +148,6 @@ public:
 		op_type = 0x06,
 	};
 
-	enum ReadType { rtText, rtBin };
-
 	/* Data */
 
 	std::map<std::string, struct DataParams> element;
@@ -139,7 +157,7 @@ public:
 	/* Methods */
 
 	DataMap ();
-	DataMap (const char *fileName, ReadType rt = rtText);
+	DataMap (const char *fileName, ReadType rt = ReadType::Text);
 
 	virtual void loadFromText (const char *fileName);
 	virtual void loadFromBin  (const char *fileName);

@@ -22,7 +22,7 @@
 
 #include "ui/theme.h"
 
-UITheme::UITheme (Texture *skin, FTGLfont *font) {
+UITheme::UITheme (const char *fileName, ReadType rt, Texture *skin, FTGLfont *font) {
 
 	this->skin = skin;
 	this->font = font;
@@ -33,5 +33,13 @@ UITheme::UITheme (Texture *skin, FTGLfont *font) {
 	skin->buildMipmaps = false;
 	
 	skin->update();
+
+	switch (rt) {
+
+		case ReadType::Bin  : loadFromBin  (fileName); break;
+		case ReadType::Text : loadFromText (fileName); break;
+		default             : return;
+
+	}
 
 }

@@ -7,10 +7,10 @@
 // General
 //----------------------------------------------------------------------------//
 
-General
+general
 // 
 	// Main Fonts
-	Font           : "fonts/ttf-dejavu/DejaVuSans.ttf", 12, true
+	font           : "fonts/ttf-dejavu/DejaVuSans.ttf", 12, true
 	//FontItalic     : "fonts/ttf-dejavu/DejaVuSans-Bold.ttf", 14, true
 	//FontBold       : "fonts/ttf-dejavu/PT_Serif-Web-Regular.ttf", 14, true
 	//

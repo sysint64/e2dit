@@ -21,13 +21,20 @@
  */
 
 #include "core.h"
-#include "ui/manager.h"
-#include "ui/button.h"
-#include "renderer/sprite.h"
 
 Core::Core() {
 
+	//uiManager = std::make_shared<UIManager>();
+	auto font = ftglCreateTextureFont ("res/fonts/ttf-dejavu/DejaVuSans.ttf");
 
+	ftglSetFontFaceSize (font, 12, 12);
+	ftglSetFontCharMap  (font, ft_encoding_unicode);
+	
+	skin    = std::make_shared<Texture> ("res/ui/dark/controls.png");
+	uiTheme = std::make_shared<UITheme> ("res/ui/dark/controls.e2t", ReadType::Text, skin.get(), font);
+	//DataMap test ("controls.e2t", ReadType::Text);
+
+	std::cout << uiTheme->element["general"].params["font"][0].str << std::endl;
 
 }
 

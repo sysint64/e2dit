@@ -98,7 +98,7 @@ public:
 	Shader    *colorShader;
 	UITheme	  *theme;
 
-	 UIManager (Shader *atlasShader, Shader *colorShader);
+	 UIManager (Shader *atlasShader, Shader *colorShader, UITheme theme);
 	~UIManager();
 
 	void render();

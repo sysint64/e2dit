@@ -81,12 +81,16 @@ void DataMap::parseElement() {
 		if (curToken != ')') {
 			
 			app->log.ewrite ("%s:%d:%d: Parse error", fileName.c_str(), lineno, posno);
-			//Terminate(EXIT_FAILURE);
-			//
-			lexNextToken();
+
 		}
 
 		lexNextToken();
+	}
+
+	if (curToken != ':') {
+
+		app->log.ewrite ("%s:%d:%d: Parse error", fileName.c_str(), lineno, posno);
+
 	}
 
 	//
@@ -119,6 +123,7 @@ void DataMap::parseElement() {
 	}*/
 
 	bytecode.push_back (op_end);
+	std::cout << (int) curToken << idStr << std::endl;
 	//lexNextToken();
 
 }
@@ -141,7 +146,7 @@ void DataMap::parseElements() {
 
 void DataMap::parseFuncs (std::string name) {
 
-	while ((curToken != tok_end & curToken != tok_eof) == 1) {
+	while ((curToken != tok_end && curToken != tok_eof) == 1) {
 
 		parseFunc(name);
 		//if (curToken == tok_end) break;
@@ -167,14 +172,15 @@ void DataMap::parseFunc (std::string name) {
 
 	lexNextToken();
 
-	if (curToken != ':') {
+	//if (curToken != tok_number && curToken != tok_string) {
+	if (curToken == ':') {
 
 		/*app->log.ewrite ("%s:%d:%d: Parse error except ':'", fileName.c_str(), lineno, posno);
 		//Terminate(EXIT_FAILURE);
 		//
 		lexNextToken();*/
+		lexPrevToken();
 		end = true;
-
 		//if (curToken != tok_id)
 		//	app->log.ewrite ("%s:%d:%d: Parse error except element name", fileName.c_str(), lineno, posno);
 
@@ -185,6 +191,7 @@ void DataMap::parseFunc (std::string name) {
 	lexNextToken();
 	std::vector<DataVal> params = parseParams (funcName);
 
+	if (curToken == ';') lexNextToken();
 	/*if (curToken != ';') {
 		
 		app->log.write ("%s:%d:%d: Parse error", fileName.c_str(), lineno, posno);
@@ -202,6 +209,7 @@ void DataMap::parseFunc (std::string name) {
 	//if (FillType == Map) {
 		element[name].params[funcName] = params;
 		element[name].def = true;
+		std::cout << funcName << std::endl;
 	//}  else {
 		//
 	/*	for (int i = 0; i < DataStack.size(); i++) {

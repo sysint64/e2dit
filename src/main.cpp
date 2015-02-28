@@ -123,7 +123,6 @@ int main (int argc,char** argv) {
 	bool running  = true;
 	bool dblClick = false;
 
-	DataMap data ("controls.e2t");
 	exit(0);
 
 	while (running) {

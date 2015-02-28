@@ -37,7 +37,7 @@ public:
 
 public:
 
-	UITheme (Texture *skin, FTGLfont *font);
+	UITheme (const char *fileName, ReadType rt, Texture *skin, FTGLfont *font);
 
 };
 

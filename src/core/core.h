@@ -20,20 +20,29 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-/** @file core.h
-    @brief
-*/
-
 #ifndef E2DIT_CORE_H
 #define E2DIT_CORE_H
 
 #include "utility/application.h"
+
+#include "ui/manager.h"
+#include "ui/button.h"
+#include "ui/theme.h"
+
+#include "renderer/sprite.h"
+#include "renderer/texture.h"
 
 class Application;
 class Core {
 public:
 
 	Application *app = Application::getInstance();
+
+	/* UI */
+
+	std::shared_ptr<UIManager> uiManager;
+	std::shared_ptr<UITheme>   uiTheme;
+	std::shared_ptr<Texture>   skin;
 
 	/* Constructor */
 
