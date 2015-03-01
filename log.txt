@@ -1,1 +1,11 @@
 Initialize OpenGL, Version : 3.3
+Shader error: 0(17) : error C0000: syntax error, unexpected $undefined at token "<undefined>"
+
+Shader program error: 
+Shader program error: 
+Shader program error: 
+Shader error: 0(10) : error C0000: syntax error, unexpected $undefined at token "<undefined>"
+
+Shader program error: 
+Shader program error: 
+Shader program error: 

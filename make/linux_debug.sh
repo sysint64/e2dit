@@ -1,8 +1,9 @@
 #!/bin/bash
 
+stdcpp="-std=c++1y -stdlib=libc++ -nodefaultlibs -lc++ -lc++abi -lm -lc -lgcc_s -lgcc -v"
 pathes="-I./src/ -I./include/ -I/usr/include/freetype2 -L./build/libs/"
-flags="-O0 -std=c++11 -g -Wfatal-errors -D_linux_ -D_x86_64_ -funroll-loops -lpthread -lX11 -lpthread -lrt -lm"
-libs="-lGLEW -lGL -lGLU -lfreetype -lSOIL -ljpeg -lboost_system -lboost_filesystem -lsfml-graphics -lsfml-window -lsfml-system -lftgl
+flags="-O0 $stdcpp -g -Wfatal-errors -D_linux_ -D_x86_64_ -funroll-loops -lpthread -lX11 -lpthread -lrt -lm"
+libs="-lGLEW -lGL -lGLU -lfreetype -lSOIL -ljpeg -lboost_system -lboost_filesystem -lftgl -lsfml-window -lsfml-system -lsfml-graphics
       -le2dit-ui -le2dit-gapi -le2dit-utility"
 out="./build/e2dit"
 
@@ -17,7 +18,7 @@ analyzer="cppcheck"
 
 # build Utility Library
 
-utilityflags="-O0 -std=c++11 -shared -g -fPIC -Wall -Wfatal-errors -D_linux_ -D_x86_64_ -funroll-loops"
+utilityflags="-O0 $stdcpp -shared -g -fPIC -Wall -Wfatal-errors -D_linux_ -D_x86_64_ -funroll-loops"
 utilitycpp="src/utility/data_map.cpp src/utility/data_map_lexer.cpp src/utility/data_map_parser.cpp src/utility/logger.cpp src/utility/application.cpp"
 
 utilitylibs=""
@@ -32,7 +33,7 @@ $compiler $utilitycpp $pathes $utilityflags $utilitylibs -o $utilityout -lc
 
 # build GAPI library
 
-gapiflags="-O0 -std=c++11 -shared -g -fPIC -Wall -Wfatal-errors -D_linux_ -D_x86_64_ -funroll-loops -lGLEW -lGL -lGLU -lSOIL -ljpeg -ldl"
+gapiflags="-O0 $stdcpp -shared -g -fPIC -Wall -Wfatal-errors -D_linux_ -D_x86_64_ -funroll-loops -lGLEW -lGL -lGLU -lSOIL -ljpeg -ldl"
 gapicpp="src/renderer/base_object.cpp src/renderer/camera.cpp src/renderer/data_render.cpp
          src/renderer/material.cpp src/renderer/shader.cpp src/renderer/texture.cpp"
 
@@ -48,7 +49,7 @@ $compiler $gapicpp $pathes $gapiflags $gapilibs -o $gapiout -lc
 
 # build UI library
 
-uiflags="-O0 -std=c++11 -shared -g -fPIC -Wall -Wfatal-errors -D_linux_ -D_x86_64_ -funroll-loops -ldl"
+uiflags="-O0 $stdcpp -shared -g -fPIC -Wall -Wfatal-errors -D_linux_ -D_x86_64_ -funroll-loops -ldl"
 
 # Precomputed
 

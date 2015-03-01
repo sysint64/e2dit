@@ -57,11 +57,11 @@ protected:
 
 	/* Render Objects */
 
-	std::shared_ptr<BaseObject> leftElement   = std::make_shared<BaseObject> (manager->uiDataRender, app->screenCamera);
-	std::shared_ptr<BaseObject> rightElement  = std::make_shared<BaseObject> (manager->uiDataRender, app->screenCamera);
-	std::shared_ptr<BaseObject> middleElement = std::make_shared<BaseObject> (manager->uiDataRender, app->screenCamera);
-	std::shared_ptr<BaseObject> iconElement   = std::make_shared<BaseObject> (manager->uiDataRender, app->screenCamera);
-	std::shared_ptr<BaseObject> iconElement2  = std::make_shared<BaseObject> (manager->uiDataRender, app->screenCamera);
+	std::unique_ptr<BaseObject> leftElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera);
+	std::unique_ptr<BaseObject> rightElement  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera);
+	std::unique_ptr<BaseObject> middleElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera);
+	std::unique_ptr<BaseObject> iconElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera);
+	std::unique_ptr<BaseObject> iconElement2  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera);
 
 	/* Draw Text */
 
@@ -82,6 +82,8 @@ public:
 
 	virtual void precompute()          override;
 	virtual void render (int x, int y) override;
+
+	using UIElement::UIElement;
 
 };
 

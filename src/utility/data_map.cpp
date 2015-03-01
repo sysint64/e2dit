@@ -54,8 +54,6 @@ DataMap::DataMap (const char *fileName, ReadType rt) {
  * @param fileName
  */
 
-
-
 void DataMap::loadFromText (const char *fileName) {
 
 	lineno = 1; posno = 1;
@@ -69,8 +67,7 @@ void DataMap::loadFromText (const char *fileName) {
 		/* if not exist, then write error to log */
 
 		Application::getInstance()->log.ewrite ("Load data file error, file doesn't exist : %s", fileName);
-		//throw std::runtime_error(Formatter() << "Load data file error, file doesn't exist : " << fileName);
-		
+
 		/* And Exit */
 
 		return;

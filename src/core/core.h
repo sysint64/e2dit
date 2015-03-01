@@ -30,6 +30,7 @@
 #include "ui/theme.h"
 
 #include "renderer/sprite.h"
+#include "renderer/shader.h"
 #include "renderer/texture.h"
 
 class Application;
@@ -43,6 +44,11 @@ public:
 	std::shared_ptr<UIManager> uiManager;
 	std::shared_ptr<UITheme>   uiTheme;
 	std::shared_ptr<Texture>   skin;
+
+	std::shared_ptr<Shader>    atlasShader;
+	std::shared_ptr<Shader>    colorShader;
+
+	std::shared_ptr<UIButton>  button;
 
 	/* Constructor */
 

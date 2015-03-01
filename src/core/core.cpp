@@ -22,6 +22,10 @@
 
 #include "core.h"
 
+#include <boost/assign/std/vector.hpp>
+
+using namespace boost::assign;
+
 Core::Core() {
 
 	//uiManager = std::make_shared<UIManager>();
@@ -30,13 +34,28 @@ Core::Core() {
 	ftglSetFontFaceSize (font, 12, 12);
 	ftglSetFontCharMap  (font, ft_encoding_unicode);
 	
-	skin    = std::make_shared<Texture> ("res/ui/dark/controls.png");
-	//uiTheme = std::make_shared<UITheme> ("res/ui/dark/controls.e2t", ReadType::Text, skin.get(), font);
-	uiTheme = std::make_shared<UITheme> ("controls.e2t", ReadType::Text, skin.get(), font);
+	skin    = std::make_shared<Texture>  ("res/ui/dark/controls.png");
+	uiTheme = std::make_shared<UITheme>  ("res/ui/dark/controls.e2t", ReadType::Text, skin.get(), font);
+
+	std::vector<std::string> atlasLocations; atlasLocations += "MVP", "Size", "Offset", "Texture", "Alpha";
+	std::vector<std::string> colorLocations; colorLocations += "MVP", "Color";
+
+	atlasShader = std::make_shared<Shader> ("res/glsl/GL3/tex_atlas.glsl", atlasLocations);
+	colorShader = std::make_shared<Shader> ("res/glsl/GL3/colorize.glsl" , colorLocations);
+
+	uiManager   = std::make_shared<UIManager> (atlasShader.get(), colorShader.get(), uiTheme.get());
+	button      = std::make_shared<UIButton>  (uiManager.get());
+
+	button->caption = L"Test";
+
+	uiManager->uiDataRender = new SpriteData (false, false, true);
+	uiManager->addElement (button);
+
+	//uiTheme = std::make_shared<UITheme> ("controls.e2t", ReadType::Text, skin.get(), font);
 	//DataMap test ("controls.e2t", ReadType::Text);
 
 	//std::cout << uiTheme->element["general"].params["font"][0].str << std::endl;
-	std::cout << std::endl << uiTheme->element["scrollhorizontal"].params["left"][3].num << std::endl;
+	//std::cout << std::endl << uiTheme->element["scrollhorizontal"].params["left"][3].num << std::endl;
 
 }
 
@@ -47,7 +66,7 @@ Core::~Core() {
 
 void Core::render() {
 
-
+	uiManager->render();
 
 }
 

@@ -161,7 +161,7 @@ public:
 
 	/* Data */
 
-	std::map<std::string, struct DataParams> element;
+	std::map<std::string, DataParams> element;
 	bool haltIfErr = false;
 	std::string fileName;
 

@@ -105,11 +105,11 @@ void Shader::unbind() const {
 }
 
 /**
- * Constructor, load shader
+ * Load And Create Shader
  * @param fileName
  */
 
-Shader::Shader (const char *fileName) {
+void Shader::load (const char *fileName) {
 
 	/* Get Application Instance */
 
@@ -251,5 +251,35 @@ Shader::Shader (const char *fileName) {
 
 	glValidateProgram (program);
 	programStatus     (program, GL_VALIDATE_STATUS);
+
+}
+
+/**
+ * Constructor, load shader
+ * @param fileName
+ */
+
+Shader::Shader (const char *fileName) {
+
+	load (fileName);
+
+}
+
+/**
+ * Constructor, load shader & initialize Shader Locations
+ *
+ * @param fileName
+ * @param vloc: Shader Location Names
+ */
+
+Shader::Shader (const char *fileName, std::vector<std::string> vlocs) {
+
+	load (fileName);
+
+	for (auto loc : vlocs) {
+
+		locations[loc] = glGetUniformLocation (program, loc.c_str());
+
+	}
 
 }

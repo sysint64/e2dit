@@ -73,7 +73,7 @@ int main (int argc,char** argv) {
 	/* Create Window */
 
 	sf::Window window (sf::VideoMode (app->windowWidth, app->windowHeight, 24), APP_NAME,
-					  sf::Style::Default, settings);
+					   sf::Style::Default, settings);
 
 	app->windowHandle = window.getSystemHandle();
 
@@ -123,7 +123,7 @@ int main (int argc,char** argv) {
 	bool running  = true;
 	bool dblClick = false;
 
-	exit(0);
+	//exit(0);
 
 	while (running) {
 

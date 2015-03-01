@@ -10,6 +10,8 @@ ftgl;
 freetype2;
 glm;
 tinyxml;
+boost::filesystem;
+boost::assign;
 jpeg.
 
 run in terminal:

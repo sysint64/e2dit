@@ -34,6 +34,8 @@ private:
 	GLint shaderStatus  (GLuint &shader , GLenum param) const;
 	GLint programStatus (GLuint &program, GLenum param) const;
 
+	void load (const char *fileName);
+
 public:
 
 	std::string fileName;
@@ -45,6 +47,7 @@ public:
 	void unbind() const;
 
 	Shader (const char *fileName);
+	Shader (const char *fileName, std::vector<std::string> vlocs);
 };
 
 #endif

@@ -26,7 +26,12 @@
  * Constructor
  */
 
+UIManager::UIManager (Shader *atlasShader, Shader *colorShader, UITheme *theme) :
+	atlasShader (atlasShader), colorShader (colorShader), theme (theme)
 
+{
+
+}
 
 /**
  * Insert new UI Element and set unique id
@@ -35,7 +40,7 @@
 
 void UIManager::addElement (std::shared_ptr<UIElement> el) {
 
-	el->manager = this;
+	//el->manager = this;
 	el->id = lastId;
 	elements[lastId] = el;
 

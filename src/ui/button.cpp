@@ -33,8 +33,8 @@ void UIButton::render (int x, int y) {
 
 	UIElement::render (x, y);
 
-	if (!enabled || (parent != 0 && !parent->enabled))
-		glUniform1f (manager->atlasShader->locations["Alpha"], manager->disabledAlpha);
+	//if (!enabled || (parent != 0 && !parent->enabled))
+	//	glUniform1f (manager->atlasShader->locations["Alpha"], manager->disabledAlpha);
 
 	/* Tables Indices */
 	int n  = 0; int tn = 0; int to = 0;
@@ -148,8 +148,8 @@ void UIButton::render (int x, int y) {
 
 	/* Reset Alpha */
 
-	if (!enabled || (parent != 0 && !parent->enabled))
-		glUniform1f (manager->atlasShader->locations["Alpha"], 1.f);
+	//if (!enabled || (parent != 0 && !parent->enabled))
+	//	glUniform1f (manager->atlasShader->locations["Alpha"], 1.f);
 
 }
 
