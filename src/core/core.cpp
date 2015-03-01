@@ -22,11 +22,11 @@
 
 #include "core.h"
 
-#include <boost/assign/std/vector.hpp>
-
 using namespace boost::assign;
 
 Core::Core() {
+
+	app->screenCamera = std::make_unique<Camera>(app->screenWidth, app->screenHeight);
 
 	//uiManager = std::make_shared<UIManager>();
 	auto font = ftglCreateTextureFont ("res/fonts/ttf-dejavu/DejaVuSans.ttf");
@@ -44,11 +44,10 @@ Core::Core() {
 	colorShader = std::make_shared<Shader> ("res/glsl/GL3/colorize.glsl" , colorLocations);
 
 	uiManager   = std::make_shared<UIManager> (atlasShader.get(), colorShader.get(), uiTheme.get());
-	button      = std::make_shared<UIButton>  (uiManager.get());
-
-	button->caption = L"Test";
-
 	uiManager->uiDataRender = new SpriteData (false, false, true);
+
+	button      = std::make_shared<UIButton>  (uiManager.get());
+	button->caption = L"Test";
 	uiManager->addElement (button);
 
 	//uiTheme = std::make_shared<UITheme> ("controls.e2t", ReadType::Text, skin.get(), font);
@@ -66,6 +65,7 @@ Core::~Core() {
 
 void Core::render() {
 
+	app->screenCamera->update();
 	uiManager->render();
 
 }

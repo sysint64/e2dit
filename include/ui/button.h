@@ -51,17 +51,17 @@ protected:
 
 	/* Param Names for load from Layout file */
 
-	std::string leaveElement = "buttonleav";
+	std::string leaveElement = "buttonleave";
 	std::string enterElement = "buttonenter";
 	std::string clickElement = "buttonclick";
 
 	/* Render Objects */
 
-	std::unique_ptr<BaseObject> leftElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera);
-	std::unique_ptr<BaseObject> rightElement  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera);
-	std::unique_ptr<BaseObject> middleElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera);
-	std::unique_ptr<BaseObject> iconElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera);
-	std::unique_ptr<BaseObject> iconElement2  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera);
+	std::unique_ptr<BaseObject> leftElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> rightElement  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> middleElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> iconElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> iconElement2  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 	/* Draw Text */
 
@@ -83,7 +83,12 @@ public:
 	virtual void precompute()          override;
 	virtual void render (int x, int y) override;
 
-	using UIElement::UIElement;
+	//using UIElement::UIElement;
+	UIButton (UIManager *manager) : UIElement (manager) {
+		
+		this->manager = manager; precompute();
+
+	}
 
 };
 

@@ -49,21 +49,21 @@ void UIButton::precomputeText (const int n, std::string element) {
 
 	/* Text Color */
 
-	textColors [tcs+0] = manager->theme->element[element].params["textcolor"][0].num/255.f;
-	textColors [tcs+1] = manager->theme->element[element].params["textcolor"][1].num/255.f;
-	textColors [tcs+2] = manager->theme->element[element].params["textcolor"][2].num/255.f;
+	textColors [tcs+0] = manager->theme->element[element].params["textcolor"][0].num / 255.f;
+	textColors [tcs+1] = manager->theme->element[element].params["textcolor"][1].num / 255.f;
+	textColors [tcs+2] = manager->theme->element[element].params["textcolor"][2].num / 255.f;
 
 	/* Text Offset */
 
-	textOffsets[tos+0] = floor (manager->theme->element[element].params["textoffset"][0].num);
-	textOffsets[tos+1] = floor (manager->theme->element[element].params["textoffset"][1].num);
+	//textOffsets[tos+0] = floor (manager->theme->element[element].params["textoffset"][0].num);
+	//textOffsets[tos+1] = floor (manager->theme->element[element].params["textoffset"][1].num);
 
 }
 
 /**
  *
  */
-
+#include <iostream>
 void UIButton::precompute() {
 
 	/* Leave */
@@ -93,5 +93,8 @@ void UIButton::precompute() {
 
 	if (drawAlign == Align::Left || drawAlign == Align::Right)
 		width += iWidths[0];
+
+	//puts (":)");
+	std::cout << iWidths [2] << std::endl;
 
 }

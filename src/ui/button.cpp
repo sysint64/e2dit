@@ -33,7 +33,9 @@ void UIButton::render (int x, int y) {
 
 	UIElement::render (x, y);
 
-	//if (!enabled || (parent != 0 && !parent->enabled))
+	left = 0; top = 0;
+
+	//if (!enabled || (parent != nullptr && !parent->enabled))
 	//	glUniform1f (manager->atlasShader->locations["Alpha"], manager->disabledAlpha);
 
 	/* Tables Indices */
@@ -43,6 +45,7 @@ void UIButton::render (int x, int y) {
 	if (click) { n = 6; tn = 2; to = 4; }
 
 	if (!withoutSkin) renderSkin();
+
 	if ( withoutSkin && !enter && !click)
 		glUniform1f (manager->atlasShader->locations["Alpha"], manager->disabledAlpha);
 
@@ -160,7 +163,7 @@ void UIButton::render (int x, int y) {
 void UIButton::renderSkin() {
 
 	/* Tables Indices */
-
+	width = 100;
 	int n  = 0; int tn = 0; int to = 0;
 
 	if (enter) { n = 3; tn = 1; to = 2; }

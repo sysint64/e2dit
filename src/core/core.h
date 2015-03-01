@@ -33,6 +33,8 @@
 #include "renderer/shader.h"
 #include "renderer/texture.h"
 
+#include "boost/assign/std/vector.hpp"
+
 class Application;
 class Core {
 public:

@@ -64,7 +64,7 @@ public:
 	UIElement *parent;
 	UIManager *manager;
 
-	Align drawAlign;
+	Align drawAlign = Align::All;
 
 	/* Functors */
 
@@ -108,7 +108,7 @@ public:
 	virtual void resized     (int width, int height) {}
 	virtual void keyPressed  (int key);
 	virtual void textEntered (int key) {}
-	virtual void progress() {}
+	virtual void progress    () {}
 
 };
 

@@ -49,11 +49,11 @@ public:
 
 	/* OpenGL */
 
-	bool VAOEXT   = false;
+	bool VAOEXT   = true;
 	int  OGLMajor = 3;
 	int  OGLMinor = 3;
 
-	Camera *screenCamera;
+	std::unique_ptr<Camera> screenCamera;
 
 	/* Cursor */
 

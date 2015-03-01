@@ -33,7 +33,7 @@ void BaseObject::render() {
 
 	/* If matrices was change, then update it */
 
-	if (needUpdate)
+	//if (needUpdate)
 		updateModelMatrix();
 
 	/* Render Data */
@@ -60,7 +60,7 @@ glm::vec2 BaseObject::worldToScreen() const {
  * @return Screen Position
  */
 
-glm::vec2 BaseObject::worldToScreen (const glm::vec2 &screenPos) const {
+glm::vec2 BaseObject::worldToScreen (const glm::vec2 screenPos) const {
 
 	return screenPos-camera->position;
 
@@ -75,8 +75,8 @@ void BaseObject::setRotation (const float ang) {
 
 	/* Check current Angle */
 
-	if (feq<float>(ang, rotation))
-		return;
+	//if (feq<float>(ang, rotation))
+	//	return;
 
 	/* If angles is difference, then update Angle
 	   and need update matrices */
@@ -91,12 +91,12 @@ void BaseObject::setRotation (const float ang) {
  * @param pos new Position
  */
 
-void BaseObject::setPosition (const glm::vec2 &pos) {
+void BaseObject::setPosition (const glm::vec2 pos) {
 
 	/* Check current Position */
 
-	if (feq<float>(pos.x, position.x) && feq<float>(pos.y, position.y))
-		return;
+	//if (feq<float>(pos.x, position.x) && feq<float>(pos.y, position.y))
+	//	return;
 
 	/* If positions is difference, then update Position
 	   and need update matrices */
@@ -111,12 +111,12 @@ void BaseObject::setPosition (const glm::vec2 &pos) {
  * @param scl new Scale
  */
 
-void BaseObject::setScale (const glm::vec2 &scl) {
+void BaseObject::setScale (const glm::vec2 scl) {
 
 	/* Check current Scale */
 
-	if (feq<float>(scl.x, scale.x) || feq<float>(scl.y, scale.y))
-		return;
+	//if (feq<float>(scl.x, scale.x) || feq<float>(scl.y, scale.y))
+	//	return;
 
 	/* If Scales is difference, then update Scale
 	   and need update matrices */
@@ -141,7 +141,7 @@ void BaseObject::updateModelMatrix() {
 	/* Calculate new matrices */
 
 	modelMatrix  = mt*mr*ms;
-	MVPMatrix    = modelMatrix;
+	//MVPMatrix    = modelMatrix;
 	MVPMatrix    = camera->MVPMatrix*modelMatrix;
 
 	/* Matrices is updated */

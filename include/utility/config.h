@@ -31,7 +31,14 @@
 #define OGL_MAJOR 3
 #define OGL_MINOR 3
 
-#define Uint16 unsigned short
-#define BYTE   unsigned char
+typedef int Uint16;
+typedef char BYTE;
+
+//#define GLEW_STATIC
+#define GLM_FORCE_RADIANS
+//#define GLM_SWIZZLE
+//#define GLM_FORCE_AVX for x86_64
+//#define GLM_FORCE_INLINE
+//#define GLM_FORCE_PURE
 
 #endif

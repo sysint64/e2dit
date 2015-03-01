@@ -231,7 +231,7 @@ void DataRender::render() {
 	/* Render */
 
 	bind();
-	render();
+	renderVBO();
 
 }
 

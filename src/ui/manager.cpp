@@ -143,9 +143,6 @@ void UIManager::render() {
 
 	atlasShader->bind();
 
-	glActiveTexture (GL_TEXTURE3);
-	glBindTexture   (GL_TEXTURE_2D, theme->skin->handle);
-
 	glActiveTexture (GL_TEXTURE2);
 	glBindTexture   (GL_TEXTURE_2D, theme->skin->handle);
 
@@ -160,26 +157,27 @@ void UIManager::render() {
 
 	for (int i = 0; i < elements.size(); i++) {
 
-		std::shared_ptr<UIElement> el = elements[i];
+		UIElement *el = elements[i].get();
 		el->progress();
 
 		/* Render UI Elements */
 
 		if (el->visible) {
-			//
+			
 			el->render (el->left, el->top);
+
 		}
 	}
 
 	/* Render Elements in Stack TODO: to come up with something else */
 
-	for (auto item : drawStack) {
+	/*for (auto item : drawStack) {
 
 		item->render (item->left, item->top);
 
 	}
 
-	drawStack.clear();
+	drawStack.clear();*/
 	atlasShader->unbind();
 
 	if (dialogOpened || freezUI)
@@ -187,7 +185,7 @@ void UIManager::render() {
 
 	/* */
 
-	for (const auto &kvp : elements) {
+	/*for (const auto &kvp : elements) {
 
 		std::shared_ptr<UIElement> el = kvp.second;
 
@@ -217,7 +215,7 @@ void UIManager::render() {
 		if (app->mouseButton == mouseLeft) el->click = true;
 		else el->click = false;
 
-	}
+	}*/
 
 }
 

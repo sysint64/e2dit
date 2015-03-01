@@ -216,8 +216,10 @@ void Shader::load (const char *fileName) {
 
 	/* End File, close */
 
-	fp[fi] = '\0'; vp[vi] = '\0';
+	fp[fi-1] = '\0'; vp[vi-1] = '\0';
 	fclose (in);
+
+	puts (vp);
 
 	/* Create Shader */
 
@@ -244,13 +246,15 @@ void Shader::load (const char *fileName) {
 
 	/* Link shaders */
 
-	glAttachShader (program, fs); /**/ programStatus (program, GL_LINK_STATUS);
 	glAttachShader (program, vs); /**/ programStatus (program, GL_LINK_STATUS);
+	glAttachShader (program, fs); /**/ programStatus (program, GL_LINK_STATUS);
 
 	/* Validate program */
 
 	glValidateProgram (program);
 	programStatus     (program, GL_VALIDATE_STATUS);
+
+	glLinkProgram     (program);
 
 }
 
@@ -272,6 +276,7 @@ Shader::Shader (const char *fileName) {
  * @param vloc: Shader Location Names
  */
 
+#include <iostream>
 Shader::Shader (const char *fileName, std::vector<std::string> vlocs) {
 
 	load (fileName);

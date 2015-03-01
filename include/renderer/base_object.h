@@ -24,6 +24,7 @@
 #include "camera.h"
 #include "shader.h"
 #include "utility/math.h"
+#include "utility/config.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -44,7 +45,7 @@ public:
 	bool        needUpdate  = true;
 	bool        visible     = true;
 
-	float       rotation;
+	float       rotation = 0;
 	glm::vec2   position;
 	glm::vec2   scale;
 
@@ -52,16 +53,16 @@ public:
 	virtual ~BaseObject() {}
 
 	BaseObject (DataRender *data, Camera *camera)
-		: data(data), camera (camera) {};
+		: data (data), camera (camera) {};
 
 	glm::vec2 worldToScreen () const;
-	glm::vec2 worldToScreen (const glm::vec2 &screenPos) const;
+	glm::vec2 worldToScreen (const glm::vec2 screenPos) const;
 
 	void updateModelMatrix();
 
 	void setRotation (const float ang);
-	void setPosition (const glm::vec2 &pos);
-	void setScale    (const glm::vec2 &scl);
+	void setPosition (const glm::vec2 pos);
+	void setScale    (const glm::vec2 scl);
 
 };
 

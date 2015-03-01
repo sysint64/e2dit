@@ -73,11 +73,11 @@ void Camera::updateMatrices() {
 
 	/* If Zoom greater then normal */
 
-	if (zoom > 1.f) {
+	/*if (zoom > 1.f) {
 
 		/* Added scale matrix ti MVP */
 
-		glm::mat4 sm = glm::scale  (glm::mat4 (1.0f), glm::vec3 (zoom, zoom, 1.0f));
+	/*	glm::mat4 sm = glm::scale  (glm::mat4 (1.0f), glm::vec3 (zoom, zoom, 1.0f));
 		MVPMatrix    = projectionMatrix*sm*viewMatrix; // Result Matrix
 
 	} else {
@@ -86,7 +86,7 @@ void Camera::updateMatrices() {
 
 		MVPMatrix    = projectionMatrix*viewMatrix;    // Result Matrix
 
-	}
+	//}
 
 }
 
@@ -98,7 +98,7 @@ void Camera::update() {
 
 	/* If matrices was changes, then update it */
 
-	if (needUpdate)
+	//if (needUpdate)
 		updateMatrices();
 
 }
