@@ -31,10 +31,12 @@ Core::Core() {
 	ftglSetFontCharMap  (font, ft_encoding_unicode);
 	
 	skin    = std::make_shared<Texture> ("res/ui/dark/controls.png");
-	uiTheme = std::make_shared<UITheme> ("res/ui/dark/controls.e2t", ReadType::Text, skin.get(), font);
+	//uiTheme = std::make_shared<UITheme> ("res/ui/dark/controls.e2t", ReadType::Text, skin.get(), font);
+	uiTheme = std::make_shared<UITheme> ("controls.e2t", ReadType::Text, skin.get(), font);
 	//DataMap test ("controls.e2t", ReadType::Text);
 
-	std::cout << uiTheme->element["general"].params["font"][0].str << std::endl;
+	//std::cout << uiTheme->element["general"].params["font"][0].str << std::endl;
+	std::cout << std::endl << uiTheme->element["scrollhorizontal"].params["left"][3].num << std::endl;
 
 }
 

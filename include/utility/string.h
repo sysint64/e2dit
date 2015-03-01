@@ -116,7 +116,7 @@ inline std::string wstr2str (std::wstring ws) {
  * @retinr ws: std::wstring
  */
 
-inline std::wstring str2str (const std::string &s) {
+inline std::wstring str2wstr (const std::string &s) {
 	
 	std::wstring ws (s.size(), L' ');
 	ws.resize (mbstowcs (&ws[0], s.c_str(), s.size()));

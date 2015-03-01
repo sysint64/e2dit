@@ -56,42 +56,93 @@ void DataMap::parseElement() {
 
 	std::string Name = idStr;
 	std::string Type = "";
-	//
+	
 	bytecode.push_back (op_elem);
 	bytecode.push_back (Name.size());
-	//
+	
 	for (int i = 0; i < Name.size(); i++)
 		bytecode.push_back(Name[i]);
-	//
-	//
-	lexNextToken();
+	
+	lexNextToken (false);
 
 	if (curToken == '(') {
+
 		lexNextToken();
 		Type = idStr;
 
 		bytecode.push_back (op_type);
 		bytecode.push_back (Type.size());
-		//
+		
 		for (int i = 0; i < Type.size(); i++)
 			bytecode.push_back(Type[i]);
 
 		lexNextToken();
-		//
+		
 		if (curToken != ')') {
 			
 			app->log.ewrite ("%s:%d:%d: Parse error", fileName.c_str(), lineno, posno);
 
 		}
 
-		lexNextToken();
+		lexNextToken (false);
+
 	}
 
-	if (curToken != ':') {
+	/*while (curToken == tok_tab) {
+
+		lastTabs++;
+		lexNextToken (false);
+
+	}*/
+	//parents.push_back (Name);
+
+	std::vector<DataVal> params;
+
+	if (lastTabs == 0) {
+		
+		params.push_back ({0, "Root", L"", true});
+		element[Name].params["parent"] = params;
+
+	} else {
+
+		params.push_back ({0, parents[lastTabs-1], L"", true});
+		element[Name].params["parent"] = params;
+
+	}
+
+	if (merge) {
+
+		merge = false;
+		Name = parents[lastTabs-1]+Name;
+		//std::string main = Name;
+		//Name = "";
+
+		//for (int i = 0; i < lastTabs; i++) {
+
+		//Name += parents[i];
+			//puts (parents[i].c_str());
+
+		//}
+
+		//Name += main;
+	}
+
+	puts (Name.c_str());
+	parents[lastTabs] = Name;
+
+	/*for (auto t : parents) {
+
+		std::cout << t << std::endl;
+
+	}*/
+	//if ()
+
+	//std::cout << (int) curToken << idStr << std::endl;
+	/*if (curToken != ':') {
 
 		app->log.ewrite ("%s:%d:%d: Parse error", fileName.c_str(), lineno, posno);
 
-	}
+	}*/
 
 	//
 	/*if (FillType == Vector) {
@@ -123,7 +174,7 @@ void DataMap::parseElement() {
 	}*/
 
 	bytecode.push_back (op_end);
-	std::cout << (int) curToken << idStr << std::endl;
+	//std::cout << (int) curToken << idStr << std::endl;
 	//lexNextToken();
 
 }
@@ -162,6 +213,37 @@ void DataMap::parseFuncs (std::string name) {
 
 void DataMap::parseFunc (std::string name) {
 
+	if (lastTabs == 0) {
+		tabSize = 0;
+
+		while (curToken == tok_tab) {
+
+			tabSize++;
+			lexNextToken (false);
+
+		}
+
+	} else {
+
+		tabSize = lastTabs+1;
+		lastTabs = 0;
+		//std::cout << tabSize << std::endl;
+
+	}
+
+	//std::cout << tabSize << std::endl;
+
+	merge = false;
+
+	if (curToken == '&') {
+
+		if (tabSize == 0) tabSize = 1;
+		merge = true;
+		lexNextToken();
+		std::cout << tabSize << std::endl;
+
+	}
+
 	std::string funcName = idStr;
 
 	bytecode.push_back (op_def);
@@ -172,17 +254,16 @@ void DataMap::parseFunc (std::string name) {
 
 	lexNextToken();
 
-	//if (curToken != tok_number && curToken != tok_string) {
-	if (curToken == ':') {
+	/*while (curToken == tok_tab)
+		lexNextToken(false);*/
 
-		/*app->log.ewrite ("%s:%d:%d: Parse error except ':'", fileName.c_str(), lineno, posno);
-		//Terminate(EXIT_FAILURE);
-		//
-		lexNextToken();*/
+	if (curToken != ':') {
+
+		//if (tabSize-lastTabs)
+		//std::cout << tabSize << std::endl;
 		lexPrevToken();
 		end = true;
-		//if (curToken != tok_id)
-		//	app->log.ewrite ("%s:%d:%d: Parse error except element name", fileName.c_str(), lineno, posno);
+		lastTabs = tabSize;
 
 		return;
 
@@ -192,36 +273,24 @@ void DataMap::parseFunc (std::string name) {
 	std::vector<DataVal> params = parseParams (funcName);
 
 	if (curToken == ';') lexNextToken();
-	/*if (curToken != ';') {
-		
-		app->log.write ("%s:%d:%d: Parse error", fileName.c_str(), lineno, posno);
-		//Terminate(EXIT_FAILURE);
-		
-		lexNextToken();
-
-	}*/
 
 	bytecode.push_back (op_end);
-	//lexNextToken();
-	
-	// Fill
 
-	//if (FillType == Map) {
+	// Fill
+	//tabSize = 0;
+	if (tabSize == 0) {
+		
 		element[name].params[funcName] = params;
 		element[name].def = true;
-		std::cout << funcName << std::endl;
-	//}  else {
-		//
-	/*	for (int i = 0; i < DataStack.size(); i++) {
-			//
-			if (DataStack[i].Name == Name) {
-				DataStack[i].Func[FuncName] = Params;
-				return;
-			}
-		}
-		//
-	}*/
 
+	} else {
+		
+		element[parents[tabSize-1]].params[funcName] = params;
+		element[parents[tabSize-1]].def = true;
+
+	}
+
+	std::cout << funcName << std::endl;
 }
 
 /**
@@ -242,7 +311,7 @@ void DataMap::parseInclude() {
 	if (curToken != tok_string) {
 		
 		app->log.ewrite ("%s:%d:%d: Parse error except string", fileName.c_str(), lineno, posno);
-		//Terminate(EXIT_FAILURE);
+
 	}
 
 	std::string FN = idStr;
@@ -255,7 +324,6 @@ void DataMap::parseInclude() {
 	if (curToken != ';') {
 
 		app->log.ewrite ("%s:%d:%d: Parse error except ';'", fileName.c_str(), lineno, posno);
-		//Terminate(EXIT_FAILURE);
 	}
 
 	std::string LastFN = fileName;
@@ -275,7 +343,7 @@ void DataMap::parseInclude() {
 	lexToken();
 
 	parse();
-	//
+	
 	posno  = lastPos;
 	lineno = lastLine;
 
@@ -305,7 +373,7 @@ std::vector<DataMap::DataVal> DataMap::parseParams (std::string Name) {
 			break;
 		}
 		
-		lexNextToken();
+		lexNextToken (false);
 	}
 	
 	return params;
@@ -347,7 +415,7 @@ DataMap::DataVal DataMap::parseParam() {
 		bytecode.push_back (numByte.bytes[3]);
 	}
 	
-	lexNextToken();
+	lexNextToken (false);
 	return val;
 
 }

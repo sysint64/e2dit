@@ -52,6 +52,8 @@ char DataMap::lexChar() {
 
 		fread (&buf, sizeof(char), 1, inFile);
 		offsetStack[offsetStack.size()-1]++;
+		//tabSize = 0;
+		//puts("R");
 
 		/* Skip \n */
 		
@@ -61,6 +63,8 @@ char DataMap::lexChar() {
 
 			lineno++;
 			posno = 1;
+			//tabSize = 0;
+			//puts("N");
 
 		}
 
@@ -71,6 +75,8 @@ char DataMap::lexChar() {
 
 		lineno++;
 		posno = 1;
+		//tabSize = 0;
+		//puts("N");
 
 	}
 
@@ -108,7 +114,7 @@ void DataMap::lexReopenFile (const char *fileName) {
  * Get next token
  */
 
-char DataMap::lexNextToken() {
+char DataMap::lexNextToken (const bool skipTab) {
 
 	if (nts < tokenStack.size()) {
 
@@ -119,7 +125,7 @@ char DataMap::lexNextToken() {
 
 	} else {
 
-		int tok = lexToken();
+		int tok = lexToken (skipTab);
 		curToken = tok;
 		lexPushToken(); // push to stack
 		nts = tokenStack.size();
@@ -134,10 +140,17 @@ char DataMap::lexNextToken() {
  * Get prev token
  */
 
-char DataMap::lexPrevToken() {
+char DataMap::lexPrevToken (const bool skipTab) {
+
 
 	nts--;
 	lexPopToken();
+
+	if (skipTab)
+	while (tokenStack[nts-1].token == tok_tab) {
+		nts--;
+		lexPopToken();
+	}
 	
 	return tokenStack[nts-1].token;
 
@@ -174,12 +187,21 @@ void DataMap::lexPopToken() {
  * @return next token from stream
  */
 
-char DataMap::lexToken() {
+char DataMap::lexToken (const bool skipTab) {
 
 	/* Skip spaces */
 
-	while (isspace (lastChar))
+	while (isspace (lastChar) && (lastChar != '\t' || skipTab))
 		lastChar = lexChar();
+
+	/* Tab Token */
+
+	if (!skipTab && lastChar == '\t') {
+
+		lastChar = lexChar();
+		return tok_tab;
+
+	}
 
 	/* if end of file, return tok_eof */
 

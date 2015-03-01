@@ -69,6 +69,7 @@ private:
 	int			 lastChar = ' ';
 	int			 posno, lineno; // Line & Pos
 	bool		 end = false;
+	bool		 merge = false;
 
 	/* Data */
 
@@ -90,13 +91,23 @@ private:
 
 	std::vector<tok> tokenStack;
 	int				 nts = 0;
+	int				 lastTabs = 0;
+	int				 tabSize  = 0;
+
+	/**/
+
+	//std::vector<std::string> names;
+	//std::vector<std::string> parents;
+
+	std::string names  [32];
+	std::string parents[32];
 
 	/* Lexer */
 
 	char lexChar();
-	char lexToken();
-	char lexNextToken();
-	char lexPrevToken();
+	char lexToken     (const bool skipTab = true);
+	char lexNextToken (const bool skipTab = true);
+	char lexPrevToken (const bool skipTab = true);
 	char lexStrLen();
 	void lexOpenFile   (const char *fileName);
 	void lexReopenFile (const char *fileName);
@@ -133,10 +144,10 @@ public:
 
 	enum Token {
 
-		tok_eof = -1,
+		tok_eof = -1, tok_tab = -2,
 		
-		tok_id = -2, tok_number = -3, tok_string = -4,
-		tok_begin = -5, tok_end = -6, tok_include = -7
+		tok_id = -3, tok_number = -4, tok_string = -5,
+		tok_begin = -6, tok_end = -7, tok_include = -8
 
 	};
 
