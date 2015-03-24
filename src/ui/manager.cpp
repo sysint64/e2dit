@@ -38,13 +38,14 @@ UIManager::UIManager (Shader *atlasShader, Shader *colorShader, UITheme *theme) 
  * @param el: new UI Element
  */
 
-void UIManager::addElement (std::shared_ptr<UIElement> el) {
+void UIManager::addElement (std::unique_ptr<UIElement> el) {
 
 	//el->manager = this;
-	el->id = lastId;
+	/*el->id = lastId;
 	elements[lastId] = el;
 
-	lastId++;
+	lastId++;*/
+	root->addElement (std::move(el));
 
 }
 
@@ -57,7 +58,8 @@ void UIManager::deleteElement (std::shared_ptr<UIElement> el) {
 
 	//elements[el->id] = nullptr;
 	//delete el;
-	elements.erase (el->id);
+	//elements.erase (el->id);
+	//root->addElement (el);
 
 }
 
@@ -153,6 +155,32 @@ void UIManager::render() {
 	glUniform1i (atlasShader->locations["Texture"], themeTexID);
 	glUniform1f (atlasShader->locations["Alpha"  ], 1.0f);
 
+	cursor = CursorIco::Normal;
+
+	/* Render Root */
+
+	root->render();
+	root->poll();
+
+	atlasShader->unbind();
+	app->cursor->set (cursor);
+
+	return;
+
+	/* Bind Theme Skin */
+
+	atlasShader->bind();
+
+	glActiveTexture (GL_TEXTURE2);
+	glBindTexture   (GL_TEXTURE_2D, theme->skin->handle);
+
+	/* Bind UI VBO Data Render */
+
+	uiDataRender->bind();
+
+	glUniform1i (atlasShader->locations["Texture"], themeTexID);
+	glUniform1f (atlasShader->locations["Alpha"  ], 1.0f);
+
 	/* Progress Event */
 
 	for (int i = 0; i < elements.size(); i++) {
@@ -164,7 +192,7 @@ void UIManager::render() {
 
 		if (el->visible) {
 			
-			el->render (el->left, el->top);
+			//el->render (el->left, el->top);
 
 		}
 	}
@@ -179,17 +207,28 @@ void UIManager::render() {
 
 	drawStack.clear();*/
 	atlasShader->unbind();
+	cursor = CursorIco::Normal;
 
 	if (dialogOpened || freezUI)
 		return;
 
-	/* */
+	/* State */
 
-	/*for (const auto &kvp : elements) {
+	for (const auto &kvp : elements) {
 
 		std::shared_ptr<UIElement> el = kvp.second;
+		bool click = false;
+
+		if (el == nullptr)
+			continue;
 
 		if (!el->visible) continue;
+		if (app->mouseButton == mouseLeft && !el->wasClick) {
+
+			//el->wasClick = true;
+			click = true;
+
+		}
 
 		if (!pointInRect (app->mouseX, app->mouseY, el->left,
 						  el->top, el->width, el->height))
@@ -202,7 +241,7 @@ void UIManager::render() {
 
 		}
 
-		if (!el->enabled || (el->parent != 0 && !el->parent->enabled)) {
+		if (!el->enabled) {
 
 			el->enter = false;
 			el->click = false;
@@ -211,11 +250,22 @@ void UIManager::render() {
 		}
 
 		el->enter = true;
+		cursor = el->cursor;
 		
-		if (app->mouseButton == mouseLeft) el->click = true;
-		else el->click = false;
+		if (click) {
+			
+			el->click = true;
+			el->focus();
 
-	}*/
+		} else {
+			
+			el->click = false;
+
+		}
+
+	}
+
+	app->cursor->set (cursor);
 
 }
 
@@ -272,6 +322,7 @@ void UIManager::mouseUp (int x, int y, int button) {
 	for (const auto &kvp : elements) {
 
 		kvp.second->mouseUp (x, y, button);
+		kvp.second->wasClick = false;
 
 	}
 

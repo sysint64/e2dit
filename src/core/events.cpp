@@ -42,10 +42,14 @@ void Core::onMouseDown (int x, int y, int button) {
 
 	app->clickX = x;
 	app->clickY = y;
+	app->mouseButton = button;
 
 }
 
 void Core::onMouseUp (int x, int y, int button) {
+
+	app->mouseButton = mouseNone;
+	uiManager->mouseUp (x, y, button);
 
 }
 

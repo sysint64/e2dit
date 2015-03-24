@@ -105,15 +105,5 @@ inline float deg2rad (float deg) {
 
 }
 
-/**
- *
- */
-
-inline bool pointInRect (int X, int Y, int Xe, int Ye, int W, int H) {
-
-	return ((X <= Xe+W) && (X >= Xe) &&
-			(Y <= Ye+H) && (Y >= Ye));
-
-}
 
 #endif

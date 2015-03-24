@@ -46,9 +46,19 @@ Core::Core() {
 	uiManager   = std::make_shared<UIManager> (atlasShader.get(), colorShader.get(), uiTheme.get());
 	uiManager->uiDataRender = new SpriteData (false, false, true);
 
-	button      = std::make_shared<UIButton>  (uiManager.get());
+	button      = std::make_unique<UIButton> (uiManager.get());
 	button->caption = L"Test";
-	uiManager->addElement (button);
+	button->left = 100;
+	button->top  = 100;
+	button->width = 200;
+	uiManager->addElement (std::move(button));
+
+	button      = std::make_unique<UIButton> (uiManager.get());
+	button->caption = L"Test";
+	button->left = 300;
+	button->top  = 100;
+	button->width = 200;
+	uiManager->addElement (std::move(button));
 
 	//uiTheme = std::make_shared<UITheme> ("controls.e2t", ReadType::Text, skin.get(), font);
 	//DataMap test ("controls.e2t", ReadType::Text);

@@ -29,11 +29,9 @@
  * @param y: Top  Position
  */
 
-void UIButton::render (int x, int y) {
+void UIButton::render () {
 
-	UIElement::render (x, y);
-
-	left = 0; top = 0;
+	UIElement::render();
 
 	//if (!enabled || (parent != nullptr && !parent->enabled))
 	//	glUniform1f (manager->atlasShader->locations["Alpha"], manager->disabledAlpha);
@@ -46,13 +44,13 @@ void UIButton::render (int x, int y) {
 
 	if (!withoutSkin) renderSkin();
 
-	if ( withoutSkin && !enter && !click)
-		glUniform1f (manager->atlasShader->locations["Alpha"], manager->disabledAlpha);
+	//if ( withoutSkin && !enter && !click)
+	//	glUniform1f (manager->atlasShader->locations["Alpha"], manager->disabledAlpha);
 
 	/* Convert UTF String to bytes sequence */
 
 	std::string text = wstr2str (caption);
-	int toffset;
+	int toffset = 0;
 
 	/* Show First Icon */
 
@@ -163,6 +161,7 @@ void UIButton::render (int x, int y) {
 void UIButton::renderSkin() {
 
 	/* Tables Indices */
+
 	width = 100;
 	int n  = 0; int tn = 0; int to = 0;
 
@@ -172,8 +171,12 @@ void UIButton::renderSkin() {
 	int cWidth = width-iWidths[n]-1;
 	int poffset = 0;
 
+	/* Some Fix for certain Draw Align */
+
 	if (drawAlign == Align::Left)   left   += iWidths[n]+iWidths[n+2];
 	if (drawAlign == Align::Center) cWidth -= iWidths[n]-iWidths[n]-iWidths[n+2]-iWidths[n+2];
+
+	/* Draw Left Element */
 
 	if (drawAlign == Align::Left || drawAlign == Align::All) {
 
@@ -187,6 +190,8 @@ void UIButton::renderSkin() {
 
 	}
 
+	/* Draw Middle Element */
+
 	glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(middleElement->MVPMatrix[0][0]));
 	glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+1], fHeights[n+1]);
 	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+1], offsetsY[n+1]);
@@ -197,6 +202,8 @@ void UIButton::renderSkin() {
 	middleElement->setPosition (glm::vec2 (left  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-top));
 	middleElement->setScale    (glm::vec2 (cWidth-iWidths[n+2]+poffset, iHeights[n+1]));
 	middleElement->render();
+
+	/* Draw Right Element */
 
 	if (drawAlign == Align::Right || drawAlign == Align::All) {
 
@@ -210,6 +217,52 @@ void UIButton::renderSkin() {
 
 	}
 
+	/* Draw Focused */
+
+	if (!focused)
+		return;
+
+	n = 9;
+
+	/* Draw Left Element */
+
+	if (drawAlign == Align::Left || drawAlign == Align::All) {
+
+		glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(leftElement->MVPMatrix[0][0]));
+		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n], fHeights [n]);
+		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
+		
+		leftElement->setPosition (glm::vec2 (left, app->windowHeight-iHeights[n]-top));
+		leftElement->setScale    (glm::vec2 (iWidths[n], iHeights[n]));
+		leftElement->render();
+
+	}
+
+	/* Draw Middle Element */
+
+	glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(middleElement->MVPMatrix[0][0]));
+	glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+1], fHeights[n+1]);
+	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+1], offsetsY[n+1]);
+
+	middleElement->setPosition (glm::vec2 (left  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-top));
+	middleElement->setScale    (glm::vec2 (cWidth-iWidths[n+2]+poffset, iHeights[n+1]));
+	middleElement->render();
+
+	/* Draw Right Element */
+
+	if (drawAlign == Align::Right || drawAlign == Align::All) {
+
+		glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(rightElement->MVPMatrix[0][0]));
+		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+2], fHeights[n+2]);
+		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+2], offsetsY[n+2]);
+		
+		rightElement->setPosition (glm::vec2 (left+cWidth , app->windowHeight-iHeights[n+2]-top));
+		rightElement->setScale    (glm::vec2 (iWidths[n+2], iHeights[n+2]));
+		rightElement->render();
+
+	}
+
+
 }
 
 /**
@@ -220,7 +273,7 @@ void UIButton::renderSkin() {
  * @param size: Count of Chars
  * @param offset: Offset Render
  */
-
+#include <iostream>
 void UIButton::renderText (Align align, std::string text, int size, int offset) {
 
 	/* Tables Indices */
@@ -290,5 +343,7 @@ void UIButton::renderText (Align align, std::string text, int size, int offset) 
 	ftglRenderFont  (manager->theme->font, text.c_str(), RENDER_ALL);
 
 	glEnd2D();
+
+	manager->atlasShader->bind();
 
 }

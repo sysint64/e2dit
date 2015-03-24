@@ -26,7 +26,10 @@
 #include "utility/config.h"
 #include "utility/application.h"
 #include "utility/string.h"
+#include "ui/cursor.h"
+
 #include <functional>
+#include <map>
 
 enum class Align {Left, Center, Right, All};
 class UIManager;
@@ -52,6 +55,7 @@ public:
 	bool focused = false;
 
 	bool withoutSkin = false;
+	bool wasClick    = false;
 
 	/* Mouse State */
 
@@ -61,8 +65,10 @@ public:
 
 	bool inDialog = false;
 
-	UIElement *parent;
-	UIManager *manager;
+	UIElement *parent  = nullptr;
+	UIManager *manager = nullptr;
+
+	CursorIco cursor = CursorIco::Hand;
 
 	Align drawAlign = Align::All;
 
@@ -74,6 +80,10 @@ public:
 	std::function<void(UIElement*, Uint16)>        onKeyPressed = nullptr;
 	std::function<void(UIElement*, int, int, int)> onMouseDown  = nullptr;
 	std::function<void(UIElement*, int, int, int)> onDblClick   = nullptr;
+
+	/* */
+
+	std::map<int, std::unique_ptr<UIElement>> elements;
 
 	/* Methods */
 
@@ -90,12 +100,20 @@ public:
 	void unfocus();
 
 	virtual void precompute() {}
-	virtual void render (int x, int y) {
+	virtual void render ();
 
-		left    = x; top    = y;
-		absLeft = x; absTop = y;
+	/* Manage Elements */
 
-	}
+	void addElement    (std::unique_ptr<UIElement> el);
+	void deleteElement (std::unique_ptr<UIElement> el);
+	void deleteElement (const int id);
+	
+	UIElement *getElement (const int id);
+	std::unique_ptr<UIElement> takeElement (const int id);
+
+	/* Manager Elements Events */
+
+	virtual void poll();
 
 	/* Events */
 

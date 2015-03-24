@@ -54,6 +54,7 @@ protected:
 	std::string leaveElement = "buttonleave";
 	std::string enterElement = "buttonenter";
 	std::string clickElement = "buttonclick";
+	std::string focusElement = "buttonfocus";
 
 	/* Render Objects */
 
@@ -75,18 +76,19 @@ protected:
 
 public:
 
-	std::wstring caption;
+	std::wstring caption = L"Test Button";
 	int  icoOffset;
 	bool noRenderText = false;
-	Align textAlign = Align::Left;
+	Align textAlign = Align::Center;
 
-	virtual void precompute()          override;
-	virtual void render (int x, int y) override;
+	virtual void precompute() override;
+	virtual void render()     override;
 
 	//using UIElement::UIElement;
 	UIButton (UIManager *manager) : UIElement (manager) {
 		
-		this->manager = manager; precompute();
+		this->manager = manager;
+		precompute();
 
 	}
 

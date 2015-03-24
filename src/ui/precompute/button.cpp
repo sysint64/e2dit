@@ -21,6 +21,7 @@
  */
 
 #include "ui/button.h"
+#include <iostream>
 
 /**
  *
@@ -55,15 +56,16 @@ void UIButton::precomputeText (const int n, std::string element) {
 
 	/* Text Offset */
 
-	//textOffsets[tos+0] = floor (manager->theme->element[element].params["textoffset"][0].num);
-	//textOffsets[tos+1] = floor (manager->theme->element[element].params["textoffset"][1].num);
+	textOffsets[tos+0] = floor (manager->theme->element[element].params["textoffset"][0].num);
+	textOffsets[tos+1] = floor (manager->theme->element[element].params["textoffset"][1].num);
 
+	std::cout << textOffsets[tos+0] << std::endl;
 }
 
 /**
  *
  */
-#include <iostream>
+
 void UIButton::precompute() {
 
 	/* Leave */
@@ -71,20 +73,29 @@ void UIButton::precompute() {
 	precomputeElement (0, leaveElement, "left");
 	precomputeElement (1, leaveElement, "center");
 	precomputeElement (2, leaveElement, "right");
-	precomputeText    (0, leaveElement);
 
 	/* Enter */
 
 	precomputeElement (3, enterElement, "left");
 	precomputeElement (4, enterElement, "center");
 	precomputeElement (5, enterElement, "right");
-	precomputeText    (1, enterElement);
 
 	/* Enter */
 
 	precomputeElement (6, clickElement, "left");
 	precomputeElement (7, clickElement, "center");
 	precomputeElement (8, clickElement, "right");
+
+	/* Focused */
+
+	precomputeElement (9 , focusElement, "left");
+	precomputeElement (10, focusElement, "center");
+	precomputeElement (11, focusElement, "right");
+
+	/* Text */
+
+	precomputeText    (0, leaveElement);
+	precomputeText    (1, enterElement);
 	precomputeText    (2, clickElement);
 
 	/* Calculate Size */
@@ -93,8 +104,5 @@ void UIButton::precompute() {
 
 	if (drawAlign == Align::Left || drawAlign == Align::Right)
 		width += iWidths[0];
-
-	//puts (":)");
-	std::cout << iWidths [2] << std::endl;
 
 }

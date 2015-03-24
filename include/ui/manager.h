@@ -27,13 +27,17 @@
 #include <glm/glm.hpp>
 #include "ui/element.h"
 #include "ui/theme.h"
+#include "ui/cursor.h"
+
 #include "renderer/shader.h"
 #include "renderer/texture.h"
 #include "renderer/data_render.h"
 #include "renderer/base_object.h"
+
 #include "utility/application.h"
 #include "utility/math.h"
 #include "utility/input.h"
+#include "utility/ui.h"
 
 #define ICONS_COUNT 11
 
@@ -63,10 +67,11 @@ struct {
 
 class UIManager {
 private:
-	int lastId = 0;
 	Application *app = Application::getInstance();
 
 public:
+
+	int lastId = 0;
 
 	/* UI State */
 	
@@ -81,7 +86,7 @@ public:
 	/* Render */
 
 	DataRender *uiDataRender;
-	static const int   themeTexID = 2;
+	static const int themeTexID = 2;
 	float disabledAlpha = 0.65f;
 
 	/* */
@@ -91,12 +96,16 @@ public:
 	std::vector<UIElement*>   drawStack;
 	std::vector<UIElement*>   unfocusedElements;
 
+	std::unique_ptr<UIElement> root = std::make_unique<UIElement> (this);
+
 	/* */
 
-	UIElement *focusedElement;
+	UIElement *focusedElement = nullptr;
 	Shader    *atlasShader;
 	Shader    *colorShader;
 	UITheme	  *theme;
+
+	CursorIco cursor = CursorIco::Normal;
 
 	UIManager (Shader *atlasShader, Shader *colorShader, UITheme *theme);
 
@@ -104,7 +113,7 @@ public:
 
 	/* Manager */
 
-	void addElement    (std::shared_ptr<UIElement> el);
+	void addElement    (std::unique_ptr<UIElement> el);
 	void deleteElement (std::shared_ptr<UIElement> el);
 	void deleteElement (const int  id);
 

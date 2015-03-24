@@ -50,7 +50,7 @@ public:
 	std::shared_ptr<Shader>    atlasShader;
 	std::shared_ptr<Shader>    colorShader;
 
-	std::shared_ptr<UIButton>  button;
+	std::unique_ptr<UIButton>  button;
 
 	/* Constructor */
 

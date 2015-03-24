@@ -76,6 +76,7 @@ int main (int argc,char** argv) {
 					   sf::Style::Default, settings);
 	
 	app->windowHandle = window.getSystemHandle();
+	app->cursor = std::make_unique<UICursor> (window.getSystemHandle());
 
 	window.setVerticalSyncEnabled(false);
 	window.setFramerateLimit(0);
@@ -131,8 +132,7 @@ int main (int argc,char** argv) {
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glViewport (0, 0, app->screenWidth, app->screenHeight);
-
-	glClearColor (1.f, 0, 0, 0);
+	glClearColor (0, 0, 0, 0);
 
 	//exit(0);
 
@@ -149,6 +149,29 @@ int main (int argc,char** argv) {
 				/* Window */
 
 				case sf::Event::Closed	: running = false; break;
+				case sf::Event::Resized	: core->onResize (ev.size.width, ev.size.height); break;
+
+				/* Mouse */
+
+				case sf::Event::MouseMoved			: core->onMouseMove  (ev.mouseMove.x     , ev.mouseMove  .y);                        break;
+				case sf::Event::MouseWheelMoved		: core->onMouseWheel (ev.mouseWheel.delta, ev.mouseWheel .x, ev.mouseWheel.y);       break;
+				case sf::Event::MouseButtonPressed	: core->onMouseDown  (ev.mouseButton.x   , ev.mouseButton.y, ev.mouseButton.button); break;
+				case sf::Event::MouseButtonReleased	:
+
+					core->onMouseUp (ev.mouseButton.x, ev.mouseButton.y, ev.mouseButton.button);
+
+					if (dblClick)
+						core->onDblClick (ev.mouseButton.x, ev.mouseButton.y, ev.mouseButton.button);
+
+					dblClick = true;
+					break;
+
+				/* Keyboard */
+
+				case sf::Event::KeyPressed  : core->onKeyPressed  (ev.key.code);      break;
+				case sf::Event::TextEntered : core->onTextEntered (ev.text.unicode);  break;
+				case sf::Event::KeyReleased : core->onKeyReleased (ev.key.code);      break;
+ 
 
 				default : break;
 			}
@@ -159,7 +182,7 @@ int main (int argc,char** argv) {
 
 		/* Render */
 
-		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glClear (GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		core->render();
 		core->step();

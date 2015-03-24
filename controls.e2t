@@ -22,16 +22,6 @@ General
 	cameraColor					: 255, 255, 255
 	roomBorderColor				: 104, 104, 141
 
-	&test
-
-		text2 : "Hello World!"
-		text : "Hello World2!"
-
-		&test
-
-			text : "Hello World22!"
-
-
 /**
  * Panel
  */

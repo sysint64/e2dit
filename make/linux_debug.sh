@@ -6,7 +6,7 @@ boosl_libs="/home/int64/dev/boost/stage/lib/"
 stdcpp="-std=gnu++1y -stdlib=libc++"
 pathes="-I./src/ -I./include/ -I/usr/include/freetype2/ -L./build/libs/ -I$boost_include -L$boosl_libs"
 flags="-O0 $stdcpp -g -Wfatal-errors -D_linux_ -D_x86_64_"
-libs="-lGLEW -lGL -lGLU -lfreetype -lSOIL -ljpeg -lftgl -lsfml-graphics -lsfml-window -lsfml-system -lboost_system -lboost_filesystem
+libs="-lGLEW -lGL -lGLU -lfreetype -lSOIL -ljpeg -lftgl -lsfml-graphics-2-2 -lsfml-window-2-2 -lsfml-system-2-2 -lboost_system -lboost_filesystem
       -le2dit-ui -le2dit-gapi -le2dit-utility"
 out="./build/e2dit"
 
@@ -61,7 +61,7 @@ uipcpp="src/ui/precompute/element.cpp src/ui/precompute/image.cpp src/ui/precomp
         src/ui/precompute/label.cpp"
 
 uicpp="src/ui/manager.cpp src/ui/element.cpp src/ui/image.cpp src/ui/panel.cpp src/ui/button.cpp
-       src/ui/menus.cpp src/ui/edit.cpp src/ui/label.cpp src/ui/theme.cpp"
+       src/ui/menus.cpp src/ui/edit.cpp src/ui/label.cpp src/ui/theme.cpp src/ui/cursor.cpp"
 
 uilibs="-lftgl -lfreetype -lboost_system -lboost_filesystem -le2dit-gapi -le2dit-utility"
 uiout="./build/libs/libe2dit-ui.so"

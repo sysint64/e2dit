@@ -20,57 +20,20 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
+#ifndef E2DIT_UTILITY_UI_H
+#define E2DIT_UTILITY_UI_H
+
+#include "renderer/shader.h"
+
 /**
- * @file application.h
- * @brief handle application, main parameters and events
+ *
  */
 
-#ifndef E2DIT_SYSTEM_APPLICATION_H
-#define E2DIT_SYSTEM_APPLICATION_H
+inline bool pointInRect (int X, int Y, int Xe, int Ye, int W, int H) {
 
-#include <SFML/Window.hpp>
-#include "utility/logger.h"
-#include "utility/input.h"
-#include "renderer/camera.h"
-#include "ui/cursor.h"
-#include <string>
+	return ((X <= Xe+W) && (X >= Xe) &&
+			(Y <= Ye+H) && (Y >= Ye));
 
-class Application {
-public:
-
-	/* Window */
-
-	int screenWidth  = 0;
-	int screenHeight = 0;
-	int windowWidth  = 0;
-	int windowHeight = 0;
-	std::string exeDir;
-
-	sf::WindowHandle windowHandle;
-
-	/* OpenGL */
-
-	bool VAOEXT   = true;
-	int  OGLMajor = 3;
-	int  OGLMinor = 3;
-
-	std::unique_ptr<Camera>   screenCamera;
-	std::unique_ptr<UICursor> cursor;
-
-	/* Cursor */
-
-	int mouseX, mouseY;
-	int clickX, clickY;
-	int mouseButton = mouseNone;
-
-	/* Log */
-
-	Logger log;
-
-	/* */
-
-	static Application *getInstance();
-
-};
+}
 
 #endif
