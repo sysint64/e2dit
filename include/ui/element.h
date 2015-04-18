@@ -37,13 +37,26 @@ class UIElement {
 protected:
 	Application *app = Application::getInstance();
 
+public:
+
 	/* Icon */
 
-	int iconOffset[2];      bool showIcon      = false;
-	int icon2Offset[2];     bool showIcon2     = false;
-	int clickIconOffset[2]; bool showClickIcon = false;
+	int iconOffset     [2] = {-1, -1}; bool showIcon      = false;
+	int icon2Offset    [2] = {-1, -1}; bool showIcon2     = false;
+	int clickIconOffset[2] = {-1, -1}; bool showClickIcon = false;
 
-public:
+	/* Navigation (for focus) */
+
+	UIElement *next = nullptr;
+	UIElement *prev = nullptr;
+
+	UIElement *lastEl  = nullptr;
+	UIElement *firstEl = nullptr;
+	
+	/* */
+
+	bool isRoot = false;
+
 	int id;
 
 	int width  , height;
@@ -57,6 +70,8 @@ public:
 	bool withoutSkin = false;
 	bool wasClick    = false;
 
+	bool keyClick  = false;
+
 	/* Mouse State */
 
 	bool enter = false;
@@ -69,10 +84,9 @@ public:
 	UIManager *manager = nullptr;
 
 	CursorIco cursor = CursorIco::Hand;
+	Align drawAlign  = Align::All;
 
-	Align drawAlign = Align::All;
-
-	/* Functors */
+	/* Functors: Callback Events */
 
 	std::function<void(UIElement*)>                onClick      = nullptr;
 	std::function<void(UIElement*)>                onProgress   = nullptr;
@@ -81,7 +95,7 @@ public:
 	std::function<void(UIElement*, int, int, int)> onMouseDown  = nullptr;
 	std::function<void(UIElement*, int, int, int)> onDblClick   = nullptr;
 
-	/* */
+	/* Childrens */
 
 	std::map<int, std::unique_ptr<UIElement>> elements;
 
@@ -122,9 +136,9 @@ public:
 	virtual void mouseDown   (int x, int y, int button);
 	virtual void mouseMove   (int x, int y, int button) {}
 	virtual void mouseUp     (int x, int y, int button);
-	virtual void keyDown     (int key) {}
 	virtual void resized     (int width, int height) {}
 	virtual void keyPressed  (int key);
+	virtual void keyReleased (int key);
 	virtual void textEntered (int key) {}
 	virtual void progress    () {}
 

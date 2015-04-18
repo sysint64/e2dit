@@ -23,7 +23,64 @@
 #include "ui/manager.h"
 
 /**
- * Constructor
+ * Calculate Tex Coords for Icons
+ */ 
+
+template <int count>
+UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float sizeIcon) {
+		
+	this->sizeIcon = sizeIcon;
+	this->tex      = std::move (tex);
+	this->manager  = manager;
+
+	/* Calc Size in Tex Coord System */
+
+	width  = sizeIcon / this->tex->width;
+	height = sizeIcon / this->tex->height;
+
+	for (int i = 0; i < count; i++)
+		for (int j = 0; j < count; j++) {
+
+			/* Calc Offsets in Tex Coord System */
+
+			offsetsX[i][j] = (float)(9+i*sizeIcon+3*i) / this->tex->width;
+			offsetsY[i][j] = (float)(9+j*sizeIcon+3*j) / this->tex->height;
+
+		}
+
+}
+
+/**
+ * Render Icon
+ *
+ * @param  x: Left Position of Icon
+ * @param  y: Top  Position of Icon
+ * @param ox: Offset by X on Icons Table
+ * @param ox: Offset by Y on Icons Table
+ */
+
+template <int count>
+void UIIcons<count>::render (int x, int y, int ox, int oy, BaseObject *iconElement) {
+
+	glUniform1i        (manager->atlasShader->locations["Texture"], 2);
+	
+	glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(iconElement->MVPMatrix[0][0]));
+	glUniform2f        (manager->atlasShader->locations["Size"]  , width, height);
+	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[ox][oy],
+																   offsetsY[ox][oy]);
+	
+	iconElement->setPosition (glm::vec2 (x, y));
+	iconElement->setScale    (glm::vec2 (sizeIcon, sizeIcon));
+	iconElement->render();
+
+	glUniform1i (manager->atlasShader->locations["Texture"], manager->themeTexID);
+
+}
+
+template class UIIcons<ICONS_COUNT>;
+
+/**
+ * Constructor, Create Root Element and
  */
 
 UIManager::UIManager (Shader *atlasShader, Shader *colorShader, UITheme *theme) :
@@ -31,20 +88,20 @@ UIManager::UIManager (Shader *atlasShader, Shader *colorShader, UITheme *theme) 
 
 {
 
+	/* Create Root of Elements */
+
+	root = std::make_unique<UIElement> (this);
+	root->isRoot = true;
+
 }
 
 /**
- * Insert new UI Element and set unique id
+ * Insert new UI Element in Root
  * @param el: new UI Element
  */
 
 void UIManager::addElement (std::unique_ptr<UIElement> el) {
 
-	//el->manager = this;
-	/*el->id = lastId;
-	elements[lastId] = el;
-
-	lastId++;*/
 	root->addElement (std::move(el));
 
 }
@@ -54,12 +111,8 @@ void UIManager::addElement (std::unique_ptr<UIElement> el) {
  * @param el: UI Element
  */
 
-void UIManager::deleteElement (std::shared_ptr<UIElement> el) {
+void UIManager::deleteElement (std::unique_ptr<UIElement> el) {
 
-	//elements[el->id] = nullptr;
-	//delete el;
-	//elements.erase (el->id);
-	//root->addElement (el);
 
 }
 
@@ -70,12 +123,7 @@ void UIManager::deleteElement (std::shared_ptr<UIElement> el) {
 
 void UIManager::deleteElement (const int id) {
 
-	if (elements[id] == nullptr)
-		return;
 
-	elements.erase (id);
-	//delete elements[id];
-	//elements[id] = nullptr;
 
 }
 
@@ -145,8 +193,11 @@ void UIManager::render() {
 
 	atlasShader->bind();
 
-	glActiveTexture (GL_TEXTURE2);
+	glActiveTexture (GL_TEXTURE3);
 	glBindTexture   (GL_TEXTURE_2D, theme->skin->handle);
+
+	glActiveTexture (GL_TEXTURE2);
+	glBindTexture   (GL_TEXTURE_2D, icons->tex->handle);
 
 	/* Bind UI VBO Data Render */
 
@@ -165,168 +216,81 @@ void UIManager::render() {
 	atlasShader->unbind();
 	app->cursor->set (cursor);
 
-	return;
-
-	/* Bind Theme Skin */
-
-	atlasShader->bind();
-
-	glActiveTexture (GL_TEXTURE2);
-	glBindTexture   (GL_TEXTURE_2D, theme->skin->handle);
-
-	/* Bind UI VBO Data Render */
-
-	uiDataRender->bind();
-
-	glUniform1i (atlasShader->locations["Texture"], themeTexID);
-	glUniform1f (atlasShader->locations["Alpha"  ], 1.0f);
-
-	/* Progress Event */
-
-	for (int i = 0; i < elements.size(); i++) {
-
-		UIElement *el = elements[i].get();
-		el->progress();
-
-		/* Render UI Elements */
-
-		if (el->visible) {
-			
-			//el->render (el->left, el->top);
-
-		}
-	}
-
 	/* Render Elements in Stack TODO: to come up with something else */
 
 	/*for (auto item : drawStack) {
 
 		item->render (item->left, item->top);
 
-	}
+	}*/
 
-	drawStack.clear();*/
-	atlasShader->unbind();
-	cursor = CursorIco::Normal;
-
-	if (dialogOpened || freezUI)
-		return;
-
-	/* State */
-
-	for (const auto &kvp : elements) {
-
-		std::shared_ptr<UIElement> el = kvp.second;
-		bool click = false;
-
-		if (el == nullptr)
-			continue;
-
-		if (!el->visible) continue;
-		if (app->mouseButton == mouseLeft && !el->wasClick) {
-
-			//el->wasClick = true;
-			click = true;
-
-		}
-
-		if (!pointInRect (app->mouseX, app->mouseY, el->left,
-						  el->top, el->width, el->height))
-		{
-			
-			el->enter = false;
-			el->click = false;
-
-			continue;
-
-		}
-
-		if (!el->enabled) {
-
-			el->enter = false;
-			el->click = false;
-
-			continue;
-		}
-
-		el->enter = true;
-		cursor = el->cursor;
-		
-		if (click) {
-			
-			el->click = true;
-			el->focus();
-
-		} else {
-			
-			el->click = false;
-
-		}
-
-	}
-
-	app->cursor->set (cursor);
 
 }
 
 /* Events */
 
 /**
+ * On Mouse Move Event
  *
+ * @param x: Mouse X Coord
+ * @param y: Mouse Y Coord
+ * @param button: Mouse Button
  */
 
 void UIManager::mouseMove (int x, int y, int button) {
-	
-	for (const auto &kvp : elements) {
 
-		kvp.second->mouseMove (x, y, button);
-
-	}
+	root->mouseMove (x, y, button);
 	
 }
 
 /**
+ * On Mouse Down Event
  *
+ * @param x: Mouse X Coord
+ * @param y: Mouse Y Coord
+ * @param button: Mouse Button
  */
 
 void UIManager::mouseDown (int x, int y, int button) {
 	
-	for (const auto &kvp : elements) {
-
-		kvp.second->mouseDown (x, y, button);
-
-	}
+	root->mouseDown (x, y, button);
 	
 }
 
 /**
+ * On Mouse Double Click Event
  *
+ * @param x: Mouse X Coord
+ * @param y: Mouse Y Coord
+ * @param button: Mouse Button
  */
 
 void UIManager::dblClick (int x, int y, int button) {
 	
-	for (const auto &kvp : elements) {
-
-		kvp.second->dblClick (x, y, button);
-
-	}
+	root->dblClick (x, y, button);
 	
 }
 
 /**
+ * On Mouse Up Event
  *
+ * @param x: Mouse X Coord
+ * @param y: Mouse Y Coord
+ * @param button: Mouse Button
  */
 
 void UIManager::mouseUp (int x, int y, int button) {
+
+	unfocus();
+	root->mouseUp (x, y, button);
 	
-	for (const auto &kvp : elements) {
+}
 
-		kvp.second->mouseUp (x, y, button);
-		kvp.second->wasClick = false;
+/**
+ * Unfocus Elements in unfocusedElements
+ */
 
-	}
-
-	/* Unfocuse all Elements */
+void UIManager::unfocus() {
 
 	for (auto el : unfocusedElements) {
 
@@ -340,34 +304,76 @@ void UIManager::mouseUp (int x, int y, int button) {
 	}
 
 	unfocusedElements.clear();
-	
+
 }
 
 /**
- *
+ * On Key Pressed Events
+ * @param key: Code of Pressed key
  */
 
 void UIManager::keyPressed (int key) {
 
-	for (const auto &kvp : elements) {
+	if (focusedElement != nullptr) {
 
-		kvp.second->keyPressed (key);
+		if (pressed (keyShift) && pressed (keyTab) && focusedElement->prev != nullptr) {
+			
+			focusedElement->prev->focus();
+			unfocus();
+
+		} else
+
+		if (pressed (keyTab) && focusedElement->next != nullptr) {
+
+			focusedElement->next->focus();
+			unfocus();
+
+		}
+
+		if (pressed (keyEnter)) {
+
+			focusedElement->keyClick = true;
+
+		}
 
 	}
+
+	root->keyPressed (key);
 
 }
 
 /**
+ * On Key Released Events
+ * @param key: Code of Released key
+ */
+
+void UIManager::keyReleased (int key) {
+
+	root->keyReleased (key);
+
+}
+
+/**
+ * On Key Enered Events
+ * @param key: Code of Entered key
+ */
+
+void UIManager::textEntered (int key) {
+	
+	root->textEntered (key);
+
+}
+
+/**
+ * On Resized Event
  *
+ * @param width : New Screen Width
+ * @param height: New Screen Height
  */
 
 void UIManager::resized (int width, int height) {
 	
-	for (const auto &kvp : elements) {
-
-		kvp.second->resized (width, height);
-
-	}
+	root->resized (width, height);
 
 }
 

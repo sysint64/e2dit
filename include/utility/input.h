@@ -34,6 +34,7 @@
 
 /* Keyboard */
 
+#define keyUnknown			sf::Keyboard::Unknown
 #define keyBackspace		sf::Keyboard::BackSpace
 #define keyEnd				sf::Keyboard::End
 #define keyHome				sf::Keyboard::Home
@@ -46,17 +47,19 @@
 #define keyPageDown			sf::Keyboard::PageDown
 #define keyLAlt				sf::Keyboard::LAlt
 #define keyRAlt				sf::Keyboard::RAlt
+#define keyAlt				256
 #define keyLShift			sf::Keyboard::LShift
 #define keyRShift			sf::Keyboard::RShift
-#define keyShift			256
+#define keyShift			257
 #define keyLCtrl			sf::Keyboard::LControl
 #define keyRCtrl			sf::Keyboard::RControl
-#define keyCtrl				257
+#define keyCtrl				258
 #define keyEnter			sf::Keyboard::Return
 #define keyEscape			sf::Keyboard::Escape
 #define keyF2				sf::Keyboard::F2
 #define keyRSuper			sf::Keyboard::RSystem
 #define keyLSuper			sf::Keyboard::LSystem
+#define keyTab				sf::Keyboard::Tab
 
 /* Letters */
 
@@ -92,5 +95,15 @@
 #define keyAdd				sf::Keyboard::Add
 #define keySub				sf::Keyboard::Subtract
 //
+inline bool pressed (int key) {
+
+	if (key == keyShift) return sf::Keyboard::isKeyPressed (keyLShift) || sf::Keyboard::isKeyPressed (keyRShift);
+	if (key == keyCtrl)  return sf::Keyboard::isKeyPressed (keyLCtrl)  || sf::Keyboard::isKeyPressed (keyRCtrl);
+	if (key == keyAlt)   return sf::Keyboard::isKeyPressed (keyLAlt)   || sf::Keyboard::isKeyPressed (keyRAlt);
+
+	sf::Keyboard::Key skey = static_cast<sf::Keyboard::Key>(key);
+	return sf::Keyboard::isKeyPressed (skey);
+
+}
 
 #endif

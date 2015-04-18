@@ -84,25 +84,13 @@ void UIButton::render () {
 
 		if (io[0] >= 0 && io[1] >= 0) {
 
-			glActiveTexture (GL_TEXTURE2);
-			glBindTexture   (GL_TEXTURE_2D, manager->icons.tex->handle);
-			glUniform1i     (manager->atlasShader->locations["Texture"], 2);
-			//
-			glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(iconElement->MVPMatrix[0][0]));
-			glUniform2f        (manager->atlasShader->locations["Size"]  , manager->icons.width, manager->icons.height);
-			glUniform2f        (manager->atlasShader->locations["Offset"], manager->icons.offsetsX[io[0]][io[1]],
-																		   manager->icons.offsetsY[io[0]][io[1]]);
-			//
 			int iOffset = icoOffset;
 			
 			if (drawAlign == Align::Center) iOffset += iWidths[n]; else
 			if (drawAlign == Align::Right ) iOffset += iWidths[n];
 
-			iconElement->setPosition (glm::vec2 (left+2+iOffset, app->windowHeight-height+2-top));
-			iconElement->setScale    (glm::vec2 (manager->icons.sizeIcon, manager->icons.sizeIcon));
-			iconElement->render();
-
-			glUniform1i (manager->atlasShader->locations["Texture"], manager->themeTexID);
+			manager->icons->render (left+2+iOffset, app->windowHeight-height+2-top,
+								    io[0], io[1], iconElement.get());
 
 		}
 
@@ -116,26 +104,26 @@ void UIButton::render () {
 	if (showIcon2) {
 		
 		if (icon2Offset[0] >= 0 && icon2Offset[1] >= 0) {
-
-			glActiveTexture (GL_TEXTURE2);
-			glBindTexture   (GL_TEXTURE_2D, manager->icons.tex->handle);
-			glUniform1i     (manager->atlasShader->locations["Texture"], 2);
-			
-			glUniformMatrix4fv (manager->atlasShader->locations["MVP"], 1, GL_FALSE, &(iconElement2->MVPMatrix[0][0]));
-			glUniform2f        (manager->atlasShader->locations["Size"]  , manager->icons.width, manager->icons.height);
-			glUniform2f        (manager->atlasShader->locations["Offset"], manager->icons.offsetsX[icon2Offset[0]][icon2Offset[1]],
-																		   manager->icons.offsetsY[icon2Offset[0]][icon2Offset[1]]);
 			
 			int iOffset = 0;
 			
 			if (drawAlign == Align::Center) iOffset += iWidths[n]; else
 			if (drawAlign == Align::Right ) iOffset += iWidths[n];
 
-			iconElement2->setPosition (glm::vec2 (left+20+iOffset, app->windowHeight-height+2-top));
-			iconElement2->setScale    (glm::vec2 (manager->icons.sizeIcon, manager->icons.sizeIcon));
-			iconElement2->render();
+			manager->icons->render (left+20+iOffset, app->windowHeight-height+2-top,
+								    icon2Offset[0], icon2Offset[1], iconElement2.get());
+			/*glUniform1i        (manager->atlasShader->locations["Texture"], 2);
+			
+			glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(iconElement->MVPMatrix[0][0]));
+			glUniform2f        (manager->atlasShader->locations["Size"]  , manager->icons->width, manager->icons->height);
+			glUniform2f        (manager->atlasShader->locations["Offset"], manager->icons->offsetsX[ox][oy],
+																		   manager->icons->offsetsY[ox][oy]);
+			
+			iconElement->setPosition (glm::vec2 (x, y));
+			iconElement->setScale    (glm::vec2 (manager->icons->sizeIcon, manager->icons->sizeIcon));
+			iconElement->render();
 
-			glUniform1i (manager->atlasShader->locations["Texture"], manager->themeTexID);
+			glUniform1i (manager->atlasShader->locations["Texture"], manager->themeTexID);*/
 
 		}
 
@@ -273,7 +261,7 @@ void UIButton::renderSkin() {
  * @param size: Count of Chars
  * @param offset: Offset Render
  */
-#include <iostream>
+
 void UIButton::renderText (Align align, std::string text, int size, int offset) {
 
 	/* Tables Indices */

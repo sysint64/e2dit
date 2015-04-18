@@ -43,12 +43,12 @@ public:
 
 	/* UI */
 
-	std::shared_ptr<UIManager> uiManager;
-	std::shared_ptr<UITheme>   uiTheme;
-	std::shared_ptr<Texture>   skin;
+	std::unique_ptr<UIManager> uiManager;
+	std::unique_ptr<UITheme>   uiTheme;
+	std::unique_ptr<Texture>   skin;
 
-	std::shared_ptr<Shader>    atlasShader;
-	std::shared_ptr<Shader>    colorShader;
+	std::unique_ptr<Shader>    atlasShader;
+	std::unique_ptr<Shader>    colorShader;
 
 	std::unique_ptr<UIButton>  button;
 

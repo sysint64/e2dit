@@ -30,7 +30,7 @@
 void UIElement::dblClick (int x, int y, int button) {
 
 	if (!visible) return;
-	if (onMouseDown == nullptr || !enabled || ! enter)
+	if (onDblClick == nullptr || !enabled || ! enter) 
 		return;
 
 	onDblClick (this, x, y, button);
@@ -49,24 +49,52 @@ void UIElement::mouseDown (int x, int y, int button) {
 
 void UIElement::mouseUp (int x, int y, int button) {
 
-	if (!enabled || !enter)
+	if (!enabled/* || !enter*/)
 		return;
 
 	click = false;
-	enter = false;
 
-	if (onClick != nullptr)
+	if (enter && onClick != nullptr)
 		onClick (this);
+
+	/* */
+
+	for (const auto &kvp : elements) {
+
+		kvp.second->mouseUp (x, y, button);
+
+	}
 
 }
 
 void UIElement::keyPressed (int key) {
 
 	if (!visible) return;
-	if (onKeyPressed == nullptr || !enabled)
+	//if (onKeyPressed == nullptr || !enabled)
+		//return
 	
-	onKeyPressed (this, key);
+	//onKeyPressed (this, key);
+
+	/* Poll Event in child elements */
+
+	for (const auto &kvp : elements) {
+
+		kvp.second->keyPressed (key);
+
+	}
 	
+}
+
+void UIElement::keyReleased (int key) {
+	
+	keyClick = false;
+
+	for (const auto &kvp : elements) {
+
+		kvp.second->keyReleased (key);
+
+	}
+
 }
 
 void UIElement::focus() {
@@ -74,11 +102,8 @@ void UIElement::focus() {
 	if (manager->dialogOpened && !inDialog)
 		return;
 
-	if (manager->focusedElement != this && manager->focusedElement != nullptr) {
-		
+	if (manager->focusedElement != this && manager->focusedElement != nullptr) 
 		manager->focusedElement->unfocus();
-
-	}
 
 	manager->focusedElement = this;
 	focused = true;
@@ -113,6 +138,55 @@ void UIElement::render() {
 
 void UIElement::poll() {
 
+	/* State */
+
+	for (int i = 0; i < elements.size(); i++) {
+
+		UIElement *el = elements[i].get();
+		bool mouseClick = false;
+
+		if (el == nullptr)
+			continue;
+
+		if (!el->visible) continue;
+		if (app->mouseButton == mouseLeft/* && !el->wasClick*/) {
+
+			//el->wasClick = true;
+			mouseClick = true;
+
+		}
+
+		if (!pointInRect (app->mouseX, app->mouseY, el->left,
+						  el->top, el->width, el->height))
+		{
+			
+			el->enter = false;
+			el->click = false || el->keyClick;
+
+			continue;
+
+		}
+
+		if (!el->enabled) {
+
+			el->enter = false;
+			el->click = false || el->keyClick;
+
+			continue;
+		}
+
+		el->enter = true;
+		manager->cursor = el->cursor;
+		
+		if (mouseClick) {
+			
+			el->click = true;
+			el->focus();
+
+		}
+
+	}
+
 	/* Progress Event */
 
 	for (int i = 0; i < elements.size(); i++) {
@@ -123,61 +197,6 @@ void UIElement::poll() {
 
 	}
 
-	/*  */
-
-	/* State */
-
-	for (int i = 0; i < elements.size(); i++) {
-
-		//std::shared_ptr<UIElement> el = kvp.second;
-		UIElement *el = elements[i].get();
-		bool click = false;
-
-		if (el == nullptr)
-			continue;
-
-		if (!el->visible) continue;
-		if (app->mouseButton == mouseLeft && !el->wasClick) {
-
-			//el->wasClick = true;
-			click = true;
-
-		}
-
-		if (!pointInRect (app->mouseX, app->mouseY, el->left,
-						  el->top, el->width, el->height))
-		{
-			
-			el->enter = false;
-			el->click = false;
-
-			continue;
-
-		}
-
-		if (!el->enabled) {
-
-			el->enter = false;
-			el->click = false;
-
-			continue;
-		}
-
-		el->enter = true;
-		manager->cursor = el->cursor;
-		
-		if (click) {
-			
-			el->click = true;
-			el->focus();
-
-		} else {
-			
-			el->click = false;
-
-		}
-
-	}
 
 }
 
@@ -191,8 +210,33 @@ void UIElement::addElement (std::unique_ptr<UIElement> el) {
 
 	el->parent = this;
 	el->id = manager->lastId;
-	elements[manager->lastId] = std::move (el);
 
+	/* Make Loop */
+
+	if (firstEl == nullptr) {
+		
+		firstEl  = el.get();
+		el->next = el.get();
+		el->prev = el.get();
+
+	} else
+
+	/* Add neighbors */
+
+	if (lastEl != nullptr) {
+
+		lastEl->next = el.get();
+		el->prev = lastEl;
+		el->next = firstEl; /* Loop */
+		firstEl->prev = el.get();
+
+	}
+
+	lastEl = el.get();
+
+	/* Add Element to map */
+
+	elements[manager->lastId] = std::move (el);
 	manager->lastId++;
 
 }
@@ -243,3 +287,4 @@ std::unique_ptr<UIElement> UIElement::takeElement (const int id) {
 	return el;
 
 }
+

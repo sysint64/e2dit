@@ -171,7 +171,6 @@ int main (int argc,char** argv) {
 				case sf::Event::KeyPressed  : core->onKeyPressed  (ev.key.code);      break;
 				case sf::Event::TextEntered : core->onTextEntered (ev.text.unicode);  break;
 				case sf::Event::KeyReleased : core->onKeyReleased (ev.key.code);      break;
- 
 
 				default : break;
 			}

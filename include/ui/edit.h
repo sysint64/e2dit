@@ -19,3 +19,62 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+
+const wchar_t SplitChars[] = L" ,.;:?'!|/\\~*+-=(){}<>[]#%&^@$№`\"";
+class UIEdit : public UIElement {
+protected:
+	int   iWidths [17];    int   iHeights[17];
+	float fWidths [17];    float fHeights[17];
+	float offsetsX[17];    float offsetsY[17];
+	
+	float textColors [12];
+	float textOffsets[16];
+
+	/* Params */
+
+
+
+	/* Render Objects */
+
+	std::unique_ptr<BaseObject> leftElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> rightElement  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> middleElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> iconElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> iconElement2  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+
+	/* Work With Text */
+
+	void  copyText();
+	void  pasteText();
+	float parseExpr();
+
+public:
+
+	/* Display Text */
+
+	wstring text   = L"";
+	wstring before = L"";
+	wstring after  = L"";
+
+	/* Functors: Callback Events */
+
+	std::function<void(UIElement*)>         onChange      = nullptr;
+	std::function<void(UIElement*, Uint16)> onTextEntered = nullptr;
+
+	bool trackBar = false;
+
+	/* */
+
+	virtual void precompute() override;
+	virtual void render()     override;
+
+	/* Constructor */
+	
+	UIEdit (UIManager *manager) : UIElement (manager) {
+		
+		this->manager = manager;
+		precompute();
+
+	}
+
+};

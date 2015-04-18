@@ -28,13 +28,19 @@
 
 void Core::onKeyPressed (int key) {
 
+	uiManager->keyPressed (key);
+
 }
 
 void Core::onKeyReleased (int key) {
 
+	uiManager->keyReleased (key);
+
 }
 
 void Core::onTextEntered (unsigned int key) {
+
+	uiManager->textEntered (key);
 
 }
 

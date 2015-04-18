@@ -39,31 +39,39 @@
 #include "utility/input.h"
 #include "utility/ui.h"
 
-#define ICONS_COUNT 11
+#define ICONS_COUNT			11
+#define TOOL_ICONS_COUNT	4
 
-struct {
+class UIManager;
 
-	std::shared_ptr<Texture> tex;
+/**
+ * @param count: Count of Icons
+ * @param size : Size of Tile Icon
+ */
 
-	float offsetsX[ICONS_COUNT][ICONS_COUNT];
-	float offsetsY[ICONS_COUNT][ICONS_COUNT];
+template <int count>
+class UIIcons {
+public:
+
+	std::unique_ptr<Texture> tex;
+
+	float offsetsX[count][count];
+	float offsetsY[count][count];
 	float width; float height;
 	float sizeIcon;
 
-} typedef UIIcons;
+	UIManager *manager;
 
-struct {
+	UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float sizeIcon);
+	void render (int x, int y, int ox, int oy, BaseObject *iconElement);
 
-	std::shared_ptr<Texture> tex;
+};
 
-	float offsetsX[ICONS_COUNT][ICONS_COUNT];
-	float offsetsY[ICONS_COUNT][ICONS_COUNT];
-	float width; float height;
-	float sizeIcon;
+typedef UIIcons<ICONS_COUNT> UIMainIcons;
 
-} typedef UIToolIcons;
-
-/* */
+/**
+ * Manager of UI Elements
+ */
 
 class UIManager {
 private:
@@ -80,23 +88,22 @@ public:
 
 	/* Icons */
 
-	UIIcons     icons;
-	UIToolIcons toolIcons;
+	std::unique_ptr<UIMainIcons> icons;
+	std::unique_ptr<UIIcons<4 >> toolIcons;
 
 	/* Render */
 
 	DataRender *uiDataRender;
-	static const int themeTexID = 2;
+	static const int themeTexID = 3;
 	float disabledAlpha = 0.65f;
 
 	/* */
 
-	std::map<int, std::shared_ptr<UIElement>> elements;
-	std::vector<glm::vec4>    scissorStack;
-	std::vector<UIElement*>   drawStack;
-	std::vector<UIElement*>   unfocusedElements;
+	std::vector<glm::vec4>  scissorStack;
+	std::vector<UIElement*> drawStack;
+	std::vector<UIElement*> unfocusedElements;
 
-	std::unique_ptr<UIElement> root = std::make_unique<UIElement> (this);
+	std::unique_ptr<UIElement> root;
 
 	/* */
 
@@ -111,11 +118,12 @@ public:
 
 	void render();
 
-	/* Manager */
+	/* Manage */
 
 	void addElement    (std::unique_ptr<UIElement> el);
-	void deleteElement (std::shared_ptr<UIElement> el);
+	void deleteElement (std::unique_ptr<UIElement> el);
 	void deleteElement (const int  id);
+	void unfocus();
 
 	/* Scissor */
 
@@ -134,6 +142,7 @@ public:
 	void keyDown     (int key);
 	void resized     (int width, int height);
 	void keyPressed  (int key);
+	void keyReleased (int key);
 	void textEntered (int key);
 
 	void step();

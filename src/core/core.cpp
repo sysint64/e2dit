@@ -34,31 +34,65 @@ Core::Core() {
 	ftglSetFontFaceSize (font, 12, 12);
 	ftglSetFontCharMap  (font, ft_encoding_unicode);
 	
-	skin    = std::make_shared<Texture>  ("res/ui/dark/controls.png");
-	uiTheme = std::make_shared<UITheme>  ("res/ui/dark/controls.e2t", ReadType::Text, skin.get(), font);
+	skin    = std::make_unique<Texture> ("res/ui/dark/controls.png");
+	uiTheme = std::make_unique<UITheme> ("res/ui/dark/controls.e2t", ReadType::Text, skin.get(), font);
 
 	std::vector<std::string> atlasLocations; atlasLocations += "MVP", "Size", "Offset", "Texture", "Alpha";
 	std::vector<std::string> colorLocations; colorLocations += "MVP", "Color";
 
-	atlasShader = std::make_shared<Shader> ("res/glsl/GL3/tex_atlas.glsl", atlasLocations);
-	colorShader = std::make_shared<Shader> ("res/glsl/GL3/colorize.glsl" , colorLocations);
+	atlasShader = std::make_unique<Shader> ("res/glsl/GL3/tex_atlas.glsl", atlasLocations);
+	colorShader = std::make_unique<Shader> ("res/glsl/GL3/colorize.glsl" , colorLocations);
 
-	uiManager   = std::make_shared<UIManager> (atlasShader.get(), colorShader.get(), uiTheme.get());
+	uiManager   = std::make_unique<UIManager> (atlasShader.get(), colorShader.get(), uiTheme.get());
 	uiManager->uiDataRender = new SpriteData (false, false, true);
 
-	button      = std::make_unique<UIButton> (uiManager.get());
-	button->caption = L"Test";
-	button->left = 100;
-	button->top  = 100;
-	button->width = 200;
-	uiManager->addElement (std::move(button));
+	std::unique_ptr<Texture> iconsTex = std::make_unique<Texture> ("res/ui/icons.png");
+	uiManager->icons = std::make_unique<UIMainIcons> (uiManager.get(), std::move (iconsTex), 18.f);
 
-	button      = std::make_unique<UIButton> (uiManager.get());
-	button->caption = L"Test";
-	button->left = 300;
-	button->top  = 100;
-	button->width = 200;
-	uiManager->addElement (std::move(button));
+	//uiManager->icons.tex = std::make_unique<Texture> ("res/ui/icons.png");
+
+	std::unique_ptr<UIButton> b1 = std::make_unique<UIButton> (uiManager.get());
+	std::unique_ptr<UIButton> b2 = std::make_unique<UIButton> (uiManager.get());
+	std::unique_ptr<UIButton> b3 = std::make_unique<UIButton> (uiManager.get());
+
+	b1->caption = L"Test";
+	b1->left  = 100;
+	b1->top   = 100;
+	b1->width = 200;
+	b1->showIcon = true;
+	b1->showIcon2 = true;
+	b1->iconOffset[0] = 1;
+	b1->iconOffset[1] = 1;
+	b1->icon2Offset[0] = 3;
+	b1->icon2Offset[1] = 2;
+	uiManager->addElement (std::move(b1));
+
+	b2->caption = L"Test";
+	b2->left  = 300;
+	b2->top   = 100;
+	b2->width = 200;
+	b2->showIcon = true;
+	b2->showIcon2 = true;
+	b2->iconOffset[0] = 1;
+	b2->iconOffset[1] = 1;
+	b2->icon2Offset[0] = 3;
+	b2->icon2Offset[1] = 3;
+	uiManager->addElement (std::move(b2));
+
+	b3->caption = L"Test";
+	b3->left = 500;
+	b3->top  = 100;
+	b3->width = 200;
+
+	b3->showIcon = true;
+	b3->showIcon2 = true;
+	b3->iconOffset[0] = 3;
+	b3->iconOffset[1] = 5;
+
+	b3->icon2Offset[0] = 3;
+	b3->icon2Offset[1] = 4;
+
+	uiManager->addElement (std::move(b3));
 
 	//uiTheme = std::make_shared<UITheme> ("controls.e2t", ReadType::Text, skin.get(), font);
 	//DataMap test ("controls.e2t", ReadType::Text);
