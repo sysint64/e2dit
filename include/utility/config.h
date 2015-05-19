@@ -41,4 +41,6 @@ typedef char BYTE;
 //#define GLM_FORCE_INLINE
 //#define GLM_FORCE_PURE
 
+#include <iostream>
+
 #endif

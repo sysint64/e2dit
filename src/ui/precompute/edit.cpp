@@ -19,3 +19,57 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+
+#include "ui/edit.h"
+
+/**
+ *
+ */
+
+void UIEdit::precompute() {
+
+	/* Leave */
+
+	precomputeElement (0, leaveElement, "left");
+	precomputeElement (1, leaveElement, "center");
+	precomputeElement (2, leaveElement, "right");
+
+	/* Enter */
+
+	precomputeElement (3, enterElement, "left");
+	precomputeElement (4, enterElement, "center");
+	precomputeElement (5, enterElement, "right");
+
+	/* Enter */
+
+	precomputeElement (6, clickElement, "left");
+	precomputeElement (7, clickElement, "center");
+	precomputeElement (8, clickElement, "right");
+
+	/* Focused */
+
+	precomputeElement (9 , focusElement, "left");
+	precomputeElement (10, focusElement, "center");
+	precomputeElement (11, focusElement, "right");
+
+	/* Stick */
+
+	precomputeElement (12, elementName , "stick");
+
+	precomputeFloatArray (elementName , "selrectcolor" , selectColor , 4, 255.f);
+	precomputeFloatArray (elementName , "selrectoffset", selectOffset, 2);
+
+	/* Text */
+
+	precomputeText    (0, leaveElement);
+	precomputeText    (1, enterElement);
+	precomputeText    (2, clickElement);
+
+	/* Calculate Size */
+
+	height = iHeights[1];
+
+	if (drawAlign == Align::Left || drawAlign == Align::Right)
+		width += iWidths[0];
+
+}

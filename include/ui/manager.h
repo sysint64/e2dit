@@ -76,6 +76,7 @@ typedef UIIcons<ICONS_COUNT> UIMainIcons;
 class UIManager {
 private:
 	Application *app = Application::getInstance();
+	std::vector<std::string> debugStrings;
 
 public:
 
@@ -134,10 +135,9 @@ public:
 	/* Events */
 
 	void dblClick    (int x, int y, int button);
-
 	void mouseDown   (int x, int y, int button);
-	void mouseMove   (int x, int y, int button);
 	void mouseUp     (int x, int y, int button);
+	void mouseMove   (int x, int y, int button);
 
 	void keyDown     (int key);
 	void resized     (int width, int height);
@@ -146,6 +146,10 @@ public:
 	void textEntered (int key);
 
 	void step();
+
+	/* Debug */
+
+	void putString (std::string str, float r = 1.f, float g = 1.f, float b = 1.f);
 };
 
 #endif

@@ -59,9 +59,14 @@ public:
 
 	/* Cursor */
 
-	int mouseX, mouseY;
-	int clickX, clickY;
-	int mouseButton = mouseNone;
+	int  mouseX, mouseY;
+	int  clickX, clickY;
+	int  mouseButton = mouseNone;
+
+	/* Time */
+
+	float deltaTime   = 0;
+	float currentTime = 0;
 
 	/* Log */
 

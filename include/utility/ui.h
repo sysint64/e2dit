@@ -24,6 +24,11 @@
 #define E2DIT_UTILITY_UI_H
 
 #include "renderer/shader.h"
+#include "utility/string.h"
+#include "FTGL/ftgl.h"
+
+using namespace FTGL;
+
 
 /**
  *
@@ -33,6 +38,37 @@ inline bool pointInRect (int X, int Y, int Xe, int Ye, int W, int H) {
 
 	return ((X <= Xe+W) && (X >= Xe) &&
 			(Y <= Ye+H) && (Y >= Ye));
+
+}
+
+/**
+ *
+ */
+
+inline int ftglGetTextWidth (FTGLfont *font, std::wstring text) {
+
+	float       bounds[6];
+	int         n            = text.size();
+	std::string dencodedText = wstr2str (text);
+	
+	ftglGetFontBBox (font, dencodedText.c_str(), n, bounds);
+	float twidth = bounds[3]-bounds[0];
+	
+	if (text[n-1] == ' ') twidth += 3; // FIXME: Why += 3 ?
+	return twidth;
+
+}
+
+inline int ftglGetCharWidth (FTGLfont *font, wchar_t ch) {
+
+	float       bounds[6];
+	std::string dencodedCh = decodeUTF8 (ch);
+	
+	ftglGetFontBBox (font, dencodedCh.c_str(), 1, bounds);
+	float twidth = bounds[3]-bounds[0];
+	
+	if (ch == ' ') twidth += 3; // FIXME: Why += 3 ?
+	return twidth;
 
 }
 

@@ -20,27 +20,69 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-const wchar_t SplitChars[] = L" ,.;:?'!|/\\~*+-=(){}<>[]#%&^@$№`\"";
+#include <string>
+#include <vector>
+#include <glm/glm.hpp>
+
+#include "utility/renderer.h"
+#include "utility/ui.h"
+#include "utility/math.h"
+#include "utility/input.h"
+
+#include "ui/element.h"
+#include "ui/manager.h"
+
+#include "renderer/shader.h"
+#include "renderer/data_render.h"
+#include "renderer/base_object.h"
+
+/**
+ * UIEdit - Editable Field
+ *
+ * @method copyText  : Copy Selected Text to Clipboard
+ * @method pasteText : Paste Selected Text from Clipboard
+ * @method parseExpr : Parse simple Expressions, example: 2+4 converted to 6
+ */
+
+const wchar_t splitChars[] = L" ,.;:?'!|/\\~*+-=(){}<>[]#%&^@$№`\"";
 class UIEdit : public UIElement {
 protected:
-	int   iWidths [17];    int   iHeights[17];
-	float fWidths [17];    float fHeights[17];
-	float offsetsX[17];    float offsetsY[17];
-	
-	float textColors [12];
-	float textOffsets[16];
+
+	float selectColor[4];
+	float selectOffset[2]; // Offset top and bottom
 
 	/* Params */
 
-
+	std::string elementName  = "edit";
+	std::string leaveElement = "editleave";
+	std::string enterElement = "editenter";
+	std::string clickElement = "editclick";
+	std::string focusElement = "editfocus";
 
 	/* Render Objects */
 
 	std::unique_ptr<BaseObject> leftElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	std::unique_ptr<BaseObject> rightElement  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	std::unique_ptr<BaseObject> middleElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> iconElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> iconElement2  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> stickElement  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> selectElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+
+	/* Stick */
+
+	int   stickChPos     = 0;
+	int   stickPxPos     = 0;
+	float stickTime      = 0;
+	bool  showStick      = false;
+	int   lastStickChPos = 0;
+	bool  firstRender    = true;
+
+	/* Text */
+
+	int textPosX   = 0;
+	int textPosY   = 0;
+	int textOffset = 0;
+
+	int  cWidth; // FIXME: Rename
 
 	/* Work With Text */
 
@@ -48,31 +90,58 @@ protected:
 	void  pasteText();
 	float parseExpr();
 
+	void  updateSelect();
+	void  setStickPos (int x, int y);
+
+	/* Draw methods */
+
+	void  renderSkin();
+
 public:
+
+	//enum class Filter {None, Int, Float};
 
 	/* Display Text */
 
-	wstring text   = L"";
-	wstring before = L"";
-	wstring after  = L"";
+	std::wstring text   = L"640";
+	std::wstring before = L"X:";
+	std::wstring after  = L"px";
+
+	/* Select */
+
+	int selStart = 0;
+	int selEnd   = 0;
 
 	/* Functors: Callback Events */
 
-	std::function<void(UIElement*)>         onChange      = nullptr;
-	std::function<void(UIElement*, Uint16)> onTextEntered = nullptr;
+	std::function<void(UIElement*)>      onChange      = nullptr;
+	std::function<void(UIElement*, int)> onTextEntered = nullptr;
 
 	bool trackBar = false;
+	bool expr     = false;
 
 	/* */
 
 	virtual void precompute() override;
 	virtual void render()     override;
 
+	/* Events */
+
+	virtual void keyPressed  (int key) override;
+	virtual void textEntered (int key) override;
+
+	virtual void dblClick    (int x, int y, int button) override;
+	virtual void mouseDown   (int x, int y, int button) override;
+	virtual void mouseMove   (int x, int y, int button) override;
+	virtual void mouseUp     (int x, int y, int button) override;
+
 	/* Constructor */
-	
+
 	UIEdit (UIManager *manager) : UIElement (manager) {
 		
 		this->manager = manager;
+		this->cursor  = CursorIco::IBeam;
+
 		precompute();
 
 	}

@@ -73,7 +73,7 @@ Core::Core() {
 	b2->width = 200;
 	b2->showIcon = true;
 	b2->showIcon2 = true;
-	b2->iconOffset[0] = 1;
+	b2->iconOffset[0] = 2;
 	b2->iconOffset[1] = 1;
 	b2->icon2Offset[0] = 3;
 	b2->icon2Offset[1] = 3;
@@ -93,12 +93,16 @@ Core::Core() {
 	b3->icon2Offset[1] = 4;
 
 	uiManager->addElement (std::move(b3));
+	
+	/* */
 
-	//uiTheme = std::make_shared<UITheme> ("controls.e2t", ReadType::Text, skin.get(), font);
-	//DataMap test ("controls.e2t", ReadType::Text);
+	std::unique_ptr<UIEdit> e1 = std::make_unique<UIEdit> (uiManager.get());
+	e1->text  = L"Test";
+	e1->left  = 100;
+	e1->top   = 200;
+	e1->width = 200;
 
-	//std::cout << uiTheme->element["general"].params["font"][0].str << std::endl;
-	//std::cout << std::endl << uiTheme->element["scrollhorizontal"].params["left"][3].num << std::endl;
+	uiManager->addElement (std::move(e1));
 
 }
 

@@ -49,6 +49,7 @@ void Core::onMouseDown (int x, int y, int button) {
 	app->clickX = x;
 	app->clickY = y;
 	app->mouseButton = button;
+	uiManager->mouseDown (x, y, button);
 
 }
 
@@ -60,6 +61,8 @@ void Core::onMouseUp (int x, int y, int button) {
 }
 
 void Core::onDblClick (int x, int y, int button) {
+	
+	uiManager->dblClick (x, y, button);
 
 }
 
@@ -67,6 +70,8 @@ void Core::onMouseMove (int x, int y) {
 
 	app->mouseX = x;
 	app->mouseY = y;
+
+	uiManager->mouseMove (x, y, app->mouseButton);
 
 }
 

@@ -31,11 +31,26 @@
 #include <functional>
 #include <map>
 
-enum class Align {Left, Center, Right, All};
+enum class Align  {Left, Center, Right, All};
+
 class UIManager;
 class UIElement {
 protected:
 	Application *app = Application::getInstance();
+
+	int   iWidths [32];    int   iHeights[32];
+	float fWidths [32];    float fHeights[32];
+	float offsetsX[32];    float offsetsY[32];
+	
+	float textColors [32];
+	float textOffsets[32];
+
+	/* Precompute */
+
+	void precomputeElement    (const int n, std::string element, std::string params);
+	void precomputeText       (const int n, std::string element);
+	void precomputeFloatArray (std::string element, std::string params, float *arr, const int size, float normalize = 1.f);
+	void precomputeIntArray   (std::string element, std::string params, int   *arr, const int size);
 
 public:
 
@@ -83,7 +98,7 @@ public:
 	UIElement *parent  = nullptr;
 	UIManager *manager = nullptr;
 
-	CursorIco cursor = CursorIco::Hand;
+	CursorIco cursor = CursorIco::Normal;
 	Align drawAlign  = Align::All;
 
 	/* Functors: Callback Events */
@@ -91,7 +106,7 @@ public:
 	std::function<void(UIElement*)>                onClick      = nullptr;
 	std::function<void(UIElement*)>                onProgress   = nullptr;
 	std::function<void(UIElement*)>                onUnfocused  = nullptr;
-	std::function<void(UIElement*, Uint16)>        onKeyPressed = nullptr;
+	std::function<void(UIElement*, int)>           onKeyPressed = nullptr;
 	std::function<void(UIElement*, int, int, int)> onMouseDown  = nullptr;
 	std::function<void(UIElement*, int, int, int)> onDblClick   = nullptr;
 
@@ -132,14 +147,14 @@ public:
 	/* Events */
 
 	virtual void dblClick    (int x, int y, int button);
-	//
 	virtual void mouseDown   (int x, int y, int button);
-	virtual void mouseMove   (int x, int y, int button) {}
 	virtual void mouseUp     (int x, int y, int button);
+	virtual void mouseMove   (int x, int y, int button);
+
 	virtual void resized     (int width, int height) {}
 	virtual void keyPressed  (int key);
 	virtual void keyReleased (int key);
-	virtual void textEntered (int key) {}
+	virtual void textEntered (int key);
 	virtual void progress    () {}
 
 };

@@ -27,6 +27,7 @@
 
 #include "ui/manager.h"
 #include "ui/button.h"
+#include "ui/edit.h"
 #include "ui/theme.h"
 
 #include "renderer/sprite.h"
@@ -51,6 +52,7 @@ public:
 	std::unique_ptr<Shader>    colorShader;
 
 	std::unique_ptr<UIButton>  button;
+	std::unique_ptr<UIEdit>    edit;
 
 	/* Constructor */
 

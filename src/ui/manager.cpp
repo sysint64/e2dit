@@ -41,7 +41,7 @@ UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float
 	for (int i = 0; i < count; i++)
 		for (int j = 0; j < count; j++) {
 
-			/* Calc Offsets in Tex Coord System */
+			/* Calculate Offsets in Texture Coordinate System */
 
 			offsetsX[i][j] = (float)(9+i*sizeIcon+3*i) / this->tex->width;
 			offsetsY[i][j] = (float)(9+j*sizeIcon+3*j) / this->tex->height;

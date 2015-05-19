@@ -27,45 +27,6 @@
  *
  */
 
-void UIButton::precomputeElement (const int n, std::string element, std::string params) {
-
-	offsetsX[n] = manager->theme->element[element].params[params][0].num / manager->theme->skin->width;
-	offsetsY[n] = manager->theme->element[element].params[params][1].num / manager->theme->skin->height;
-	fWidths [n] = manager->theme->element[element].params[params][2].num / manager->theme->skin->width;
-	fHeights[n] = manager->theme->element[element].params[params][3].num / manager->theme->skin->height;
-
-	iWidths [n] = floor (manager->theme->element[element].params[params][2].num);
-	iHeights[n] = floor (manager->theme->element[element].params[params][3].num);
-
-}
-
-/**
- *
- */
-
-void UIButton::precomputeText (const int n, std::string element) {
-
-	int tcs = n*3; /* Text Color  Index Start */
-	int tos = n*2; /* Text Offset Index Start */
-
-	/* Text Color */
-
-	textColors [tcs+0] = manager->theme->element[element].params["textcolor"][0].num / 255.f;
-	textColors [tcs+1] = manager->theme->element[element].params["textcolor"][1].num / 255.f;
-	textColors [tcs+2] = manager->theme->element[element].params["textcolor"][2].num / 255.f;
-
-	/* Text Offset */
-
-	textOffsets[tos+0] = floor (manager->theme->element[element].params["textoffset"][0].num);
-	textOffsets[tos+1] = floor (manager->theme->element[element].params["textoffset"][1].num);
-
-	std::cout << textOffsets[tos+0] << std::endl;
-}
-
-/**
- *
- */
-
 void UIButton::precompute() {
 
 	/* Leave */

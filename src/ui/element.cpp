@@ -30,6 +30,13 @@
 void UIElement::dblClick (int x, int y, int button) {
 
 	if (!visible) return;
+
+	for (const auto &kvp : elements) {
+
+		kvp.second->dblClick (x, y, button);
+
+	}
+	
 	if (onDblClick == nullptr || !enabled || ! enter) 
 		return;
 
@@ -40,6 +47,15 @@ void UIElement::dblClick (int x, int y, int button) {
 void UIElement::mouseDown (int x, int y, int button) {
 
 	if (!visible) return;
+
+	/* */
+
+	for (const auto &kvp : elements) {
+
+		kvp.second->mouseDown (x, y, button);
+
+	}
+
 	if (onMouseDown == nullptr || !enabled || ! enter)
 		return;
 
@@ -62,6 +78,19 @@ void UIElement::mouseUp (int x, int y, int button) {
 	for (const auto &kvp : elements) {
 
 		kvp.second->mouseUp (x, y, button);
+
+	}
+
+}
+
+void UIElement::mouseMove (int x, int y, int button) {
+
+	if (!enabled/* || !enter*/)
+		return;
+
+	for (const auto &kvp : elements) {
+
+		kvp.second->mouseMove (x, y, button);
 
 	}
 
@@ -92,6 +121,18 @@ void UIElement::keyReleased (int key) {
 	for (const auto &kvp : elements) {
 
 		kvp.second->keyReleased (key);
+
+	}
+
+}
+
+void UIElement::textEntered (int key) {
+
+	keyClick = false;
+
+	for (const auto &kvp : elements) {
+
+		kvp.second->textEntered (key);
 
 	}
 

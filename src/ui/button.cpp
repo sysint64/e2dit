@@ -24,9 +24,6 @@
 
 /**
  * Render Button
- *
- * @param x: Left Position
- * @param y: Top  Position
  */
 
 void UIButton::render () {
@@ -90,7 +87,7 @@ void UIButton::render () {
 			if (drawAlign == Align::Right ) iOffset += iWidths[n];
 
 			manager->icons->render (left+2+iOffset, app->windowHeight-height+2-top,
-								    io[0], io[1], iconElement.get());
+								    iconOffset[0], iconOffset[1], iconElement2.get());
 
 		}
 
@@ -157,11 +154,11 @@ void UIButton::renderSkin() {
 	if (click) { n = 6; tn = 2; to = 4; }
 
 	int cWidth = width-iWidths[n]-1;
-	int poffset = 0;
+	int poffset = 0; int aleft = left;
 
 	/* Some Fix for certain Draw Align */
 
-	if (drawAlign == Align::Left)   left   += iWidths[n]+iWidths[n+2];
+	if (drawAlign == Align::Left)   aleft  += iWidths[n]+iWidths[n+2];
 	if (drawAlign == Align::Center) cWidth -= iWidths[n]-iWidths[n]-iWidths[n+2]-iWidths[n+2];
 
 	/* Draw Left Element */
@@ -172,7 +169,7 @@ void UIButton::renderSkin() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n], fHeights [n]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
 		
-		leftElement->setPosition (glm::vec2 (left, app->windowHeight-iHeights[n]-top));
+		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-top));
 		leftElement->setScale    (glm::vec2 (iWidths[n], iHeights[n]));
 		leftElement->render();
 
@@ -187,7 +184,7 @@ void UIButton::renderSkin() {
 	//if (dynamic_cast<UICheckButton*> (this) && parent != 0)
 	//	poffset = 1;
 
-	middleElement->setPosition (glm::vec2 (left  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-top));
+	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-top));
 	middleElement->setScale    (glm::vec2 (cWidth-iWidths[n+2]+poffset, iHeights[n+1]));
 	middleElement->render();
 
@@ -199,7 +196,7 @@ void UIButton::renderSkin() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+2], fHeights[n+2]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+2], offsetsY[n+2]);
 		
-		rightElement->setPosition (glm::vec2 (left+cWidth , app->windowHeight-iHeights[n+2]-top));
+		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-top));
 		rightElement->setScale    (glm::vec2 (iWidths[n+2], iHeights[n+2]));
 		rightElement->render();
 
@@ -220,7 +217,7 @@ void UIButton::renderSkin() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n], fHeights [n]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
 		
-		leftElement->setPosition (glm::vec2 (left, app->windowHeight-iHeights[n]-top));
+		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-top));
 		leftElement->setScale    (glm::vec2 (iWidths[n], iHeights[n]));
 		leftElement->render();
 
@@ -232,7 +229,7 @@ void UIButton::renderSkin() {
 	glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+1], fHeights[n+1]);
 	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+1], offsetsY[n+1]);
 
-	middleElement->setPosition (glm::vec2 (left  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-top));
+	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-top));
 	middleElement->setScale    (glm::vec2 (cWidth-iWidths[n+2]+poffset, iHeights[n+1]));
 	middleElement->render();
 
@@ -244,7 +241,7 @@ void UIButton::renderSkin() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+2], fHeights[n+2]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+2], offsetsY[n+2]);
 		
-		rightElement->setPosition (glm::vec2 (left+cWidth , app->windowHeight-iHeights[n+2]-top));
+		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-top));
 		rightElement->setScale    (glm::vec2 (iWidths[n+2], iHeights[n+2]));
 		rightElement->render();
 
@@ -266,7 +263,7 @@ void UIButton::renderText (Align align, std::string text, int size, int offset) 
 
 	/* Tables Indices */
 
-	int n  = 0; int tn = 0; int to = 0;
+	int n = 0; int tn = 0; int to = 0;
 
 	if (enter) { n = 3; tn = 1; to = 2; }
 	if (click) { n = 6; tn = 2; to = 4; }

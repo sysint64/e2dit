@@ -119,10 +119,14 @@ int main (int argc,char** argv) {
 
 	std::unique_ptr<Core> core = std::make_unique<Core>();
 
-	/* Main loop */
+	/* */
 
-	bool running  = true;
-	bool dblClick = false;
+	bool  running  = true;
+	bool  dblClick = false;
+	float dblClickTime = 0;
+	float lastTime = 0;
+
+	sf::Clock clock;
 
 	glDisable(GL_CULL_FACE);
 	
@@ -132,9 +136,10 @@ int main (int argc,char** argv) {
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glViewport (0, 0, app->screenWidth, app->screenHeight);
-	glClearColor (0, 0, 0, 0);
+	//glClearColor (0, 0, 0, 0);
+	glClearColor (144.f/255.f, 144.f/255.f, 144.f/255.f, 0);
 
-	//exit(0);
+	/* Main loop */
 
 	while (running) {
 
@@ -176,6 +181,26 @@ int main (int argc,char** argv) {
 			}
 
 		}
+
+		/* Calculate DeltaTime */
+
+		app->currentTime = clock.getElapsedTime().asSeconds();
+		app->deltaTime   = (app->currentTime - lastTime)*0.001f;
+		lastTime         =  app->currentTime;
+
+		/* Check Double Click */
+
+		if (dblClick) dblClickTime += app->deltaTime*1000.f;
+		else dblClickTime = 0;
+
+		if (dblClickTime >= 0.3f) {
+
+			dblClick      = false;
+			dblClickTime  = 0;
+
+		}
+
+		/* Render */
 
 		window.setActive();
 

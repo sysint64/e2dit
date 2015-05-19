@@ -30,16 +30,19 @@
  * Min, Max
  */
 
-inline float min (float a, float b) {
+template <typename T>
+inline T min (T a, T b) {
 	return a < b ? a : b;
 }
 
-inline float max (float a, float b) {
+template <typename T>
+inline T max (T a, T b) {
 	return a > b ? a : b;
 }
 
-inline float min (float a, float b, float c) {
-	float m = b;
+template <typename T>
+inline T min (T a, T b, T c) {
+	T m = b;
 
 	if (a < m) m = a;
 	if (c < m) m = c;
@@ -47,8 +50,9 @@ inline float min (float a, float b, float c) {
 	return m;
 }
 
-inline float max (float a, float b, float c) {
-	float m = b;
+template <typename T>
+inline T max (T a, T b, T c) {
+	T m = b;
 
 	if (a > m) m = a;
 	if (c > m) m = c;
@@ -105,5 +109,6 @@ inline float deg2rad (float deg) {
 
 }
 
+#define countof(a) ((sizeof(a) / sizeof(*(a))) / static_cast<size_t>(!(sizeof(a) % sizeof(*(a)))))
 
 #endif
