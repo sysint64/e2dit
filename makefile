@@ -4,10 +4,11 @@ stdcpp=-std=gnu++1y -stdlib=libc++
 include_pathes=-I./src/ -I./include/ -I/usr/include/freetype2/ -I$(boost_include)
 libs_pathes=-L. -L$(boosl_libs)
 
-source_dirs := src src/core src/map_editor src/renderer src/ui src/utility
+source_dirs := src src/core src/map_editor src/renderer src/ui src/ui/precompute src/utility
 utility_dirs := src/utility
 gapi_dirs := src/renderer
-ui_dirs := src/ui
+ui_dirs := src/ui src/ui/precompute
+ui_precompute := src/ui/precompute
 core_dirs := src src/core src/map_editor
 
 CC = clang++
@@ -55,6 +56,11 @@ VPATH := $(source_dirs)
  
 %.o: %.cpp
 	$(CC) $(stdcpp) -fPIC -D$(platform) -D$(arch) -c -MD $(addprefix -I,$(source_dirs)) $(compile_flags) $(include_pathes) $<
+
+#VPATH := $(ui_precompute)
+
+_%.o: _%.cpp
+	$(CC) $(stdcpp) -fPIC -D$(platform) -D$(arch) -c -MD $(addprefix -I,$(ui_precompute)) $(compile_flags) $(include_pathes) $<
 
 clean:
 	rm -rf $(e2dit) *.o
