@@ -1,7 +1,0 @@
-Initialize OpenGL, Version : 3.3
-Shader program error: 
-Shader program error: 
-Shader program error: 
-Shader program error: 
-Shader program error: 
-Shader program error: 
