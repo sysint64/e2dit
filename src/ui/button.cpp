@@ -29,6 +29,7 @@
 void UIButton::render () {
 
 	UIElement::render();
+	updateAbsPos();
 
 	//if (!enabled || (parent != nullptr && !parent->enabled))
 	//	glUniform1f (manager->atlasShader->locations["Alpha"], manager->disabledAlpha);
@@ -86,12 +87,12 @@ void UIButton::render () {
 			if (drawAlign == Align::Center) iOffset += iWidths[n]; else
 			if (drawAlign == Align::Right ) iOffset += iWidths[n];
 
-			manager->icons->render (left+2+iOffset, app->windowHeight-height+2-top,
+			manager->icons->render (absLeft+2+iOffset, app->windowHeight-height+2-absTop,
 								    iconOffset[0], iconOffset[1], iconElement2.get());
 
 		}
 
-		/* Update Text Offset (left padding) */
+		/* Update Text Offset (absLeft padding) */
 
 		toffset = 18;
 	}
@@ -107,7 +108,7 @@ void UIButton::render () {
 			if (drawAlign == Align::Center) iOffset += iWidths[n]; else
 			if (drawAlign == Align::Right ) iOffset += iWidths[n];
 
-			manager->icons->render (left+20+iOffset, app->windowHeight-height+2-top,
+			manager->icons->render (absLeft+20+iOffset, app->windowHeight-height+2-absTop,
 								    icon2Offset[0], icon2Offset[1], iconElement2.get());
 			/*glUniform1i        (manager->atlasShader->locations["Texture"], 2);
 			
@@ -124,7 +125,7 @@ void UIButton::render () {
 
 		}
 
-		/* Update Text Offset (left padding) */
+		/* Update Text Offset (absLeft padding) */
 		
 		toffset = 38;
 	}
@@ -154,7 +155,7 @@ void UIButton::renderSkin() {
 	if (click) { n = 6; tn = 2; to = 4; }
 
 	int cWidth = width-iWidths[n]-1;
-	int poffset = 0; int aleft = left;
+	int poffset = 0; int aleft = absLeft;
 
 	/* Some Fix for certain Draw Align */
 
@@ -169,7 +170,7 @@ void UIButton::renderSkin() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n], fHeights [n]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
 		
-		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-top));
+		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-absTop));
 		leftElement->setScale    (glm::vec2 (iWidths[n], iHeights[n]));
 		leftElement->render();
 
@@ -184,7 +185,7 @@ void UIButton::renderSkin() {
 	//if (dynamic_cast<UICheckButton*> (this) && parent != 0)
 	//	poffset = 1;
 
-	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-top));
+	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-absTop));
 	middleElement->setScale    (glm::vec2 (cWidth-iWidths[n+2]+poffset, iHeights[n+1]));
 	middleElement->render();
 
@@ -196,7 +197,7 @@ void UIButton::renderSkin() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+2], fHeights[n+2]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+2], offsetsY[n+2]);
 		
-		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-top));
+		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-absTop));
 		rightElement->setScale    (glm::vec2 (iWidths[n+2], iHeights[n+2]));
 		rightElement->render();
 
@@ -217,7 +218,7 @@ void UIButton::renderSkin() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n], fHeights [n]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
 		
-		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-top));
+		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-absTop));
 		leftElement->setScale    (glm::vec2 (iWidths[n], iHeights[n]));
 		leftElement->render();
 
@@ -229,7 +230,7 @@ void UIButton::renderSkin() {
 	glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+1], fHeights[n+1]);
 	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+1], offsetsY[n+1]);
 
-	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-top));
+	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-absTop));
 	middleElement->setScale    (glm::vec2 (cWidth-iWidths[n+2]+poffset, iHeights[n+1]));
 	middleElement->render();
 
@@ -241,7 +242,7 @@ void UIButton::renderSkin() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+2], fHeights[n+2]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+2], offsetsY[n+2]);
 		
-		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-top));
+		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-absTop));
 		rightElement->setScale    (glm::vec2 (iWidths[n+2], iHeights[n+2]));
 		rightElement->render();
 
@@ -276,7 +277,7 @@ void UIButton::renderText (Align align, std::string text, int size, int offset) 
 
 	/* Calculate Text Left Position */
 
-	int tx = left;
+	int tx = absLeft;
 
 	/* Text align : Left */
 
@@ -324,7 +325,7 @@ void UIButton::renderText (Align align, std::string text, int size, int offset) 
 	glActiveTexture (GL_TEXTURE0);
 	glColor3f       (textColors[n], textColors[n+1], textColors[n+2]);
 
-	glTranslatef    (tx+textOffsets[to], app->windowHeight-top-(height >> 1)-4+textOffsets[to+1], 0);
+	glTranslatef    (tx+textOffsets[to], app->windowHeight-absTop-(height >> 1)-4+textOffsets[to+1], 0);
 	ftglRenderFont  (manager->theme->font, text.c_str(), RENDER_ALL);
 
 	glEnd2D();

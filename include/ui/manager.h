@@ -86,6 +86,7 @@ public:
 	
 	bool dialogOpened = false;
 	bool freezUI	  = false;
+	bool focused      = false;
 
 	/* Icons */
 
@@ -103,6 +104,7 @@ public:
 	std::vector<glm::vec4>  scissorStack;
 	std::vector<UIElement*> drawStack;
 	std::vector<UIElement*> unfocusedElements;
+	std::vector<UIElement*> elementsStack; // For Check Focus Element
 
 	std::unique_ptr<UIElement> root;
 
@@ -125,6 +127,7 @@ public:
 	void deleteElement (std::unique_ptr<UIElement> el);
 	void deleteElement (const int  id);
 	void unfocus();
+	void poll();
 
 	/* Scissor */
 

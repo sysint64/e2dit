@@ -28,9 +28,11 @@
 #include "utility/string.h"
 #include "ui/cursor.h"
 
+#include "boost/assign/std/vector.hpp"
 #include <functional>
 #include <map>
 
+using namespace boost::assign;
 enum class Align {Left, Center, Right, Client, Bottom, Top, All};
 
 class UIManager;
@@ -132,6 +134,10 @@ public:
 
 	virtual void precompute() {}
 	virtual void render ();
+
+	void updateAbsPos();
+	void checkFocus();
+	std::vector<UIElement*> getBottoms();
 
 	/* Manage Elements */
 

@@ -29,19 +29,20 @@
 void UIEdit::render() {
 	
 	UIElement::render();
+	updateAbsPos();
 
 	cWidth = width-iWidths[3]-1;
 
 	if (firstRender) {
 
 		//stickPxPos  = iWidths[9];
-		textPosX    = left+iWidths[12]+iWidths[12];
+		textPosX    = absLeft+iWidths[12]+iWidths[12];
 		firstRender = false;
 
 	}
 
-	textPosX   = left+iWidths[12]+iWidths[12];
-	textPosY   = app->windowHeight-top-(iHeights[1] >> 1)-4;
+	textPosX   = absLeft+iWidths[12]+iWidths[12];
+	textPosY   = app->windowHeight-absTop-(iHeights[1] >> 1)-4;
 	textPosX  += textOffset;
 
 	if (drawAlign == Align::Left)
@@ -66,11 +67,11 @@ void UIEdit::render() {
 
 	/* Scroll Text */
 
-	if (stickPxPos+textPosX > left+cWidth-iWidths[11]-iWidths[12])
-		textOffset -= (stickPxPos+textPosX)-(left+cWidth-iWidths[11]-iWidths[12]);
+	if (stickPxPos+textPosX > absLeft+cWidth-iWidths[11]-iWidths[12])
+		textOffset -= (stickPxPos+textPosX)-(absLeft+cWidth-iWidths[11]-iWidths[12]);
 
-	if (stickPxPos+textPosX < left+iWidths[12])
-		textOffset += (left+iWidths[12])-(stickPxPos+textPosX);
+	if (stickPxPos+textPosX < absLeft+iWidths[12])
+		textOffset += (absLeft+iWidths[12])-(stickPxPos+textPosX);
 
 	/* Render Stick */
 
@@ -80,7 +81,7 @@ void UIEdit::render() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [12], fHeights[12]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[12], offsetsY[12]);
 		
-		stickElement->setPosition (glm::vec2 (textPosX+stickPxPos, app->windowHeight-iHeights[12]-top));
+		stickElement->setPosition (glm::vec2 (textPosX+stickPxPos, app->windowHeight-iHeights[12]-absTop));
 		stickElement->setScale    (glm::vec2 (iWidths[12], iHeights[12]));
 		stickElement->render();
 		
@@ -123,7 +124,7 @@ void UIEdit::render() {
 		glUniformMatrix4fv (manager->colorShader->locations["MVP"]  , 1, GL_FALSE, &(selectElement->MVPMatrix[0][0]));
 		glUniform4fv       (manager->colorShader->locations["Color"], 1, &selectColor[0]); 
 
-		selectElement->setPosition (glm::vec2 (selx1-1, app->windowHeight-top+selectOffset[0]-iHeights[9]));
+		selectElement->setPosition (glm::vec2 (selx1-1, app->windowHeight-absTop+selectOffset[0]-iHeights[9]));
 		selectElement->setScale    (glm::vec2 (selx2-selx1+1, iHeights[9]-selectOffset[1]-selectOffset[0]));
 		selectElement->render();
 
@@ -167,7 +168,7 @@ void UIEdit::renderSkin() {
 	if (enter) { n = 3; tn = 1; to = 2; }
 	if (click) { n = 6; tn = 2; to = 4; }
 
-	int poffset = 0; int aleft = left;
+	int poffset = 0; int aleft = absLeft;
 
 	/* Some Fix for certain Draw Align */
 
@@ -182,7 +183,7 @@ void UIEdit::renderSkin() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n], fHeights[n]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
 		
-		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-top));
+		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-absTop));
 		leftElement->setScale    (glm::vec2 (iWidths[n], iHeights[n]));
 		leftElement->render();
 
@@ -197,7 +198,7 @@ void UIEdit::renderSkin() {
 	//if (dynamic_cast<UICheckButton*> (this) && parent != 0)
 	//	poffset = 1;
 
-	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-top));
+	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-absTop));
 	middleElement->setScale    (glm::vec2 (cWidth-iWidths[n+2]+poffset, iHeights[n+1]));
 	middleElement->render();
 
@@ -209,7 +210,7 @@ void UIEdit::renderSkin() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+2], fHeights[n+2]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+2], offsetsY[n+2]);
 		
-		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-top));
+		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-absTop));
 		rightElement->setScale    (glm::vec2 (iWidths[n+2], iHeights[n+2]));
 		rightElement->render();
 
@@ -230,7 +231,7 @@ void UIEdit::renderSkin() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n], fHeights [n]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
 		
-		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-top));
+		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-absTop));
 		leftElement->setScale    (glm::vec2 (iWidths[n], iHeights[n]));
 		leftElement->render();
 
@@ -242,7 +243,7 @@ void UIEdit::renderSkin() {
 	glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+1], fHeights[n+1]);
 	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+1], offsetsY[n+1]);
 
-	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-top));
+	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-absTop));
 	middleElement->setScale    (glm::vec2 (cWidth-iWidths[n+2]+poffset, iHeights[n+1]));
 	middleElement->render();
 
@@ -254,7 +255,7 @@ void UIEdit::renderSkin() {
 		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+2], fHeights[n+2]);
 		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+2], offsetsY[n+2]);
 		
-		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-top));
+		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-absTop));
 		rightElement->setScale    (glm::vec2 (iWidths[n+2], iHeights[n+2]));
 		rightElement->render();
 

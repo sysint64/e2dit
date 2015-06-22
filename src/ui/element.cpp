@@ -75,11 +75,59 @@ void UIElement::mouseUp (int x, int y, int button) {
 
 	/* */
 
-	for (const auto &kvp : elements) {
+	/*for (const auto &kvp : elements) {
 
 		kvp.second->mouseUp (x, y, button);
 
+		if (app->mouseButton == mouseLeft && !manager->focused) {
+			
+			manager->focused = true;
+			kvp.second->click = true;
+			kvp.second->focus();
+
+		}
+
+	}*/
+
+}
+
+void UIElement::checkFocus() {
+
+	/*for (const auto &it : elements) {
+
+		if (it.second->click) {
+
+			it.second->focus();
+			return;
+
+		}
+
+		it.second->checkFocus();
+
+	}*/
+
+}
+
+std::vector<UIElement*> UIElement::getBottoms() {
+
+	std::vector<UIElement*> res;
+
+	for (const auto &it : elements) {
+
+		if (it.second->elements.size() == 0) {
+
+			res.push_back (it.second.get());
+
+		} else {
+
+			auto bottom = it.second->getBottoms();
+			res.insert (res.end(), bottom.begin(), bottom.end());
+
+		}
+
 	}
+
+	return res;
 
 }
 
@@ -157,23 +205,29 @@ void UIElement::unfocus() {
 
 }
 
+void UIElement::updateAbsPos() {
+
+	glm::vec2 res (0, 0);
+	UIElement *lastParent = parent;
+
+	while (lastParent != nullptr) {
+
+		res.x += lastParent->left;
+		res.y += lastParent->top;
+		lastParent = lastParent->parent;
+
+	}
+
+	absLeft = left+res.x;
+	absTop  = top +res.y;
+
+}
+
 /* Render & poll *************************************************************/
 
 void UIElement::render() {
 
-	absLeft = top;
-	absTop  = left;
-
 	/* Render Elements */
-
-	/*for (int i = 0; i < elements.size(); i++) {
-
-		UIElement *el = elements[i].get();
-
-		if (el->visible)
-			el->render();
-
-	}*/
 
 	for (const auto &kvp : elements) {
 
@@ -193,21 +247,13 @@ void UIElement::poll() {
 	for (const auto &kvp : elements) {
 
 		UIElement *el = kvp.second.get();
-		bool mouseClick = false;
 
 		if (el == nullptr)
 			continue;
 
 		if (!el->visible) continue;
-		if (app->mouseButton == mouseLeft/* && !el->wasClick*/) {
-
-			//el->wasClick = true;
-			mouseClick = true;
-
-		}
-
-		if (!pointInRect (app->mouseX, app->mouseY, el->left,
-						  el->top, el->width, el->height))
+		if (!pointInRect (app->mouseX, app->mouseY, el->absLeft,
+						  el->absTop, el->width, el->height))
 		{
 			
 			el->enter = false;
@@ -226,14 +272,8 @@ void UIElement::poll() {
 		}
 
 		el->enter = true;
+		el->click = app->mouseButton == mouseLeft;
 		manager->cursor = el->cursor;
-		
-		if (mouseClick) {
-			
-			el->click = true;
-			el->focus();
-
-		}
 
 	}
 
@@ -243,10 +283,10 @@ void UIElement::poll() {
 
 		UIElement *el = kvp.second.get();
 		el->progress();
-		el->poll();
+		//el->poll();
 
 	}
-	
+
 }
 
 /* Manage Elements ***********************************************************/
@@ -256,6 +296,11 @@ void UIElement::poll() {
  */
 
 void UIElement::addElement (std::unique_ptr<UIElement> el) {
+
+	/* FIXME: Allow add if not parent at element */
+
+	if (!isRoot && parent == nullptr)
+		Application::getInstance()->log.ewrite ("Can't add element, element don't has parent!");
 
 	el->parent = this;
 	el->id = manager->lastId;
@@ -285,6 +330,7 @@ void UIElement::addElement (std::unique_ptr<UIElement> el) {
 
 	/* Add Element to map */
 
+	manager->elementsStack.push_back (el.get());
 	elements[manager->lastId] = std::move (el);
 	manager->lastId++;
 

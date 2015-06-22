@@ -56,8 +56,8 @@ Core::Core() {
 	std::unique_ptr<UIButton> b3 = std::make_unique<UIButton> (uiManager.get());
 
 	b1->caption = L"Test";
-	b1->left  = 100;
-	b1->top   = 100;
+	b1->left  = 0;
+	b1->top   = 0;
 	b1->width = 200;
 	b1->showIcon = true;
 	b1->showIcon2 = true;
@@ -114,9 +114,81 @@ Core::Core() {
 	p1->height = 600;
 	p1->background = UIPanel::Background::Action;
 
-	p1->addElement (std::move(b1));
+	auto _p1 = p1.get();
+
 	uiManager->addElement (std::move(p1));
 
+	_p1->addElement (std::move(b1));
+	_p1->addElement (std::move(b2));
+	_p1->addElement (std::move(b3));
+	_p1->addElement (std::move(e1));
+
+	std::unique_ptr<UIPanel> p2 = std::make_unique<UIPanel> (uiManager.get());
+	auto _p2 = p2.get();
+
+	p2->left   = 10;
+	p2->top    = 10;
+	p2->width  = 300;
+	p2->height = 100;
+	p2->background = UIPanel::Background::Light;
+
+	std::unique_ptr<UIButton> b4 = std::make_unique<UIButton> (uiManager.get());
+
+	b4->caption = L"Test";
+	b4->left    = 20;
+	b4->top     = 20;
+	b4->width   = 200;
+	b4->showIcon = true;
+	b4->showIcon2 = true;
+	b4->iconOffset[0] = 1;
+	b4->iconOffset[1] = 1;
+	b4->icon2Offset[0] = 3;
+	b4->icon2Offset[1] = 2;
+
+	_p1->addElement (std::move(p2));
+	_p2->addElement (std::move(b4));
+
+	//uiManager->addElement (std::move(p1));
+
+	/*std::unique_ptr<UIPanel> p1 = std::make_unique<UIPanel> (uiManager.get());
+
+	p1->left   = 200;
+	p1->top    = 10;
+	p1->width  = 600;
+	p1->height = 600;
+	p1->background = UIPanel::Background::Action;
+
+	p1->addElement (std::move(b1));
+	p1->addElement (std::move(b2));
+	p1->addElement (std::move(b3));
+	p1->addElement (std::move(e1));
+
+	std::unique_ptr<UIPanel> p2 = std::make_unique<UIPanel> (uiManager.get());
+
+	p2->left   = 10;
+	p2->top    = 10;
+	p2->width  = 300;
+	p2->height = 100;
+	p2->background = UIPanel::Background::Light;
+
+	std::unique_ptr<UIButton> b4 = std::make_unique<UIButton> (uiManager.get());
+
+	b4->caption = L"Test";
+	b4->left  = 20;
+	b4->top   = 20;
+	b4->width = 200;
+	b4->showIcon = true;
+	b4->showIcon2 = true;
+	b4->iconOffset[0] = 1;
+	b4->iconOffset[1] = 1;
+	b4->icon2Offset[0] = 3;
+	b4->icon2Offset[1] = 2;
+
+	p2->addElement (std::move(b4));
+	p1->addElement (std::move(p2));
+
+	uiManager->addElement (std::move(p1));*/
+	//uiManager->addElement (std::move(b1));
 
 }
 

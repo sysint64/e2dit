@@ -82,6 +82,8 @@ void UIPanel::setScrollXByPct (int pctVal) {
 
 void UIPanel::render() {
 
+	updateAbsPos();
+
 	if (background != Background::Transparent) {
 
 		/* Switch Shaders */
@@ -105,7 +107,7 @@ void UIPanel::render() {
 		glUniformMatrix4fv (manager->colorShader->locations["MVP"]  , 1, GL_FALSE, &(quadElement->MVPMatrix[0][0]));
 		glUniform4fv       (manager->colorShader->locations["Color"], 1, color); 
 
-		quadElement->setPosition (glm::vec2 (left , app->windowHeight-height-top));
+		quadElement->setPosition (glm::vec2 (absLeft , app->windowHeight-height-absTop));
 		quadElement->setScale    (glm::vec2 (width, height));
 		quadElement->render();
 

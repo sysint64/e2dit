@@ -184,6 +184,73 @@ void UIManager::setScissor () {
 }
 
 /**
+ * Poll UI Elements
+ */
+
+void UIManager::poll() {
+
+	/* Reset states */
+	
+	for (int i = elementsStack.size()-1; i >= 0; i--) {
+
+		auto el = elementsStack[i];
+
+		if (el == nullptr)
+			continue;
+
+		el->enter = false;
+		el->click = false;
+
+	}
+
+	/* State */
+
+	for (int i = elementsStack.size()-1; i >= 0; i--) {
+
+		auto el = elementsStack[i];
+
+		if (el == nullptr)
+			continue;
+
+		if (!el->visible) continue;
+		if (!pointInRect (app->mouseX, app->mouseY, el->absLeft,
+						  el->absTop, el->width, el->height))
+		{
+			
+			el->enter = false;
+			el->click = false || el->keyClick;
+
+			continue;
+
+		}
+
+		if (!el->enabled) {
+
+			el->enter = false;
+			el->click = false || el->keyClick;
+
+		}
+
+		el->enter = true;
+		el->click = app->mouseButton == mouseLeft;
+		cursor = el->cursor;
+
+		break;
+
+	}
+
+	/* Progress Event */
+
+	/*for (const auto &kvp : elements) {
+
+		UIElement *el = kvp.second.get();
+		el->progress();
+
+	}*/
+
+}
+
+/**
  * Render UI Elements
  */
 
@@ -211,8 +278,9 @@ void UIManager::render() {
 	/* Render Root */
 
 	root->render();
-	root->poll();
+	poll();
 
+	focused = false;
 	atlasShader->unbind();
 	app->cursor->set (cursor);
 
@@ -281,8 +349,24 @@ void UIManager::dblClick (int x, int y, int button) {
 
 void UIManager::mouseUp (int x, int y, int button) {
 
-	unfocus();
+	for (int i = elementsStack.size()-1; i >= 0; i--) {
+
+		auto el = elementsStack[i];
+
+		if (el == nullptr) // TODO: Remove empty element from stack
+			continue;
+
+		if (el->enter) {
+
+			el->focus();
+			break;
+		}
+
+	}
+
 	root->mouseUp (x, y, button);
+	int length = root->elements.size();
+	unfocus();
 	
 }
 
