@@ -26,7 +26,7 @@
  * Render Editable Field
  */
 
-void UIEdit::render () {
+void UIEdit::render() {
 	
 	UIElement::render();
 
@@ -447,8 +447,8 @@ void UIEdit::keyPressed (int key) {
 
 	/* Find Start & End Select Char Poses */
 
-	int selMin = min (selStart, selEnd);
-	int selMax = max (selStart, selEnd);
+	int selMin = math::min (selStart, selEnd);
+	int selMax = math::max (selStart, selEnd);
 
 	/* Split text parts */
 
@@ -584,8 +584,8 @@ void UIEdit::textEntered (int key) {
 
 	/* Find Start & End Select Char Poses */
 
-	int selMin = min (selStart, selEnd);
-	int selMax = max (selStart, selEnd);
+	int selMin = math::min (selStart, selEnd);
+	int selMax = math::max (selStart, selEnd);
 
 	if (selStart == selEnd) {
 

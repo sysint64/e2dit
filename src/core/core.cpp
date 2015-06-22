@@ -65,7 +65,7 @@ Core::Core() {
 	b1->iconOffset[1] = 1;
 	b1->icon2Offset[0] = 3;
 	b1->icon2Offset[1] = 2;
-	uiManager->addElement (std::move(b1));
+	//uiManager->addElement (std::move(b1));
 
 	b2->caption = L"Test";
 	b2->left  = 300;
@@ -77,7 +77,7 @@ Core::Core() {
 	b2->iconOffset[1] = 1;
 	b2->icon2Offset[0] = 3;
 	b2->icon2Offset[1] = 3;
-	uiManager->addElement (std::move(b2));
+	//uiManager->addElement (std::move(b2));
 
 	b3->caption = L"Test";
 	b3->left = 500;
@@ -92,7 +92,7 @@ Core::Core() {
 	b3->icon2Offset[0] = 3;
 	b3->icon2Offset[1] = 4;
 
-	uiManager->addElement (std::move(b3));
+	//uiManager->addElement (std::move(b3));
 	
 	/* */
 
@@ -101,8 +101,22 @@ Core::Core() {
 	e1->left  = 100;
 	e1->top   = 200;
 	e1->width = 200;
+	e1->trackMode = true;
+	e1->trackRange = glm::vec2(-10, 20);
 
-	uiManager->addElement (std::move(e1));
+	//uiManager->addElement (std::move(e1));
+
+	std::unique_ptr<UIPanel> p1 = std::make_unique<UIPanel> (uiManager.get());
+
+	p1->left   = 200;
+	p1->top    = 10;
+	p1->width  = 600;
+	p1->height = 600;
+	p1->background = UIPanel::Background::Action;
+
+	p1->addElement (std::move(b1));
+	uiManager->addElement (std::move(p1));
+
 
 }
 

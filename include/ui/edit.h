@@ -45,11 +45,13 @@
  */
 
 const wchar_t splitChars[] = L" ,.;:?'!|/\\~*+-=(){}<>[]#%&^@$№`\"";
+enum class UITextFilter {Text, Int, Float};
 class UIEdit : public UIElement {
 protected:
 
 	float selectColor[4];
 	float selectOffset[2]; // Offset top and bottom
+	int   trackWay = 0;
 
 	/* Params */
 
@@ -99,7 +101,13 @@ protected:
 
 public:
 
-	//enum class Filter {None, Int, Float};
+	UITextFilter filter = UITextFilter::Text;
+
+	/* Track Mode */
+
+	glm::vec2 trackRange;
+	float     trackStep = 1.f;
+	bool      trackMode = false;
 
 	/* Display Text */
 

@@ -166,13 +166,22 @@ void UIElement::render() {
 
 	/* Render Elements */
 
-	for (int i = 0; i < elements.size(); i++) {
+	/*for (int i = 0; i < elements.size(); i++) {
 
 		UIElement *el = elements[i].get();
 
 		if (el->visible)
 			el->render();
 
+	}*/
+
+	for (const auto &kvp : elements) {
+
+		UIElement *el = kvp.second.get();
+
+		if (el->visible)
+			el->render();
+		
 	}
 
 }
@@ -181,9 +190,9 @@ void UIElement::poll() {
 
 	/* State */
 
-	for (int i = 0; i < elements.size(); i++) {
+	for (const auto &kvp : elements) {
 
-		UIElement *el = elements[i].get();
+		UIElement *el = kvp.second.get();
 		bool mouseClick = false;
 
 		if (el == nullptr)
@@ -230,15 +239,14 @@ void UIElement::poll() {
 
 	/* Progress Event */
 
-	for (int i = 0; i < elements.size(); i++) {
+	for (const auto &kvp : elements) {
 
-		UIElement *el = elements[i].get();
+		UIElement *el = kvp.second.get();
 		el->progress();
 		el->poll();
 
 	}
-
-
+	
 }
 
 /* Manage Elements ***********************************************************/

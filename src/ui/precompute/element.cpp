@@ -65,6 +65,31 @@ void UIElement::precomputeText (const int n, std::string element) {
  *
  */
 
+void UIElement::precomputeColor3f (std::string element, std::string params, float *arr) {
+
+	arr[0] = manager->theme->element[element].params[params][0].num / 255.f;
+	arr[1] = manager->theme->element[element].params[params][1].num / 255.f;
+	arr[2] = manager->theme->element[element].params[params][2].num / 255.f;
+
+}
+
+/**
+ *
+ */
+
+void UIElement::precomputeColor4f (std::string element, std::string params, float *arr) {
+
+	arr[0] = manager->theme->element[element].params[params][0].num / 255.f;
+	arr[1] = manager->theme->element[element].params[params][1].num / 255.f;
+	arr[2] = manager->theme->element[element].params[params][2].num / 255.f;
+	arr[3] = manager->theme->element[element].params[params][3].num / 100.f;
+
+}
+
+/**
+ *
+ */
+
 void UIElement::precomputeFloatArray (std::string element, std::string params, float *arr, const int size, float normalize) {
 
 	for (int i = 0; i < size; i++)

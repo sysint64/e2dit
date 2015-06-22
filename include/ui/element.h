@@ -31,7 +31,7 @@
 #include <functional>
 #include <map>
 
-enum class Align  {Left, Center, Right, All};
+enum class Align {Left, Center, Right, Client, Bottom, Top, All};
 
 class UIManager;
 class UIElement {
@@ -51,6 +51,8 @@ protected:
 	void precomputeText       (const int n, std::string element);
 	void precomputeFloatArray (std::string element, std::string params, float *arr, const int size, float normalize = 1.f);
 	void precomputeIntArray   (std::string element, std::string params, int   *arr, const int size);
+	void precomputeColor3f    (std::string element, std::string params, float *arr);
+	void precomputeColor4f    (std::string element, std::string params, float *arr);
 
 public:
 

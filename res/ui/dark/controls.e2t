@@ -8,7 +8,7 @@
 General
 
 	font						: "res/fonts/ttf-dejavu/DejaVuSans.ttf", 12, true
-	
+
 	split						: 44, 35, 3, 21
 	menuSplit					: 10, 141, 2, 2
 	hr							: 10, 131, 2, 2
@@ -28,12 +28,12 @@ General
 
 Panel
 
-	color						: 114, 114, 114, 1
-	colorIn						: 70, 70, 70, 1
-	actionColor					: 95, 95, 95, 1
+	backgroundLight				: 114, 114, 114, 100
+	backgroundDark				: 70, 70, 70, 100
+	backgroundAction			: 95, 95, 95, 100
 
-	split						: 10, 136, 2, 2
-	splitIn						: 10, 141, 2, 2
+	splitLight					: 10, 136, 2, 2
+	splitDark					: 10, 141, 2, 2
 
 	textOffset					: 0,  0	
 	textColor					: 20, 20, 20

@@ -24,10 +24,12 @@
 #define E2DIT_CORE_H
 
 #include "utility/application.h"
+#include <glm/glm.hpp>
 
 #include "ui/manager.h"
 #include "ui/button.h"
 #include "ui/edit.h"
+#include "ui/panel.h"
 #include "ui/theme.h"
 
 #include "renderer/sprite.h"
@@ -52,6 +54,7 @@ public:
 	std::unique_ptr<Shader>    colorShader;
 
 	std::unique_ptr<UIButton>  button;
+	std::unique_ptr<UIPanel>  panel;
 	std::unique_ptr<UIEdit>    edit;
 
 	/* Constructor */

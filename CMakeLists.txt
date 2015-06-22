@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(e2dit)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-#set(Boost_NO_SYSTEM_PATHS ON)
+set(Boost_NO_SYSTEM_PATHS ON)
 set(SFML_NO_SYSTEM_PATHS ON)
 
 if (UNIX)
@@ -22,7 +22,9 @@ find_package(JPEG REQUIRED)
 find_package(SFML 2.2 COMPONENTS graphics window system REQUIRED)
 find_package(Boost COMPONENTS system filesystem REQUIRED)
 
-#message(SEND_ERROR ${SFML_GRAPHICS_LIBRARY_DEBUG})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(SFML_LIBS ${SFML_GRAPHICS_LIBRARY_DEBUG} ${SFML_WINDOW_LIBRARY_DEBUG} ${SFML_SYSTEM_LIBRARY_DEBUG})
 set(GL_LIBS ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
@@ -31,7 +33,7 @@ set(FONT_LIBS ${FREETYPE_LIBRARIES} ${FTGL_LIBRARIES})
 set(BOOST_LIBS ${Boost_SYSTEM_LIBRARY} ${Boost_FILESYSTEM_LIBRARY})
 
 set(libs ${FONT_LIBS} ${IMAGE_LIBS} ${GL_LIBS} ${BOOST_LIBS} ${SFML_LIBS})
-set(CMAKE_CXX_FLAGS "-std=gnu++1y -stdlib=libc++ -D${PLATFORM} ${CMAKE_CXX_FLAGS} -pipe -ggdb -g3 -pg -O0 -ftest-coverage -fprofile-arcs")
+set(CMAKE_CXX_FLAGS "-std=gnu++1y -stdlib=libc++ -D${PLATFORM} ${CMAKE_CXX_FLAGS} -pipe -ggdb -g3 -pg -O0")
 set(SOURCE_EXE src/main.cpp src/core/core.cpp src/core/events.cpp)
 
 add_executable(main ${SOURCE_EXE})

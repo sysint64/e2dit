@@ -19,3 +19,55 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+
+#include "ui/panel.h"
+
+/**
+ * User Interface Precompute Texture Atlas values
+ */
+
+void UIPanel::precompute() {
+
+	/* ScrollHorizontal */
+
+	precomputeElement (0, "scrollhorizontal", "left");
+	precomputeElement (1, "scrollhorizontal", "center");
+	precomputeElement (2, "scrollhorizontal", "right");
+
+	/* ScrollVertical */
+
+	precomputeElement (3, "scrollvertical", "left");
+	precomputeElement (4, "scrollvertical", "center");
+	precomputeElement (5, "scrollvertical", "right");
+
+	/* Scroll Button */
+	/* Leave */
+
+	precomputeElement (6, "scrollbuttonleave", "left");
+	precomputeElement (7, "scrollbuttonleave", "center");
+	precomputeElement (8, "scrollbuttonleave", "right");
+
+	/* Enter */
+
+	precomputeElement (9 , "scrollbuttonenter", "left");
+	precomputeElement (10, "scrollbuttonenter", "center");
+	precomputeElement (11, "scrollbuttonenter", "right");
+
+	/* Split */
+
+	precomputeElement (12, "panel", "splitlight");
+	precomputeElement (13, "panel", "splitdark");
+
+	/* Expand arrow */
+
+	precomputeElement (14, "panel", "arrowopen");
+	precomputeElement (15, "panel", "arrowclose");
+
+	/* Calculate Sizes */
+
+	precomputeColor4f ("panel" , "backgroundlight" , backgroundLight);
+	precomputeColor4f ("panel" , "backgrounddark"  , backgroundDark);
+	precomputeColor4f ("panel" , "backgroundaction", backgroundAction);
+
+}
+

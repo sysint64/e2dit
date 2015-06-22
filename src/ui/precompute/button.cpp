@@ -21,7 +21,6 @@
  */
 
 #include "ui/button.h"
-#include <iostream>
 
 /**
  *
