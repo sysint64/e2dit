@@ -18,6 +18,8 @@ find_package(GLEW REQUIRED)
 find_package(SOIL REQUIRED)
 find_package(JPEG REQUIRED)
 
+add_definitions(-DGLM_FORCE_RADIANS)
+
 #set(SFML_STATIC_LIBRARIES TRUE)
 find_package(SFML 2.2 COMPONENTS graphics window system REQUIRED)
 find_package(Boost COMPONENTS system filesystem REQUIRED)

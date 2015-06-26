@@ -120,7 +120,30 @@ void UIPanel::render() {
 
 	/* Render Childs */
 
+	int scx = absLeft;			 int scy = app->windowHeight-height-absTop;//+ScrollHeight;
+	int scw = width/*-ScrollWidth*/; int sch = height/*-ElemsOffset*/;
+
+	manager->pushScissor (scx, scy, scw, sch);
 	UIElement::render();
+	manager->popScissor();
+
+	renderScroll();
+
+}
+
+void UIPanel::renderScroll() {
+
+	//int swv = iHeights[4];
+	//int swh = iHeights[4];
+	int swh = 0;
+	int swv = 0;
+
+	int bottom       = absTop+height-iHeights[0];
+	int scrollWidth  = width-iHeights[4]+swh;
+	int scrollHeight = width-iHeights[4]+swh;
+
+	renderPartsElementH   (0, 1, 2, scrollBg[0].get(), scrollBg[1].get(), scrollBg[2].get(), absLeft      , bottom, scrollWidth);
+	renderPartsElementV90 (5, 4, 3, scrollBg[3].get(), scrollBg[4].get(), scrollBg[5].get(), absLeft+width, absTop, scrollHeight);
 
 }
 

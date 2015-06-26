@@ -81,4 +81,8 @@ void Core::onMouseWheel (int x, int y, int button) {
 
 void Core::onResize (int width, int height) {
 
+	if (height == 0) height = 1;
+	app->windowWidth  = width;
+	app->windowHeight = height;
+
 }

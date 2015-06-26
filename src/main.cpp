@@ -36,6 +36,13 @@
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
 
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+
+#define _NET_WM_STATE_REMOVE    0l
+#define _NET_WM_STATE_ADD       1l
+#define _NET_WM_STATE_TOGGLE    2l
+
 namespace fs = boost::filesystem;
 
 /* Main */
@@ -67,19 +74,45 @@ int main (int argc,char** argv) {
 
 	/* TODO */
 
-	app->windowWidth  = app->screenWidth -40;
-	app->windowHeight = app->screenHeight-80;
+	app->windowWidth  = 1024;//app->screenWidth -100;
+	app->windowHeight = 768;//app->screenHeight-100;
+
+	/* Maximize Window */
+
+	XEvent xev;
+	Display* display  = XOpenDisplay (NULL);
 
 	/* Create Window */
 
 	sf::Window window (sf::VideoMode (app->windowWidth, app->windowHeight, 24), APP_NAME,
 					   sf::Style::Default, settings);
 	
+	Atom _NET_WM_STATE = XInternAtom(display, "_NET_WM_STATE", False);
+    Atom _NET_WM_STATE_MAXIMIZED_VERT = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_VERT", False);
+    Atom _NET_WM_STATE_MAXIMIZED_HORZ = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
+
+	XEvent e;
+
+	e.xany.type = ClientMessage;
+	e.xany.window = window.getSystemHandle();
+	e.xclient.message_type = _NET_WM_STATE;
+	e.xclient.format = 32;
+	e.xclient.data.l[0] = _NET_WM_STATE_ADD;
+	e.xclient.data.l[1] = _NET_WM_STATE_MAXIMIZED_VERT;
+	e.xclient.data.l[2] = _NET_WM_STATE_MAXIMIZED_HORZ;
+	e.xclient.data.l[3] = 0l;
+	e.xclient.data.l[4] = 0l;
+
+	/*XSendEvent (display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &e);
+	XSync (display, False);*/
+
 	app->windowHandle = window.getSystemHandle();
 	app->cursor = std::make_unique<UICursor> (window.getSystemHandle());
 
 	window.setVerticalSyncEnabled(false);
 	window.setFramerateLimit(0);
+
+	
 
 	/* Check OpenGL Errors */
 
@@ -119,6 +152,11 @@ int main (int argc,char** argv) {
 
 	std::unique_ptr<Core> core = std::make_unique<Core>();
 
+	sf::Event ev;
+	window.setActive();
+	window.pollEvent (ev);
+	core->onResize (window.getSize().x, window.getSize().y);
+
 	/* */
 
 	bool  running  = true;
@@ -144,10 +182,13 @@ int main (int argc,char** argv) {
 	while (running) {
 
 		sf::Event ev;
+		core->onResize (window.getSize().x, window.getSize().y);
 
 		/* Poll Events */
 
 		while (window.pollEvent (ev)) {
+
+			
 
 			switch (ev.type) {
 

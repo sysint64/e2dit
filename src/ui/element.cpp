@@ -108,6 +108,71 @@ void UIElement::checkFocus() {
 
 }
 
+void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *el) {
+
+	glUniformMatrix4fv (manager->atlasShader->locations["MVP"], 1, GL_FALSE, &(el->MVPMatrix[0][0]));
+	glUniform2f		   (manager->atlasShader->locations["Size"]  , fWidths [idx], fHeights[idx]);
+	glUniform2f		   (manager->atlasShader->locations["Offset"], offsetsX[idx], offsetsY[idx]);
+	
+	if (el->rotation > 0.1f) el->setPosition (glm::vec2(x, app->windowHeight-w-y));
+	else                     el->setPosition (glm::vec2(x, app->windowHeight-h-y));
+
+	el->setScale    (glm::vec2(w, h));
+	el->render();
+
+}
+
+void UIElement::renderColorElement (int idx, int x, int y, int w, int h, BaseObject *el, float *color) {
+
+	glUniformMatrix4fv (manager->colorShader->locations["MVP"]  , 1, GL_FALSE, &(el->MVPMatrix[0][0]));
+	glUniform4fv       (manager->colorShader->locations["Color"], 1, color); 
+	
+	el->setPosition (glm::vec2(x, app->windowHeight-y-h));
+	el->setScale    (glm::vec2(w, h));
+	el->render();
+
+}
+
+void UIElement::renderPartsElementH (int il, int ic, int ir,
+									 BaseObject *el, BaseObject *ec, BaseObject *er,
+									 int x, int y, int w)
+{
+
+	int cw = w-iWidths[il]-iWidths[ir];
+
+	renderElement (il, x, y, iWidths[il], iHeights[il], el);
+	renderElement (ic, x+iWidths[il], y, cw, iHeights[ic], ec);
+	renderElement (ir, x+iWidths[il]+cw, y, iWidths[ir], iHeights[ir], er);
+
+}
+
+void UIElement::renderPartsElementH (int il, int ic, int ir,
+									 BaseObject *el, BaseObject *ec, BaseObject *er,
+									 int x, int y, int w, int h)
+{
+
+	int cw = w-iWidths[il]-iWidths[ir];
+
+	renderElement (il, x, y, iWidths[il], h, el);
+	renderElement (ic, x+iWidths[il], y, cw, h, ec);
+	renderElement (ir, x+iWidths[il]+cw, y, iWidths[ir], h, er);
+
+}
+
+
+void UIElement::renderPartsElementV90 (int it, int im, int ib,
+									   BaseObject *et, BaseObject *em, BaseObject *eb,
+									   int x, int y, int h)
+{
+
+	int mh = h-iWidths[it]-iWidths[ib];
+
+	renderElement (it, x, y, iWidths[it], iHeights[it], et);
+	renderElement (im, x, y+iWidths[it], mh, iHeights[it], em);
+	renderElement (ib, x, y+iWidths[it]+mh, iWidths[ib], iHeights[ib], eb);
+
+}
+
 std::vector<UIElement*> UIElement::getBottoms() {
 
 	std::vector<UIElement*> res;

@@ -26,6 +26,10 @@
 #include "utility/config.h"
 #include "utility/application.h"
 #include "utility/string.h"
+
+#include "renderer/base_object.h"
+#include "renderer/shader.h"
+
 #include "ui/cursor.h"
 
 #include "boost/assign/std/vector.hpp"
@@ -49,12 +53,62 @@ protected:
 
 	/* Precompute */
 
-	void precomputeElement    (const int n, std::string element, std::string params);
-	void precomputeText       (const int n, std::string element);
-	void precomputeFloatArray (std::string element, std::string params, float *arr, const int size, float normalize = 1.f);
-	void precomputeIntArray   (std::string element, std::string params, int   *arr, const int size);
-	void precomputeColor3f    (std::string element, std::string params, float *arr);
-	void precomputeColor4f    (std::string element, std::string params, float *arr);
+	void precomputeElement     (const int n, std::string element, std::string params);
+	void precomputeText        (const int n, std::string element);
+	void precomputeFloatArray  (std::string element, std::string params, float *arr, const int size, float normalize = 1.f);
+	void precomputeIntArray    (std::string element, std::string params, int   *arr, const int size);
+	void precomputeColor3f     (std::string element, std::string params, float *arr);
+	void precomputeColor4f     (std::string element, std::string params, float *arr);
+
+	/* Render */
+
+	void renderElement         (int idx, int x, int y, int w, int h, BaseObject *el);
+	void renderColorElement    (int idx, int x, int y, int w, int h, BaseObject *el, float *color);
+
+	void renderPartsElementH   (int il, int ic, int ir,
+								BaseObject *el, BaseObject *ec, BaseObject *er,
+								int x, int y, int w);
+
+	void renderPartsElementH   (int il, int ic, int ir,
+								BaseObject *el, BaseObject *ec, BaseObject *er,
+								int x, int y, int w, int h);
+
+	void renderPartsElementV   (int it, int im, int ib,
+								BaseObject *et, BaseObject *em, BaseObject *eb,
+								int x, int y, int h);
+
+	void renderPartsElementV90 (int it, int im, int ib,
+								BaseObject *et, BaseObject *em, BaseObject *eb,
+								int x, int y, int h);
+
+	inline void renderPartsElementBlock (int itl, int itc, int itr,
+										 int iml, int imc, int imr,
+										 int ibl, int ibc, int ibr,
+										 BaseObject *etl, BaseObject *etc, BaseObject *etr,
+										 BaseObject *eml, BaseObject *emc, BaseObject *emr,
+										 BaseObject *ebl, BaseObject *ebc, BaseObject *ebr,
+										 int x, int y, int w, int h)
+	{
+
+		int mh = h-iHeights[itc]-iHeights[ibc];
+		
+		renderPartsElementH (itl, itc, itr, etl, etc, etr, x, y, w);
+		renderPartsElementH (itl, itc, itr, etl, etc, etr, x, y+iHeights[itc], w, mh);
+		renderPartsElementH (itl, itc, itr, etl, etc, etr, x, y+iHeights[itc]+mh, w);
+
+	}
+
+	inline void renderPartsElementBlock (int pts[9], BaseObject *els[9],
+							      int x, int y, int w, int h)
+	{
+		renderPartsElementBlock (pts[0], pts[1], pts[2],
+								 pts[3], pts[4], pts[5],
+								 pts[6], pts[7], pts[8],
+								 els[0], els[1], els[2],
+								 els[3], els[4], els[5],
+								 els[6], els[7], els[8],
+								 x, y, w, h);
+	}
 
 public:
 
@@ -81,6 +135,7 @@ public:
 	int width  , height;
 	int absLeft, absTop;
 	int left   , top;
+	int wrapperWidth, wrapperHeight;
 
 	bool visible = true;
 	bool enabled = true;

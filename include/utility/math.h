@@ -136,6 +136,10 @@ namespace math {
 		return val;
 	}
 
+	const float pi  = 3.14159265358979f;
+	const float pi2 = pi/2.f;
+	const float pi4 = pi/4.f;
+
 }
 
 #endif

@@ -56,6 +56,7 @@ protected:
 	int	contentHeight;
 	int hsOffset, vsOffset; // Horizontal && Vertical Offset in Px
 	int hbOffset, vbOffset; // Horizontal && Vertical Buttons Size in Px
+	int scrollOffset = 0;
 
 	/* Split */
 
@@ -67,6 +68,7 @@ protected:
 	bool scrollClicked;
 
 	void updateAlign();
+	void renderScroll();
 
 public:
 
@@ -110,6 +112,20 @@ public:
 
 	UIPanel (UIManager *manager) : UIElement (manager) {
 		
+		for (int i = 0; i < 6; i++) {
+			
+			scrollBg [i] = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+			scrollBtn[i] = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+
+			if (i >= 3) {
+
+				scrollBg [i]->setRotation (math::pi/2.f);
+				scrollBtn[i]->setRotation (math::pi/2.f);
+
+			}
+
+		}
+
 		this->manager = manager;
 		precompute();
 

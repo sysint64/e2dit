@@ -35,7 +35,7 @@ typedef int Uint16;
 typedef char BYTE;
 
 //#define GLEW_STATIC
-#define GLM_FORCE_RADIANS
+//#define GLM_FORCE_RADIANS
 //#define GLM_SWIZZLE
 //#define GLM_FORCE_AVX for x86_64
 //#define GLM_FORCE_INLINE
