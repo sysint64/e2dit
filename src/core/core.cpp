@@ -58,6 +58,7 @@ Core::Core() {
 	b1->caption = L"Test";
 	b1->left  = 0;
 	b1->top   = 0;
+	b1->drawAlign = Align::Left;
 	b1->width = 200;
 	b1->showIcon = true;
 	b1->showIcon2 = true;
@@ -81,7 +82,7 @@ Core::Core() {
 
 	b3->caption = L"Test";
 	b3->left = 700;
-	b3->top  = 100;
+	b3->top  = 700;
 	b3->width = 200;
 
 	b3->showIcon = true;

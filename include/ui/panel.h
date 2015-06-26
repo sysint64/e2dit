@@ -52,10 +52,10 @@ protected:
 
 	/* Scroll */
 
-	int contentWidth;
-	int	contentHeight;
-	int hsOffset, vsOffset; // Horizontal && Vertical Offset in Px
-	int hbOffset, vbOffset; // Horizontal && Vertical Buttons Size in Px
+	int hsOffset = 0; int vsOffset = 0; // Horizontal && Vertical Offset for UI Elements in Px
+	int hbOffset = 0; int vbOffset = 0; // Horizontal && Vertical Offset for Scroll Buttons in Px
+	int lhbOffset, lvbOffset;           // Last Horizontal && Vertical Buttons Offset in Px
+
 	int scrollOffset = 0;
 
 	/* Split */
@@ -66,18 +66,35 @@ protected:
 	int  panelSize;
 	bool clicked;
 	bool scrollClicked;
+	bool splitClick = false;
+	int  headerSize;
+
+	/* */
+
+	int scrollElementWidth  = 0;
+	int scrollElementHeight = 0;
+
+	int scrollHClick = false;
+	int scrollVClick = false;
 
 	void updateAlign();
 	void renderScroll();
 
 public:
 
-	int hbSize, hbMin, hbMax; // ???
-	int vbSize, vbMin, vbMax; // ???
+	int hbSize; // Horisontal button size
+	int vbSize; // Vertical button size
+
+	int hbMin, hbMax;
+	int vbMin, vbMax;
+
+	bool showScrollX = true;
+	bool showScrollY = true;
 
 	enum class Background {Transparent, Light, Dark, Action};
 	Background background = Background::Light;
 	bool allowResize = true;
+	bool allowHide   = false;
 	bool open        = true;
 
 	std::wstring caption = L"";

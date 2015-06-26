@@ -42,7 +42,7 @@ void UIButton::render () {
 
 	if (!withoutSkin) renderSkin();
 
-	//if ( withoutSkin && !enter && !click)
+	//if (withoutSkin && !enter && !click)
 	//	glUniform1f (manager->atlasShader->locations["Alpha"], manager->disabledAlpha);
 
 	/* Convert UTF String to bytes sequence */
@@ -110,18 +110,6 @@ void UIButton::render () {
 
 			manager->icons->render (absLeft+20+iOffset, app->windowHeight-height+2-absTop,
 								    icon2Offset[0], icon2Offset[1], iconElement2.get());
-			/*glUniform1i        (manager->atlasShader->locations["Texture"], 2);
-			
-			glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(iconElement->MVPMatrix[0][0]));
-			glUniform2f        (manager->atlasShader->locations["Size"]  , manager->icons->width, manager->icons->height);
-			glUniform2f        (manager->atlasShader->locations["Offset"], manager->icons->offsetsX[ox][oy],
-																		   manager->icons->offsetsY[ox][oy]);
-			
-			iconElement->setPosition (glm::vec2 (x, y));
-			iconElement->setScale    (glm::vec2 (manager->icons->sizeIcon, manager->icons->sizeIcon));
-			iconElement->render();
-
-			glUniform1i (manager->atlasShader->locations["Texture"], manager->themeTexID);*/
 
 		}
 
@@ -148,106 +136,19 @@ void UIButton::renderSkin() {
 
 	/* Tables Indices */
 
-	width = 100;
 	int n  = 0; int tn = 0; int to = 0;
 
 	if (enter) { n = 3; tn = 1; to = 2; }
 	if (click) { n = 6; tn = 2; to = 4; }
 
-	int cWidth = width-iWidths[n]-1;
-	int poffset = 0; int aleft = absLeft;
+	renderPartsElementH (n, n+1, n+2, leftElement.get(), middleElement.get(), rightElement.get(), absLeft, absTop, width);
 
-	/* Some Fix for certain Draw Align */
+	if (focused) {
 
-	if (drawAlign == Align::Left)   aleft  += iWidths[n]+iWidths[n+2];
-	if (drawAlign == Align::Center) cWidth -= iWidths[n]-iWidths[n]-iWidths[n+2]-iWidths[n+2];
-
-	/* Draw Left Element */
-
-	if (drawAlign == Align::Left || drawAlign == Align::All) {
-
-		glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(leftElement->MVPMatrix[0][0]));
-		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n], fHeights [n]);
-		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
-		
-		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-absTop));
-		leftElement->setScale    (glm::vec2 (iWidths[n], iHeights[n]));
-		leftElement->render();
+		n = 9;
+		renderPartsElementH (n, n+1, n+2, leftElement.get(), middleElement.get(), rightElement.get(), absLeft, absTop, width);
 
 	}
-
-	/* Draw Middle Element */
-
-	glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(middleElement->MVPMatrix[0][0]));
-	glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+1], fHeights[n+1]);
-	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+1], offsetsY[n+1]);
-
-	//if (dynamic_cast<UICheckButton*> (this) && parent != 0)
-	//	poffset = 1;
-
-	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-absTop));
-	middleElement->setScale    (glm::vec2 (cWidth-iWidths[n+2]+poffset, iHeights[n+1]));
-	middleElement->render();
-
-	/* Draw Right Element */
-
-	if (drawAlign == Align::Right || drawAlign == Align::All) {
-
-		glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(rightElement->MVPMatrix[0][0]));
-		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+2], fHeights[n+2]);
-		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+2], offsetsY[n+2]);
-		
-		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-absTop));
-		rightElement->setScale    (glm::vec2 (iWidths[n+2], iHeights[n+2]));
-		rightElement->render();
-
-	}
-
-	/* Draw Focused */
-
-	if (!focused)
-		return;
-
-	n = 9;
-
-	/* Draw Left Element */
-
-	if (drawAlign == Align::Left || drawAlign == Align::All) {
-
-		glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(leftElement->MVPMatrix[0][0]));
-		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n], fHeights [n]);
-		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
-		
-		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-absTop));
-		leftElement->setScale    (glm::vec2 (iWidths[n], iHeights[n]));
-		leftElement->render();
-
-	}
-
-	/* Draw Middle Element */
-
-	glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(middleElement->MVPMatrix[0][0]));
-	glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+1], fHeights[n+1]);
-	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+1], offsetsY[n+1]);
-
-	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-absTop));
-	middleElement->setScale    (glm::vec2 (cWidth-iWidths[n+2]+poffset, iHeights[n+1]));
-	middleElement->render();
-
-	/* Draw Right Element */
-
-	if (drawAlign == Align::Right || drawAlign == Align::All) {
-
-		glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(rightElement->MVPMatrix[0][0]));
-		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+2], fHeights[n+2]);
-		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+2], offsetsY[n+2]);
-		
-		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-absTop));
-		rightElement->setScale    (glm::vec2 (iWidths[n+2], iHeights[n+2]));
-		rightElement->render();
-
-	}
-
 
 }
 

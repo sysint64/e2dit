@@ -75,19 +75,11 @@ void UIElement::mouseUp (int x, int y, int button) {
 
 	/* */
 
-	/*for (const auto &kvp : elements) {
+	for (const auto &kvp : elements) {
 
 		kvp.second->mouseUp (x, y, button);
 
-		if (app->mouseButton == mouseLeft && !manager->focused) {
-			
-			manager->focused = true;
-			kvp.second->click = true;
-			kvp.second->focus();
-
-		}
-
-	}*/
+	}
 
 }
 
@@ -122,7 +114,7 @@ void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *
 
 }
 
-void UIElement::renderColorElement (int idx, int x, int y, int w, int h, BaseObject *el, float *color) {
+void UIElement::renderColorElement (int x, int y, int w, int h, BaseObject *el, float *color) {
 
 	glUniformMatrix4fv (manager->colorShader->locations["MVP"]  , 1, GL_FALSE, &(el->MVPMatrix[0][0]));
 	glUniform4fv       (manager->colorShader->locations["Color"], 1, color); 
@@ -135,20 +127,41 @@ void UIElement::renderColorElement (int idx, int x, int y, int w, int h, BaseObj
 
 void UIElement::renderPartsElementH (int il, int ic, int ir,
 									 BaseObject *el, BaseObject *ec, BaseObject *er,
-									 int x, int y, int w)
+									 int x, int y, int w, bool ignoreDrawAlign)
 {
 
-	int cw = w-iWidths[il]-iWidths[ir];
+	int cw;
 
-	renderElement (il, x, y, iWidths[il], iHeights[il], el);
+	if (!ignoreDrawAlign) {
+
+		switch (drawAlign) {
+
+			case Align::Left   : cw = w-iWidths[ir];
+			case Align::Right  : cw = w-iWidths[il];
+			case Align::Center : cw = w;
+			default            : cw = w-iWidths[il]-iWidths[ir];
+
+		}
+
+	} else {
+
+		cw = w-iWidths[il]-iWidths[ir];
+
+	}
+
+	if (drawAlign == Align::Left  || drawAlign == Align::All)
+		renderElement (il, x, y, iWidths[il], iHeights[il], el);
+
+	if (drawAlign == Align::Right || drawAlign == Align::All)
+		renderElement (ir, x+iWidths[il]+cw, y, iWidths[ir], iHeights[ir], er);
+
 	renderElement (ic, x+iWidths[il], y, cw, iHeights[ic], ec);
-	renderElement (ir, x+iWidths[il]+cw, y, iWidths[ir], iHeights[ir], er);
-
+	
 }
 
 void UIElement::renderPartsElementH (int il, int ic, int ir,
 									 BaseObject *el, BaseObject *ec, BaseObject *er,
-									 int x, int y, int w, int h)
+									 int x, int y, int w, int h, bool ignoreDrawAlign)
 {
 
 	int cw = w-iWidths[il]-iWidths[ir];
@@ -162,7 +175,7 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 
 void UIElement::renderPartsElementV90 (int it, int im, int ib,
 									   BaseObject *et, BaseObject *em, BaseObject *eb,
-									   int x, int y, int h)
+									   int x, int y, int h, bool ignoreDrawAlign)
 {
 
 	int mh = h-iWidths[it]-iWidths[ib];
@@ -170,29 +183,6 @@ void UIElement::renderPartsElementV90 (int it, int im, int ib,
 	renderElement (it, x, y, iWidths[it], iHeights[it], et);
 	renderElement (im, x, y+iWidths[it], mh, iHeights[it], em);
 	renderElement (ib, x, y+iWidths[it]+mh, iWidths[ib], iHeights[ib], eb);
-
-}
-
-std::vector<UIElement*> UIElement::getBottoms() {
-
-	std::vector<UIElement*> res;
-
-	for (const auto &it : elements) {
-
-		if (it.second->elements.size() == 0) {
-
-			res.push_back (it.second.get());
-
-		} else {
-
-			auto bottom = it.second->getBottoms();
-			res.insert (res.end(), bottom.begin(), bottom.end());
-
-		}
-
-	}
-
-	return res;
 
 }
 
@@ -292,11 +282,17 @@ void UIElement::updateAbsPos() {
 
 void UIElement::render() {
 
+	wrapperWidth  = width;
+	wrapperHeight = height;
+
 	/* Render Elements */
 
 	for (const auto &kvp : elements) {
 
 		UIElement *el = kvp.second.get();
+
+		wrapperWidth  = math::max (wrapperWidth , el->left+el->width);
+		wrapperHeight = math::max (wrapperHeight, el->top +el->height);
 
 		if (el->visible)
 			el->render();

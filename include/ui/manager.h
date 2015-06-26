@@ -87,6 +87,7 @@ public:
 	bool dialogOpened = false;
 	bool freezUI	  = false;
 	bool focused      = false;
+	bool lockCursor   = false;
 
 	/* Icons */
 
@@ -115,7 +116,8 @@ public:
 	Shader    *colorShader;
 	UITheme	  *theme;
 
-	CursorIco cursor = CursorIco::Normal;
+	CursorIco cursor         = CursorIco::Normal;
+	CursorIco cursorOverride = CursorIco::None;
 
 	UIManager (Shader *atlasShader, Shader *colorShader, UITheme *theme);
 

@@ -29,8 +29,11 @@
  	#include <X11/cursorfont.h>
 	#include <X11/Xlib.h>
 
+ 	#undef None
+
 	enum class CursorIco {
 
+		None			= -1,
 		Wait			= XC_watch,
 		Hand			= XC_hand1,
 		Normal			= XC_left_ptr,

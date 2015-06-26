@@ -63,23 +63,23 @@ protected:
 	/* Render */
 
 	void renderElement         (int idx, int x, int y, int w, int h, BaseObject *el);
-	void renderColorElement    (int idx, int x, int y, int w, int h, BaseObject *el, float *color);
+	void renderColorElement    (int x, int y, int w, int h, BaseObject *el, float *color);
 
 	void renderPartsElementH   (int il, int ic, int ir,
 								BaseObject *el, BaseObject *ec, BaseObject *er,
-								int x, int y, int w);
+								int x, int y, int w, bool ignoreDrawAlign = false);
 
 	void renderPartsElementH   (int il, int ic, int ir,
 								BaseObject *el, BaseObject *ec, BaseObject *er,
-								int x, int y, int w, int h);
+								int x, int y, int w, int h, bool ignoreDrawAlign = false);
 
 	void renderPartsElementV   (int it, int im, int ib,
 								BaseObject *et, BaseObject *em, BaseObject *eb,
-								int x, int y, int h);
+								int x, int y, int h, bool ignoreDrawAlign = false);
 
 	void renderPartsElementV90 (int it, int im, int ib,
 								BaseObject *et, BaseObject *em, BaseObject *eb,
-								int x, int y, int h);
+								int x, int y, int h, bool ignoreDrawAlign = false);
 
 	inline void renderPartsElementBlock (int itl, int itc, int itr,
 										 int iml, int imc, int imr,
@@ -148,9 +148,10 @@ public:
 
 	/* Mouse State */
 
-	bool enter = false;
-	bool leave = true;
-	bool click = false;
+	bool enter  = false;
+	bool leave  = true;
+	bool click  = false;
+	bool over   = false; // true if mouse over element even if another element overlaps it 
 
 	bool inDialog = false;
 
@@ -192,7 +193,6 @@ public:
 
 	void updateAbsPos();
 	void checkFocus();
-	std::vector<UIElement*> getBottoms();
 
 	/* Manage Elements */
 

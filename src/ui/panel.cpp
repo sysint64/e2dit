@@ -32,7 +32,7 @@ void UIPanel::addScrollXByPx (int pxVal) {
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
 	
 	int py   =  (hbOffset*100)/hbMax;
-	hsOffset =  (contentHeight*py)/100;
+	hsOffset =  (wrapperHeight*py)/100;
 
 }
 
@@ -46,7 +46,7 @@ void UIPanel::setScrollYByPx (int pxVal) {
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
 
 	int py   =  (vbOffset*100)/vbMax;
-	vsOffset =  (contentHeight*py)/100;
+	vsOffset =  (wrapperHeight*py)/100;
 
 }
 
@@ -56,7 +56,7 @@ void UIPanel::setScrollXByPx (int pxVal) {
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
 
 	int py    = (hbOffset*100)/hbMax;
-	hsOffset  = (contentWidth*py)/100;
+	hsOffset  = (wrapperWidth*py)/100;
 
 }
 
@@ -104,12 +104,7 @@ void UIPanel::render() {
 
 		}
 
-		glUniformMatrix4fv (manager->colorShader->locations["MVP"]  , 1, GL_FALSE, &(quadElement->MVPMatrix[0][0]));
-		glUniform4fv       (manager->colorShader->locations["Color"], 1, color); 
-
-		quadElement->setPosition (glm::vec2 (absLeft , app->windowHeight-height-absTop));
-		quadElement->setScale    (glm::vec2 (width, height));
-		quadElement->render();
+		renderColorElement (absLeft, absTop, width, height, quadElement.get(), color);
 
 		/* Switch Shaders */
 
@@ -120,30 +115,120 @@ void UIPanel::render() {
 
 	/* Render Childs */
 
-	int scx = absLeft;			 int scy = app->windowHeight-height-absTop;//+ScrollHeight;
-	int scw = width/*-ScrollWidth*/; int sch = height/*-ElemsOffset*/;
+	int scx = absLeft;			        int scy = app->windowHeight-height-absTop+scrollElementHeight;
+	int scw = width-scrollElementWidth; int sch = height/*-ElemsOffset*/;
 
 	manager->pushScissor (scx, scy, scw, sch);
 	UIElement::render();
 	manager->popScissor();
 
-	renderScroll();
+	if (showScrollX || showScrollY)
+		renderScroll();
 
 }
 
 void UIPanel::renderScroll() {
 
-	//int swv = iHeights[4];
-	//int swh = iHeights[4];
-	int swh = 0;
-	int swv = 0;
+	int swv = iHeights[4];
+	int swh = iHeights[4];
+
+	scrollElementWidth  = 0;
+	scrollElementHeight = 0;
+
+	if (showScrollX && wrapperHeight != height) { swh = 0; scrollElementWidth  = iHeights[4]; }
+	if (showScrollY && wrapperWidth  != width ) { swv = 0; scrollElementHeight = iHeights[4]; }
 
 	int bottom       = absTop+height-iHeights[0];
 	int scrollWidth  = width-iHeights[4]+swh;
 	int scrollHeight = width-iHeights[4]+swh;
 
-	renderPartsElementH   (0, 1, 2, scrollBg[0].get(), scrollBg[1].get(), scrollBg[2].get(), absLeft      , bottom, scrollWidth);
-	renderPartsElementV90 (5, 4, 3, scrollBg[3].get(), scrollBg[4].get(), scrollBg[5].get(), absLeft+width, absTop, scrollHeight);
+	/* Horizontal Scroll */
+
+	if (wrapperWidth != width && showScrollX) {
+
+		int n = 6;
+
+		if (!manager->dialogOpened || inDialog) {
+
+			hbMin = iWidths[6]+iWidths[8];
+			hbMax = width-iHeights[4]+swh;
+
+			int x  = (hbMax*100)/wrapperWidth;
+			hbSize = (hbMax*x)/100;
+			math::clamp (&hbSize, hbMin, hbMax);
+
+			bool scrollEnter = pointInRect (app->mouseX, app->mouseY, hbOffset+absLeft, absTop+height-iHeights[6], hbSize, iHeights[6]);
+
+			if (app->mouseButton == mouseLeft && !clicked && scrollEnter) {
+
+				scrollHClick = true;
+				clicked      = true;
+
+			}
+
+			n = scrollEnter || scrollHClick ? n+3 : n;
+			if (clicked && !scrollHClick) n = 6;
+
+			if (!splitClick && scrollHClick) {
+
+				hbOffset = lhbOffset+app->mouseX-app->clickX;
+				math::clamp (&hbOffset, 0, hbMax-hbSize);
+
+				int py = (hbOffset*100)/hbMax;
+				hsOffset = (wrapperWidth*py)/100;
+
+			}
+
+		}
+
+		renderPartsElementH   (0,   1,   2, scrollBg [0].get(), scrollBg [1].get(), scrollBg [2].get(), absLeft, bottom, scrollWidth, true);
+		renderPartsElementH   (n, n+1, n+2, scrollBtn[0].get(), scrollBtn[1].get(), scrollBtn[2].get(), absLeft+hbOffset, bottom, hbSize, true);
+
+	}
+
+	/* Vertical Scroll */
+
+	if (wrapperHeight != height && showScrollY) {
+
+		int n = 6;
+
+		if (!manager->dialogOpened || inDialog) {
+
+			vbMin = iWidths[6]+iWidths[8];
+			vbMax = height-iHeights[4]+swv;
+
+			int x  = (vbMax*100)/wrapperHeight;
+			vbSize = (vbMax*x)/100;
+			math::clamp (&vbSize, hbMin, vbMax);
+
+			bool scrollEnter = pointInRect (app->mouseX, app->mouseY, absLeft+width-iHeights[6], absTop+vbOffset+headerSize, iHeights[6], vbSize);
+
+			if (app->mouseButton == mouseLeft && !clicked && scrollEnter) {
+
+				scrollVClick = true;
+				clicked      = true;
+
+			}
+
+			n = scrollEnter || scrollVClick ? n+3 : n;
+			if (clicked && !scrollVClick) n = 6;
+
+			if (!splitClick && scrollVClick) {
+
+				vbOffset = lhbOffset+app->mouseY-app->clickY;
+				math::clamp (&vbOffset, 0, vbMax-vbSize);
+
+				int py   = (vbOffset*100)/vbMax;
+				vsOffset = (wrapperHeight*py)/100;
+
+			}
+
+		}
+
+		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width, absTop, scrollHeight, true);
+		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width, absTop+vbOffset, vbSize, true);
+
+	}
 
 }
 
@@ -165,6 +250,9 @@ void UIPanel::mouseDown (int x, int y, int button) {
 
 	UIElement::mouseDown (x, y, button);
 
+	lhbOffset = hbOffset;
+	lvbOffset = vbOffset;
+
 }
 
 void UIPanel::mouseMove (int x, int y, int button) {
@@ -176,6 +264,11 @@ void UIPanel::mouseMove (int x, int y, int button) {
 void UIPanel::mouseUp (int x, int y, int button) {
 
 	UIElement::mouseUp (x, y, button);
+
+	scrollHClick = false;
+	scrollVClick = false;
+	splitClick   = false;
+	clicked      = false;
 
 }
 

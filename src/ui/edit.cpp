@@ -77,13 +77,7 @@ void UIEdit::render() {
 
 	if (showStick && focused) {
 		
-		glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(stickElement->MVPMatrix[0][0]));
-		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [12], fHeights[12]);
-		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[12], offsetsY[12]);
-		
-		stickElement->setPosition (glm::vec2 (textPosX+stickPxPos, app->windowHeight-iHeights[12]-absTop));
-		stickElement->setScale    (glm::vec2 (iWidths[12], iHeights[12]));
-		stickElement->render();
+		renderElement (12, textPosX+stickPxPos-1, absTop, iWidths[12], iHeights[12], stickElement.get());
 		
 	}
 
@@ -121,12 +115,9 @@ void UIEdit::render() {
 
 		manager->colorShader->bind();
 
-		glUniformMatrix4fv (manager->colorShader->locations["MVP"]  , 1, GL_FALSE, &(selectElement->MVPMatrix[0][0]));
-		glUniform4fv       (manager->colorShader->locations["Color"], 1, &selectColor[0]); 
-
-		selectElement->setPosition (glm::vec2 (selx1-1, app->windowHeight-absTop+selectOffset[0]-iHeights[9]));
-		selectElement->setScale    (glm::vec2 (selx2-selx1+1, iHeights[9]-selectOffset[1]-selectOffset[0]));
-		selectElement->render();
+		renderColorElement (selx1-2, absTop+selectOffset[0], // x, y
+							selx2-selx1+1, iHeights[9]-selectOffset[1]-selectOffset[0], // w, h
+							selectElement.get(), selectColor);
 
 		manager->colorShader->unbind();
 
@@ -168,96 +159,13 @@ void UIEdit::renderSkin() {
 	if (enter) { n = 3; tn = 1; to = 2; }
 	if (click) { n = 6; tn = 2; to = 4; }
 
-	int poffset = 0; int aleft = absLeft;
 
-	/* Some Fix for certain Draw Align */
+	renderPartsElementH (n, n+1, n+2, leftElement.get(), middleElement.get(), rightElement.get(), absLeft, absTop, width);
 
-	if (drawAlign == Align::Left)   aleft  += iWidths[n]+iWidths[n+2];
-	if (drawAlign == Align::Center) cWidth -= iWidths[n]-iWidths[n]-iWidths[n+2]-iWidths[n+2];
+	if (focused) {
 
-	/* Draw Left Element */
-
-	if (drawAlign == Align::Left || drawAlign == Align::All) {
-
-		glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(leftElement->MVPMatrix[0][0]));
-		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n], fHeights[n]);
-		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
-		
-		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-absTop));
-		leftElement->setScale    (glm::vec2 (iWidths[n], iHeights[n]));
-		leftElement->render();
-
-	}
-
-	/* Draw Middle Element */
-
-	glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(middleElement->MVPMatrix[0][0]));
-	glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+1], fHeights[n+1]);
-	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+1], offsetsY[n+1]);
-
-	//if (dynamic_cast<UICheckButton*> (this) && parent != 0)
-	//	poffset = 1;
-
-	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-absTop));
-	middleElement->setScale    (glm::vec2 (cWidth-iWidths[n+2]+poffset, iHeights[n+1]));
-	middleElement->render();
-
-	/* Draw Right Element */
-
-	if (drawAlign == Align::Right || drawAlign == Align::All) {
-
-		glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(rightElement->MVPMatrix[0][0]));
-		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+2], fHeights[n+2]);
-		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+2], offsetsY[n+2]);
-		
-		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-absTop));
-		rightElement->setScale    (glm::vec2 (iWidths[n+2], iHeights[n+2]));
-		rightElement->render();
-
-	}
-
-	/* Draw Focused */
-
-	if (!focused)
-		return;
-
-	n = 9;
-
-	/* Draw Left Element */
-
-	if (drawAlign == Align::Left || drawAlign == Align::All) {
-
-		glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(leftElement->MVPMatrix[0][0]));
-		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n], fHeights [n]);
-		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
-		
-		leftElement->setPosition (glm::vec2 (aleft, app->windowHeight-iHeights[n]-absTop));
-		leftElement->setScale    (glm::vec2 (iWidths[n], iHeights[n]));
-		leftElement->render();
-
-	}
-
-	/* Draw Middle Element */
-
-	glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(middleElement->MVPMatrix[0][0]));
-	glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+1], fHeights[n+1]);
-	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+1], offsetsY[n+1]);
-
-	middleElement->setPosition (glm::vec2 (aleft  +iWidths[n+1]-poffset, app->windowHeight-iHeights[n+1]-absTop));
-	middleElement->setScale    (glm::vec2 (cWidth-iWidths[n+2]+poffset, iHeights[n+1]));
-	middleElement->render();
-
-	/* Draw Right Element */
-
-	if (drawAlign == Align::Right || drawAlign == Align::All) {
-
-		glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(rightElement->MVPMatrix[0][0]));
-		glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [n+2], fHeights[n+2]);
-		glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[n+2], offsetsY[n+2]);
-		
-		rightElement->setPosition (glm::vec2 (aleft+cWidth , app->windowHeight-iHeights[n+2]-absTop));
-		rightElement->setScale    (glm::vec2 (iWidths[n+2], iHeights[n+2]));
-		rightElement->render();
+		n = 9;
+		renderPartsElementH (n, n+1, n+2, leftElement.get(), middleElement.get(), rightElement.get(), absLeft, absTop, width);
 
 	}
 
