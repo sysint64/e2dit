@@ -71,9 +71,6 @@ protected:
 
 	/* */
 
-	int scrollElementWidth  = 0;
-	int scrollElementHeight = 0;
-
 	int scrollHClick = false;
 	int scrollVClick = false;
 
@@ -128,9 +125,9 @@ public:
 	/* Constructor */
 
 	UIPanel (UIManager *manager) : UIElement (manager) {
-		
+
 		for (int i = 0; i < 6; i++) {
-			
+
 			scrollBg [i] = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 			scrollBtn[i] = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 

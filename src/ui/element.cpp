@@ -36,8 +36,8 @@ void UIElement::dblClick (int x, int y, int button) {
 		kvp.second->dblClick (x, y, button);
 
 	}
-	
-	if (onDblClick == nullptr || !enabled || ! enter) 
+
+	if (onDblClick == nullptr || !enabled || ! enter)
 		return;
 
 	onDblClick (this, x, y, button);
@@ -105,7 +105,7 @@ void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *
 	glUniformMatrix4fv (manager->atlasShader->locations["MVP"], 1, GL_FALSE, &(el->MVPMatrix[0][0]));
 	glUniform2f		   (manager->atlasShader->locations["Size"]  , fWidths [idx], fHeights[idx]);
 	glUniform2f		   (manager->atlasShader->locations["Offset"], offsetsX[idx], offsetsY[idx]);
-	
+
 	if (el->rotation > 0.1f) el->setPosition (glm::vec2(x, app->windowHeight-w-y));
 	else                     el->setPosition (glm::vec2(x, app->windowHeight-h-y));
 
@@ -117,8 +117,8 @@ void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *
 void UIElement::renderColorElement (int x, int y, int w, int h, BaseObject *el, float *color) {
 
 	glUniformMatrix4fv (manager->colorShader->locations["MVP"]  , 1, GL_FALSE, &(el->MVPMatrix[0][0]));
-	glUniform4fv       (manager->colorShader->locations["Color"], 1, color); 
-	
+	glUniform4fv       (manager->colorShader->locations["Color"], 1, color);
+
 	el->setPosition (glm::vec2(x, app->windowHeight-y-h));
 	el->setScale    (glm::vec2(w, h));
 	el->render();
@@ -156,7 +156,7 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 		renderElement (ir, x+iWidths[il]+cw, y, iWidths[ir], iHeights[ir], er);
 
 	renderElement (ic, x+iWidths[il], y, cw, iHeights[ic], ec);
-	
+
 }
 
 void UIElement::renderPartsElementH (int il, int ic, int ir,
@@ -204,7 +204,7 @@ void UIElement::keyPressed (int key) {
 	if (!visible) return;
 	//if (onKeyPressed == nullptr || !enabled)
 		//return
-	
+
 	//onKeyPressed (this, key);
 
 	/* Poll Event in child elements */
@@ -214,11 +214,11 @@ void UIElement::keyPressed (int key) {
 		kvp.second->keyPressed (key);
 
 	}
-	
+
 }
 
 void UIElement::keyReleased (int key) {
-	
+
 	keyClick = false;
 
 	for (const auto &kvp : elements) {
@@ -246,7 +246,7 @@ void UIElement::focus() {
 	if (manager->dialogOpened && !inDialog)
 		return;
 
-	if (manager->focusedElement != this && manager->focusedElement != nullptr) 
+	if (manager->focusedElement != this && manager->focusedElement != nullptr)
 		manager->focusedElement->unfocus();
 
 	manager->focusedElement = this;
@@ -273,8 +273,8 @@ void UIElement::updateAbsPos() {
 
 	}
 
-	absLeft = left+res.x;
-	absTop  = top +res.y;
+	absLeft = left+res.x-parent->scrollX;
+	absTop  = top +res.y-parent->scrollY;
 
 }
 
@@ -285,18 +285,29 @@ void UIElement::render() {
 	wrapperWidth  = width;
 	wrapperHeight = height;
 
+	if (isRoot) {
+
+		over = true;
+		//left = 0; top  = 0;
+		//absLeft = 0; absTop = 0;
+		width  = app->windowWidth;
+		height = app->windowHeight;
+
+	}
+
 	/* Render Elements */
 
 	for (const auto &kvp : elements) {
 
 		UIElement *el = kvp.second.get();
+		el->over = pointInRect (app->mouseX, app->mouseY, el->absLeft, el->absTop, el->width, el->height);
 
 		wrapperWidth  = math::max (wrapperWidth , el->left+el->width);
 		wrapperHeight = math::max (wrapperHeight, el->top +el->height);
 
 		if (el->visible)
 			el->render();
-		
+
 	}
 
 }
@@ -309,14 +320,14 @@ void UIElement::poll() {
 
 		UIElement *el = kvp.second.get();
 
-		if (el == nullptr)
+		if (el == nullptr || !el->parent->over)
 			continue;
 
 		if (!el->visible) continue;
 		if (!pointInRect (app->mouseX, app->mouseY, el->absLeft,
 						  el->absTop, el->width, el->height))
 		{
-			
+
 			el->enter = false;
 			el->click = false || el->keyClick;
 
@@ -369,7 +380,7 @@ void UIElement::addElement (std::unique_ptr<UIElement> el) {
 	/* Make Loop */
 
 	if (firstEl == nullptr) {
-		
+
 		firstEl  = el.get();
 		el->next = el.get();
 		el->prev = el.get();
@@ -443,4 +454,3 @@ std::unique_ptr<UIElement> UIElement::takeElement (const int id) {
 	return el;
 
 }
-

@@ -33,7 +33,7 @@ Core::Core() {
 
 	ftglSetFontFaceSize (font, 12, 12);
 	ftglSetFontCharMap  (font, ft_encoding_unicode);
-	
+
 	skin    = std::make_unique<Texture> ("res/ui/dark/controls.png");
 	uiTheme = std::make_unique<UITheme> ("res/ui/dark/controls.e2t", ReadType::Text, skin.get(), font);
 
@@ -94,7 +94,7 @@ Core::Core() {
 	b3->icon2Offset[1] = 4;
 
 	//uiManager->addElement (std::move(b3));
-	
+
 	/* */
 
 	std::unique_ptr<UIEdit> e1 = std::make_unique<UIEdit> (uiManager.get());
@@ -110,10 +110,12 @@ Core::Core() {
 	std::unique_ptr<UIPanel> p1 = std::make_unique<UIPanel> (uiManager.get());
 
 	p1->left   = 200;
-	p1->top    = 10;
+	p1->top    = 100;
 	p1->width  = 600;
-	p1->height = 600;
+	p1->height = 400;
 	p1->background = UIPanel::Background::Action;
+
+	p1->align = Align::Top;
 
 	auto _p1 = p1.get();
 
@@ -123,6 +125,17 @@ Core::Core() {
 	_p1->addElement (std::move(b2));
 	_p1->addElement (std::move(b3));
 	_p1->addElement (std::move(e1));
+
+	std::unique_ptr<UIPanel> p2 = std::make_unique<UIPanel> (uiManager.get());
+
+	p2->left   = 50;
+	p2->top    = 50;
+	p2->width  = 50;
+	p2->height = 50;
+	p2->background = UIPanel::Background::Dark;
+	p2->align = Align::Right;
+
+	_p1->addElement (std::move(p2));
 
 }
 

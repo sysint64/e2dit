@@ -36,8 +36,10 @@
 #include <functional>
 #include <map>
 
+#undef None
+
 using namespace boost::assign;
-enum class Align {Left, Center, Right, Client, Bottom, Top, All};
+enum class Align {None, Left, Center, Right, Client, Bottom, Top, All};
 
 class UIManager;
 class UIElement {
@@ -47,7 +49,7 @@ protected:
 	int   iWidths [32];    int   iHeights[32];
 	float fWidths [32];    float fHeights[32];
 	float offsetsX[32];    float offsetsY[32];
-	
+
 	float textColors [32];
 	float textOffsets[32];
 
@@ -91,7 +93,7 @@ protected:
 	{
 
 		int mh = h-iHeights[itc]-iHeights[ibc];
-		
+
 		renderPartsElementH (itl, itc, itr, etl, etc, etr, x, y, w);
 		renderPartsElementH (itl, itc, itr, etl, etc, etr, x, y+iHeights[itc], w, mh);
 		renderPartsElementH (itl, itc, itr, etl, etc, etr, x, y+iHeights[itc]+mh, w);
@@ -112,6 +114,14 @@ protected:
 
 public:
 
+	/* Scroll */
+
+	int scrollElementWidth  = 0;
+	int scrollElementHeight = 0;
+
+	int scrollX = 0;
+	int scrollY = 0;
+
 	/* Icon */
 
 	int iconOffset     [2] = {-1, -1}; bool showIcon      = false;
@@ -125,7 +135,7 @@ public:
 
 	UIElement *lastEl  = nullptr;
 	UIElement *firstEl = nullptr;
-	
+
 	/* */
 
 	bool isRoot = false;
@@ -151,7 +161,7 @@ public:
 	bool enter  = false;
 	bool leave  = true;
 	bool click  = false;
-	bool over   = false; // true if mouse over element even if another element overlaps it 
+	bool over   = false; // true if mouse over element even if another element overlaps it
 
 	bool inDialog = false;
 
@@ -160,6 +170,7 @@ public:
 
 	CursorIco cursor = CursorIco::Normal;
 	Align drawAlign  = Align::All;
+	Align align      = Align::None;
 
 	/* Functors: Callback Events */
 
@@ -199,7 +210,7 @@ public:
 	void addElement    (std::unique_ptr<UIElement> el);
 	void deleteElement (std::unique_ptr<UIElement> el);
 	void deleteElement (const int id);
-	
+
 	UIElement *getElement (const int id);
 	std::unique_ptr<UIElement> takeElement (const int id);
 

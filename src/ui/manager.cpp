@@ -141,7 +141,7 @@ void UIManager::pushScissor (int sx, int sy, int sw, int sh) {
 	if (scissorStack.size() == 0)
 		glEnable (GL_SCISSOR_TEST);
 
-	scissorStack.push_back(glm::vec4(sx, sy, sx+sw, sy+sh));
+	scissorStack.push_back(glm::vec4(sx, app->windowHeight-sy-sh, sx+sw, app->windowHeight-sy));
 	setScissor();
 
 }
@@ -163,7 +163,7 @@ void UIManager::popScissor() {
  * Set OpenGL Scissor by last scissor from stack
  */
 
-void UIManager::setScissor () {
+void UIManager::setScissor() {
 
 	int scx = scissorStack.back()[0]; int scy = scissorStack.back()[1];
 	int scw = scissorStack.back()[2]; int sch = scissorStack.back()[3];
@@ -209,7 +209,7 @@ void UIManager::poll() {
 
 		auto el = elementsStack[i];
 
-		if (el == nullptr)
+		if (el == nullptr || !el->parent->over)
 			continue;
 
 		if (!el->visible) continue;

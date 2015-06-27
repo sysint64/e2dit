@@ -30,7 +30,7 @@ void UIPanel::addScrollXByPx (int pxVal) {
 
 	hbOffset = hbOffset+pxVal;
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
-	
+
 	int py   =  (hbOffset*100)/hbMax;
 	hsOffset =  (wrapperHeight*py)/100;
 
@@ -78,10 +78,98 @@ void UIPanel::setScrollXByPct (int pctVal) {
 
 }
 
+void UIPanel::updateAlign() {
+
+	if (align == Align::None)
+		return;
+
+	int x0 = 0; int mWidth  = 0; int mLeft = 0;
+	int y0 = 0; int mHeight = 0; int mTop  = 0;
+
+	/* Find Border */
+
+	for (const auto &kvp : elements) {
+
+		UIElement *el = kvp.second.get();
+
+		if (!el->visible || el->align == Align::None)
+			continue;
+
+		switch (el->align) {
+
+			case Align::Top    : y0 += el->height; mTop  += el->height; break;
+			case Align::Left   : x0 += el->width ; mLeft += el->width;  break;
+
+			case Align::Bottom : mHeight += el->height; break;
+			case Align::Right  : mWidth  += el->width;  break;
+
+			default: continue;
+
+		}
+
+	}
+
+	/* Update Position and Size depending on the align */
+
+	switch (align) {
+
+		case Align::Client :
+
+			width  = parent->width -mWidth -x0-parent->scrollElementWidth;
+			height = parent->height-mHeight-y0-parent->scrollElementHeight;
+
+			left   = parent->left+x0;
+			top    = parent->top +y0;
+
+			break;
+
+		case Align::Top :
+
+			width  = parent->width-mWidth-x0-parent->scrollElementWidth;
+
+			left   = parent->left+x0;
+			top    = parent->top +y0;
+
+			break;
+
+		case Align::Bottom :
+
+			width  = parent->width-mWidth-x0-parent->scrollElementWidth;
+
+			left   = parent->left+x0;
+			top    = parent->top +y0+parent->height-height-mTop-mHeight;
+
+			break;
+
+		case Align::Left :
+
+			height = parent->height-mHeight-y0-parent->scrollElementHeight;
+
+			left   = parent->left+x0;
+			top    = parent->top +y0;
+
+			break;
+
+		case Align::Right :
+
+			height = parent->height-mHeight-y0;
+
+			left   = parent->left+parent->wrapperWidth-mWidth-width;
+			top    = parent->top +y0;
+
+			break;
+
+		default: return;
+
+	}
+
+}
+
 /* Render Panel */
 
 void UIPanel::render() {
 
+	updateAlign();
 	updateAbsPos();
 
 	if (background != Background::Transparent) {
@@ -115,10 +203,7 @@ void UIPanel::render() {
 
 	/* Render Childs */
 
-	int scx = absLeft;			        int scy = app->windowHeight-height-absTop+scrollElementHeight;
-	int scw = width-scrollElementWidth; int sch = height/*-ElemsOffset*/;
-
-	manager->pushScissor (scx, scy, scw, sch);
+	manager->pushScissor (absLeft, absTop, width-scrollElementWidth, height-scrollElementHeight);
 	UIElement::render();
 	manager->popScissor();
 
@@ -139,8 +224,8 @@ void UIPanel::renderScroll() {
 	if (showScrollY && wrapperWidth  != width ) { swv = 0; scrollElementHeight = iHeights[4]; }
 
 	int bottom       = absTop+height-iHeights[0];
-	int scrollWidth  = width-iHeights[4]+swh;
-	int scrollHeight = width-iHeights[4]+swh;
+	int scrollWidth  = width -iHeights[4]+swh;
+	int scrollHeight = height-iHeights[4]+swv;
 
 	/* Horizontal Scroll */
 
@@ -174,8 +259,8 @@ void UIPanel::renderScroll() {
 				hbOffset = lhbOffset+app->mouseX-app->clickX;
 				math::clamp (&hbOffset, 0, hbMax-hbSize);
 
-				int py = (hbOffset*100)/hbMax;
-				hsOffset = (wrapperWidth*py)/100;
+				int py  = (hbOffset*100)/hbMax;
+				scrollX = (wrapperWidth*py)/100;
 
 			}
 
@@ -199,7 +284,7 @@ void UIPanel::renderScroll() {
 
 			int x  = (vbMax*100)/wrapperHeight;
 			vbSize = (vbMax*x)/100;
-			math::clamp (&vbSize, hbMin, vbMax);
+			math::clamp (&vbSize, vbMin, vbMax);
 
 			bool scrollEnter = pointInRect (app->mouseX, app->mouseY, absLeft+width-iHeights[6], absTop+vbOffset+headerSize, iHeights[6], vbSize);
 
@@ -215,11 +300,11 @@ void UIPanel::renderScroll() {
 
 			if (!splitClick && scrollVClick) {
 
-				vbOffset = lhbOffset+app->mouseY-app->clickY;
+				vbOffset = lvbOffset+app->mouseY-app->clickY;
 				math::clamp (&vbOffset, 0, vbMax-vbSize);
 
-				int py   = (vbOffset*100)/vbMax;
-				vsOffset = (wrapperHeight*py)/100;
+				int py  = (vbOffset*100)/vbMax;
+				scrollY = (wrapperHeight*py)/100;
 
 			}
 
@@ -271,4 +356,3 @@ void UIPanel::mouseUp (int x, int y, int button) {
 	clicked      = false;
 
 }
-
