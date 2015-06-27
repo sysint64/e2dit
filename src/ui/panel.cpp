@@ -238,8 +238,8 @@ void UIPanel::renderScroll() {
 			hbMin = iWidths[6]+iWidths[8];
 			hbMax = width-iHeights[4]+swh;
 
-			int x  = (hbMax*100)/wrapperWidth;
-			hbSize = (hbMax*x)/100;
+			float x = ((float)hbMax*100.f)/(float)wrapperWidth;
+			hbSize  = round(((float)hbMax*x)/100.f);
 			math::clamp (&hbSize, hbMin, hbMax);
 
 			bool scrollEnter = pointInRect (app->mouseX, app->mouseY, hbOffset+absLeft, absTop+height-iHeights[6], hbSize, iHeights[6]);
@@ -259,8 +259,8 @@ void UIPanel::renderScroll() {
 				hbOffset = lhbOffset+app->mouseX-app->clickX;
 				math::clamp (&hbOffset, 0, hbMax-hbSize);
 
-				int py  = (hbOffset*100)/hbMax;
-				scrollX = (wrapperWidth*py)/100;
+				float py  = ((float)hbOffset*100.f)/(float)hbMax;
+				scrollX = ((float)wrapperWidth*py)/100.f;
 
 			}
 
@@ -282,8 +282,8 @@ void UIPanel::renderScroll() {
 			vbMin = iWidths[6]+iWidths[8];
 			vbMax = height-iHeights[4]+swv;
 
-			int x  = (vbMax*100)/wrapperHeight;
-			vbSize = (vbMax*x)/100;
+			float x  = ((float)vbMax*100.f)/(float)wrapperHeight;
+			vbSize = round(((float)vbMax*x)/100.f);
 			math::clamp (&vbSize, vbMin, vbMax);
 
 			bool scrollEnter = pointInRect (app->mouseX, app->mouseY, absLeft+width-iHeights[6], absTop+vbOffset+headerSize, iHeights[6], vbSize);
@@ -303,8 +303,8 @@ void UIPanel::renderScroll() {
 				vbOffset = lvbOffset+app->mouseY-app->clickY;
 				math::clamp (&vbOffset, 0, vbMax-vbSize);
 
-				int py  = (vbOffset*100)/vbMax;
-				scrollY = (wrapperHeight*py)/100;
+				float py = ((float)vbOffset*100.f)/(float)vbMax;
+				scrollY  = round(((float)wrapperHeight*py)/100.f);
 
 			}
 
@@ -372,18 +372,14 @@ void UIPanel::resized (int w, int h) {
 	hbMin = iWidths[6]+iWidths[8];
 	hbMax = width-iHeights[4]+swh;
 
-	int x  = (hbMax*100)/wrapperWidth;
-	hbSize = (hbMax*x)/100;
-	math::clamp (&hbSize, hbMin, hbMax);
-
-	int px = (100*scrollX)/wrapperWidth;
-	hbOffset = (px*hbMax)/100;
+	float px = (100.f*(float)scrollX)/(float)wrapperWidth;
+	hbOffset = round((px*hbMax)/100.f);
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
 
 	if (hbOffset == hbMax-hbSize) {
 
-		int py  = (hbOffset*100)/hbMax;
-		scrollX = (wrapperWidth*py)/100;
+		px = ((float)hbOffset*100.f)/(float)hbMax;
+		scrollX = round(((float)wrapperWidth*px)/100.f);
 
 	}
 
@@ -392,18 +388,14 @@ void UIPanel::resized (int w, int h) {
 	vbMin = iWidths[6]+iWidths[8];
 	vbMax = height-iHeights[4]+swv;
 
-	int y  = (vbMax*100)/wrapperHeight;
-	vbSize = (vbMax*y)/100;
-	math::clamp (&vbSize, vbMin, vbMax);
-
-	int py = (100*scrollY)/wrapperHeight;
-	vbOffset = (py*vbMax)/100;
+	float py = (100.f*(float)scrollY)/(float)wrapperHeight;
+	vbOffset = round((py*(float)vbMax)/100.f);
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
 
 	if (vbOffset == vbMax-vbSize) {
 
-		int py  = (vbOffset*100)/vbMax;
-		scrollY = (wrapperHeight*py)/100;
+		py = ((float)vbOffset*100.f)/(float)vbMax;
+		scrollY = ((float)wrapperHeight*py)/100.f;
 
 	}
 

@@ -71,8 +71,8 @@ protected:
 
 	/* */
 
-	int scrollHClick = false;
-	int scrollVClick = false;
+	bool scrollHClick = false;
+	bool scrollVClick = false;
 
 	void updateAlign();
 	void renderScroll();
