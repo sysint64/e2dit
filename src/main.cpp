@@ -86,7 +86,7 @@ int main (int argc,char** argv) {
 
 	sf::Window window (sf::VideoMode (app->windowWidth, app->windowHeight, 24), APP_NAME,
 					   sf::Style::Default, settings);
-	
+
 	Atom _NET_WM_STATE = XInternAtom(display, "_NET_WM_STATE", False);
     Atom _NET_WM_STATE_MAXIMIZED_VERT = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_VERT", False);
     Atom _NET_WM_STATE_MAXIMIZED_HORZ = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
@@ -111,8 +111,6 @@ int main (int argc,char** argv) {
 
 	window.setVerticalSyncEnabled(false);
 	window.setFramerateLimit(0);
-
-	
 
 	/* Check OpenGL Errors */
 
@@ -167,7 +165,7 @@ int main (int argc,char** argv) {
 	sf::Clock clock;
 
 	glDisable(GL_CULL_FACE);
-	
+
 	glDisable   (GL_MULTISAMPLE);
 	glDisable   (GL_DEPTH_TEST);
 	glEnable    (GL_BLEND);
@@ -182,13 +180,10 @@ int main (int argc,char** argv) {
 	while (running) {
 
 		sf::Event ev;
-		core->onResize (window.getSize().x, window.getSize().y);
 
 		/* Poll Events */
 
 		while (window.pollEvent (ev)) {
-
-			
 
 			switch (ev.type) {
 
@@ -253,7 +248,7 @@ int main (int argc,char** argv) {
 		core->step();
 
 		/* Display */
-		
+
 		glFlush();
 		window.display();
 

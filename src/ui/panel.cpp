@@ -356,3 +356,55 @@ void UIPanel::mouseUp (int x, int y, int button) {
 	clicked      = false;
 
 }
+
+void UIPanel::resized (int w, int h) {
+
+	/* Update Scroll Sizes */
+
+	if (wrapperWidth == 0 || wrapperHeight == 0)
+		return;
+
+	int swv = iHeights[4]-scrollElementWidth;
+	int swh = iHeights[4]-scrollElementHeight;
+
+	/* Horizontal */
+
+	hbMin = iWidths[6]+iWidths[8];
+	hbMax = width-iHeights[4]+swh;
+
+	int x  = (hbMax*100)/wrapperWidth;
+	hbSize = (hbMax*x)/100;
+	math::clamp (&hbSize, hbMin, hbMax);
+
+	int px = (100*scrollX)/wrapperWidth;
+	hbOffset = (px*hbMax)/100;
+	math::clamp (&hbOffset, 0, hbMax-hbSize);
+
+	if (hbOffset == hbMax-hbSize) {
+
+		int py  = (hbOffset*100)/hbMax;
+		scrollX = (wrapperWidth*py)/100;
+
+	}
+
+	/* Vertical */
+
+	vbMin = iWidths[6]+iWidths[8];
+	vbMax = height-iHeights[4]+swv;
+
+	int y  = (vbMax*100)/wrapperHeight;
+	vbSize = (vbMax*y)/100;
+	math::clamp (&vbSize, vbMin, vbMax);
+
+	int py = (100*scrollY)/wrapperHeight;
+	vbOffset = (py*vbMax)/100;
+	math::clamp (&vbOffset, 0, vbMax-vbSize);
+
+	if (vbOffset == vbMax-vbSize) {
+
+		int py  = (vbOffset*100)/vbMax;
+		scrollY = (wrapperHeight*py)/100;
+
+	}
+
+}

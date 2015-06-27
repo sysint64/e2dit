@@ -225,7 +225,7 @@ public:
 	virtual void mouseUp     (int x, int y, int button);
 	virtual void mouseMove   (int x, int y, int button);
 
-	virtual void resized     (int width, int height) {}
+	virtual void resized     (int width, int height);
 	virtual void keyPressed  (int key);
 	virtual void keyReleased (int key);
 	virtual void textEntered (int key);

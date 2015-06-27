@@ -241,6 +241,16 @@ void UIElement::textEntered (int key) {
 
 }
 
+void UIElement::resized (int width, int height) {
+
+	for (const auto &kvp : elements) {
+
+		kvp.second->resized (width, height);
+
+	}
+
+}
+
 void UIElement::focus() {
 
 	if (manager->dialogOpened && !inDialog)

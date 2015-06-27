@@ -109,6 +109,8 @@ public:
 	inline int getScrollYByPx() { return vsOffset; }
 	inline int getScrollXByPx() { return hsOffset; }
 
+	void scrollToElement (UIElement *el);
+
 	/* Main */
 
 	virtual void precompute() override;
@@ -121,6 +123,7 @@ public:
 	virtual void mouseDown   (int x, int y, int button) override;
 	virtual void mouseMove   (int x, int y, int button) override;
 	virtual void mouseUp     (int x, int y, int button) override;
+	virtual void resized     (int w, int h) 			override;
 
 	/* Constructor */
 

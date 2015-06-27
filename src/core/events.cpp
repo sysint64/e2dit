@@ -61,7 +61,7 @@ void Core::onMouseUp (int x, int y, int button) {
 }
 
 void Core::onDblClick (int x, int y, int button) {
-	
+
 	uiManager->dblClick (x, y, button);
 
 }
@@ -82,7 +82,10 @@ void Core::onMouseWheel (int x, int y, int button) {
 void Core::onResize (int width, int height) {
 
 	if (height == 0) height = 1;
+
 	app->windowWidth  = width;
 	app->windowHeight = height;
+
+	uiManager->resized (width, height);
 
 }

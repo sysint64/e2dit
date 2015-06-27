@@ -115,7 +115,7 @@ Core::Core() {
 	p1->height = 400;
 	p1->background = UIPanel::Background::Action;
 
-	p1->align = Align::Top;
+	p1->align = Align::Client;
 
 	auto _p1 = p1.get();
 
@@ -133,7 +133,7 @@ Core::Core() {
 	p2->width  = 50;
 	p2->height = 50;
 	p2->background = UIPanel::Background::Dark;
-	p2->align = Align::Right;
+	//p2->align = Align::Right;
 
 	_p1->addElement (std::move(p2));
 
