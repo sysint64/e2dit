@@ -31,12 +31,18 @@ void UIPanel::addScrollXByPx (int pxVal) {
 	hbOffset = hbOffset+pxVal;
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
 
-	int py   =  (hbOffset*100)/hbMax;
-	hsOffset =  (wrapperHeight*py)/100;
+	float px = ((float)hbOffset*100.f)/(float)hbMax;
+	scrollX  = ((float)wrapperWidth*px)/100.f;
 
 }
 
 void UIPanel::addScrollYByPx (int pxVal) {
+
+	vbOffset = vbOffset+pxVal;
+	math::clamp (&vbOffset, 0, vbMax-vbSize);
+
+	float py = ((float)vbOffset*100.f)/(float)vbMax;
+	scrollY  = ((float)wrapperHeight*py)/100.f;
 
 }
 
@@ -354,6 +360,31 @@ void UIPanel::mouseUp (int x, int y, int button) {
 	scrollVClick = false;
 	splitClick   = false;
 	clicked      = false;
+
+}
+
+void UIPanel::mouseWheel (int delta) {
+
+	UIElement::mouseWheel (delta);
+
+	if (!over || (manager->underMouse->canScroll && manager->underMouse != this))
+		return;
+
+	if (pressed(keyShift)) {
+
+		if (wrapperWidth == width || !showScrollX)
+			return;
+
+		addScrollXByPx (-delta*scrollDelta);
+
+	} else {
+
+		if (wrapperHeight == height || !showScrollY)
+			return;
+
+		addScrollYByPx (-delta*scrollDelta);
+
+	}
 
 }
 

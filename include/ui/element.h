@@ -155,6 +155,7 @@ public:
 	bool wasClick    = false;
 
 	bool keyClick  = false;
+	bool canScroll = false;
 
 	/* Mouse State */
 
@@ -224,6 +225,7 @@ public:
 	virtual void mouseDown   (int x, int y, int button);
 	virtual void mouseUp     (int x, int y, int button);
 	virtual void mouseMove   (int x, int y, int button);
+	virtual void mouseWheel  (int delta);
 
 	virtual void resized     (int width, int height);
 	virtual void keyPressed  (int key);

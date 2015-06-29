@@ -63,6 +63,20 @@ void UIElement::mouseDown (int x, int y, int button) {
 
 }
 
+void UIElement::mouseWheel (int delta) {
+
+	if (!visible) return;
+
+	/* */
+
+	for (const auto &kvp : elements) {
+
+		kvp.second->mouseWheel (delta);
+
+	}
+
+}
+
 void UIElement::mouseUp (int x, int y, int button) {
 
 	if (!enabled/* || !enter*/)

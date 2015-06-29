@@ -195,7 +195,7 @@ int main (int argc,char** argv) {
 				/* Mouse */
 
 				case sf::Event::MouseMoved			: core->onMouseMove  (ev.mouseMove.x     , ev.mouseMove  .y);                        break;
-				case sf::Event::MouseWheelMoved		: core->onMouseWheel (ev.mouseWheel.delta, ev.mouseWheel .x, ev.mouseWheel.y);       break;
+				case sf::Event::MouseWheelMoved		: core->onMouseWheel (ev.mouseWheel.delta);                                          break;
 				case sf::Event::MouseButtonPressed	: core->onMouseDown  (ev.mouseButton.x   , ev.mouseButton.y, ev.mouseButton.button); break;
 				case sf::Event::MouseButtonReleased	:
 

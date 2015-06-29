@@ -83,7 +83,7 @@ public:
 	int lastId = 0;
 
 	/* UI State */
-	
+
 	bool dialogOpened = false;
 	bool freezUI	  = false;
 	bool focused      = false;
@@ -112,6 +112,7 @@ public:
 	/* */
 
 	UIElement *focusedElement = nullptr;
+	UIElement *underMouse     = nullptr;
 	Shader    *atlasShader;
 	Shader    *colorShader;
 	UITheme	  *theme;
@@ -143,6 +144,7 @@ public:
 	void mouseDown   (int x, int y, int button);
 	void mouseUp     (int x, int y, int button);
 	void mouseMove   (int x, int y, int button);
+	void mouseWheel  (int delta);
 
 	void keyDown     (int key);
 	void resized     (int width, int height);

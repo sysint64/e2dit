@@ -79,11 +79,13 @@ protected:
 
 public:
 
-	int hbSize; // Horisontal button size
+	int hbSize; // Horizontal button size
 	int vbSize; // Vertical button size
 
 	int hbMin, hbMax;
 	int vbMin, vbMax;
+
+	int scrollDelta  = 20;
 
 	bool showScrollX = true;
 	bool showScrollY = true;
@@ -123,11 +125,14 @@ public:
 	virtual void mouseDown   (int x, int y, int button) override;
 	virtual void mouseMove   (int x, int y, int button) override;
 	virtual void mouseUp     (int x, int y, int button) override;
+	virtual void mouseWheel  (int delta)				override;
 	virtual void resized     (int w, int h) 			override;
 
 	/* Constructor */
 
 	UIPanel (UIManager *manager) : UIElement (manager) {
+
+		canScroll = true;
 
 		for (int i = 0; i < 6; i++) {
 

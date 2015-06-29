@@ -24,11 +24,11 @@
 
 /**
  * Calculate Tex Coords for Icons
- */ 
+ */
 
 template <int count>
 UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float sizeIcon) {
-		
+
 	this->sizeIcon = sizeIcon;
 	this->tex      = std::move (tex);
 	this->manager  = manager;
@@ -63,12 +63,12 @@ template <int count>
 void UIIcons<count>::render (int x, int y, int ox, int oy, BaseObject *iconElement) {
 
 	glUniform1i        (manager->atlasShader->locations["Texture"], 2);
-	
+
 	glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(iconElement->MVPMatrix[0][0]));
 	glUniform2f        (manager->atlasShader->locations["Size"]  , width, height);
 	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[ox][oy],
 																   offsetsY[ox][oy]);
-	
+
 	iconElement->setPosition (glm::vec2 (x, y));
 	iconElement->setScale    (glm::vec2 (sizeIcon, sizeIcon));
 	iconElement->render();
@@ -190,7 +190,7 @@ void UIManager::setScissor() {
 void UIManager::poll() {
 
 	/* Reset states */
-	
+
 	for (int i = elementsStack.size()-1; i >= 0; i--) {
 
 		auto el = elementsStack[i];
@@ -205,6 +205,8 @@ void UIManager::poll() {
 
 	/* State */
 
+	underMouse = nullptr;
+
 	for (int i = elementsStack.size()-1; i >= 0; i--) {
 
 		auto el = elementsStack[i];
@@ -216,7 +218,7 @@ void UIManager::poll() {
 		if (!pointInRect (app->mouseX, app->mouseY, el->absLeft,
 						  el->absTop, el->width, el->height))
 		{
-			
+
 			el->enter = false;
 			el->click = false || el->keyClick;
 
@@ -234,6 +236,8 @@ void UIManager::poll() {
 		el->enter = true;
 		el->click = app->mouseButton == mouseLeft;
 		cursor = el->cursor;
+
+		underMouse = el;
 
 		break;
 
@@ -297,55 +301,29 @@ void UIManager::render() {
 
 /* Events */
 
-/**
- * On Mouse Move Event
- *
- * @param x: Mouse X Coord
- * @param y: Mouse Y Coord
- * @param button: Mouse Button
- */
-
 void UIManager::mouseMove (int x, int y, int button) {
 
 	root->mouseMove (x, y, button);
-	
-}
 
-/**
- * On Mouse Down Event
- *
- * @param x: Mouse X Coord
- * @param y: Mouse Y Coord
- * @param button: Mouse Button
- */
+}
 
 void UIManager::mouseDown (int x, int y, int button) {
-	
+
 	root->mouseDown (x, y, button);
-	
+
 }
 
-/**
- * On Mouse Double Click Event
- *
- * @param x: Mouse X Coord
- * @param y: Mouse Y Coord
- * @param button: Mouse Button
- */
+void UIManager::mouseWheel (int delta) {
+
+	root->mouseWheel (delta);
+
+}
 
 void UIManager::dblClick (int x, int y, int button) {
-	
-	root->dblClick (x, y, button);
-	
-}
 
-/**
- * On Mouse Up Event
- *
- * @param x: Mouse X Coord
- * @param y: Mouse Y Coord
- * @param button: Mouse Button
- */
+	root->dblClick (x, y, button);
+
+}
 
 void UIManager::mouseUp (int x, int y, int button) {
 
@@ -367,7 +345,7 @@ void UIManager::mouseUp (int x, int y, int button) {
 	root->mouseUp (x, y, button);
 	int length = root->elements.size();
 	unfocus();
-	
+
 }
 
 /**
@@ -401,7 +379,7 @@ void UIManager::keyPressed (int key) {
 	if (focusedElement != nullptr) {
 
 		if (pressed (keyShift) && pressed (keyTab) && focusedElement->prev != nullptr) {
-			
+
 			focusedElement->prev->focus();
 			unfocus();
 
@@ -443,7 +421,7 @@ void UIManager::keyReleased (int key) {
  */
 
 void UIManager::textEntered (int key) {
-	
+
 	root->textEntered (key);
 
 }
@@ -456,8 +434,7 @@ void UIManager::textEntered (int key) {
  */
 
 void UIManager::resized (int width, int height) {
-	
+
 	root->resized (width, height);
 
 }
-
