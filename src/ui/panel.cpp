@@ -28,21 +28,21 @@
 
 void UIPanel::addScrollXByPx (int pxVal) {
 
-	hbOffset = hbOffset+pxVal;
+	hbOffset += pxVal;
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
 
 	float px = ((float)hbOffset*100.f)/(float)hbMax;
-	scrollX  = ((float)wrapperWidth*px)/100.f;
+	scrollX  = round(((float)wrapperWidth*px)/100.f);
 
 }
 
 void UIPanel::addScrollYByPx (int pxVal) {
 
-	vbOffset = vbOffset+pxVal;
+	vbOffset += pxVal;
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
 
 	float py = ((float)vbOffset*100.f)/(float)vbMax;
-	scrollY  = ((float)wrapperHeight*py)/100.f;
+	scrollY  = round(((float)wrapperHeight*py)/100.f);
 
 }
 
@@ -51,8 +51,8 @@ void UIPanel::setScrollYByPx (int pxVal) {
 	vbOffset = pxVal;
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
 
-	int py   =  (vbOffset*100)/vbMax;
-	vsOffset =  (wrapperHeight*py)/100;
+	float py = ((float)vbOffset*100.f)/(float)vbMax;
+	scrollY  = round(((float)wrapperHeight*py)/100.f);
 
 }
 
@@ -61,8 +61,8 @@ void UIPanel::setScrollXByPx (int pxVal) {
 	hbOffset = pxVal;
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
 
-	int py    = (hbOffset*100)/hbMax;
-	hsOffset  = (wrapperWidth*py)/100;
+	float px = ((float)hbOffset*100.f)/(float)hbMax;
+	scrollX  = round(((float)wrapperWidth*px)/100.f);
 
 }
 
@@ -70,17 +70,41 @@ void UIPanel::setScrollXByPx (int pxVal) {
 
 void UIPanel::addScrollXByPct (int pctVal) {
 
+	hbOffset += round((float)(hbMax-hbSize)*(float)pctVal/100.f);;
+	math::clamp (&hbOffset, 0, hbMax-hbSize);
+
+	float px = ((float)hbOffset*100.f)/(float)hbMax;
+	scrollX  =  round(((float)wrapperWidth*px)/100.f);
+
 }
 
 void UIPanel::addScrollYByPct (int pctVal) {
+
+	vbOffset += round((float)(vbMax-vbSize)*(float)pctVal/100.f);
+	math::clamp (&vbOffset, 0, vbMax-vbSize);
+
+	float py = ((float)vbOffset*100.f)/(float)vbMax;
+	scrollY  = round(((float)wrapperHeight*py)/100.f);
 
 }
 
 void UIPanel::setScrollYByPct (int pctVal) {
 
+	vbOffset = round((float)(vbMax-vbSize)*(float)pctVal/100.f);
+	math::clamp (&vbOffset, 0, vbMax-vbSize);
+
+	float py = ((float)vbOffset*100.f)/(float)vbMax;
+	scrollY  = round(((float)wrapperHeight*py)/100.f);
+
 }
 
 void UIPanel::setScrollXByPct (int pctVal) {
+
+	hbOffset = round((float)(hbMax-hbSize)*(float)pctVal/100.f);;
+	math::clamp (&hbOffset, 0, hbMax-hbSize);
+
+	float px = ((float)hbOffset*100.f)/(float)hbMax;
+	scrollX  = round(((float)wrapperWidth*px)/100.f);
 
 }
 
