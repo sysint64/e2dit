@@ -96,6 +96,8 @@ public:
 	bool allowHide   = false;
 	bool open        = true;
 
+	UIElement *test;
+
 	std::wstring caption = L"";
 	std::vector<UIElement*> joinElements;
 

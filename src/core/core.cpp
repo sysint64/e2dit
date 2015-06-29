@@ -115,6 +115,8 @@ Core::Core() {
 	p1->height = 400;
 	p1->background = UIPanel::Background::Action;
 
+	//p1->scrollToElement(e1.get());
+	p1->test = e1.get();
 	p1->align = Align::Client;
 
 	auto _p1 = p1.get();

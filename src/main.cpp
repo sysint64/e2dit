@@ -74,8 +74,8 @@ int main (int argc,char** argv) {
 
 	/* TODO */
 
-	app->windowWidth  = 1024;//app->screenWidth -100;
-	app->windowHeight = 768;//app->screenHeight-100;
+	app->windowWidth  = 300;//app->screenWidth -100;
+	app->windowHeight = 300;//app->screenHeight-100;
 
 	/* Maximize Window */
 

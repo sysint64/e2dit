@@ -28,41 +28,29 @@
 
 void UIPanel::addScrollXByPx (int pxVal) {
 
-	hbOffset += pxVal;
-	math::clamp (&hbOffset, 0, hbMax-hbSize);
-
-	float px = ((float)hbOffset*100.f)/(float)hbMax;
-	scrollX  = round(((float)wrapperWidth*px)/100.f);
+	scrollX += pxVal;
+	resized (0, 0);
 
 }
 
 void UIPanel::addScrollYByPx (int pxVal) {
 
-	vbOffset += pxVal;
-	math::clamp (&vbOffset, 0, vbMax-vbSize);
-
-	float py = ((float)vbOffset*100.f)/(float)vbMax;
-	scrollY  = round(((float)wrapperHeight*py)/100.f);
+	scrollY += pxVal;
+	resized (0, 0);
 
 }
 
 void UIPanel::setScrollYByPx (int pxVal) {
 
-	vbOffset = pxVal;
-	math::clamp (&vbOffset, 0, vbMax-vbSize);
-
-	float py = ((float)vbOffset*100.f)/(float)vbMax;
-	scrollY  = round(((float)wrapperHeight*py)/100.f);
+	scrollY = pxVal;
+	resized (0, 0);
 
 }
 
 void UIPanel::setScrollXByPx (int pxVal) {
 
-	hbOffset = pxVal;
-	math::clamp (&hbOffset, 0, hbMax-hbSize);
-
-	float px = ((float)hbOffset*100.f)/(float)hbMax;
-	scrollX  = round(((float)wrapperWidth*px)/100.f);
+	scrollX = pxVal;
+	resized (0, 0);
 
 }
 
@@ -105,6 +93,24 @@ void UIPanel::setScrollXByPct (int pctVal) {
 
 	float px = ((float)hbOffset*100.f)/(float)hbMax;
 	scrollX  = round(((float)wrapperWidth*px)/100.f);
+
+}
+
+void UIPanel::scrollToElement (UIElement *el) {
+
+	if (test == nullptr)
+		return;
+
+	if (wrapperWidth == width || !showScrollX)
+		return;
+
+	if (wrapperHeight == height || !showScrollY)
+		return;
+
+	setScrollXByPx (test->left);
+	setScrollYByPx (test->top);
+
+	resized (0, 0);
 
 }
 
@@ -394,6 +400,7 @@ void UIPanel::mouseWheel (int delta) {
 	if (!over || (manager->underMouse->canScroll && manager->underMouse != this))
 		return;
 
+	//scrollToElement(test); return;
 	if (pressed(keyShift)) {
 
 		if (wrapperWidth == width || !showScrollX)
@@ -411,6 +418,8 @@ void UIPanel::mouseWheel (int delta) {
 	}
 
 }
+
+/* Update scroll buttons positions */
 
 void UIPanel::resized (int w, int h) {
 
@@ -431,7 +440,7 @@ void UIPanel::resized (int w, int h) {
 	hbOffset = round((px*hbMax)/100.f);
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
 
-	if (hbOffset == hbMax-hbSize) {
+	if (hbOffset == hbMax-hbSize || hbOffset == 0) {
 
 		px = ((float)hbOffset*100.f)/(float)hbMax;
 		scrollX = round(((float)wrapperWidth*px)/100.f);
@@ -447,7 +456,7 @@ void UIPanel::resized (int w, int h) {
 	vbOffset = round((py*(float)vbMax)/100.f);
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
 
-	if (vbOffset == vbMax-vbSize) {
+	if (vbOffset == vbMax-vbSize || vbOffset == 0) {
 
 		py = ((float)vbOffset*100.f)/(float)vbMax;
 		scrollY = ((float)wrapperHeight*py)/100.f;
