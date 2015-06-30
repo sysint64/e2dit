@@ -28,6 +28,7 @@
 #include "utility/ui.h"
 #include "utility/math.h"
 #include "utility/input.h"
+#include "utility/system.h"
 
 #include "ui/element.h"
 #include "ui/manager.h"
@@ -68,6 +69,11 @@ protected:
 	bool scrollClicked;
 	bool splitClick = false;
 	int  headerSize;
+	int  lastWidth  = 0;
+	int  lastHeight = 0;
+	bool scrollVEnter = false;
+	bool scrollHEnter = false;
+	bool splitEnter = false;
 
 	/* */
 
@@ -121,6 +127,7 @@ public:
 
 	virtual void precompute() override;
 	virtual void render()     override;
+	virtual void setCursor()  override;
 
 	/* Events */
 
@@ -130,7 +137,7 @@ public:
 	virtual void mouseMove   (int x, int y, int button) override;
 	virtual void mouseUp     (int x, int y, int button) override;
 	virtual void mouseWheel  (int delta)				override;
-	virtual void resized     (int w, int h) 			override;
+	virtual void resized     (int w, int h) 			override; // Update Scroll
 
 	/* Constructor */
 

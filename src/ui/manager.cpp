@@ -62,15 +62,16 @@ UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float
 template <int count>
 void UIIcons<count>::render (int x, int y, int ox, int oy, BaseObject *iconElement) {
 
-	glUniform1i        (manager->atlasShader->locations["Texture"], 2);
-
-	glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(iconElement->MVPMatrix[0][0]));
-	glUniform2f        (manager->atlasShader->locations["Size"]  , width, height);
-	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[ox][oy],
-																   offsetsY[ox][oy]);
+	glUniform1i (manager->atlasShader->locations["Texture"], 2);
+	glUniform2f (manager->atlasShader->locations["Size"]  , width, height);
+	glUniform2f (manager->atlasShader->locations["Offset"], offsetsX[ox][oy],
+															offsetsY[ox][oy]);
 
 	iconElement->setPosition (glm::vec2 (x, y));
 	iconElement->setScale    (glm::vec2 (sizeIcon, sizeIcon));
+
+	iconElement->updateModelMatrix();
+	glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(iconElement->MVPMatrix[0][0]));
 	iconElement->render();
 
 	glUniform1i (manager->atlasShader->locations["Texture"], manager->themeTexID);
@@ -235,13 +236,16 @@ void UIManager::poll() {
 
 		el->enter = true;
 		el->click = app->mouseButton == mouseLeft;
-		cursor = el->cursor;
+		el->setCursor();
 
 		underMouse = el;
 
 		break;
 
 	}
+
+	//if (cursorOverride != CursorIco::None)
+	//	cursor = cursorOverride;
 
 	/* Progress Event */
 

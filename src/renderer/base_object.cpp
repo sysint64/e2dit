@@ -34,7 +34,7 @@ void BaseObject::render() {
 	/* If matrices was change, then update it */
 
 	//if (needUpdate)
-		updateModelMatrix();
+	//	updateModelMatrix();
 
 	/* Render Data */
 
@@ -141,7 +141,6 @@ void BaseObject::updateModelMatrix() {
 	/* Calculate new matrices */
 
 	modelMatrix  = mt*mr*ms;
-	//MVPMatrix    = modelMatrix;
 	MVPMatrix    = camera->MVPMatrix*modelMatrix;
 
 	/* Matrices is updated */

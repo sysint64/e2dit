@@ -97,6 +97,12 @@ void UIElement::mouseUp (int x, int y, int button) {
 
 }
 
+void UIElement::setCursor() {
+
+	manager->cursor = cursor;
+
+}
+
 void UIElement::checkFocus() {
 
 	/*for (const auto &it : elements) {
@@ -116,31 +122,31 @@ void UIElement::checkFocus() {
 
 void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *el) {
 
+	if (math::feq<float>(el->rotation, math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x+h, app->windowHeight-w-y)); else
+	if (math::feq<float>(el->rotation,-math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x-h, app->windowHeight+h-y)); else
+	if (math::feq<float>(el->rotation, math::pi    , math::pi/180.f)) el->setPosition (glm::vec2(x+w, app->windowHeight+h-y)); else
+																	  el->setPosition (glm::vec2(x  , app->windowHeight-h-y));
+
+	el->setScale (glm::vec2(w, h));
+	el->updateModelMatrix();
+
 	glUniformMatrix4fv (manager->atlasShader->locations["MVP"], 1, GL_FALSE, &(el->MVPMatrix[0][0]));
 	glUniform2f		   (manager->atlasShader->locations["Size"]  , fWidths [idx], fHeights[idx]);
 	glUniform2f		   (manager->atlasShader->locations["Offset"], offsetsX[idx], offsetsY[idx]);
 
-	if (math::feq<float>(el->rotation, math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x, app->windowHeight-w-y)); else
-	if (math::feq<float>(el->rotation,-math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x, app->windowHeight+w-y)); else
-	if (math::feq<float>(el->rotation, math::pi    , math::pi/180.f)) el->setPosition (glm::vec2(x, app->windowHeight+h-y)); else
-																	  el->setPosition (glm::vec2(x, app->windowHeight-h-y));
-
-	//if (el->rotation > 0.1f) el->setPosition (glm::vec2(x, app->windowHeight-w-y));
-	//else                     el->setPosition (glm::vec2(x, app->windowHeight-h-y));
-
-	//el->setPosition (glm::vec2(x, app->windowHeight-h-y));
-	el->setScale (glm::vec2(w, h));
 	el->render();
 
 }
 
 void UIElement::renderColorElement (int x, int y, int w, int h, BaseObject *el, float *color) {
 
+	el->setPosition (glm::vec2(x, app->windowHeight-y-h));
+	el->setScale    (glm::vec2(w, h));
+	el->updateModelMatrix();
+
 	glUniformMatrix4fv (manager->colorShader->locations["MVP"]  , 1, GL_FALSE, &(el->MVPMatrix[0][0]));
 	glUniform4fv       (manager->colorShader->locations["Color"], 1, color);
 
-	el->setPosition (glm::vec2(x, app->windowHeight-y-h));
-	el->setScale    (glm::vec2(w, h));
 	el->render();
 
 }

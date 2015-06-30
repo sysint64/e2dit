@@ -218,6 +218,7 @@ public:
 	/* Manager Elements Events */
 
 	virtual void poll();
+	virtual void setCursor();
 
 	/* Events */
 

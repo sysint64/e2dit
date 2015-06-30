@@ -117,9 +117,7 @@ public:
 	Shader    *colorShader;
 	UITheme	  *theme;
 
-	CursorIco cursor         = CursorIco::Normal;
-	CursorIco cursorOverride = CursorIco::None;
-
+	CursorIco cursor = CursorIco::Normal;
 	UIManager (Shader *atlasShader, Shader *colorShader, UITheme *theme);
 
 	void render();

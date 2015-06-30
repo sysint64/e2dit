@@ -167,7 +167,7 @@ void UIPanel::updateAlign() {
 
 			height = parent->height-mHeight-y0;
 
-			left   = parent->left+parent->wrapperWidth-mWidth-width;
+			left   = parent->left+parent->width-mWidth-width;
 			top    = parent->top +y0;
 
 			break;
@@ -178,18 +178,39 @@ void UIPanel::updateAlign() {
 
 }
 
+void UIPanel::setCursor() {
+
+	if (!allowResize) return;
+	if (align == Align::Top || align == Align::Bottom) {
+
+		if (pointInRect(app->mouseX, app->mouseY, splitX, splitY-4, splitW, 8) || splitClick) {
+
+			manager->cursor = CursorIco::VDoubleArrow;
+			splitEnter = true;
+
+		}
+
+	} else if (align == Align::Left || align == Align::Right) {
+
+		if (pointInRect(app->mouseX, app->mouseY, splitX-4, splitY, 8, splitW) || splitClick) {
+
+			manager->cursor = CursorIco::HDoubleArrow;
+			splitEnter = true;
+
+		}
+
+	}
+
+}
+
 /* Render Panel */
 
 void UIPanel::render() {
 
+	splitEnter = false;
+
 	updateAlign();
 	updateAbsPos();
-
-	/*if (allowResize) {
-
-		if (align == Align::Top)
-
-	}*/
 
 	if (background != Background::Transparent) {
 
@@ -227,7 +248,26 @@ void UIPanel::render() {
 	manager->popScissor();
 
 	if (showScrollX || showScrollY) renderScroll();
-	if (allowResize)                renderSplit();
+	if (allowResize)				renderSplit();
+	if (splitClick)					resized (0, 0);
+
+	resized (0, 0); // Update Scroll
+
+	if (!splitClick)
+		return;
+
+	/* Resize Panel */
+
+	switch (align) {
+
+		case Align::Top    : height = lastHeight+app->mouseY-app->clickY; break;
+		case Align::Bottom : height = lastHeight-app->mouseY+app->clickY; break;
+		case Align::Left   : width  = lastWidth +app->mouseX-app->clickX; break;
+		case Align::Right  : width  = lastWidth -app->mouseX+app->clickX; break;
+
+		default : ;
+
+	}
 
 }
 
@@ -268,16 +308,29 @@ void UIPanel::renderSplit() {
 			splitW = height;  splitH = iHeights[n];
 			split->setRotation (math::pi/2.f);
 
+			break;
+
 		default : return;
 
 	}
 
 	/* Render */
 
-	int sx = align == Align::Top   ? splitX+width  : splitX;
-	int sy = align == Align::Right ? splitY+height : splitY;
+	//int sy = align == Align::Right ? splitY+height : splitY;
+	//int sx = align == Align::Top   ? splitX+width  : splitX;
 
-	renderElement (n, sx, sy, splitW, splitH, split.get());
+	//renderElement (n, splitX, absTop+100, width, splitH, split.get());
+	renderElement (n, splitX, splitY, splitW, splitH, split.get());
+	//renderElement (n, sx, sy, splitW, splitH, split.get());
+	/*glUniformMatrix4fv (manager->atlasShader->locations["MVP"], 1, GL_FALSE, &(split->MVPMatrix[0][0]));
+	glUniform2f (manager->atlasShader->locations["Size"]  , fWidths  [n], fHeights [n]);
+	glUniform2f (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
+
+	split->setPosition (glm::vec2(sx, app->windowHeight-sy));
+	split->setScale (glm::vec2(splitW, splitH));
+
+	split->updateModelMatrix();
+	split->render();*/
 
 }
 
@@ -311,18 +364,10 @@ void UIPanel::renderScroll() {
 			hbSize  = round(((float)hbMax*x)/100.f);
 			math::clamp (&hbSize, hbMin, hbMax);
 
-			bool scrollEnter = pointInRect (app->mouseX, app->mouseY, hbOffset+absLeft, absTop+height-iHeights[6], hbSize, iHeights[6]);
+			scrollHEnter = pointInRect (app->mouseX, app->mouseY, hbOffset+absLeft, absTop+height-iHeights[6], hbSize, iHeights[6]);
+			n = scrollHEnter || scrollHClick ? n+3 : n;
 
-			if (app->mouseButton == mouseLeft && !clicked && scrollEnter) {
-
-				scrollHClick = true;
-				clicked      = true;
-
-			}
-
-			n = scrollEnter || scrollHClick ? n+3 : n;
 			if (clicked && !scrollHClick) n = 6;
-
 			if (!splitClick && scrollHClick) {
 
 				hbOffset = lhbOffset+app->mouseX-app->clickX;
@@ -355,18 +400,10 @@ void UIPanel::renderScroll() {
 			vbSize = round(((float)vbMax*x)/100.f);
 			math::clamp (&vbSize, vbMin, vbMax);
 
-			bool scrollEnter = pointInRect (app->mouseX, app->mouseY, absLeft+width-iHeights[6], absTop+vbOffset+headerSize, iHeights[6], vbSize);
+			scrollVEnter = pointInRect (app->mouseX, app->mouseY, absLeft+width-iHeights[6], absTop+vbOffset+headerSize, iHeights[6], vbSize);
+			n = scrollVEnter || scrollVClick ? n+3 : n;
 
-			if (app->mouseButton == mouseLeft && !clicked && scrollEnter) {
-
-				scrollVClick = true;
-				clicked      = true;
-
-			}
-
-			n = scrollEnter || scrollVClick ? n+3 : n;
 			if (clicked && !scrollVClick) n = 6;
-
 			if (!splitClick && scrollVClick) {
 
 				vbOffset = lvbOffset+app->mouseY-app->clickY;
@@ -379,8 +416,8 @@ void UIPanel::renderScroll() {
 
 		}
 
-		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width, absTop, scrollHeight, true);
-		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width, absTop+vbOffset, vbSize, true);
+		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width-scrollElementWidth, absTop, scrollHeight, true);
+		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width-scrollElementWidth, absTop+vbOffset, vbSize, true);
 
 	}
 
@@ -407,6 +444,17 @@ void UIPanel::mouseDown (int x, int y, int button) {
 	lhbOffset = hbOffset;
 	lvbOffset = vbOffset;
 
+	scrollHClick = scrollHEnter;
+	scrollVClick = scrollVEnter;
+
+	if (splitEnter) {
+
+		splitClick = true;
+		lastWidth  = width;
+		lastHeight = height;
+
+	}
+
 }
 
 void UIPanel::mouseMove (int x, int y, int button) {
@@ -421,8 +469,13 @@ void UIPanel::mouseUp (int x, int y, int button) {
 
 	scrollHClick = false;
 	scrollVClick = false;
-	splitClick   = false;
-	clicked      = false;
+
+	if (splitClick) {
+
+		splitClick = false;
+		//setTimeout (0.1f, [this]() { this->resized (0, 0); }); // update scroll
+
+	}
 
 }
 
@@ -461,8 +514,8 @@ void UIPanel::resized (int w, int h) {
 	if (wrapperWidth == 0 || wrapperHeight == 0)
 		return;
 
-	int swv = iHeights[4]-scrollElementWidth;
-	int swh = iHeights[4]-scrollElementHeight;
+	int swv = iHeights[4]-scrollElementHeight;
+	int swh = iHeights[4]-scrollElementWidth;
 
 	/* Horizontal */
 
@@ -493,6 +546,12 @@ void UIPanel::resized (int w, int h) {
 
 		py = ((float)vbOffset*100.f)/(float)vbMax;
 		scrollY = ((float)wrapperHeight*py)/100.f;
+
+	}
+
+	for (const auto &kvp : elements) {
+
+		kvp.second->updateAbsPos();
 
 	}
 
