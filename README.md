@@ -2,10 +2,12 @@
 
 Now e2dit is under development, and under rewriting code!
 
+old repository is [here](https://bitbucket.org/lveteam/lve-mapeditor-framework)
+
 ##Description
 E2DIT - is a 2D map editor for yours games
 
-It uses the OpenGL 
+It uses the OpenGL
 
 ##Screenshots
 ![Image](<https://www.linux.org.ru/gallery/11239761.jpg>)
