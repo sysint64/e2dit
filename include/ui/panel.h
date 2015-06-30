@@ -60,8 +60,8 @@ protected:
 
 	/* Split */
 
-	int  splitx, splity;
-	int  splitw, splith;
+	int  splitX, splitY;
+	int  splitW, splitH;
 	int  curSize;
 	int  panelSize;
 	bool clicked;
@@ -76,6 +76,7 @@ protected:
 
 	void updateAlign();
 	void renderScroll();
+	void renderSplit();
 
 public:
 
@@ -95,6 +96,7 @@ public:
 	bool allowResize = true;
 	bool allowHide   = false;
 	bool open        = true;
+	bool blackSplit  = false;
 
 	UIElement *test;
 

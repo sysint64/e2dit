@@ -35,9 +35,9 @@ Panel
 	splitLight					: 10, 136, 2, 2
 	splitDark					: 10, 141, 2, 2
 
-	textOffset					: 0,  0	
+	textOffset					: 0,  0
 	textColor					: 20, 20, 20
-	
+
 	arrowOpen					: 5 , 21, 10, 10
 	arrowClose					: 22, 21, 10, 10
 
@@ -50,15 +50,15 @@ Dialog
 	topLeft						: 235, 9, 19, 33
 	topCenter					: 273, 9, 19, 33
 	topRight					: 312, 9, 19, 33
-	
+
 	centerLeft					: 235, 44, 19, 17
 	centerCenter				: 273, 44, 19, 17
 	centerRight					: 312, 44, 19, 17
-	
+
 	bottomLeft					: 235, 67, 19, 20
 	bottomCenter				: 273, 67, 19, 20
 	bottomRight					: 312, 67, 19, 20
-	
+
 	textOffset					: 0,  0
 	textColor					: 255, 255, 255
 
@@ -119,7 +119,7 @@ Tabs
  */
 
 TabButton
-	
+
 	&Leave
 
 		left					: 125, 226, 13, 22
@@ -127,7 +127,7 @@ TabButton
 		right					: 158, 226, 13, 22
 		split					: 44, 35, 3, 21
 		iconOffset				: 8
-		
+
 		textOffset				: 0,  0
 		textColor				: 20, 20, 20
 
@@ -136,7 +136,7 @@ TabButton
 		left					: 176, 226, 13, 22
 		center					: 192, 226, 13, 22
 		right					: 209, 226, 13, 22
-		
+
 		textOffset				: 0,  0
 		textColor				: 40, 40, 40
 
@@ -193,25 +193,25 @@ FlatButton
 		left					: 55, 180, 5, 21
 		center					: 68, 180, 5, 21
 		right					: 81, 180, 5, 21
-		
+
 		textOffset				: 0, 0
 		textColor				: 0, 0, 0
 
 	&Enter
-	
+
 		left					: 55, 131, 5, 21
 		center					: 68, 131, 5, 21
 		right					: 81, 131, 5, 21
-		
+
 		textOffset				: 0, 0
 		textColor				: 0, 0, 0
 
 	&Click
-	
+
 		left					: 55, 131, 5, 21
 		center					: 68, 131, 5, 21
 		right					: 81, 131, 5, 21
-		
+
 		textOffset				: 0, 0
 		textColor				: 0, 0, 0
 
@@ -242,7 +242,7 @@ TallFlatButton
 
 		mask					: 200, 109, 32, 32
 		border					: 200, 148, 32, 32
-		
+
 		textOffset				: 0, 0
 		textColor				: 0, 0, 0
 		descrColor				: 51, 51, 51
@@ -255,7 +255,7 @@ TallFlatButton
 
 		mask					: 200, 109, 32, 32
 		border					: 200, 148, 32, 32
-		
+
 		textOffset				: 0, 0
 		textColor				: 0, 0, 0
 		descrColor				: 51, 51, 51
@@ -272,7 +272,7 @@ ListItem
 		center					: 68 , 180, 5 , 21
 		right					: 81 , 180, 5 , 21
 		mark					: 162, 131, 15, 21
-		
+
 		textOffset				: 3, 0
 		textColor				: 200, 200, 200
 
@@ -282,7 +282,7 @@ ListItem
 		center					: 129, 107, 5 , 21
 		right					: 129, 107, 5 , 21
 		mark					: 178, 131, 15, 21
-		
+
 		textOffset				: 3, 0
 		textColor				: 20, 20, 20
 
@@ -293,21 +293,21 @@ ListItem
 ListMenu
 
 	&Top
-		
+
 		left					: 123, 39, 8, 8
 		center					: 157, 39, 8, 8
 		right					: 189, 39, 8, 8
 
 
 	&Center
-		
+
 		left					: 123, 61, 8, 8
 		center					: 157, 61, 8, 8
 		right					: 189, 61, 8, 8
 
 
 	&Bottom
-		
+
 		left					: 123, 87, 8, 8
 		center					: 157, 87, 8, 8
 		right					: 189, 87, 8, 8
@@ -319,30 +319,30 @@ ListMenu
 CheckButton
 
 	&Leave
-		
+
 		left					: 89 , 35, 5, 21
 		center					: 102, 35, 5, 21
 		right					: 115, 35, 5, 21
 		split					: 44 , 35, 3, 21
-		
+
 		textOffset				: 0, 0
 		textColor				: 220, 220, 220
 
 	&Enter
-		
+
 		left					: 89 , 59, 5, 21
 		center					: 102, 59, 5, 21
 		right					: 115, 59, 5, 21
-		
+
 		textOffset				: 0, 0
 		textColor				: 240, 240, 240
 
 	&Click
-		
+
 		left					: 89 , 107, 5, 21
 		center					: 102, 107, 5, 21
 		right					: 115, 107, 5, 21
-		
+
 		textOffset				: 0, -1
 		textColor				: 0,  0, 0
 
@@ -353,30 +353,30 @@ CheckButton
 DropList
 
 	&Leave
-		
+
 		left					: 89 , 35, 5 , 21
 		center					: 102, 35, 5 , 21
 		right					: 115, 35, 5 , 21
 		mark					: 40 , 59, 10, 21
-		
+
 		textOffset				: 0,  0
 		textColor				: 220, 220, 220
 
 	&Enter
-		
+
 		left					: 89 , 59, 5, 21
 		center					: 102, 59, 5, 21
 		right					: 115, 59, 5, 21
-		
+
 		textOffset				: 0,  0
 		textColor				: 240, 240, 240
 
 	&Click
-		
+
 		left					: 89 , 83, 5, 21
 		center					: 102, 83, 5, 21
 		right					: 115, 83, 5, 21
-		
+
 		textOffset				: 0, 0
 		textColor				: 180, 180, 180
 
@@ -387,31 +387,31 @@ DropList
 PopupList
 
 	&Leave
-		
+
 		left					: 89 , 35, 5 , 21
 		center					: 102, 35, 5 , 21
 		right					: 115, 35, 5 , 21
 		split					: 44 , 35, 3 , 21
 		mark					: 40 , 59, 10, 21
-		
+
 		textOffset				: 0,  0
 		textColor				: 120, 120, 120
 
 	&Enter
-		
+
 		left					: 89 , 59, 5, 21
 		center					: 102, 59, 5, 21
 		right					: 115, 59, 5, 21
-		
+
 		textOffset				: 0,  0
 		textColor				: 140, 140, 140
 
 	&Click
-		
+
 		left					: 89 , 83, 5, 21
 		center					: 102, 83, 5, 21
 		right					: 115, 83, 5, 21
-		
+
 		textOffset				: 0, -1
 		textColor				: 200, 200, 200
 
@@ -420,7 +420,7 @@ PopupList
  */
 
 Label
-	
+
 	textOffset					: 0, 0
 	textColor					: 0, 0, 0
 
@@ -431,7 +431,7 @@ Label
 CheckBox
 
 	&Leave
-		
+
 		unchecked				: 3 , 3, 16, 16
 		checked					: 54, 3, 16, 16
 
@@ -439,7 +439,7 @@ CheckBox
 		textOffset				: 5, 0
 
 	&Enter
-		
+
 		unchecked				: 20, 3, 16, 16
 		checked					: 71, 3, 16, 16
 
@@ -461,7 +461,7 @@ Edit
 		left					: 4 , 35, 5, 21
 		center					: 16, 35, 5, 21
 		right					: 30, 35, 5, 21
-		
+
 		arrowLeft				: 40, 82, 5, 10
 		arrowRight				: 45, 82, 5, 10
 

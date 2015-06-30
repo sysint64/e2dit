@@ -26,33 +26,10 @@
 /* Scroll */
 /* By Pixel */
 
-void UIPanel::addScrollXByPx (int pxVal) {
-
-	scrollX += pxVal;
-	resized (0, 0);
-
-}
-
-void UIPanel::addScrollYByPx (int pxVal) {
-
-	scrollY += pxVal;
-	resized (0, 0);
-
-}
-
-void UIPanel::setScrollYByPx (int pxVal) {
-
-	scrollY = pxVal;
-	resized (0, 0);
-
-}
-
-void UIPanel::setScrollXByPx (int pxVal) {
-
-	scrollX = pxVal;
-	resized (0, 0);
-
-}
+void UIPanel::addScrollXByPx (int pxVal) { scrollX += pxVal; resized (0, 0); }
+void UIPanel::addScrollYByPx (int pxVal) { scrollY += pxVal; resized (0, 0); }
+void UIPanel::setScrollXByPx (int pxVal) { scrollX  = pxVal; resized (0, 0); }
+void UIPanel::setScrollYByPx (int pxVal) { scrollY  = pxVal; resized (0, 0); }
 
 /* By Percent */
 
@@ -208,6 +185,12 @@ void UIPanel::render() {
 	updateAlign();
 	updateAbsPos();
 
+	/*if (allowResize) {
+
+		if (align == Align::Top)
+
+	}*/
+
 	if (background != Background::Transparent) {
 
 		/* Switch Shaders */
@@ -243,8 +226,58 @@ void UIPanel::render() {
 	UIElement::render();
 	manager->popScissor();
 
-	if (showScrollX || showScrollY)
-		renderScroll();
+	if (showScrollX || showScrollY) renderScroll();
+	if (allowResize)                renderSplit();
+
+}
+
+void UIPanel::renderSplit() {
+
+	int n = blackSplit ? 12 : 13;
+
+	/* Set Split Position and Size */
+
+	switch (align) {
+
+		case Align::Top :
+
+			splitX = absLeft; splitY = absTop+height;
+			splitW = width;   splitH = iHeights[n];
+			split->setRotation (math::pi);
+
+			break;
+
+		case Align::Bottom :
+
+			splitX = absLeft; splitY = absTop;
+			splitW = width;   splitH = iHeights[n];
+
+			break;
+
+		case Align::Left :
+
+			splitX = absLeft+width; splitY = absTop;
+			splitW = height;        splitH = iHeights[n];
+			split->setRotation (-math::pi/2.f);
+
+			break;
+
+		case Align::Right :
+
+			splitX = absLeft; splitY = absTop;
+			splitW = height;  splitH = iHeights[n];
+			split->setRotation (math::pi/2.f);
+
+		default : return;
+
+	}
+
+	/* Render */
+
+	int sx = align == Align::Top   ? splitX+width  : splitX;
+	int sy = align == Align::Right ? splitY+height : splitY;
+
+	renderElement (n, sx, sy, splitW, splitH, split.get());
 
 }
 

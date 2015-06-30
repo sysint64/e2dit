@@ -120,10 +120,16 @@ void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *
 	glUniform2f		   (manager->atlasShader->locations["Size"]  , fWidths [idx], fHeights[idx]);
 	glUniform2f		   (manager->atlasShader->locations["Offset"], offsetsX[idx], offsetsY[idx]);
 
-	if (el->rotation > 0.1f) el->setPosition (glm::vec2(x, app->windowHeight-w-y));
-	else                     el->setPosition (glm::vec2(x, app->windowHeight-h-y));
+	if (math::feq<float>(el->rotation, math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x, app->windowHeight-w-y)); else
+	if (math::feq<float>(el->rotation,-math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x, app->windowHeight+w-y)); else
+	if (math::feq<float>(el->rotation, math::pi    , math::pi/180.f)) el->setPosition (glm::vec2(x, app->windowHeight+h-y)); else
+																	  el->setPosition (glm::vec2(x, app->windowHeight-h-y));
 
-	el->setScale    (glm::vec2(w, h));
+	//if (el->rotation > 0.1f) el->setPosition (glm::vec2(x, app->windowHeight-w-y));
+	//else                     el->setPosition (glm::vec2(x, app->windowHeight-h-y));
+
+	//el->setPosition (glm::vec2(x, app->windowHeight-h-y));
+	el->setScale (glm::vec2(w, h));
 	el->render();
 
 }

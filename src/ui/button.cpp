@@ -83,7 +83,7 @@ void UIButton::render () {
 		if (io[0] >= 0 && io[1] >= 0) {
 
 			int iOffset = icoOffset;
-			
+
 			if (drawAlign == Align::Center) iOffset += iWidths[n]; else
 			if (drawAlign == Align::Right ) iOffset += iWidths[n];
 
@@ -100,11 +100,11 @@ void UIButton::render () {
 	/* Show Second Icon */
 
 	if (showIcon2) {
-		
+
 		if (icon2Offset[0] >= 0 && icon2Offset[1] >= 0) {
-			
+
 			int iOffset = 0;
-			
+
 			if (drawAlign == Align::Center) iOffset += iWidths[n]; else
 			if (drawAlign == Align::Right ) iOffset += iWidths[n];
 
@@ -114,7 +114,7 @@ void UIButton::render () {
 		}
 
 		/* Update Text Offset (absLeft padding) */
-		
+
 		toffset = 38;
 	}
 
@@ -172,7 +172,7 @@ void UIButton::renderText (Align align, std::string text, int size, int offset) 
 
 	// Draw Text
 	float bounds[6];
-	
+
 	ftglGetFontBBox (manager->theme->font, text.c_str(), size, bounds);
 	int twidth = bounds[3]-bounds[0];
 
@@ -189,7 +189,7 @@ void UIButton::renderText (Align align, std::string text, int size, int offset) 
 		if (drawAlign != Align::Left && drawAlign != Align::All) tx += iWidths[n+2];
 		if (offset != 0) tx += offset;
 
-	} else 
+	} else
 
 	/* Text align : Right */
 
@@ -199,7 +199,7 @@ void UIButton::renderText (Align align, std::string text, int size, int offset) 
 		else if (drawAlign == Align::Right ) tx += (width-twidth)-iWidths[n+2]-iWidths[n];
 		else if (drawAlign == Align::Left  ) tx += (width-twidth)-iWidths[n+2]-iWidths[n]-iWidths[n];
 		else                                 tx += (width-twidth)-iWidths[n+2]-textOffsets[to]-textOffsets[to];
-		
+
 		if (offset != 0) tx -= offset;
 
 	} else

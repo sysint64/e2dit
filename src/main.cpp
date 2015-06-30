@@ -74,8 +74,8 @@ int main (int argc,char** argv) {
 
 	/* TODO */
 
-	app->windowWidth  = 300;//app->screenWidth -100;
-	app->windowHeight = 300;//app->screenHeight-100;
+	app->windowWidth  = 1024;//app->screenWidth -100;
+	app->windowHeight = 768;//app->screenHeight-100;
 
 	/* Maximize Window */
 
@@ -88,8 +88,8 @@ int main (int argc,char** argv) {
 					   sf::Style::Default, settings);
 
 	Atom _NET_WM_STATE = XInternAtom(display, "_NET_WM_STATE", False);
-    Atom _NET_WM_STATE_MAXIMIZED_VERT = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_VERT", False);
-    Atom _NET_WM_STATE_MAXIMIZED_HORZ = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
+	Atom _NET_WM_STATE_MAXIMIZED_VERT = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_VERT", False);
+	Atom _NET_WM_STATE_MAXIMIZED_HORZ = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
 
 	XEvent e;
 
@@ -110,7 +110,7 @@ int main (int argc,char** argv) {
 	app->cursor = std::make_unique<UICursor> (window.getSystemHandle());
 
 	window.setVerticalSyncEnabled(false);
-	window.setFramerateLimit(0);
+	window.setFramerateLimit(60);
 
 	/* Check OpenGL Errors */
 
@@ -244,8 +244,8 @@ int main (int argc,char** argv) {
 
 		glClear (GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-		core->render();
 		core->step();
+		core->render();
 
 		/* Display */
 

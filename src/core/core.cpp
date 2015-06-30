@@ -117,7 +117,8 @@ Core::Core() {
 
 	//p1->scrollToElement(e1.get());
 	p1->test = e1.get();
-	p1->align = Align::Client;
+	p1->align = Align::Top;
+	p1->allowResize = true;
 
 	auto _p1 = p1.get();
 
@@ -150,6 +151,7 @@ void Core::render() {
 
 	app->screenCamera->update();
 	uiManager->render();
+	app->screenCamera->update();
 
 }
 

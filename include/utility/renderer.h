@@ -31,9 +31,9 @@ inline void glBegin2D () {
 	Application *app = Application::getInstance();
 
 	glMatrixMode (GL_PROJECTION);
-	
+
 	glPushMatrix(); glLoadIdentity();
-	
+
 	gluOrtho2D   (0, app->screenWidth, 0, app->screenHeight);
 	glMatrixMode (GL_MODELVIEW);
 
@@ -45,7 +45,7 @@ inline void glEnd2D () {
 
 	glPopMatrix();
 	glMatrixMode (GL_PROJECTION);
-	
+
 	glPopMatrix();
 	glMatrixMode (GL_MODELVIEW);
 
