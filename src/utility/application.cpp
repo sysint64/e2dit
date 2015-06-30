@@ -34,6 +34,13 @@ Application *Application::getInstance() {
 
 		app = new Application();
 
+		for (int i = 0; i < 128; i++) {
+
+			app->timersMap[i] = false;
+			app->timers[i] = new Timer();
+
+		}
+
 	}
 
 	return app;

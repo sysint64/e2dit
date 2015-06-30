@@ -316,21 +316,7 @@ void UIPanel::renderSplit() {
 
 	/* Render */
 
-	//int sy = align == Align::Right ? splitY+height : splitY;
-	//int sx = align == Align::Top   ? splitX+width  : splitX;
-
-	//renderElement (n, splitX, absTop+100, width, splitH, split.get());
 	renderElement (n, splitX, splitY, splitW, splitH, split.get());
-	//renderElement (n, sx, sy, splitW, splitH, split.get());
-	/*glUniformMatrix4fv (manager->atlasShader->locations["MVP"], 1, GL_FALSE, &(split->MVPMatrix[0][0]));
-	glUniform2f (manager->atlasShader->locations["Size"]  , fWidths  [n], fHeights [n]);
-	glUniform2f (manager->atlasShader->locations["Offset"], offsetsX[n], offsetsY[n]);
-
-	split->setPosition (glm::vec2(sx, app->windowHeight-sy));
-	split->setScale (glm::vec2(splitW, splitH));
-
-	split->updateModelMatrix();
-	split->render();*/
 
 }
 

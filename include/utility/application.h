@@ -33,10 +33,24 @@
 #include "utility/input.h"
 #include "renderer/camera.h"
 #include "ui/cursor.h"
+#include <functional>
 #include <string>
+#include <map>
+#include <unordered_map>
+
+struct Timer {
+
+	float time;
+	float timeout;
+	bool  loop = false;
+	std::function<void()> callback = nullptr;
+
+};
 
 class Application {
 public:
+
+	static const int timersCount = 128;
 
 	/* Window */
 
@@ -53,6 +67,14 @@ public:
 	bool VAOEXT   = true;
 	int  OGLMajor = 3;
 	int  OGLMinor = 3;
+
+	/* Timers */
+
+	Timer *timers[timersCount];
+	std::unordered_map<int, bool> timersMap;
+	std::vector<int> activeTimers;
+
+	/* Screen */
 
 	std::unique_ptr<Camera>   screenCamera;
 	std::unique_ptr<UICursor> cursor;

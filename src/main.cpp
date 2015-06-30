@@ -30,6 +30,7 @@
 #include "utility/logger.h"
 #include "utility/application.h"
 #include "utility/data_map.h"
+#include "utility/system.h"
 #include "core/core.h"
 
 #include <SFML/System.hpp>
@@ -175,11 +176,24 @@ int main (int argc,char** argv) {
 	//glClearColor (0, 0, 0, 0);
 	glClearColor (144.f/255.f, 144.f/255.f, 144.f/255.f, 0);
 
+	/*setTimeout (1.f, []() {
+
+		std::cout << "Hello World!" << std::endl;
+
+	});
+
+	setInterval (2.f, []() {
+
+		std::cout << "Hello World2!" << std::endl;
+
+	});*/
+
 	/* Main loop */
 
 	while (running) {
 
 		sf::Event ev;
+		//core->onResize (app->windowWidth, app->windowHeight);
 
 		/* Poll Events */
 
@@ -223,6 +237,35 @@ int main (int argc,char** argv) {
 		app->currentTime = clock.getElapsedTime().asSeconds();
 		app->deltaTime   = (app->currentTime - lastTime)*0.001f;
 		lastTime         =  app->currentTime;
+
+		/* Timers */
+
+		//for (auto timerId : app->activeTimers) {
+		for (auto it = app->activeTimers.begin(); it != app->activeTimers.end(); ) {
+
+			int timerId = *it;
+			app->timers[timerId]->time += app->deltaTime*1000.f;
+
+			if (app->timers[timerId]->time >= app->timers[timerId]->timeout) {
+
+				app->timers[timerId]->time = 0.f;
+				app->timers[timerId]->callback();
+
+				if (!app->timers[timerId]->loop) {
+
+					app->timers[timerId]->timeout = 0.f;
+					app->timersMap[timerId] = false;
+					app->activeTimers.erase(it);
+
+				}
+
+			} else {
+
+				++it;
+
+			}
+
+		}
 
 		/* Check Double Click */
 
