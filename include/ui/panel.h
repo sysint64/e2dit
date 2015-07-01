@@ -81,7 +81,8 @@ protected:
 	bool scrollVClick = false;
 
 	void updateAlign();
-	void renderScroll();
+	void updateScroll();
+	void pollScroll();
 	void renderSplit();
 
 public:
@@ -131,13 +132,9 @@ public:
 
 	/* Events */
 
-	virtual void keyPressed  (int key)                  override;
-	virtual void dblClick    (int x, int y, int button) override;
-	virtual void mouseDown   (int x, int y, int button) override;
-	virtual void mouseMove   (int x, int y, int button) override;
-	virtual void mouseUp     (int x, int y, int button) override;
-	virtual void mouseWheel  (int delta)				override;
-	virtual void resized     (int w, int h) 			override; // Update Scroll
+	virtual void mouseDown  (int x, int y, int button) override;
+	virtual void mouseUp    (int x, int y, int button) override;
+	virtual void mouseWheel (int delta)				override;
 
 	/* Constructor */
 

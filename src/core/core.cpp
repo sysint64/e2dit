@@ -117,7 +117,7 @@ Core::Core() {
 
 	//p1->scrollToElement(e1.get());
 	p1->test = e1.get();
-	p1->align = Align::Right;
+	p1->align = Align::Bottom;
 	p1->allowResize = true;
 	p1->blackSplit = true;
 
