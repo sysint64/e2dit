@@ -122,8 +122,6 @@ void UIElement::checkFocus() {
 
 void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *el) {
 
-	x += 2; y += 2; // FIXME: ???!!!
-
 	if (math::feq<float>(el->rotation, math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x+h, app->windowHeight-w-y)); else
 	if (math::feq<float>(el->rotation,-math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x-h, app->windowHeight+h-y)); else
 	if (math::feq<float>(el->rotation, math::pi    , math::pi/180.f)) el->setPosition (glm::vec2(x+w, app->windowHeight+h-y)); else
@@ -142,7 +140,6 @@ void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *
 
 void UIElement::renderColorElement (int x, int y, int w, int h, BaseObject *el, float *color) {
 
-	x+=2; y+=2;
 	el->setPosition (glm::vec2(x, app->windowHeight-y-h));
 	el->setScale    (glm::vec2(w, h));
 	el->updateModelMatrix();

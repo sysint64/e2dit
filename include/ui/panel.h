@@ -93,6 +93,9 @@ public:
 	int hbMin, hbMax;
 	int vbMin, vbMax;
 
+	int minSize = 40;
+	int maxSize = 999;
+
 	int scrollDelta  = 20;
 
 	bool showScrollX = true;
@@ -101,13 +104,13 @@ public:
 	enum class Background {Transparent, Light, Dark, Action};
 	Background background = Background::Light;
 	bool allowResize = true;
-	bool allowHide   = false;
+	bool allowHide   = true;
 	bool open        = true;
 	bool blackSplit  = false;
 
 	UIElement *test;
 
-	std::wstring caption = L"";
+	std::wstring caption = L"Hello World";
 	std::vector<UIElement*> joinElements;
 
 	/* Scroll */

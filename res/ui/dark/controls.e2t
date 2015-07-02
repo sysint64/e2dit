@@ -28,6 +28,9 @@ General
 
 Panel
 
+	headerLeave					: 242, 85, 11, 20
+	headerEnter					: 247, 85, 11, 20
+
 	backgroundLight				: 114, 114, 114, 100
 	backgroundDark				: 70, 70, 70, 100
 	backgroundAction			: 95, 95, 95, 100
@@ -40,6 +43,8 @@ Panel
 
 	arrowOpen					: 5 , 21, 10, 10
 	arrowClose					: 22, 21, 10, 10
+
+
 
 /**
  * Dialog

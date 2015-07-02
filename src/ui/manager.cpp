@@ -62,8 +62,6 @@ UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float
 template <int count>
 void UIIcons<count>::render (int x, int y, int ox, int oy, BaseObject *iconElement) {
 
-	x += 2; y -= 2; // FIXME: ???!!!
-
 	glUniform1i (manager->atlasShader->locations["Texture"], 2);
 	glUniform2f (manager->atlasShader->locations["Size"]  , width, height);
 	glUniform2f (manager->atlasShader->locations["Offset"], offsetsX[ox][oy],
@@ -73,7 +71,7 @@ void UIIcons<count>::render (int x, int y, int ox, int oy, BaseObject *iconEleme
 	iconElement->setScale    (glm::vec2 (sizeIcon, sizeIcon));
 
 	iconElement->updateModelMatrix();
-	glUniformMatrix4fv (manager->atlasShader->locations["MVP"]   , 1, GL_FALSE, &(iconElement->MVPMatrix[0][0]));
+	glUniformMatrix4fv (manager->atlasShader->locations["MVP"], 1, GL_FALSE, &(iconElement->MVPMatrix[0][0]));
 	iconElement->render();
 
 	glUniform1i (manager->atlasShader->locations["Texture"], manager->themeTexID);
@@ -140,8 +138,6 @@ void UIManager::deleteElement (const int id) {
  */
 
 void UIManager::pushScissor (int sx, int sy, int sw, int sh) {
-
-	sx += 2; sy += 2; // FIXME: ???!!!
 
 	if (scissorStack.size() == 0)
 		glEnable (GL_SCISSOR_TEST);

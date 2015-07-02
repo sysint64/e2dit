@@ -101,9 +101,12 @@ void UIPanel::updateAlign() {
 
 	/* Find Border */
 
-	for (const auto &kvp : elements) {
+	for (const auto &kvp : parent->elements) {
 
 		UIElement *el = kvp.second.get();
+
+		if (el == this)
+			break;
 
 		if (!el->visible || el->align == Align::None)
 			continue;
@@ -131,8 +134,8 @@ void UIPanel::updateAlign() {
 			width  = parent->width -mWidth -x0-parent->scrollElementWidth;
 			height = parent->height-mHeight-y0-parent->scrollElementHeight;
 
-			left   = parent->left+x0;
-			top    = parent->top +y0;
+			left   = x0;
+			top    = y0;
 
 			break;
 
@@ -140,8 +143,8 @@ void UIPanel::updateAlign() {
 
 			width  = parent->width-mWidth-x0-parent->scrollElementWidth;
 
-			left   = parent->left+x0;
-			top    = parent->top +y0;
+			left   = x0;
+			top    = y0;
 
 			break;
 
@@ -149,8 +152,8 @@ void UIPanel::updateAlign() {
 
 			width  = parent->width-mWidth-x0-parent->scrollElementWidth;
 
-			left   = parent->left+x0;
-			top    = parent->top +y0+parent->height-height-mTop-mHeight;
+			left   = x0;
+			top    = y0+parent->height-height-mTop-mHeight;
 
 			break;
 
@@ -158,8 +161,8 @@ void UIPanel::updateAlign() {
 
 			height = parent->height-mHeight-y0-parent->scrollElementHeight;
 
-			left   = parent->left+x0;
-			top    = parent->top +y0;
+			left   = x0;
+			top    = y0;
 
 			break;
 
@@ -167,8 +170,8 @@ void UIPanel::updateAlign() {
 
 			height = parent->height-mHeight-y0;
 
-			left   = parent->left+parent->width-mWidth-width;
-			top    = parent->top +y0;
+			left   = parent->width-mWidth-width;
+			top    = y0;
 
 			break;
 
@@ -209,7 +212,6 @@ void UIPanel::render() {
 
 	splitEnter = false;
 
-	updateAlign();
 	updateAbsPos();
 	updateScroll();
 
@@ -254,7 +256,7 @@ void UIPanel::render() {
 	if (wrapperWidth != width && showScrollX) {
 
 		int n = scrollHEnter || scrollHClick ? 9 : 6;
-		if (!scrollHClick) n = 6;
+		//if (!scrollHClick) n = 6;
 
 		renderPartsElementH (0,   1,   2, scrollBg [0].get(), scrollBg [1].get(), scrollBg [2].get(), absLeft, bottom, scrollWidth, true);
 		renderPartsElementH (n, n+1, n+2, scrollBtn[0].get(), scrollBtn[1].get(), scrollBtn[2].get(), absLeft+hbOffset, bottom, hbSize, true);
@@ -266,7 +268,7 @@ void UIPanel::render() {
 	if (wrapperHeight != height && showScrollY) {
 
 		int n = scrollVEnter || scrollVClick ? 9 : 6;
-		if (!scrollVClick) n = 6;
+		//if (!scrollVClick) n = 6;
 
 		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width-scrollElementWidth, absTop, scrollHeight, true);
 		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width-scrollElementWidth, absTop+vbOffset, vbSize, true);
@@ -292,6 +294,12 @@ void UIPanel::render() {
 
 		}
 
+		if (align == Align::Top  || align == Align::Bottom) math::clamp (&height, minSize, maxSize);
+		if (align == Align::Left || align == Align::Right ) math::clamp (&width , minSize, maxSize);
+
+		wrapperWidth  = math::max (wrapperWidth , width);
+		wrapperHeight = math::max (wrapperHeight, height);
+
 	}
 
 	/* Render Childs */
@@ -301,6 +309,8 @@ void UIPanel::render() {
 
 	if (showScrollX || showScrollY) pollScroll();
 	if (allowResize)				renderSplit();
+
+	updateAlign();
 
 }
 
@@ -515,7 +525,7 @@ void UIPanel::updateScroll() {
 		math::clamp (&hbOffset, 0, hbMax-hbSize);
 
 		if (hbOffset == 0 )           scrollX = 0;
-		if (hbOffset == hbMax-hbSize) scrollX = wrapperWidth-width;
+		if (hbOffset == hbMax-hbSize) scrollX = wrapperWidth-width+scrollElementWidth;
 
 	} else {
 
@@ -535,7 +545,7 @@ void UIPanel::updateScroll() {
 		math::clamp (&vbOffset, 0, vbMax-vbSize);
 
 		if (vbOffset == 0)            scrollY = 0;
-		if (vbOffset == vbMax-vbSize) scrollY = wrapperHeight-height;
+		if (vbOffset == vbMax-vbSize) scrollY = wrapperHeight-height+scrollElementHeight;
 
 	} else {
 

@@ -118,7 +118,7 @@ Core::Core() {
 	//p1->scrollToElement(e1.get());
 	p1->test = e1.get();
 	p1->align = Align::Bottom;
-	p1->allowResize = true;
+	//p1->allowResize = true;
 	p1->blackSplit = true;
 
 	auto _p1 = p1.get();
@@ -127,19 +127,23 @@ Core::Core() {
 
 	_p1->addElement (std::move(b1));
 	_p1->addElement (std::move(b2));
-	_p1->addElement (std::move(b3));
 	_p1->addElement (std::move(e1));
 
 	std::unique_ptr<UIPanel> p2 = std::make_unique<UIPanel> (uiManager.get());
+
+	auto _p2 = p2.get();
 
 	p2->left   = 50;
 	p2->top    = 50;
 	p2->width  = 50;
 	p2->height = 50;
 	p2->background = UIPanel::Background::Dark;
-	//p2->align = Align::Right;
+	p2->align = Align::Left;
+	//p2->allowResize = true;
 
-	_p1->addElement (std::move(p2));
+	//_p1->addElement (std::move(p2));
+	uiManager->addElement (std::move(p2));
+	_p2->addElement (std::move(b3));
 
 }
 
