@@ -244,6 +244,29 @@ void UIPanel::render() {
 
 	}
 
+	/* Render Header */
+
+	if (allowResize || showSplit) calculateSplit();
+	if (allowHide) {
+
+		int n = headerEnter ? 17 : 16;
+
+		headerEnter = pointInRect (app->mouseX, app->mouseY, absLeft, absTop+2, width, iHeights[n]);
+		renderElement (n, absLeft, absTop+2, width, iHeights[n], header.get());
+
+		/* Draw Arrow */
+
+		n = open ? 14 : 15;
+		renderElement (n, absLeft+6, absTop+2+(iHeights[16] >> 1)-(iHeights[n] >> 1), iWidths[n], iHeights[n], expandArrow.get());
+
+		/* Draw Text */
+
+		manager->atlasShader->unbind();
+		renderText (manager->theme->font, textColor, absLeft+12+iWidths[n], absTop+2+iHeights[16]-(manager->theme->fontHeight >> 1), caption);
+		manager->atlasShader->bind();
+
+	}
+
 	/* Render Scroll */
 
 	int swv = iHeights[4]-scrollElementHeight;
@@ -253,10 +276,9 @@ void UIPanel::render() {
 	int scrollWidth  = width -iHeights[4]+swh;
 	int scrollHeight = height-iHeights[4]+swv;
 
-	if (wrapperWidth != width && showScrollX) {
+	if (wrapperWidth > width && showScrollX) {
 
 		int n = scrollHEnter || scrollHClick ? 9 : 6;
-		//if (!scrollHClick) n = 6;
 
 		renderPartsElementH (0,   1,   2, scrollBg [0].get(), scrollBg [1].get(), scrollBg [2].get(), absLeft, bottom, scrollWidth, true);
 		renderPartsElementH (n, n+1, n+2, scrollBtn[0].get(), scrollBtn[1].get(), scrollBtn[2].get(), absLeft+hbOffset, bottom, hbSize, true);
@@ -265,10 +287,9 @@ void UIPanel::render() {
 
 	/* Vertical */
 
-	if (wrapperHeight != height && showScrollY) {
+	if (wrapperHeight > height && showScrollY) {
 
 		int n = scrollVEnter || scrollVClick ? 9 : 6;
-		//if (!scrollVClick) n = 6;
 
 		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width-scrollElementWidth, absTop, scrollHeight, true);
 		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width-scrollElementWidth, absTop+vbOffset, vbSize, true);
@@ -297,9 +318,6 @@ void UIPanel::render() {
 		if (align == Align::Top  || align == Align::Bottom) math::clamp (&height, minSize, maxSize);
 		if (align == Align::Left || align == Align::Right ) math::clamp (&width , minSize, maxSize);
 
-		wrapperWidth  = math::max (wrapperWidth , width);
-		wrapperHeight = math::max (wrapperHeight, height);
-
 	}
 
 	/* Render Childs */
@@ -308,13 +326,21 @@ void UIPanel::render() {
 	manager->popScissor();
 
 	if (showScrollX || showScrollY) pollScroll();
-	if (allowResize)				renderSplit();
+
+	/* Render Split */
+
+	if (allowResize || showSplit) {
+
+		int n = blackSplit ? 12 : 13;
+		renderElement (n, splitX, splitY, splitW, splitH, split.get());
+
+	}
 
 	updateAlign();
 
 }
 
-void UIPanel::renderSplit() {
+void UIPanel::calculateSplit() {
 
 	int n = blackSplit ? 12 : 13;
 
@@ -357,10 +383,6 @@ void UIPanel::renderSplit() {
 
 	}
 
-	/* Render */
-
-	renderElement (n, splitX, splitY, splitW, splitH, split.get());
-
 }
 
 void UIPanel::pollScroll() {
@@ -371,12 +393,12 @@ void UIPanel::pollScroll() {
 	scrollElementWidth  = 0;
 	scrollElementHeight = 0;
 
-	if (showScrollX && wrapperHeight != height) { swh = 0; scrollElementWidth  = iHeights[4]; }
-	if (showScrollY && wrapperWidth  != width ) { swv = 0; scrollElementHeight = iHeights[4]; }
+	if (showScrollX && wrapperHeight > height) { swh = 0; scrollElementWidth  = iHeights[4]; }
+	if (showScrollY && wrapperWidth  > width ) { swv = 0; scrollElementHeight = iHeights[4]; }
 
 	/* Horizontal Scroll */
 
-	if (wrapperWidth != width && showScrollX) {
+	if (wrapperWidth > width && showScrollX) {
 
 		if (!manager->dialogOpened || inDialog) {
 
@@ -405,7 +427,7 @@ void UIPanel::pollScroll() {
 
 	/* Vertical Scroll */
 
-	if (wrapperHeight != height && showScrollY) {
+	if (wrapperHeight > height && showScrollY) {
 
 		int n = 6;
 
@@ -479,11 +501,12 @@ void UIPanel::mouseUp (int x, int y, int button) {
 void UIPanel::mouseWheel (int delta) {
 
 	UIElement::mouseWheel (delta);
-
-	if (!over || (manager->underMouse->canScroll && manager->underMouse != this))
-		return;
+	UIElement *el = manager->underMouse;
 
 	if (pressed(keyShift)) {
+
+		if (!over || ((el->canScroll && el->scrollElementHeight != 0) && el != this))
+			return;
 
 		if (wrapperWidth == width || !showScrollX)
 			return;
@@ -491,6 +514,9 @@ void UIPanel::mouseWheel (int delta) {
 		addScrollXByPx (-delta*scrollDelta);
 
 	} else {
+
+		if (!over || ((el->canScroll && el->scrollElementWidth != 0) && el != this))
+			return;
 
 		if (wrapperHeight == height || !showScrollY)
 			return;
@@ -515,7 +541,7 @@ void UIPanel::updateScroll() {
 
 	/* Horizontal */
 
-	if (wrapperWidth != width && showScrollX) {
+	if (wrapperWidth > width && showScrollX) {
 
 		hbMin = iWidths[6]+iWidths[8];
 		hbMax = width-iHeights[4]+swh;
@@ -525,7 +551,7 @@ void UIPanel::updateScroll() {
 		math::clamp (&hbOffset, 0, hbMax-hbSize);
 
 		if (hbOffset == 0 )           scrollX = 0;
-		if (hbOffset == hbMax-hbSize) scrollX = wrapperWidth-width+scrollElementWidth;
+		if (hbOffset == hbMax-hbSize) scrollX = wrapperWidthClamped-width+scrollElementWidth;
 
 	} else {
 
@@ -535,7 +561,7 @@ void UIPanel::updateScroll() {
 
 	/* Vertical */
 
-	if (wrapperHeight != height && showScrollY) {
+	if (wrapperHeight > height && showScrollY) {
 
 		vbMin = iWidths[6]+iWidths[8];
 		vbMax = height-iHeights[4]+swv;
@@ -545,7 +571,7 @@ void UIPanel::updateScroll() {
 		math::clamp (&vbOffset, 0, vbMax-vbSize);
 
 		if (vbOffset == 0)            scrollY = 0;
-		if (vbOffset == vbMax-vbSize) scrollY = wrapperHeight-height+scrollElementHeight;
+		if (vbOffset == vbMax-vbSize) scrollY = wrapperHeightClamped-height+scrollElementHeight;
 
 	} else {
 

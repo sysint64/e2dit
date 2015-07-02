@@ -63,11 +63,16 @@ void UIPanel::precompute() {
 	precomputeElement (14, "panel", "arrowopen");
 	precomputeElement (15, "panel", "arrowclose");
 
+	/* Header Background */
+
+	precomputeElement (16, "panel", "headerleave");
+	precomputeElement (17, "panel", "headerenter");
+
 	/* Calculate Sizes */
 
 	precomputeColor4f ("panel" , "backgroundlight" , backgroundLight);
 	precomputeColor4f ("panel" , "backgrounddark"  , backgroundDark);
 	precomputeColor4f ("panel" , "backgroundaction", backgroundAction);
+	precomputeColor3f ("panel" , "textcolor"       , textColor);
 
 }
-

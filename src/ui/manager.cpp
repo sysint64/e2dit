@@ -199,8 +199,9 @@ void UIManager::poll() {
 		if (el == nullptr)
 			continue;
 
+		el->setCursor();
 		el->enter = false;
-		el->click = false;
+		//el->click = false;
 
 	}
 
@@ -216,11 +217,11 @@ void UIManager::poll() {
 			continue;
 
 		if (!el->visible) continue;
-		if (!pointInRect (app->mouseX, app->mouseY, el->absLeft,
+		/*if (!pointInRect (app->mouseX, app->mouseY, el->absLeft,
 						  el->absTop, el->width, el->height))
 		{
 
-			el->enter = false;
+			//el->enter = false;
 			el->click = false || el->keyClick;
 
 			continue;
@@ -229,18 +230,25 @@ void UIManager::poll() {
 
 		if (!el->enabled) {
 
-			el->enter = false;
+			//el->enter = false;
 			el->click = false || el->keyClick;
+			continue;
+
+		}*/
+
+		if (pointInRect (app->mouseX, app->mouseY, el->absLeft, el->absTop, el->width, el->height) && el->enabled) {
+
+			el->enter = true;
+			//el->click = app->mouseButton == mouseLeft;
+			//el->setCursor();
+			underMouse = el;
 
 		}
 
-		el->enter = true;
-		el->click = app->mouseButton == mouseLeft;
-		el->setCursor();
+		el->click = (el->click || el->focused) && el->enter && app->mouseButton == mouseLeft;
 
-		underMouse = el;
-
-		break;
+		if (el->enter)
+			break;
 
 	}
 
@@ -313,6 +321,23 @@ void UIManager::mouseMove (int x, int y, int button) {
 
 void UIManager::mouseDown (int x, int y, int button) {
 
+	for (int i = elementsStack.size()-1; i >= 0; i--) {
+
+		auto el = elementsStack[i];
+
+		if (el == nullptr) // TODO: Remove empty element from stack
+			continue;
+
+		if (el->enter) {
+
+			el->click = true;
+			el->focus();
+
+			break;
+		}
+
+	}
+
 	root->mouseDown (x, y, button);
 
 }
@@ -331,7 +356,7 @@ void UIManager::dblClick (int x, int y, int button) {
 
 void UIManager::mouseUp (int x, int y, int button) {
 
-	for (int i = elementsStack.size()-1; i >= 0; i--) {
+	/*for (int i = elementsStack.size()-1; i >= 0; i--) {
 
 		auto el = elementsStack[i];
 
@@ -344,7 +369,7 @@ void UIManager::mouseUp (int x, int y, int button) {
 			break;
 		}
 
-	}
+	}*/
 
 	root->mouseUp (x, y, button);
 	int length = root->elements.size();

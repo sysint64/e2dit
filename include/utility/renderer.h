@@ -24,7 +24,12 @@
 #define E2DIT_UTILITY_RENDERER_H
 
 #include "utility/application.h"
+#include "utility/string.h"
+
+#include "FTGL/ftgl.h"
 #include "GL/glew.h"
+
+using namespace FTGL;
 
 inline void glBegin2D () {
 
@@ -48,6 +53,38 @@ inline void glEnd2D () {
 
 	glPopMatrix();
 	glMatrixMode (GL_MODELVIEW);
+
+}
+
+inline void renderText (FTGLfont *font, float r, float g, float b, int x, int y, std::wstring text) {
+
+	Application *app = Application::getInstance();
+	std::string decodedText = wstr2str (text);
+	glBegin2D();
+
+	glActiveTexture (GL_TEXTURE0);
+	glColor3f       (r, g, b);
+
+	glTranslatef    (x, app->windowHeight-y, 0);
+	ftglRenderFont  (font, decodedText.c_str(), RENDER_ALL);
+
+	glEnd2D();
+
+}
+
+inline void renderText (FTGLfont *font, float *color, int x, int y, std::wstring text) {
+
+	Application *app = Application::getInstance();
+	std::string decodedText = wstr2str (text);
+	glBegin2D();
+
+	glActiveTexture (GL_TEXTURE0);
+	glColor3fv      (color);
+
+	glTranslatef    (x, app->windowHeight-y, 0);
+	ftglRenderFont  (font, decodedText.c_str(), RENDER_ALL);
+
+	glEnd2D();
 
 }
 

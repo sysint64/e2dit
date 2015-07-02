@@ -44,12 +44,14 @@ protected:
 	std::unique_ptr<BaseObject> scrollBtn[6];
 
 	std::unique_ptr<BaseObject> split       = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> header      = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	std::unique_ptr<BaseObject> expandArrow = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	std::unique_ptr<BaseObject> quadElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 	float backgroundLight [4];
 	float backgroundDark  [4];
 	float backgroundAction[4];
+	float textColor[4];
 
 	/* Scroll */
 
@@ -74,6 +76,8 @@ protected:
 	bool scrollVEnter = false;
 	bool scrollHEnter = false;
 	bool splitEnter = false;
+	bool headerEnter = false;
+	int  paddingTop = 0;
 
 	/* */
 
@@ -83,7 +87,7 @@ protected:
 	void updateAlign();
 	void updateScroll();
 	void pollScroll();
-	void renderSplit();
+	void calculateSplit();
 
 public:
 
@@ -103,10 +107,11 @@ public:
 
 	enum class Background {Transparent, Light, Dark, Action};
 	Background background = Background::Light;
-	bool allowResize = true;
-	bool allowHide   = true;
+	bool allowResize = false;
+	bool allowHide   = false;
 	bool open        = true;
 	bool blackSplit  = false;
+	bool showSplit   = false;
 
 	UIElement *test;
 

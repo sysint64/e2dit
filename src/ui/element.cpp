@@ -99,6 +99,7 @@ void UIElement::mouseUp (int x, int y, int button) {
 
 void UIElement::setCursor() {
 
+	if (!enter) return;
 	manager->cursor = cursor;
 
 }
@@ -318,8 +319,8 @@ void UIElement::updateAbsPos() {
 
 void UIElement::render() {
 
-	wrapperWidth  = width;
-	wrapperHeight = height;
+	wrapperWidthClamped  = width;  wrapperWidth  = 0;
+	wrapperHeightClamped = height; wrapperHeight = 0;
 
 	if (isRoot) {
 
@@ -338,8 +339,21 @@ void UIElement::render() {
 		UIElement *el = kvp.second.get();
 		el->over = pointInRect (app->mouseX, app->mouseY, el->absLeft, el->absTop, el->width, el->height);
 
-		wrapperWidth  = math::max (wrapperWidth , el->left+el->width);
-		wrapperHeight = math::max (wrapperHeight, el->top +el->height);
+		// TODO: Move to UIPanel
+
+		if (el->align != Align::Top && el->align != Align::Bottom)
+			wrapperWidth  = math::max (wrapperWidth , el->left+el->width);
+
+		if (el->align != Align::Left && el->align != Align::Right)
+			wrapperHeight = math::max (wrapperHeight, el->top +el->height);
+
+		if (el->align != Align::Top && el->align != Align::Bottom)
+			wrapperWidthClamped  = math::max (wrapperWidthClamped , el->left+el->width);
+
+		if (el->align != Align::Left && el->align != Align::Right)
+			wrapperHeightClamped = math::max (wrapperHeightClamped, el->top +el->height);
+
+		//
 
 		if (el->visible)
 			el->render();
@@ -350,50 +364,6 @@ void UIElement::render() {
 
 void UIElement::poll() {
 
-	/* State */
-
-	for (const auto &kvp : elements) {
-
-		UIElement *el = kvp.second.get();
-
-		if (el == nullptr || !el->parent->over)
-			continue;
-
-		if (!el->visible) continue;
-		if (!pointInRect (app->mouseX, app->mouseY, el->absLeft,
-						  el->absTop, el->width, el->height))
-		{
-
-			el->enter = false;
-			el->click = false || el->keyClick;
-
-			continue;
-
-		}
-
-		if (!el->enabled) {
-
-			el->enter = false;
-			el->click = false || el->keyClick;
-
-			continue;
-		}
-
-		el->enter = true;
-		el->click = app->mouseButton == mouseLeft;
-		manager->cursor = el->cursor;
-
-	}
-
-	/* Progress Event */
-
-	for (const auto &kvp : elements) {
-
-		UIElement *el = kvp.second.get();
-		el->progress();
-		//el->poll();
-
-	}
 
 }
 

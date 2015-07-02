@@ -29,24 +29,25 @@ Core::Core() {
 	app->screenCamera = std::make_unique<Camera>(app->screenWidth, app->screenHeight);
 
 	//uiManager = std::make_shared<UIManager>();
-	auto font = ftglCreateTextureFont ("res/fonts/ttf-dejavu/DejaVuSans.ttf");
+	auto font = ftglCreateTextureFont ("../res/fonts/ttf-dejavu/DejaVuSans.ttf");
 
 	ftglSetFontFaceSize (font, 12, 12);
 	ftglSetFontCharMap  (font, ft_encoding_unicode);
 
-	skin    = std::make_unique<Texture> ("res/ui/dark/controls.png");
-	uiTheme = std::make_unique<UITheme> ("res/ui/dark/controls.e2t", ReadType::Text, skin.get(), font);
+	skin    = std::make_unique<Texture> ("../res/ui/dark/controls.png");
+	uiTheme = std::make_unique<UITheme> ("../res/ui/dark/controls.e2t", ReadType::Text, skin.get(), font);
+	uiTheme->fontHeight = 12;
 
 	std::vector<std::string> atlasLocations; atlasLocations += "MVP", "Size", "Offset", "Texture", "Alpha";
 	std::vector<std::string> colorLocations; colorLocations += "MVP", "Color";
 
-	atlasShader = std::make_unique<Shader> ("res/glsl/GL3/tex_atlas.glsl", atlasLocations);
-	colorShader = std::make_unique<Shader> ("res/glsl/GL3/colorize.glsl" , colorLocations);
+	atlasShader = std::make_unique<Shader> ("../res/glsl/GL3/tex_atlas.glsl", atlasLocations);
+	colorShader = std::make_unique<Shader> ("../res/glsl/GL3/colorize.glsl" , colorLocations);
 
 	uiManager   = std::make_unique<UIManager> (atlasShader.get(), colorShader.get(), uiTheme.get());
 	uiManager->uiDataRender = new SpriteData (false, false, true);
 
-	std::unique_ptr<Texture> iconsTex = std::make_unique<Texture> ("res/ui/icons.png");
+	std::unique_ptr<Texture> iconsTex = std::make_unique<Texture> ("../res/ui/icons.png");
 	uiManager->icons = std::make_unique<UIMainIcons> (uiManager.get(), std::move (iconsTex), 18.f);
 
 	//uiManager->icons.tex = std::make_unique<Texture> ("res/ui/icons.png");
@@ -111,14 +112,15 @@ Core::Core() {
 
 	p1->left   = 200;
 	p1->top    = 100;
-	p1->width  = 600;
+	p1->width  = 300;
 	p1->height = 400;
 	p1->background = UIPanel::Background::Action;
+	//p1->showScrollX = false;
 
 	//p1->scrollToElement(e1.get());
 	p1->test = e1.get();
-	p1->align = Align::Bottom;
-	//p1->allowResize = true;
+	p1->align = Align::Right;
+	p1->allowResize = true;
 	p1->blackSplit = true;
 
 	auto _p1 = p1.get();
@@ -128,6 +130,7 @@ Core::Core() {
 	_p1->addElement (std::move(b1));
 	_p1->addElement (std::move(b2));
 	_p1->addElement (std::move(e1));
+	_p1->addElement (std::move(b3));
 
 	std::unique_ptr<UIPanel> p2 = std::make_unique<UIPanel> (uiManager.get());
 
@@ -136,14 +139,15 @@ Core::Core() {
 	p2->left   = 50;
 	p2->top    = 50;
 	p2->width  = 50;
-	p2->height = 50;
-	p2->background = UIPanel::Background::Dark;
-	p2->align = Align::Left;
-	//p2->allowResize = true;
+	p2->height = 250;
+	//p2->background = UIPanel::Background::Dark;
+	p2->align = Align::Top;
+	p2->allowResize = true;
+	p2->allowHide = true;
 
-	//_p1->addElement (std::move(p2));
-	uiManager->addElement (std::move(p2));
-	_p2->addElement (std::move(b3));
+	_p1->addElement (std::move(p2));
+	//uiManager->addElement (std::move(p2));
+	//_p2->addElement (std::move(b3));
 
 }
 

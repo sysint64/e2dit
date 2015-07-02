@@ -34,6 +34,7 @@ class UITheme : public DataMap {
 public:
 	Texture  *skin;
 	FTGLfont *font;
+	int fontHeight;
 
 public:
 

@@ -26,6 +26,7 @@
 #include "utility/config.h"
 #include "utility/application.h"
 #include "utility/string.h"
+#include "utility/renderer.h"
 
 #include "renderer/base_object.h"
 #include "renderer/shader.h"
@@ -146,6 +147,7 @@ public:
 	int absLeft, absTop;
 	int left   , top;
 	int wrapperWidth, wrapperHeight;
+	int wrapperWidthClamped, wrapperHeightClamped;
 
 	bool visible = true;
 	bool enabled = true;
