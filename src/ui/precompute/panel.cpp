@@ -75,4 +75,8 @@ void UIPanel::precompute() {
 	precomputeColor4f ("panel" , "backgroundaction", backgroundAction);
 	precomputeColor3f ("panel" , "textcolor"       , textColor);
 
+	//
+
+	headerHeight = iHeights[16];
+
 }

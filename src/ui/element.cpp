@@ -304,14 +304,15 @@ void UIElement::updateAbsPos() {
 
 	while (lastParent != nullptr) {
 
-		res.x += lastParent->left;
-		res.y += lastParent->top;
+		res.x += lastParent->left-lastParent->scrollX;
+		res.y += lastParent->top -lastParent->scrollY;
+
 		lastParent = lastParent->parent;
 
 	}
 
-	absLeft = left+res.x-parent->scrollX;
-	absTop  = top +res.y-parent->scrollY;
+	absLeft = left+res.x;
+	absTop  = top +res.y;
 
 }
 
@@ -325,8 +326,7 @@ void UIElement::render() {
 	if (isRoot) {
 
 		over = true;
-		//left = 0; top  = 0;
-		//absLeft = 0; absTop = 0;
+
 		width  = app->windowWidth;
 		height = app->windowHeight;
 

@@ -57,8 +57,8 @@ Core::Core() {
 	std::unique_ptr<UIButton> b3 = std::make_unique<UIButton> (uiManager.get());
 
 	b1->caption = L"Test";
-	b1->left  = 0;
-	b1->top   = 0;
+	b1->left  = 700;
+	b1->top   = 700;
 	b1->drawAlign = Align::Left;
 	b1->width = 200;
 	b1->showIcon = true;
@@ -127,9 +127,9 @@ Core::Core() {
 
 	uiManager->addElement (std::move(p1));
 
-	_p1->addElement (std::move(b1));
-	_p1->addElement (std::move(b2));
-	_p1->addElement (std::move(e1));
+	//_p1->addElement (std::move(b1));
+	//_p1->addElement (std::move(b2));
+	//_p1->addElement (std::move(e1));
 	_p1->addElement (std::move(b3));
 
 	std::unique_ptr<UIPanel> p2 = std::make_unique<UIPanel> (uiManager.get());
@@ -148,6 +148,23 @@ Core::Core() {
 	_p1->addElement (std::move(p2));
 	//uiManager->addElement (std::move(p2));
 	//_p2->addElement (std::move(b3));
+
+	std::unique_ptr<UIPanel> p3 = std::make_unique<UIPanel> (uiManager.get());
+
+	auto _p3 = p3.get();
+
+	p3->left   = 50;
+	p3->top    = 50;
+	p3->width  = 50;
+	p3->height = 250;
+	//p2->background = UIPanel::Background::Dark;
+	p3->align = Align::Top;
+	p3->allowResize = true;
+	p3->allowHide = true;
+	p3->caption = L"Я могу перетаскивать панельки )";
+
+	_p1->addElement (std::move(p3));
+	_p3->addElement (std::move(b1));
 
 }
 

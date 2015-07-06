@@ -183,7 +183,7 @@ void UIPanel::updateAlign() {
 
 void UIPanel::setCursor() {
 
-	if (!allowResize) return;
+	if (!allowResize || !open || scrollHClick || scrollVClick) return;
 	if (align == Align::Top || align == Align::Bottom) {
 
 		if (pointInRect(app->mouseX, app->mouseY, splitX, splitY-4, splitW, 8) || splitClick) {
@@ -251,19 +251,26 @@ void UIPanel::render() {
 
 		int n = headerEnter ? 17 : 16;
 
-		headerEnter = pointInRect (app->mouseX, app->mouseY, absLeft, absTop+2, width, iHeights[n]);
-		renderElement (n, absLeft, absTop+2, width, iHeights[n], header.get());
+		headerEnter = pointInRect (app->mouseX, app->mouseY, absLeft, absTop, width, iHeights[n]);
+		renderElement (n, absLeft, absTop, width, iHeights[n], header.get());
 
 		/* Draw Arrow */
 
 		n = open ? 14 : 15;
-		renderElement (n, absLeft+6, absTop+2+(iHeights[16] >> 1)-(iHeights[n] >> 1), iWidths[n], iHeights[n], expandArrow.get());
+		renderElement (n, absLeft+6, absTop+(headerHeight >> 1)-(iHeights[n] >> 1), iWidths[n], iHeights[n], expandArrow.get());
 
 		/* Draw Text */
 
 		manager->atlasShader->unbind();
-		renderText (manager->theme->font, textColor, absLeft+12+iWidths[n], absTop+2+iHeights[16]-(manager->theme->fontHeight >> 1), caption);
+		renderText (manager->theme->font, textColor, absLeft+12+iWidths[n], absTop+headerHeight-(manager->theme->fontHeight >> 1), caption);
 		manager->atlasShader->bind();
+
+	}
+
+	if (!open) {
+
+		updateAlign();
+		return;
 
 	}
 
@@ -290,9 +297,10 @@ void UIPanel::render() {
 	if (wrapperHeight > height && showScrollY) {
 
 		int n = scrollVEnter || scrollVClick ? 9 : 6;
+		int offset = allowHide ? headerSize : 0;
 
-		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width-scrollElementWidth, absTop, scrollHeight, true);
-		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width-scrollElementWidth, absTop+vbOffset, vbSize, true);
+		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width-scrollElementWidth, absTop+offset, scrollHeight, true);
+		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width-scrollElementWidth, absTop+offset+vbOffset, vbSize, true);
 
 	}
 
@@ -472,13 +480,43 @@ void UIPanel::mouseDown (int x, int y, int button) {
 	scrollHClick = scrollHEnter;
 	scrollVClick = scrollVEnter;
 
-	if (splitEnter) {
+	if (splitEnter && open) {
 
 		splitClick = true;
 		lastWidth  = width;
 		lastHeight = height;
 
 	}
+
+	/*for (const auto &kvp : parent->elements) {
+
+		UIElement *el = kvp.second.get();
+
+		if (!dynamic_cast<UIPanel*>(el))
+			continue;
+
+		if (((UIPanel*)el)->splitClick)
+			return;
+
+	}
+
+	if (!allowHide || !headerEnter)
+		return;
+
+	/* Open/Close Panel */
+
+	/*open = !open;
+
+	if (!open) {
+
+		lastHeight = height;
+		height = headerHeight;
+
+	} else {
+
+		height = lastHeight;
+
+	}*/
 
 }
 

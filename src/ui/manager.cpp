@@ -201,7 +201,6 @@ void UIManager::poll() {
 
 		el->setCursor();
 		el->enter = false;
-		//el->click = false;
 
 	}
 
@@ -217,30 +216,9 @@ void UIManager::poll() {
 			continue;
 
 		if (!el->visible) continue;
-		/*if (!pointInRect (app->mouseX, app->mouseY, el->absLeft,
-						  el->absTop, el->width, el->height))
-		{
-
-			//el->enter = false;
-			el->click = false || el->keyClick;
-
-			continue;
-
-		}
-
-		if (!el->enabled) {
-
-			//el->enter = false;
-			el->click = false || el->keyClick;
-			continue;
-
-		}*/
-
 		if (pointInRect (app->mouseX, app->mouseY, el->absLeft, el->absTop, el->width, el->height) && el->enabled) {
 
 			el->enter = true;
-			//el->click = app->mouseButton == mouseLeft;
-			//el->setCursor();
 			underMouse = el;
 
 		}
@@ -251,9 +229,6 @@ void UIManager::poll() {
 			break;
 
 	}
-
-	//if (cursorOverride != CursorIco::None)
-	//	cursor = cursorOverride;
 
 	/* Progress Event */
 

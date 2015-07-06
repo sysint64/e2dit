@@ -69,15 +69,17 @@ protected:
 	int  panelSize;
 	bool clicked;
 	bool scrollClicked;
-	bool splitClick = false;
+	bool splitClick   = false;
 	int  headerSize;
-	int  lastWidth  = 0;
-	int  lastHeight = 0;
+	int  lastWidth    = 0;
+	int  lastHeight   = 0;
 	bool scrollVEnter = false;
 	bool scrollHEnter = false;
-	bool splitEnter = false;
-	bool headerEnter = false;
-	int  paddingTop = 0;
+	bool splitEnter   = false;
+	bool headerEnter  = false;
+	bool drag         = false;
+	int  paddingTop   = 0;
+	int  headerHeight = 0;
 
 	/* */
 
@@ -109,13 +111,14 @@ public:
 	Background background = Background::Light;
 	bool allowResize = false;
 	bool allowHide   = false;
+	bool allowDrag   = false;
 	bool open        = true;
 	bool blackSplit  = false;
 	bool showSplit   = false;
 
 	UIElement *test;
 
-	std::wstring caption = L"Hello World";
+	std::wstring caption = L"⌘ Hello World";
 	std::vector<UIElement*> joinElements;
 
 	/* Scroll */

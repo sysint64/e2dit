@@ -25,8 +25,9 @@
  * @brief handle application, main parameters and events
  */
 
-#ifndef E2DIT_SYSTEM_APPLICATION_H
-#define E2DIT_SYSTEM_APPLICATION_H
+//#ifndef E2DIT_SYSTEM_APPLICATION_H
+//#define E2DIT_SYSTEM_APPLICATION_H
+#pragma once
 
 #include <SFML/Window.hpp>
 #include "utility/logger.h"
@@ -100,4 +101,4 @@ public:
 
 };
 
-#endif
+//#endif
