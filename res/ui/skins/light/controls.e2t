@@ -1,7 +1,7 @@
 
 /**
  * Default theme of E2DIT
- * Dark theme
+ * Light theme
  * Created by Kabylin Andrey
  */
 
@@ -31,9 +31,9 @@ Panel
 	headerLeave					: 242, 85, 11, 20
 	headerEnter					: 257, 85, 11, 20
 
-	backgroundLight				: 114, 114, 114, 100
-	backgroundDark				: 70, 70, 70, 100
-	backgroundAction			: 95, 95, 95, 100
+	backgroundLight				: 213, 213, 213, 100
+	backgroundDark				: 172, 172, 172, 100
+	backgroundAction			: 194, 194, 194, 100
 
 	splitLight					: 10, 136, 2, 2
 	splitDark					: 10, 141, 2, 2
@@ -180,12 +180,13 @@ Button
 		center					: 68, 83, 5, 21
 		right					: 81, 83, 5, 21
 		textOffset				: 0, -1
-		textColor				: 200, 200, 200
+		textColor				: 40, 40, 40
 
 	&Focus
-		left					: 55, 107, 5, 21
-		center					: 68, 107, 5, 21
-		right					: 81, 107, 5, 21
+		left					: 53, 105, 6, 25
+		center					: 68, 105, 6, 25
+		right					: 83, 105, 6, 25
+		offsets					: -2, -2, 5
 
 /**
  * FlatButton

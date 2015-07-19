@@ -28,7 +28,10 @@
 
 UICursor::UICursor (sf::WindowHandle windowHandle) {
 
-	display = XOpenDisplay (nullptr);
+	#ifdef _linux_
+		display = XOpenDisplay (nullptr);
+	#endif
+
 	this->windowHandle = windowHandle;
 
 }
@@ -39,8 +42,9 @@ UICursor::UICursor (sf::WindowHandle windowHandle) {
 
 UICursor::~UICursor() {
 
-	XFreeCursor (display, cursor);
-	//delete display;
+	#ifdef _linux_
+		XFreeCursor (display, cursor);
+	#endif
 
 }
 
@@ -53,8 +57,10 @@ void UICursor::set (CursorIco cur) {
 	if (cur == cursorIco) return;
 	cursorIco = cur;
 
-	cursor = XCreateFontCursor (display, static_cast<unsigned int> (cursorIco));
-	XDefineCursor (display, windowHandle, cursor);
-	XFlush (display);
+	#ifdef _linux_
+		cursor = XCreateFontCursor (display, static_cast<unsigned int> (cursorIco));
+		XDefineCursor (display, windowHandle, cursor);
+		XFlush (display);
+	#endif
 
 }

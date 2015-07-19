@@ -52,6 +52,10 @@ void UIButton::precompute() {
 	precomputeElement (10, focusElement, "center");
 	precomputeElement (11, focusElement, "right");
 
+	/* Focus Offset */
+
+	precomputeIntArray (focusElement, "offsets", focusOffsets, 3);
+
 	/* Text */
 
 	precomputeText    (0, leaveElement);

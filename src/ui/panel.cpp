@@ -206,6 +206,12 @@ void UIPanel::setCursor() {
 
 }
 
+void UIPanel::progress() {
+
+
+
+}
+
 /* Render Panel */
 
 void UIPanel::render() {
@@ -297,7 +303,7 @@ void UIPanel::render() {
 	if (wrapperHeight > height && showScrollY) {
 
 		int n = scrollVEnter || scrollVClick ? 9 : 6;
-		int offset = allowHide ? headerSize : 0;
+		int offset = allowHide ? 0 : 0;
 
 		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width-scrollElementWidth, absTop+offset, scrollHeight, true);
 		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width-scrollElementWidth, absTop+offset+vbOffset, vbSize, true);
@@ -331,6 +337,19 @@ void UIPanel::render() {
 	/* Render Childs */
 
 	UIElement::render();
+
+	for (const auto &kvp : elements) {
+
+		UIElement *el = kvp.second.get();
+
+		if (!dynamic_cast<UIPanel*>(el))
+			continue;
+
+		UIPanel *p = (UIPanel*) el;
+		//p->updateAlign();
+
+	}
+
 	manager->popScissor();
 
 	if (showScrollX || showScrollY) pollScroll();
@@ -448,7 +467,7 @@ void UIPanel::pollScroll() {
 			vbSize = ceil(((float)vbMax*x)/100.f);
 			math::clamp (&vbSize, vbMin, vbMax);
 
-			scrollVEnter = pointInRect (app->mouseX, app->mouseY, absLeft+width-iHeights[6], absTop+vbOffset+headerSize, iHeights[6], vbSize);
+			scrollVEnter = pointInRect (app->mouseX, app->mouseY, absLeft+width-iHeights[6], absTop+vbOffset, iHeights[6], vbSize);
 			n = scrollVEnter || scrollVClick ? n+3 : n;
 
 			if (clicked && !scrollVClick) n = 6;
@@ -587,6 +606,7 @@ void UIPanel::updateScroll() {
 		float px = (100.f*(float)scrollX)/(float)wrapperWidth;
 		hbOffset = ceil((px*hbMax)/100.f);
 		math::clamp (&hbOffset, 0, hbMax-hbSize);
+
 
 		if (hbOffset == 0 )           scrollX = 0;
 		if (hbOffset == hbMax-hbSize) scrollX = wrapperWidthClamped-width+scrollElementWidth;

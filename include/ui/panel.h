@@ -55,9 +55,9 @@ protected:
 
 	/* Scroll */
 
-	int hsOffset = 0; int vsOffset = 0; // Horizontal && Vertical Offset for UI Elements in Px
-	int hbOffset = 0; int vbOffset = 0; // Horizontal && Vertical Offset for Scroll Buttons in Px
-	int lhbOffset, lvbOffset;           // Last Horizontal && Vertical Buttons Offset in Px
+	int hsOffset  = 0; int vsOffset  = 0; // Horizontal && Vertical Offset for UI Elements in Px
+	int hbOffset  = 0; int vbOffset  = 0; // Horizontal && Vertical Offset for Scroll Buttons in Px
+	int lhbOffset = 0; int lvbOffset = 0; // Last Horizontal && Vertical Buttons Offset in Px
 
 	int scrollOffset = 0;
 
@@ -70,7 +70,7 @@ protected:
 	bool clicked;
 	bool scrollClicked;
 	bool splitClick   = false;
-	int  headerSize;
+	int  headerSize   = 0;
 	int  lastWidth    = 0;
 	int  lastHeight   = 0;
 	bool scrollVEnter = false;
@@ -93,16 +93,16 @@ protected:
 
 public:
 
-	int hbSize; // Horizontal button size
-	int vbSize; // Vertical button size
+	int hbSize = 0; // Horizontal button size
+	int vbSize = 0; // Vertical button size
 
-	int hbMin, hbMax;
-	int vbMin, vbMax;
+	int hbMin = 0; int hbMax = 0;
+	int vbMin = 0; int vbMax = 0;
 
 	int minSize = 40;
 	int maxSize = 999;
 
-	int scrollDelta  = 20;
+	int scrollDelta = 20;
 
 	bool showScrollX = true;
 	bool showScrollY = true;
@@ -118,7 +118,7 @@ public:
 
 	UIElement *test;
 
-	std::wstring caption = L"⌘ Hello World";
+	std::wstring caption = L"Hello World";
 	std::vector<UIElement*> joinElements;
 
 	/* Scroll */
@@ -139,6 +139,7 @@ public:
 
 	virtual void precompute() override;
 	virtual void render()     override;
+	virtual void progress()   override;
 	virtual void setCursor()  override;
 
 	/* Events */

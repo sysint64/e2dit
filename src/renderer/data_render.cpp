@@ -165,7 +165,14 @@ void DataRender::createVAO_43() {
  * Bind VBO Buffers
  */
 
-void DataRender::bind() const {
+void DataRender::bind() {
+
+	if (!created) {
+
+		createVBO();
+		return;
+
+	}
 
 	/* Using VAO */
 
@@ -190,7 +197,7 @@ void DataRender::bind() const {
 	glBindBuffer          (GL_ARRAY_BUFFER, tId);
 	glTexCoordPointer     (2, GL_FLOAT, 0, nullptr);
 
-	/* Bin Vertices */
+	/* Bind Vertices */
 
 	glVertexAttribPointer (0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*2*vertexBuffer.size(), 0);
 	glEnableClientState   (GL_VERTEX_ARRAY);
@@ -230,7 +237,6 @@ void DataRender::render() {
 
 	/* Render */
 
-	bind();
 	renderVBO();
 
 }
@@ -239,7 +245,7 @@ void DataRender::render() {
  * Render
  */
 
-void DataRender::renderVBO() const {
+void DataRender::renderVBO() {
 
 	glDrawElements (renderMode, indices.size(), GL_UNSIGNED_INT, nullptr);
 

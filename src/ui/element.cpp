@@ -229,10 +229,6 @@ void UIElement::mouseMove (int x, int y, int button) {
 void UIElement::keyPressed (int key) {
 
 	if (!visible) return;
-	//if (onKeyPressed == nullptr || !enabled)
-		//return
-
-	//onKeyPressed (this, key);
 
 	/* Poll Event in child elements */
 
@@ -273,6 +269,19 @@ void UIElement::resized (int width, int height) {
 	for (const auto &kvp : elements) {
 
 		kvp.second->resized (width, height);
+
+	}
+
+}
+
+void UIElement::progress() {
+
+	if (!visible || !enabled)
+		return;
+
+	for (const auto &kvp : elements) {
+
+		kvp.second->progress();
 
 	}
 
@@ -326,6 +335,9 @@ void UIElement::render() {
 	if (isRoot) {
 
 		over = true;
+
+		left = 0; top = 0;
+		absLeft = 0; absTop = 0;
 
 		width  = app->windowWidth;
 		height = app->windowHeight;

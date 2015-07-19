@@ -37,8 +37,10 @@
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
 
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
+#ifdef _linux_
+	#include <X11/Xlib.h>
+	#include <X11/Xatom.h>
+#endif
 
 #define _NET_WM_STATE_REMOVE    0l
 #define _NET_WM_STATE_ADD       1l
@@ -67,8 +69,8 @@ int main (int argc,char** argv) {
 	settings.depthBits         = 24;
 	settings.stencilBits       = 8;
 	settings.antialiasingLevel = 0;
-	settings.majorVersion      = OGL_MAJOR;
-	settings.minorVersion      = OGL_MINOR;
+	settings.majorVersion      = app->OGLMajor;
+	settings.minorVersion      = app->OGLMinor;
 
 	app->screenWidth  = sf::VideoMode::getDesktopMode().width;
 	app->screenHeight = sf::VideoMode::getDesktopMode().height;
@@ -76,36 +78,39 @@ int main (int argc,char** argv) {
 	/* TODO */
 
 	app->windowWidth  = 1024;//app->screenWidth -100;
-	app->windowHeight = 768;//app->screenHeight-100;
-
-	/* Maximize Window */
-
-	XEvent xev;
-	Display* display  = XOpenDisplay (NULL);
+	app->windowHeight = 640;//app->screenHeight-100;
 
 	/* Create Window */
 
 	sf::Window window (sf::VideoMode (app->windowWidth, app->windowHeight, 24), APP_NAME,
 					   sf::Style::Default, settings);
 
-	Atom _NET_WM_STATE = XInternAtom(display, "_NET_WM_STATE", False);
-	Atom _NET_WM_STATE_MAXIMIZED_VERT = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_VERT", False);
-	Atom _NET_WM_STATE_MAXIMIZED_HORZ = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
+	#ifdef _linux_
 
-	XEvent e;
+		/* Maximize Window */
 
-	e.xany.type = ClientMessage;
-	e.xany.window = window.getSystemHandle();
-	e.xclient.message_type = _NET_WM_STATE;
-	e.xclient.format = 32;
-	e.xclient.data.l[0] = _NET_WM_STATE_ADD;
-	e.xclient.data.l[1] = _NET_WM_STATE_MAXIMIZED_VERT;
-	e.xclient.data.l[2] = _NET_WM_STATE_MAXIMIZED_HORZ;
-	e.xclient.data.l[3] = 0l;
-	e.xclient.data.l[4] = 0l;
+		XEvent xev;
+		Display* display  = XOpenDisplay (NULL);
 
-	/*XSendEvent (display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &e);
-	XSync (display, False);*/
+		Atom _NET_WM_STATE = XInternAtom(display, "_NET_WM_STATE", False);
+		Atom _NET_WM_STATE_MAXIMIZED_VERT = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_VERT", False);
+		Atom _NET_WM_STATE_MAXIMIZED_HORZ = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
+
+		XEvent e;
+
+		e.xany.type = ClientMessage;
+		e.xany.window = window.getSystemHandle();
+		e.xclient.message_type = _NET_WM_STATE;
+		e.xclient.format = 32;
+		e.xclient.data.l[0] = _NET_WM_STATE_ADD;
+		e.xclient.data.l[1] = _NET_WM_STATE_MAXIMIZED_VERT;
+		e.xclient.data.l[2] = _NET_WM_STATE_MAXIMIZED_HORZ;
+		e.xclient.data.l[3] = 0l;
+		e.xclient.data.l[4] = 0l;
+
+		/*XSendEvent (display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &e);
+		XSync (display, False);*/
+	#endif
 
 	app->windowHandle = window.getSystemHandle();
 	app->cursor = std::make_unique<UICursor> (window.getSystemHandle());
@@ -131,7 +136,7 @@ int main (int argc,char** argv) {
 
 	}
 
-	if (app->OGLMajor == 3 && !__GLEW_VERSION_3_3) {
+	/*if (app->OGLMajor == 3 && !__GLEW_VERSION_3_3) {
 
 		app->log.write ("Error: OpenGL Version less than 3.3\n");
 		exit (EXIT_FAILURE);
@@ -143,7 +148,7 @@ int main (int argc,char** argv) {
 		app->log.write ("Error: OpenGL Version less than 4.3\n");
 		exit (EXIT_FAILURE);
 
-	}
+	}*/
 
 	app->log.write ("Initialize OpenGL, Version : %d.%d\n", app->OGLMajor, app->OGLMinor);
 
@@ -174,7 +179,8 @@ int main (int argc,char** argv) {
 
 	glViewport (0, 0, app->screenWidth, app->screenHeight);
 	//glClearColor (0, 0, 0, 0);
-	glClearColor (144.f/255.f, 144.f/255.f, 144.f/255.f, 0);
+	//glClearColor (144.f/255.f, 144.f/255.f, 144.f/255.f, 0);
+	glClearColor (150.f/255.f, 150.f/255.f, 150.f/255.f, 0);
 
 	/*setTimeout (1.f, []() {
 
@@ -193,6 +199,8 @@ int main (int argc,char** argv) {
 	while (running) {
 
 		sf::Event ev;
+		glViewport (0, 0, app->screenWidth, app->screenHeight);
+
 		//core->onResize (app->windowWidth, app->windowHeight);
 
 		/* Poll Events */

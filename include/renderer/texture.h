@@ -23,7 +23,7 @@
 #include "GL/glew.h"
 #include "utility/application.h"
 #include <string>
-#include <SOIL/SOIL.h>
+#include "SOIL.h"
 #include <boost/filesystem.hpp>
 
 namespace fs = boost::filesystem;

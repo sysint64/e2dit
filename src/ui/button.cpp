@@ -146,7 +146,7 @@ void UIButton::renderSkin() {
 	if (focused) {
 
 		n = 9;
-		renderPartsElementH (n, n+1, n+2, leftElement.get(), middleElement.get(), rightElement.get(), absLeft, absTop, width);
+		renderPartsElementH (n, n+1, n+2, leftElement.get(), middleElement.get(), rightElement.get(), absLeft+focusOffsets[0], absTop+focusOffsets[1], width+focusOffsets[2]);
 
 	}
 

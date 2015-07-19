@@ -119,7 +119,7 @@ void Texture::update() const {
 
 	if (buildMipmaps) {
 
-		gluBuild2DMipmaps (GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		//gluBuild2DMipmaps (GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
 	}
 

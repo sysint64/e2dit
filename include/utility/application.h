@@ -65,9 +65,9 @@ public:
 
 	/* OpenGL */
 
-	bool VAOEXT   = true;
-	int  OGLMajor = 3;
-	int  OGLMinor = 3;
+	bool VAOEXT   = false;
+	int  OGLMajor = 2;
+	int  OGLMinor = 1;
 
 	/* Timers */
 

@@ -50,10 +50,10 @@ public:
 	virtual ~DataRender();
 
 	void setAttrs();
-	virtual void renderVBO() const;
+	virtual void renderVBO();
 
 	void render();
-	void bind() const;
+	void bind();
 
 	inline void addVertex (glm::vec2 v, glm::vec2 tc) {
 

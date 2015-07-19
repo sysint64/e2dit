@@ -34,8 +34,8 @@ Core::Core() {
 	ftglSetFontFaceSize (font, 12, 12);
 	ftglSetFontCharMap  (font, ft_encoding_unicode);
 
-	skin    = std::make_unique<Texture> ("../res/ui/dark/controls.png");
-	uiTheme = std::make_unique<UITheme> ("../res/ui/dark/controls.e2t", ReadType::Text, skin.get(), font);
+	skin    = std::make_unique<Texture> ("../res/ui/skins/dark/controls.png");
+	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/dark/controls.e2t", ReadType::Text, skin.get(), font);
 	uiTheme->fontHeight = 12;
 
 	std::vector<std::string> atlasLocations; atlasLocations += "MVP", "Size", "Offset", "Texture", "Alpha";
@@ -47,7 +47,7 @@ Core::Core() {
 	uiManager   = std::make_unique<UIManager> (atlasShader.get(), colorShader.get(), uiTheme.get());
 	uiManager->uiDataRender = new SpriteData (false, false, true);
 
-	std::unique_ptr<Texture> iconsTex = std::make_unique<Texture> ("../res/ui/icons.png");
+	std::unique_ptr<Texture> iconsTex = std::make_unique<Texture> ("../res/ui/icons/icons.png");
 	uiManager->icons = std::make_unique<UIMainIcons> (uiManager.get(), std::move (iconsTex), 18.f);
 
 	//uiManager->icons.tex = std::make_unique<Texture> ("res/ui/icons.png");
@@ -57,9 +57,9 @@ Core::Core() {
 	std::unique_ptr<UIButton> b3 = std::make_unique<UIButton> (uiManager.get());
 
 	b1->caption = L"Test";
-	b1->left  = 700;
-	b1->top   = 700;
-	b1->drawAlign = Align::Left;
+	b1->left  = 30;
+	b1->top   = 60;
+	//b1->drawAlign = Align::Left;
 	b1->width = 200;
 	b1->showIcon = true;
 	b1->showIcon2 = true;
@@ -118,7 +118,7 @@ Core::Core() {
 	//p1->showScrollX = false;
 
 	//p1->scrollToElement(e1.get());
-	p1->test = e1.get();
+	//p1->test = e1.get();
 	p1->align = Align::Right;
 	p1->allowResize = true;
 	p1->blackSplit = true;

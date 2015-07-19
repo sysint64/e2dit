@@ -142,6 +142,7 @@ public:
 	bool isRoot = false;
 
 	int id;
+	int tmp = 0;
 
 	int width  , height;
 	int absLeft, absTop;
@@ -234,7 +235,7 @@ public:
 	virtual void keyPressed  (int key);
 	virtual void keyReleased (int key);
 	virtual void textEntered (int key);
-	virtual void progress    () {}
+	virtual void progress    ();
 
 };
 

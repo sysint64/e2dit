@@ -28,18 +28,9 @@
 #define E2DIT_UTILITY_CONFIG_H
 
 #define APP_NAME  "E2DIT"
-#define OGL_MAJOR 3
-#define OGL_MINOR 3
 
 typedef int Uint16;
 typedef char BYTE;
-
-//#define GLEW_STATIC
-//#define GLM_FORCE_RADIANS
-//#define GLM_SWIZZLE
-//#define GLM_FORCE_AVX for x86_64
-//#define GLM_FORCE_INLINE
-//#define GLM_FORCE_PURE
 
 #include <iostream>
 

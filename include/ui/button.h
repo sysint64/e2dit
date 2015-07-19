@@ -55,6 +55,8 @@ protected:
 	std::unique_ptr<BaseObject> iconElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	std::unique_ptr<BaseObject> iconElement2  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
+	int focusOffsets[3]; // Left, Top, Width
+
 	/* Draw Text */
 
 	void renderText (Align align, std::string text, int size, int offset = 0);
@@ -72,7 +74,7 @@ public:
 
 	//using UIElement::UIElement;
 	UIButton (UIManager *manager) : UIElement (manager) {
-		
+
 		this->manager = manager;
 		precompute();
 

@@ -26,10 +26,10 @@
 #include <SFML/Window.hpp>
 
 #ifdef _linux_
- 	#include <X11/cursorfont.h>
+	#include <X11/cursorfont.h>
 	#include <X11/Xlib.h>
 
- 	#undef None
+	#undef None
 
 	enum class CursorIco {
 
@@ -48,13 +48,34 @@
 
 #endif
 
+#ifdef _osx_
+
+	enum class CursorIco {
+
+		None			= -1,
+		Wait			= 0,
+		Hand			= 1,
+		Normal			= 2,
+		IBeam			= 3,
+		VDoubleArrow	= 4,
+		HDoubleArrow	= 5,
+		CrossHair		= 6,
+		Question		= 7,
+		Fleur			= 8
+
+	};
+
+#endif
+
 class UICursor {
 private:
 	sf::WindowHandle windowHandle;
-	
 	CursorIco	 cursorIco = CursorIco::Normal;
-	Display		*display;
-	XID			 cursor;
+
+	#ifdef _linux_
+		Display		*display;
+		XID			 cursor;
+	#endif
 
 public:
 
@@ -62,7 +83,7 @@ public:
 	~UICursor ();
 
 	void set  (CursorIco cur);
-	
+
 	inline CursorIco get() const {
 
 		return cursorIco;

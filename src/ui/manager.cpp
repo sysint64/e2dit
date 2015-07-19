@@ -270,19 +270,11 @@ void UIManager::render() {
 
 	root->render();
 	poll();
+	root->progress();
 
 	focused = false;
 	atlasShader->unbind();
-	app->cursor->set (cursor);
-
-	/* Render Elements in Stack TODO: to come up with something else */
-
-	/*for (auto item : drawStack) {
-
-		item->render (item->left, item->top);
-
-	}*/
-
+	//app->cursor->set (cursor);
 
 }
 

@@ -46,14 +46,14 @@ public:
 	bool        visible     = true;
 
 	float       rotation = 0;
-	glm::vec2   position;
-	glm::vec2   scale;
+	glm::vec2   position = glm::vec2(0, 0);
+	glm::vec2   scale    = glm::vec2(1, 1);
 
 	virtual void render();
 	virtual ~BaseObject() {}
 
 	BaseObject (DataRender *data, Camera *camera)
-		: data (data), camera (camera) {};
+		: data (data), camera (camera) {}
 
 	glm::vec2 worldToScreen () const;
 	glm::vec2 worldToScreen (const glm::vec2 screenPos) const;
