@@ -41,8 +41,8 @@ Core::Core() {
 	std::vector<std::string> atlasLocations; atlasLocations += "MVP", "Size", "Offset", "Texture", "Alpha";
 	std::vector<std::string> colorLocations; colorLocations += "MVP", "Color";
 
-	atlasShader = std::make_unique<Shader> ("../res/glsl/GL3/tex_atlas.glsl", atlasLocations);
-	colorShader = std::make_unique<Shader> ("../res/glsl/GL3/colorize.glsl" , colorLocations);
+	atlasShader = std::make_unique<Shader> ("../res/glsl/GL2/tex_atlas.glsl", atlasLocations);
+	colorShader = std::make_unique<Shader> ("../res/glsl/GL2/colorize.glsl" , colorLocations);
 
 	uiManager   = std::make_unique<UIManager> (atlasShader.get(), colorShader.get(), uiTheme.get());
 	uiManager->uiDataRender = new SpriteData (false, false, true);
