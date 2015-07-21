@@ -75,9 +75,9 @@ void Core::onMouseMove (int x, int y) {
 
 }
 
-void Core::onMouseWheel (int delta) {
+void Core::onMouseWheel (int dx, int dy) {
 
-	uiManager->mouseWheel (delta);
+	uiManager->mouseWheel (dx, dy);
 
 }
 

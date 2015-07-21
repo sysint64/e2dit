@@ -63,7 +63,7 @@ void UIElement::mouseDown (int x, int y, int button) {
 
 }
 
-void UIElement::mouseWheel (int delta) {
+void UIElement::mouseWheel (int dx, int dy) {
 
 	if (!visible) return;
 
@@ -71,7 +71,7 @@ void UIElement::mouseWheel (int delta) {
 
 	for (const auto &kvp : elements) {
 
-		kvp.second->mouseWheel (delta);
+		kvp.second->mouseWheel (dx, dy);
 
 	}
 

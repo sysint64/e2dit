@@ -142,7 +142,7 @@ public:
 	void mouseDown   (int x, int y, int button);
 	void mouseUp     (int x, int y, int button);
 	void mouseMove   (int x, int y, int button);
-	void mouseWheel  (int delta);
+	void mouseWheel  (int dx, int dy);
 
 	void keyDown     (int key);
 	void resized     (int width, int height);

@@ -71,7 +71,7 @@ public:
 	void onMouseDown   (int x, int y, int button);
 	void onMouseUp     (int x, int y, int button);
 	void onDblClick    (int x, int y, int button);
-	void onMouseWheel  (int delta);
+	void onMouseWheel  (int dx, int dy);
 	void onResize      (int width, int height);
 
 	/* */

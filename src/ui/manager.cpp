@@ -309,9 +309,9 @@ void UIManager::mouseDown (int x, int y, int button) {
 
 }
 
-void UIManager::mouseWheel (int delta) {
+void UIManager::mouseWheel (int dx, int dy) {
 
-	root->mouseWheel (delta);
+	root->mouseWheel (dx, dy);
 
 }
 

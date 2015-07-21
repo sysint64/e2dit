@@ -229,7 +229,7 @@ public:
 	virtual void mouseDown   (int x, int y, int button);
 	virtual void mouseUp     (int x, int y, int button);
 	virtual void mouseMove   (int x, int y, int button);
-	virtual void mouseWheel  (int delta);
+	virtual void mouseWheel  (int dx, int dy);
 
 	virtual void resized     (int width, int height);
 	virtual void keyPressed  (int key);

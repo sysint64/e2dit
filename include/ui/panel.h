@@ -144,9 +144,9 @@ public:
 
 	/* Events */
 
-	virtual void mouseDown  (int x, int y, int button) override;
-	virtual void mouseUp    (int x, int y, int button) override;
-	virtual void mouseWheel (int delta)				override;
+	virtual void mouseDown  (int x, int y, int button)  override;
+	virtual void mouseUp    (int x, int y, int button)  override;
+	virtual void mouseWheel (int dx, int dy)			override;
 
 	/* Constructor */
 

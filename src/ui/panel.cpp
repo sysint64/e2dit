@@ -555,9 +555,9 @@ void UIPanel::mouseUp (int x, int y, int button) {
 
 }
 
-void UIPanel::mouseWheel (int delta) {
+void UIPanel::mouseWheel (int dx, int dy) {
 
-	UIElement::mouseWheel (delta);
+	UIElement::mouseWheel (dx, dy);
 	UIElement *el = manager->underMouse;
 
 	if (pressed(keyShift)) {
@@ -568,7 +568,8 @@ void UIPanel::mouseWheel (int delta) {
 		if (wrapperWidth == width || !showScrollX)
 			return;
 
-		addScrollXByPx (-delta*scrollDelta);
+		addScrollXByPx (-dy*scrollDelta);
+		addScrollYByPx (-dx*scrollDelta);
 
 	} else {
 
@@ -578,7 +579,8 @@ void UIPanel::mouseWheel (int delta) {
 		if (wrapperHeight == height || !showScrollY)
 			return;
 
-		addScrollYByPx (-delta*scrollDelta);
+		addScrollYByPx (-dy*scrollDelta);
+		addScrollXByPx (-dx*scrollDelta);
 
 	}
 

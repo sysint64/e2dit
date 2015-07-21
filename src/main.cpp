@@ -217,7 +217,15 @@ int main (int argc,char** argv) {
 				/* Mouse */
 
 				case sf::Event::MouseMoved			: core->onMouseMove  (ev.mouseMove.x     , ev.mouseMove  .y);                        break;
-				case sf::Event::MouseWheelMoved		: core->onMouseWheel (ev.mouseWheel.delta);                                          break;
+				//case sf::Event::MouseWheelScrolled	: core->onMouseWheel (ev.mouseWheelScroll.delta);                                          break;
+
+				case sf::Event::MouseWheelScrolled:
+
+					     if (ev.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel  ) core->onMouseWheel (0, ev.mouseWheelScroll.delta);
+					else if (ev.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel) core->onMouseWheel (ev.mouseWheelScroll.delta, 0);
+
+					break;
+
 				case sf::Event::MouseButtonPressed	: core->onMouseDown  (ev.mouseButton.x   , ev.mouseButton.y, ev.mouseButton.button); break;
 				case sf::Event::MouseButtonReleased	:
 
