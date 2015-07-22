@@ -34,14 +34,12 @@
 	enum class CursorIco {
 
 		None			= -1,
-		Wait			= XC_watch,
 		Hand			= XC_hand1,
 		Normal			= XC_left_ptr,
 		IBeam			= XC_xterm,
 		VDoubleArrow	= XC_sb_v_double_arrow,
 		HDoubleArrow	= XC_sb_h_double_arrow,
 		CrossHair		= XC_crosshair,
-		Question		= XC_question_arrow,
 		Drag			= XC_fleur
 
 	};
@@ -50,20 +48,35 @@
 
 #ifdef _osx_
 
-	//#include <Cocoa/Cocoa.h>
+	enum class CursorIco {
+
+		None			= -1,
+		Hand			= 0,
+		Normal			= 1,
+		IBeam			= 2,
+		VDoubleArrow	= 3,
+		HDoubleArrow	= 4,
+		CrossHair		= 5,
+		Drag			= 6
+
+	};
+
+#endif
+
+#ifdef _win_
+
+	#include <windows.h>
 
 	enum class CursorIco {
 
 		None			= -1,
-		Wait			= 0, // remove
-		Hand			= 1,
-		Normal			= 2,
-		IBeam			= 3,
-		VDoubleArrow	= 4,
-		HDoubleArrow	= 5,
-		CrossHair		= 6,
-		Question		= 7, // remove
-		Drag			= 8
+		Hand			= IDC_HAND,
+		Normal			= IDC_ARROW,
+		IBeam			= IDC_IBEAM,
+		VDoubleArrow	= IDC_SIZENS,
+		HDoubleArrow	= IDC_SIZEWE,
+		CrossHair		= IDC_CROSS,
+		Drag			= IDC_SIZEALL
 
 	};
 
@@ -77,6 +90,10 @@ private:
 	#ifdef _linux_
 		Display		*display;
 		XID			 cursor;
+	#endif
+
+	#ifdef _win_
+		HCURSOR cursor;
 	#endif
 
 public:

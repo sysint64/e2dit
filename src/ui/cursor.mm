@@ -79,38 +79,3 @@ void UICursor::set (CursorIco cur) {
 	}
 
 }
-
-/*
-void ChangeCursor(sf::Window& window)
-{
-	id handle = (id)window.getSystemHandle();
-
-	// Get the content view of the handle
-	NSView* view = nil;
-	if ([handle isKindOfClass:[NSView class]]) {
-		view = handle;
-	} else {
-		NSWindow* nswindow = handle;
-		view = nswindow.contentView;
-	}
-
-	NSCursor* defaultCursor = [NSCursor currentCursor];
-
-	NSCursor* cursor = [NSCursor pointingHandCursor];
-	NSRect rect = view.frame;
-
-	[view addCursorRect:rect cursor:cursor];
-	[cursor setOnMouseEntered:YES];
-
-	[view addCursorRect:rect cursor:defaultCursor];
-	[defaultCursor setOnMouseExited:YES];
-
-	NSPoint mousePositionInWindow = [[view window] mouseLocationOutsideOfEventStream];
-	NSPoint mousePositionInView   = [view convertPoint:mousePositionInWindow
-									 fromView:nil]; // i.e. from the window.
-
-	if ([view mouse:mousePositionInView inRect:view.frame]) {
-		[cursor set];
-	}
-}
-*/

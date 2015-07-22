@@ -23,7 +23,8 @@
 #include "ui/cursor.h"
 
 /**
- *
+ * Set system set cursor
+ * @param cur: Cursor Icon
  */
 
 void UICursor::set (CursorIco cur) {
@@ -35,6 +36,11 @@ void UICursor::set (CursorIco cur) {
 		cursor = XCreateFontCursor (display, static_cast<unsigned int> (cursorIco));
 		XDefineCursor (display, windowHandle, cursor);
 		XFlush (display);
+	#endif
+
+	#ifdef _win_
+		cursor = LoadCursor (nullptr, cur);
+		SetClassLongPtr (windowHandle, GCLP_HCURSOR, reinterpret_cast<LONG_PTR>(cursor));
 	#endif
 
 }

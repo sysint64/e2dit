@@ -30,7 +30,7 @@ if (APPLE)
 	find_library(CORE_SERVICES NAMES CoreServices)
 	find_library(COCOA NAMES Cocoa)
 	find_library(CARBON NAMES Carbon)
-	#find_library(COCOA REQUIRED)
+
 	set(DEPENDENCY_LIBS ${CORE_FOUNDATION} ${APPLICATION_SERVICES} ${IO_KIT} ${CORE_SERVICES} ${COCOA} ${CARBON})
 endif()
 
