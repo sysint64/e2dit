@@ -274,7 +274,7 @@ void UIManager::render() {
 
 	focused = false;
 	atlasShader->unbind();
-	//app->cursor->set (cursor);
+	app->cursor->set (cursor);
 
 }
 

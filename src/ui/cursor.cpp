@@ -26,32 +26,6 @@
  *
  */
 
-UICursor::UICursor (sf::WindowHandle windowHandle) {
-
-	#ifdef _linux_
-		display = XOpenDisplay (nullptr);
-	#endif
-
-	this->windowHandle = windowHandle;
-
-}
-
-/**
- *
- */
-
-UICursor::~UICursor() {
-
-	#ifdef _linux_
-		XFreeCursor (display, cursor);
-	#endif
-
-}
-
-/**
- *
- */
-
 void UICursor::set (CursorIco cur) {
 
 	if (cur == cursorIco) return;

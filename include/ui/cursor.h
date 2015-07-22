@@ -42,7 +42,7 @@
 		HDoubleArrow	= XC_sb_h_double_arrow,
 		CrossHair		= XC_crosshair,
 		Question		= XC_question_arrow,
-		Fleur			= XC_fleur
+		Drag			= XC_fleur
 
 	};
 
@@ -50,18 +50,20 @@
 
 #ifdef _osx_
 
+	//#include <Cocoa/Cocoa.h>
+
 	enum class CursorIco {
 
 		None			= -1,
-		Wait			= 0,
+		Wait			= 0, // remove
 		Hand			= 1,
 		Normal			= 2,
 		IBeam			= 3,
 		VDoubleArrow	= 4,
 		HDoubleArrow	= 5,
 		CrossHair		= 6,
-		Question		= 7,
-		Fleur			= 8
+		Question		= 7, // remove
+		Drag			= 8
 
 	};
 
@@ -79,8 +81,23 @@ private:
 
 public:
 
-	 UICursor (sf::WindowHandle windowHandle);
-	~UICursor ();
+	UICursor (sf::WindowHandle windowHandle) {
+
+		#ifdef _linux_
+			display = XOpenDisplay (nullptr);
+		#endif
+
+		this->windowHandle = windowHandle;
+
+	}
+
+	~UICursor () {
+
+		#ifdef _linux_
+			XFreeCursor (display, cursor);
+		#endif
+
+	}
 
 	void set  (CursorIco cur);
 
