@@ -18,23 +18,16 @@
  * along with E2DIT-UI. If not, see <http://www.gnu.org/licenses/>.
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru
-> */
+ */
 
 #ifndef E2DIT_UI_BUTTON_H
 #define E2DIT_UI_BUTTON_H
 
 #include <string>
-#include <vector>
-#include <glm/glm.hpp>
-
-#include "utility/config.h"
-#include "utility/renderer.h"
 
 #include "ui/element.h"
 #include "ui/manager.h"
 
-#include "renderer/shader.h"
-#include "renderer/data_render.h"
 #include "renderer/base_object.h"
 
 class UIButton : public UIElement {

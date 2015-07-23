@@ -29,13 +29,12 @@ void UICursor::set (CursorIco cur) {
 	}
 
 	NSCursor* defaultCursor = [NSCursor currentCursor];
-	NSCursor* cursor;//        = [NSCursor pointingHandCursor];
+	NSCursor* cursor;
 
 	/* Get Cursor Ico */
 
 	switch (cur) {
 
-		case CursorIco::Wait         : break;
 		case CursorIco::Hand         : cursor = [NSCursor pointingHandCursor];    break;
 		case CursorIco::Normal       : cursor = [NSCursor arrowCursor];           break;
 		case CursorIco::IBeam        : cursor = [NSCursor IBeamCursor];           break;
@@ -60,22 +59,22 @@ void UICursor::set (CursorIco cur) {
 
 	}
 
-	/* Set Cursor */
+	[cursor set];
 
-	NSRect rect = view.frame;
+	//NSRect rect = view.frame;
 
-	[view addCursorRect:rect cursor:cursor];
-	[cursor setOnMouseEntered:YES];
+	//[view addCursorRect:rect cursor:cursor];
+	//[cursor setOnMouseEntered:YES];
 
-	[view addCursorRect:rect cursor:defaultCursor];
-	[defaultCursor setOnMouseExited:YES];
+	//[view addCursorRect:rect cursor:defaultCursor];
+	//[defaultCursor setOnMouseExited:YES];
 
-	NSPoint mousePositionInWindow = [[view window] mouseLocationOutsideOfEventStream];
-	NSPoint mousePositionInView   = [view convertPoint:mousePositionInWindow
-									 fromView:nil]; // i.e. from the window.
+	//NSPoint mousePositionInWindow = [[view window] mouseLocationOutsideOfEventStream];
+	//NSPoint mousePositionInView   = [view convertPoint:mousePositionInWindow
+	//								 fromView:nil]; // i.e. from the window.
 
-	if ([view mouse:mousePositionInView inRect:view.frame]) {
-		[cursor set];
-	}
+	//if ([view mouse:mousePositionInView inRect:view.frame]) {
+	//[cursor set];
+	//}
 
 }

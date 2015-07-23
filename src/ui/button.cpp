@@ -22,6 +22,9 @@
 
 #include "ui/button.h"
 
+#include "utility/config.h"
+#include "utility/renderer.h"
+
 /**
  * Render Button
  */
@@ -35,6 +38,7 @@ void UIButton::render () {
 	//	glUniform1f (manager->atlasShader->locations["Alpha"], manager->disabledAlpha);
 
 	/* Tables Indices */
+
 	int n  = 0; int tn = 0; int to = 0;
 
 	if (enter) { n = 3; tn = 1; to = 2; }

@@ -21,6 +21,7 @@
  */
 
 #include "core.h"
+#include "ui/checkbox.h"
 
 using namespace boost::assign;
 
@@ -34,8 +35,8 @@ Core::Core() {
 	ftglSetFontFaceSize (font, 12, 12);
 	ftglSetFontCharMap  (font, ft_encoding_unicode);
 
-	skin    = std::make_unique<Texture> ("../res/ui/skins/dark/controls.png");
-	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/dark/controls.e2t", ReadType::Text, skin.get(), font);
+	skin    = std::make_unique<Texture> ("../res/ui/skins/light/controls.png");
+	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/light/controls.e2t", ReadType::Text, skin.get(), font);
 	uiTheme->fontHeight = 12;
 
 	std::vector<std::string> atlasLocations; atlasLocations += "MVP", "Size", "Offset", "Texture", "Alpha";
@@ -112,7 +113,7 @@ Core::Core() {
 
 	p1->left   = 200;
 	p1->top    = 100;
-	p1->width  = 300;
+	p1->width  = 500;
 	p1->height = 400;
 	p1->background = UIPanel::Background::Action;
 	//p1->showScrollX = false;
@@ -130,7 +131,7 @@ Core::Core() {
 	//_p1->addElement (std::move(b1));
 	//_p1->addElement (std::move(b2));
 	//_p1->addElement (std::move(e1));
-	_p1->addElement (std::move(b3));
+	//_p1->addElement (std::move(b3));
 
 	std::unique_ptr<UIPanel> p2 = std::make_unique<UIPanel> (uiManager.get());
 
@@ -165,6 +166,12 @@ Core::Core() {
 
 	_p1->addElement (std::move(p3));
 	_p3->addElement (std::move(b1));
+
+	std::unique_ptr<UICheckbox> cb1 = std::make_unique<UICheckbox> (uiManager.get());
+	cb1->top = 100;
+	cb1->left = 50;
+
+	_p3->addElement (std::move(cb1));
 
 }
 

@@ -268,7 +268,7 @@ void UIPanel::render() {
 		/* Draw Text */
 
 		manager->atlasShader->unbind();
-		renderText (manager->theme->font, textColor, absLeft+12+iWidths[n], absTop+headerHeight-(manager->theme->fontHeight >> 1), caption);
+		renderText (manager->theme->font, textColor, absLeft+12+iWidths[n], absTop+(headerHeight >> 1)+(manager->theme->fontHeight >> 1)-2, caption);
 		manager->atlasShader->bind();
 
 	}
@@ -560,27 +560,18 @@ void UIPanel::mouseWheel (int dx, int dy) {
 	UIElement::mouseWheel (dx, dy);
 	UIElement *el = manager->underMouse;
 
-	if (pressed(keyShift)) {
+	if (!over || ((el->canScroll && el->scrollElementWidth != 0) && el != this))
+		return;
 
-		if (!over || ((el->canScroll && el->scrollElementHeight != 0) && el != this))
-			return;
+	if (pressed(keyShift)) { // Inverse
 
-		if (wrapperWidth == width || !showScrollX)
-			return;
-
-		addScrollXByPx (-dy*scrollDelta);
-		addScrollYByPx (-dx*scrollDelta);
+		if (wrapperHeight > height && showScrollY) addScrollYByPx (-dx*scrollDelta);
+		if (wrapperWidth  > width  && showScrollX) addScrollXByPx (-dy*scrollDelta);
 
 	} else {
 
-		if (!over || ((el->canScroll && el->scrollElementWidth != 0) && el != this))
-			return;
-
-		if (wrapperHeight == height || !showScrollY)
-			return;
-
-		addScrollYByPx (-dy*scrollDelta);
-		addScrollXByPx (-dx*scrollDelta);
+		if (wrapperHeight > height && showScrollY) addScrollYByPx (-dy*scrollDelta);
+		if (wrapperWidth  > width  && showScrollX) addScrollXByPx (-dx*scrollDelta);
 
 	}
 
