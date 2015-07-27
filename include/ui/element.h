@@ -67,24 +67,24 @@ protected:
 
 	/* Render */
 
-	void renderElement         (int idx, int x, int y, int w, int h, BaseObject *el);
-	void renderColorElement    (int x, int y, int w, int h, BaseObject *el, float *color);
+	void renderElement         (int idx, int x, int y, int w, int h, BaseObject *el) const;
+	void renderColorElement    (int x, int y, int w, int h, BaseObject *el, float *color) const;
 
 	void renderPartsElementH   (int il, int ic, int ir,
 								BaseObject *el, BaseObject *ec, BaseObject *er,
-								int x, int y, int w, bool ignoreDrawAlign = false);
+								int x, int y, int w, bool ignoreDrawAlign = false) const;
 
 	void renderPartsElementH   (int il, int ic, int ir,
 								BaseObject *el, BaseObject *ec, BaseObject *er,
-								int x, int y, int w, int h, bool ignoreDrawAlign = false);
+								int x, int y, int w, int h, bool ignoreDrawAlign = false) const;
 
 	void renderPartsElementV   (int it, int im, int ib,
 								BaseObject *et, BaseObject *em, BaseObject *eb,
-								int x, int y, int h, bool ignoreDrawAlign = false);
+								int x, int y, int h, bool ignoreDrawAlign = false) const;
 
 	void renderPartsElementV90 (int it, int im, int ib,
 								BaseObject *et, BaseObject *em, BaseObject *eb,
-								int x, int y, int h, bool ignoreDrawAlign = false);
+								int x, int y, int h, bool ignoreDrawAlign = false) const;
 
 	inline void renderPartsElementBlock (int itl, int itc, int itr,
 										 int iml, int imc, int imr,
@@ -92,10 +92,10 @@ protected:
 										 BaseObject *etl, BaseObject *etc, BaseObject *etr,
 										 BaseObject *eml, BaseObject *emc, BaseObject *emr,
 										 BaseObject *ebl, BaseObject *ebc, BaseObject *ebr,
-										 int x, int y, int w, int h)
+										 int x, int y, int w, int h) const
 	{
 
-		int mh = h-iHeights[itc]-iHeights[ibc];
+		const int mh = h-iHeights[itc]-iHeights[ibc];
 
 		renderPartsElementH (itl, itc, itr, etl, etc, etr, x, y, w);
 		renderPartsElementH (iml, imc, imr, eml, emc, emr, x, y+iHeights[itc], w, mh);
@@ -104,7 +104,7 @@ protected:
 	}
 
 	inline void renderPartsElementBlock (int pts[9], BaseObject *els[9],
-										 int x, int y, int w, int h)
+										 int x, int y, int w, int h) const
 	{
 		renderPartsElementBlock (pts[0], pts[1], pts[2],
 								 pts[3], pts[4], pts[5],

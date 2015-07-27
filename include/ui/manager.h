@@ -154,7 +154,7 @@ public:
 
 	/* Debug */
 
-	void putString (std::string str, float r = 1.f, float g = 1.f, float b = 1.f);
+	void putString (const std::wstring &str, float r = 1.f, float g = 1.f, float b = 1.f);
 };
 
 #endif

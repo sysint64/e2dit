@@ -98,7 +98,7 @@ private:
 
 public:
 
-	UICursor (sf::WindowHandle windowHandle) {
+	UICursor (const sf::WindowHandle &windowHandle) {
 
 		#ifdef _linux_
 			display = XOpenDisplay (nullptr);
@@ -116,7 +116,7 @@ public:
 
 	}
 
-	void set  (CursorIco cur);
+	void set (const CursorIco cur);
 
 	inline CursorIco get() const {
 

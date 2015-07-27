@@ -52,7 +52,7 @@ protected:
 
 	/* Draw Text */
 
-	void renderText (Align align, std::string text, int size, int offset = 0);
+	void renderText (const Align align, const std::string &text, const int size, const int offset = 0);
 	void renderSkin();
 
 public:

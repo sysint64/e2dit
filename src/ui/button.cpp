@@ -165,7 +165,7 @@ void UIButton::renderSkin() {
  * @param offset: Offset Render
  */
 
-void UIButton::renderText (Align align, std::string text, int size, int offset) {
+void UIButton::renderText (const Align align, const std::string &text, const int size, const int offset) {
 
 	/* Tables Indices */
 

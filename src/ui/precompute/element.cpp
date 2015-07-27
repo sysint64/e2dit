@@ -68,11 +68,15 @@ void UIElement::precomputeText (const int n, const std::string &element) {
 
 	/* Text Color */
 
+	precomputeException (element, "textcolor", 3);
+
 	textColors [tcs+0] = manager->theme->element[element].params["textcolor"][0].num / 255.f;
 	textColors [tcs+1] = manager->theme->element[element].params["textcolor"][1].num / 255.f;
 	textColors [tcs+2] = manager->theme->element[element].params["textcolor"][2].num / 255.f;
 
 	/* Text Offset */
+
+	precomputeException (element, "textoffset", 2);
 
 	textOffsets[tos+0] = floor (manager->theme->element[element].params["textoffset"][0].num);
 	textOffsets[tos+1] = floor (manager->theme->element[element].params["textoffset"][1].num);
@@ -85,6 +89,8 @@ void UIElement::precomputeText (const int n, const std::string &element) {
 
 void UIElement::precomputeColor3f (const std::string &element, const std::string &params, float *arr) {
 
+	precomputeException (element, params, 3);
+
 	arr[0] = manager->theme->element[element].params[params][0].num / 255.f;
 	arr[1] = manager->theme->element[element].params[params][1].num / 255.f;
 	arr[2] = manager->theme->element[element].params[params][2].num / 255.f;
@@ -96,6 +102,8 @@ void UIElement::precomputeColor3f (const std::string &element, const std::string
  */
 
 void UIElement::precomputeColor4f (const std::string &element, const std::string &params, float *arr) {
+
+	precomputeException (element, params, 4);
 
 	arr[0] = manager->theme->element[element].params[params][0].num / 255.f;
 	arr[1] = manager->theme->element[element].params[params][1].num / 255.f;
@@ -110,6 +118,8 @@ void UIElement::precomputeColor4f (const std::string &element, const std::string
 
 void UIElement::precomputeFloatArray (const std::string &element, const std::string &params, float *arr, const int size, float normalize) {
 
+	precomputeException (element, params, size);
+
 	for (int i = 0; i < size; i++)
 		arr[i] = manager->theme->element[element].params[params][i].num / normalize;
 
@@ -121,6 +131,8 @@ void UIElement::precomputeFloatArray (const std::string &element, const std::str
 
 void UIElement::precomputeIntArray (const std::string &element, const std::string &params, int *arr, const int size) {
 
+	precomputeException (element, params, size);
+	
 	for (int i = 0; i < size; i++)
 		arr[i] = manager->theme->element[element].params[params][i].num;
 
