@@ -62,10 +62,10 @@ set(libs ${FONT_LIBS} ${IMAGE_LIBS} ${GL_LIBS} ${BOOST_LIBS} ${SFML_LIBS} ${DEPE
 #set(CMAKE_CXX_FLAGS "-std=gnu++1y -stdlib=libc++ -D${PLATFORM} ${CMAKE_CXX_FLAGS}")
 
 if (APPLE)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -stdlib=libc++ -Wall")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -stdlib=libc++")
 	include_directories(~/Documents/libcxx/include)
 else()
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -stdlib=libc++ -Wall")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -stdlib=libc++")
 endif()
 
 set(SOURCE_EXE src/main.cpp src/core/core.cpp src/core/events.cpp)

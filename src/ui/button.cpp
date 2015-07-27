@@ -42,7 +42,7 @@ void UIButton::render () {
 	int n  = 0; int tn = 0; int to = 0;
 
 	if (enter) { n = 3; tn = 1; to = 2; }
-	if (click) { n = 6; tn = 2; to = 4; }
+	if (click || checked) { n = 6; tn = 2; to = 4; }
 
 	if (!withoutSkin) renderSkin();
 
@@ -143,7 +143,7 @@ void UIButton::renderSkin() {
 	int n  = 0; int tn = 0; int to = 0;
 
 	if (enter) { n = 3; tn = 1; to = 2; }
-	if (click) { n = 6; tn = 2; to = 4; }
+	if (click || checked) { n = 6; tn = 2; to = 4; }
 
 	renderPartsElementH (n, n+1, n+2, leftElement.get(), middleElement.get(), rightElement.get(), absLeft, absTop, width);
 
@@ -172,7 +172,7 @@ void UIButton::renderText (Align align, std::string text, int size, int offset) 
 	int n = 0; int tn = 0; int to = 0;
 
 	if (enter) { n = 3; tn = 1; to = 2; }
-	if (click) { n = 6; tn = 2; to = 4; }
+	if (click || checked) { n = 6; tn = 2; to = 4; }
 
 	// Draw Text
 	float bounds[6];

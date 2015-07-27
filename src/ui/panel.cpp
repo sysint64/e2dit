@@ -87,7 +87,7 @@ void UIPanel::scrollToElement (UIElement *el) {
 	setScrollXByPx (test->left);
 	setScrollYByPx (test->top);
 
-	resized (0, 0);
+	updateScroll();
 
 }
 
@@ -337,19 +337,6 @@ void UIPanel::render() {
 	/* Render Childs */
 
 	UIElement::render();
-
-	for (const auto &kvp : elements) {
-
-		UIElement *el = kvp.second.get();
-
-		if (!dynamic_cast<UIPanel*>(el))
-			continue;
-
-		UIPanel *p = (UIPanel*) el;
-		//p->updateAlign();
-
-	}
-
 	manager->popScissor();
 
 	if (showScrollX || showScrollY) pollScroll();
@@ -510,11 +497,12 @@ void UIPanel::mouseDown (int x, int y, int button) {
 	/*for (const auto &kvp : parent->elements) {
 
 		UIElement *el = kvp.second.get();
+		UIPanel *panel = dynamic_cast<UIPanel*>(el);
 
-		if (!dynamic_cast<UIPanel*>(el))
+		if (!panel)
 			continue;
 
-		if (((UIPanel*)el)->splitClick)
+		if (panel->splitClick)
 			return;
 
 	}
@@ -598,11 +586,9 @@ void UIPanel::updateScroll() {
 
 		float px = (100.f*(float)scrollX)/(float)wrapperWidth;
 		hbOffset = ceil((px*hbMax)/100.f);
+
 		math::clamp (&hbOffset, 0, hbMax-hbSize);
-
-
-		if (hbOffset == 0 )           scrollX = 0;
-		if (hbOffset == hbMax-hbSize) scrollX = wrapperWidthClamped-width+scrollElementWidth;
+		math::clamp (&scrollX , 0, wrapperWidthClamped-width+scrollElementWidth);
 
 	} else {
 
@@ -619,10 +605,9 @@ void UIPanel::updateScroll() {
 
 		float py = (100.f*(float)scrollY)/(float)wrapperHeight;
 		vbOffset = round((py*(float)vbMax)/100.f);
-		math::clamp (&vbOffset, 0, vbMax-vbSize);
 
-		if (vbOffset == 0)            scrollY = 0;
-		if (vbOffset == vbMax-vbSize) scrollY = wrapperHeightClamped-height+scrollElementHeight;
+		math::clamp (&vbOffset, 0, vbMax-vbSize);
+		math::clamp (&scrollY , 0, wrapperHeightClamped-height+scrollElementHeight);
 
 	} else {
 

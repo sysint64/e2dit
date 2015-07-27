@@ -38,8 +38,8 @@ UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float
 	width  = sizeIcon / this->tex->width;
 	height = sizeIcon / this->tex->height;
 
-	for (int i = 0; i < count; i++)
-		for (int j = 0; j < count; j++) {
+	for (int i = 0; i < count; ++i)
+		for (int j = 0; j < count; ++j) {
 
 			/* Calculate Offsets in Texture Coordinate System */
 
@@ -192,7 +192,7 @@ void UIManager::poll() {
 
 	/* Reset states */
 
-	for (int i = elementsStack.size()-1; i >= 0; i--) {
+	for (int i = elementsStack.size()-1; i >= 0; --i) {
 
 		auto el = elementsStack[i];
 
@@ -208,7 +208,7 @@ void UIManager::poll() {
 
 	underMouse = nullptr;
 
-	for (int i = elementsStack.size()-1; i >= 0; i--) {
+	for (int i = elementsStack.size()-1; i >= 0; --i) {
 
 		auto el = elementsStack[i];
 
@@ -229,15 +229,6 @@ void UIManager::poll() {
 			break;
 
 	}
-
-	/* Progress Event */
-
-	/*for (const auto &kvp : elements) {
-
-		UIElement *el = kvp.second.get();
-		el->progress();
-
-	}*/
 
 }
 
@@ -288,7 +279,7 @@ void UIManager::mouseMove (int x, int y, int button) {
 
 void UIManager::mouseDown (int x, int y, int button) {
 
-	for (int i = elementsStack.size()-1; i >= 0; i--) {
+	for (int i = elementsStack.size()-1; i >= 0; --i) {
 
 		auto el = elementsStack[i];
 
@@ -323,7 +314,7 @@ void UIManager::dblClick (int x, int y, int button) {
 
 void UIManager::mouseUp (int x, int y, int button) {
 
-	/*for (int i = elementsStack.size()-1; i >= 0; i--) {
+	/*for (int i = elementsStack.size()-1; i >= 0; --i) {
 
 		auto el = elementsStack[i];
 

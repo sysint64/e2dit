@@ -20,35 +20,7 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru
  */
 
-#include "ui/element.h"
-#include "ui/manager.h"
+#ifndef E2DIT_UI_DROPMENU_H
+#define E2DIT_UI_DROPMENU_H
 
-#include "renderer/base_object.h"
-
-class UICheckbox : public UIElement {
-protected:
-	std::unique_ptr<BaseObject> boxElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> focusElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-
-	int focusOffsets[2]; // Left, Top
-
-public:
-
-	std::wstring caption = L"Test Checkbox";
-	bool autoSize = true;
-
-	virtual void precompute() override;
-	virtual void render()     override;
-
-	/* Events */
-
-	virtual void mouseDown (int x, int y, int button) override;
-
-	UICheckbox (UIManager *manager) : UIElement (manager) {
-
-		this->manager = manager;
-		precompute();
-
-	}
-
-};
+#endif

@@ -60,6 +60,7 @@ public:
 	std::wstring caption = L"Test Button";
 	int  icoOffset = 0;
 	bool noRenderText = false;
+	bool allowCheck   = false;
 	Align textAlign = Align::Center;
 
 	virtual void precompute() override;

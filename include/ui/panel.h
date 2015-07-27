@@ -154,7 +154,7 @@ public:
 
 		canScroll = true;
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 
 			scrollBg [i] = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 			scrollBtn[i] = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());

@@ -17,5 +17,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with E2DIT-UI. If not, see <http://www.gnu.org/licenses/>.
  *
- * Author: Kabylin Andrey <andrey@kabylin.ru>
+ * Author: Kabylin Andrey <andrey@kabylin.ru
  */
+
+#include "ui/listmenu.h"
+
+void UIListMenu::precompute() {
+
+	/* Top */
+
+	precomputeElement (0, "listmenutop", "left");
+	precomputeElement (1, "listmenutop", "center");
+	precomputeElement (2, "listmenutop", "right");
+
+	/* Middle */
+
+	precomputeElement (3, "listmenumiddle", "left");
+	precomputeElement (4, "listmenumiddle", "center");
+	precomputeElement (5, "listmenumiddle", "right");
+
+	/* Bottom */
+
+	precomputeElement (6, "listmenubottom", "left");
+	precomputeElement (7, "listmenubottom", "center");
+	precomputeElement (8, "listmenubottom", "right");
+
+	/* Mark */
+
+	precomputeElement (9 , "listitemleave", "mark");
+	precomputeElement (10, "listitementer", "mark");
+
+	/* Split */
+
+	precomputeElement (11, "general", "menusplit");
+
+}

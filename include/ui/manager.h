@@ -105,7 +105,7 @@ public:
 	std::vector<glm::vec4>  scissorStack;
 	std::vector<UIElement*> drawStack;
 	std::vector<UIElement*> unfocusedElements;
-	std::vector<UIElement*> elementsStack; // For Check Focus Element
+	std::vector<UIElement*> elementsStack; // For poll elements
 
 	std::unique_ptr<UIElement> root;
 

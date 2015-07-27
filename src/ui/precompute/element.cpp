@@ -23,11 +23,29 @@
 #include "ui/element.h"
 #include "ui/manager.h"
 
+#include "utility/exceptions.h"
+
+void UIElement::precomputeException (const std::string &element, const std::string &params, const int size) const {
+
+	if (manager->theme->element.count(element) == 0)
+		throw std::runtime_error (Formatter() << "Can't find element \"" << element << "\"");
+
+	if (manager->theme->element[element].params.count(params) == 0)
+		throw std::runtime_error (Formatter() << "Can't find param \"" << params << "\" in \"" << element << "\"");
+
+	if (manager->theme->element[element].params[params].size() < size)
+		throw std::runtime_error (Formatter() << element << "[" << params << "] size less than " << size << " ("
+											  << manager->theme->element[element].params[params].size() << ")");
+
+}
+
 /**
  *
  */
 
-void UIElement::precomputeElement (const int n, std::string element, std::string params) {
+void UIElement::precomputeElement (const int n, const std::string &element, const std::string &params) {
+
+	precomputeException (element, params, 4);
 
 	offsetsX[n] = manager->theme->element[element].params[params][0].num / manager->theme->skin->width;
 	offsetsY[n] = manager->theme->element[element].params[params][1].num / manager->theme->skin->height;
@@ -43,7 +61,7 @@ void UIElement::precomputeElement (const int n, std::string element, std::string
  *
  */
 
-void UIElement::precomputeText (const int n, std::string element) {
+void UIElement::precomputeText (const int n, const std::string &element) {
 
 	int tcs = n*3; /* Text Color  Index Start */
 	int tos = n*2; /* Text Offset Index Start */
@@ -65,7 +83,7 @@ void UIElement::precomputeText (const int n, std::string element) {
  *
  */
 
-void UIElement::precomputeColor3f (std::string element, std::string params, float *arr) {
+void UIElement::precomputeColor3f (const std::string &element, const std::string &params, float *arr) {
 
 	arr[0] = manager->theme->element[element].params[params][0].num / 255.f;
 	arr[1] = manager->theme->element[element].params[params][1].num / 255.f;
@@ -77,7 +95,7 @@ void UIElement::precomputeColor3f (std::string element, std::string params, floa
  *
  */
 
-void UIElement::precomputeColor4f (std::string element, std::string params, float *arr) {
+void UIElement::precomputeColor4f (const std::string &element, const std::string &params, float *arr) {
 
 	arr[0] = manager->theme->element[element].params[params][0].num / 255.f;
 	arr[1] = manager->theme->element[element].params[params][1].num / 255.f;
@@ -90,7 +108,7 @@ void UIElement::precomputeColor4f (std::string element, std::string params, floa
  *
  */
 
-void UIElement::precomputeFloatArray (std::string element, std::string params, float *arr, const int size, float normalize) {
+void UIElement::precomputeFloatArray (const std::string &element, const std::string &params, float *arr, const int size, float normalize) {
 
 	for (int i = 0; i < size; i++)
 		arr[i] = manager->theme->element[element].params[params][i].num / normalize;
@@ -101,8 +119,8 @@ void UIElement::precomputeFloatArray (std::string element, std::string params, f
  *
  */
 
-void UIElement::precomputeIntArray (std::string element, std::string params, int *arr, const int size) {
-	
+void UIElement::precomputeIntArray (const std::string &element, const std::string &params, int *arr, const int size) {
+
 	for (int i = 0; i < size; i++)
 		arr[i] = manager->theme->element[element].params[params][i].num;
 

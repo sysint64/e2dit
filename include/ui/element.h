@@ -56,12 +56,14 @@ protected:
 
 	/* Precompute */
 
-	void precomputeElement     (const int n, std::string element, std::string params);
-	void precomputeText        (const int n, std::string element);
-	void precomputeFloatArray  (std::string element, std::string params, float *arr, const int size, float normalize = 1.f);
-	void precomputeIntArray    (std::string element, std::string params, int   *arr, const int size);
-	void precomputeColor3f     (std::string element, std::string params, float *arr);
-	void precomputeColor4f     (std::string element, std::string params, float *arr);
+	void precomputeElement     (const int n, const std::string &element, const std::string &params);
+	void precomputeText        (const int n, const std::string &element);
+	void precomputeFloatArray  (const std::string &element, const std::string &params, float *arr, const int size, float normalize = 1.f);
+	void precomputeIntArray    (const std::string &element, const std::string &params, int   *arr, const int size);
+	void precomputeColor3f     (const std::string &element, const std::string &params, float *arr);
+	void precomputeColor4f     (const std::string &element, const std::string &params, float *arr);
+
+	void precomputeException (const std::string &element, const std::string &params, const int size) const;
 
 	/* Render */
 
@@ -96,13 +98,13 @@ protected:
 		int mh = h-iHeights[itc]-iHeights[ibc];
 
 		renderPartsElementH (itl, itc, itr, etl, etc, etr, x, y, w);
-		renderPartsElementH (itl, itc, itr, etl, etc, etr, x, y+iHeights[itc], w, mh);
-		renderPartsElementH (itl, itc, itr, etl, etc, etr, x, y+iHeights[itc]+mh, w);
+		renderPartsElementH (iml, imc, imr, eml, emc, emr, x, y+iHeights[itc], w, mh);
+		renderPartsElementH (ibl, ibc, ibr, ebl, ebc, ebr, x, y+iHeights[itc]+mh, w);
 
 	}
 
 	inline void renderPartsElementBlock (int pts[9], BaseObject *els[9],
-							      int x, int y, int w, int h)
+										 int x, int y, int w, int h)
 	{
 		renderPartsElementBlock (pts[0], pts[1], pts[2],
 								 pts[3], pts[4], pts[5],
@@ -153,6 +155,7 @@ public:
 	bool visible = true;
 	bool enabled = true;
 	bool focused = false;
+	bool checked = false;
 
 	bool withoutSkin = false;
 	bool wasClick    = false;

@@ -22,6 +22,7 @@
 
 #include "core.h"
 #include "ui/checkbox.h"
+#include "ui/listmenu.h"
 
 using namespace boost::assign;
 
@@ -35,8 +36,8 @@ Core::Core() {
 	ftglSetFontFaceSize (font, 12, 12);
 	ftglSetFontCharMap  (font, ft_encoding_unicode);
 
-	skin    = std::make_unique<Texture> ("../res/ui/skins/light/controls.png");
-	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/light/controls.e2t", ReadType::Text, skin.get(), font);
+	skin    = std::make_unique<Texture> ("../res/ui/skins/dark/controls.png");
+	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/dark/controls.e2t", ReadType::Text, skin.get(), font);
 	uiTheme->fontHeight = 12;
 
 	std::vector<std::string> atlasLocations; atlasLocations += "MVP", "Size", "Offset", "Texture", "Alpha";
@@ -162,16 +163,70 @@ Core::Core() {
 	p3->align = Align::Top;
 	p3->allowResize = true;
 	p3->allowHide = true;
-	p3->caption = L"Я могу перетаскивать панельки )";
+	p3->caption = L"Drag panel";
 
 	_p1->addElement (std::move(p3));
-	_p3->addElement (std::move(b1));
+	//_p3->addElement (std::move(b1));
 
 	std::unique_ptr<UICheckbox> cb1 = std::make_unique<UICheckbox> (uiManager.get());
 	cb1->top = 100;
 	cb1->left = 50;
 
 	_p3->addElement (std::move(cb1));
+
+	std::unique_ptr<UIListMenu> menu1 = std::make_unique<UIListMenu> (uiManager.get());
+	menu1->width = 200;
+	menu1->height = 50;
+	menu1->top = 150;
+	menu1->left = 50;
+	auto _menu1 = menu1.get();
+
+	_p3->addElement (std::move(menu1));
+
+	std::unique_ptr<UIMenuItem> mi1 = std::make_unique<UIMenuItem> (uiManager.get());
+	std::unique_ptr<UIMenuItem> mi2 = std::make_unique<UIMenuItem> (uiManager.get());
+	std::unique_ptr<UIMenuItem> mi3 = std::make_unique<UIMenuItem> (uiManager.get());
+	std::unique_ptr<UIMenuHr>   hr1 = std::make_unique<UIMenuHr>   (uiManager.get());
+
+	mi1->caption = L"Menu Item 1";
+	mi2->caption = L"Menu Item 2";
+	mi3->caption = L"Menu Item 3";
+
+	mi2->shortKey = L"Ctrl C";
+
+	mi1->iconOffset[0] = 3;
+	mi1->iconOffset[1] = 5;
+
+	auto _mi1 = mi1.get();
+
+	_menu1->addElement (std::move(mi1));
+	_menu1->addElement (std::move(mi2));
+	_menu1->addElement (std::move(hr1));
+	_menu1->addElement (std::move(mi3));
+
+	std::unique_ptr<UIListMenu> menu2 = std::make_unique<UIListMenu> (uiManager.get());
+	menu2->width = 200;
+	menu2->height = 50;
+	menu2->top = 150;
+	menu2->left = 50;
+	auto _menu2 = menu2.get();
+
+	//_p3->addElement (std::move(menu2));
+	_mi1->setMenu (std::move(menu2));
+
+	std::unique_ptr<UIMenuItem> mi4 = std::make_unique<UIMenuItem> (uiManager.get());
+	std::unique_ptr<UIMenuItem> mi5 = std::make_unique<UIMenuItem> (uiManager.get());
+	std::unique_ptr<UIMenuItem> mi6 = std::make_unique<UIMenuItem> (uiManager.get());
+
+	mi4->caption = L"Menu Item 4";
+	mi5->caption = L"Menu Item 5";
+	mi6->caption = L"Menu Item 6";
+
+	mi5->shortKey = L"Ctrl V";
+
+	_menu2->addElement (std::move(mi4));
+	_menu2->addElement (std::move(mi5));
+	_menu2->addElement (std::move(mi6));
 
 }
 
