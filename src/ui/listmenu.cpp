@@ -21,10 +21,14 @@
  */
 
 #include "ui/listmenu.h"
+#include "utility/system.h"
 
 /* Menu Item */
 
 void UIMenuItem::render() {
+
+	if (menu && menu->visible)
+		enter = true;
 
 	UIButton::render();
 
@@ -65,33 +69,62 @@ void UIListMenu::render() {
 			renderElement (11, x, y, w, h, drawElementsPtr[11]);
 			ey += 7;
 
-		} else {
-
-			el->width = width-8;
-			el->left  = 4;
-			el->top   = ey;
-
-			ey += el->height+1;
-			el->render();
-
-			UIMenuItem *item = dynamic_cast<UIMenuItem*>(el);
-
-			if (item) {
-
-				if (item->menu == nullptr)
-					continue;
-
-				int n = 9;
-				if (item->enter) n = 10;
-
-				int x = absLeft+width-iWidths[5]-iWidths[3]-4;
-				int y = absTop+ey-item->height-1;
-
-				renderElement (n, x, y, iWidths[n], iHeights[n], drawElementsPtr[9]);
-
-			}
+			continue;
 
 		}
+
+		/* */
+
+		el->width = width-8;
+		el->left  = 4;
+		el->top   = ey;
+
+		ey += el->height+1;
+		el->render();
+
+		UIMenuItem *item = dynamic_cast<UIMenuItem*>(el);
+
+		if (!item)
+			continue;
+
+		if (openedMenu && item->enter && openedMenu != item->menu) {
+
+			openedMenu->visible = false;
+			openedMenu->closeSubMenus();
+			openedMenu = nullptr;
+
+		}
+
+		if (!item->menu)
+			continue;
+
+		int n = 9;
+		if (item->enter) n = 10;
+
+		int x = absLeft+width-iWidths[5]-iWidths[3]-4;
+		int y = absTop+ey-item->height-1;
+
+		renderElement (n, x, y, iWidths[n], iHeights[n], drawElementsPtr[9]);
+
+		/* Open menu if enter */
+
+		if (setedTime || !item->enter || item->menu->visible)
+			continue;
+
+		setedTime = true;
+		setTimeout (0.25f, [item, this]() {
+
+			setedTime = false;
+			if (!item->enter)
+				return;
+
+			item->menu->left    = width;
+			item->menu->top     = -iHeights[1];
+			item->menu->visible = true;
+
+			openedMenu = item->menu;
+
+		});
 
 	}
 
@@ -100,6 +133,8 @@ void UIListMenu::render() {
 }
 
 void UIListMenu::mouseDown (int x, int y, int button) {
+
+	closeSubMenus();
 
 	for (const auto &kvp : elements) {
 

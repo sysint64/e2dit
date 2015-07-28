@@ -61,11 +61,15 @@ set(libs ${FONT_LIBS} ${IMAGE_LIBS} ${GL_LIBS} ${BOOST_LIBS} ${SFML_LIBS} ${DEPE
 #set(CMAKE_CXX_FLAGS "-std=gnu++1y -stdlib=libc++ -D${PLATFORM} ${CMAKE_CXX_FLAGS} -pipe -ggdb -g3 -pg -O0")
 #set(CMAKE_CXX_FLAGS "-std=gnu++1y -stdlib=libc++ -D${PLATFORM} ${CMAKE_CXX_FLAGS}")
 
+set(DEBUG_FLAGS "${CMAKE_CXX_FLAGS} -g3 -O0")
+set(RELEASE_FLAGS_32 "${CMAKE_CXX_FLAGS} -m32 -mfpmath=sse -Ofast -flto -march=native -funroll-loops")
+set(RELEASE_FLAGS_64 "${CMAKE_CXX_FLAGS} -m64 -mfpmath=sse -Ofast -flto -march=native -funroll-loops")
+
 if (APPLE)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -stdlib=libc++")
+	set(CMAKE_CXX_FLAGS "${DEBUG_FLAGS} -std=c++14 -stdlib=libc++")
 	include_directories(~/Documents/libcxx/include)
 else()
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -stdlib=libc++")
+	set(CMAKE_CXX_FLAGS "${DEBUG_FLAGS} -std=c++14 -stdlib=libc++")
 endif()
 
 set(SOURCE_EXE src/main.cpp src/core/core.cpp src/core/events.cpp)

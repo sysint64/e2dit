@@ -24,8 +24,6 @@
 #include "ui/checkbox.h"
 #include "ui/listmenu.h"
 
-using namespace boost::assign;
-
 Core::Core() {
 
 	app->screenCamera = std::make_unique<Camera>(app->screenWidth, app->screenHeight);
@@ -40,8 +38,8 @@ Core::Core() {
 	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/dark/controls.e2t", ReadType::Text, skin.get(), font);
 	uiTheme->fontHeight = 12;
 
-	std::vector<std::string> atlasLocations; atlasLocations += "MVP", "Size", "Offset", "Texture", "Alpha";
-	std::vector<std::string> colorLocations; colorLocations += "MVP", "Color";
+	std::vector<std::string> atlasLocations {"MVP", "Size", "Offset", "Texture", "Alpha"};
+	std::vector<std::string> colorLocations {"MVP", "Color"};
 
 	atlasShader = std::make_unique<Shader> ("../res/glsl/GL2/tex_atlas.glsl", atlasLocations);
 	colorShader = std::make_unique<Shader> ("../res/glsl/GL2/colorize.glsl" , colorLocations);
@@ -223,10 +221,35 @@ Core::Core() {
 	mi6->caption = L"Menu Item 6";
 
 	mi5->shortKey = L"Ctrl V";
+	auto _mi5 = mi5.get();
 
 	_menu2->addElement (std::move(mi4));
 	_menu2->addElement (std::move(mi5));
 	_menu2->addElement (std::move(mi6));
+
+	std::unique_ptr<UIListMenu> menu3 = std::make_unique<UIListMenu> (uiManager.get());
+	menu3->width = 200;
+	menu3->height = 50;
+	menu3->top = 150;
+	menu3->left = 50;
+	auto _menu3 = menu3.get();
+
+	//_p3->addElement (std::move(menu2));
+	_mi5->setMenu (std::move(menu3));
+
+	std::unique_ptr<UIMenuItem> mi7 = std::make_unique<UIMenuItem> (uiManager.get());
+	std::unique_ptr<UIMenuItem> mi8 = std::make_unique<UIMenuItem> (uiManager.get());
+	std::unique_ptr<UIMenuItem> mi9 = std::make_unique<UIMenuItem> (uiManager.get());
+
+	mi7->caption = L"Menu Item 7";
+	mi8->caption = L"Menu Item 8";
+	mi9->caption = L"Menu Item 9";
+
+	mi9->shortKey = L"Ctrl V";
+
+	_menu3->addElement (std::move(mi7));
+	_menu3->addElement (std::move(mi8));
+	_menu3->addElement (std::move(mi9));
 
 }
 

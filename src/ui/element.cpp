@@ -195,7 +195,6 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 
 }
 
-
 void UIElement::renderPartsElementV90 (int it, int im, int ib,
 									   BaseObject *et, BaseObject *em, BaseObject *eb,
 									   int x, int y, int h, bool ignoreDrawAlign) const
@@ -345,6 +344,10 @@ void UIElement::render() {
 	for (const auto &kvp : elements) {
 
 		UIElement *el = kvp.second.get();
+
+		if (!el->visible)
+			continue;
+
 		el->over = pointInRect (app->mouseX, app->mouseY, el->absLeft, el->absTop, el->width, el->height);
 
 		// TODO: Move to UIPanel
@@ -361,10 +364,7 @@ void UIElement::render() {
 		if (el->align != Align::Left && el->align != Align::Right)
 			wrapperHeightClamped = math::max (wrapperHeightClamped, el->top +el->height);
 
-		//
-
-		if (el->visible)
-			el->render();
+		el->render();
 
 	}
 
@@ -376,10 +376,6 @@ void UIElement::poll() {
 }
 
 /* Manage Elements ***********************************************************/
-
-/**
- *
- */
 
 void UIElement::addElement (std::unique_ptr<UIElement> el) {
 
@@ -422,19 +418,11 @@ void UIElement::addElement (std::unique_ptr<UIElement> el) {
 
 }
 
-/**
- *
- */
-
 void UIElement::deleteElement (std::unique_ptr<UIElement> el) {
 
 	elements.erase (el->id);
 
 }
-
-/**
- *
- */
 
 void UIElement::deleteElement (const int  id) {
 
@@ -445,19 +433,11 @@ void UIElement::deleteElement (const int  id) {
 
 }
 
-/**
- *
- */
-
 UIElement *UIElement::getElement (const int id) {
 
 	return elements[id].get();
 
 }
-
-/**
- *
- */
 
 std::unique_ptr<UIElement> UIElement::takeElement (const int id) {
 

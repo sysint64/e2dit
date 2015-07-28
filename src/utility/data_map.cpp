@@ -86,7 +86,7 @@ void DataMap::loadFromText (const char *fileName) {
  */
 
 void DataMap::loadFromBin (const char *fileName) {
-	
+
 	this->fileName = fileName;
 
 }
@@ -112,7 +112,7 @@ void DataMap::saveToText (const char *fileName) {
 		for (auto itf:tf.params) {
 
 			fputs ("	", outFile); fputs (itf.first.c_str(), outFile);
-			fputs (" : ", outFile);	
+			fputs (" : ", outFile);
 
 			/* Get All Values */
 
@@ -139,7 +139,7 @@ void DataMap::saveToText (const char *fileName) {
 
 	}
 
-	fclose (outFile);	
+	fclose (outFile);
 
 }
 

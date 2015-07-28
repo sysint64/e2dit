@@ -30,7 +30,7 @@ static void setTimeout (float timeout, std::function<void()> callback) {
 
 	Application *app = Application::getInstance();
 
-	for (int i = 0; i < Application::timersCount; i++) {
+	for (int i = 0; i < Application::timersCount; ++i) {
 
 		if (app->timersMap[i])
 			continue;
@@ -53,7 +53,7 @@ static int setInterval (float timeout, std::function<void()> callback) {
 
 	Application *app = Application::getInstance();
 
-	for (int i = 0; i < Application::timersCount; i++) {
+	for (int i = 0; i < Application::timersCount; ++i) {
 
 		if (app->timersMap[i])
 			continue;

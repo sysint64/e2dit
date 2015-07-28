@@ -38,7 +38,18 @@ protected:
 	int indices[12];
 	float delay = 0.f; // Menu delay
 
-	UIElement *lastCheck = nullptr;
+	UIElement  *lastCheck  = nullptr;
+	UIListMenu *openedMenu = nullptr;
+	bool setedTime = false;
+
+	inline void closeSubMenus() const {
+
+		if (!openedMenu) return;
+
+		openedMenu->visible = false;
+		openedMenu->closeSubMenus();
+
+	}
 
 public:
 	bool checkList   = false;
@@ -84,21 +95,24 @@ public:
 
 class UIMenuItem : public UIButton {
 public:
-	std::unique_ptr<UIListMenu> menu = nullptr;
+	UIListMenu *menu = nullptr;
 	std::wstring shortKey;
 
 	virtual void render() override;
 
-	void setMenu (std::unique_ptr<UIListMenu> m) {
+	inline void setMenu (std::unique_ptr<UIListMenu> m) {
 
-		menu = std::move (m);
-		menu->parent = manager->root.get();
+		/*menu = std::move (m);
+		menu->parent = this;//manager->root.get();
 
 		menu->next   = menu.get();  menu->prev    = menu.get();
 		menu->lastEl = menu.get();  menu->firstEl = menu.get();
 
+		//menu->visible = false;
+		manager->elementsStack.push_back (menu.get());*/
+		menu = m.get();
 		menu->visible = false;
-		manager->elementsStack.push_back (menu.get());
+		addElement (std::move(m));
 
 	}
 
