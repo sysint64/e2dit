@@ -37,7 +37,7 @@ void UIMenuItem::render() {
 		std::string text = wstr2str (shortKey);
 
 		if (menu == nullptr) renderText (Align::Right, text, shortKey.size());
-		else 				 renderText (Align::Right, text, shortKey.size(), 12);
+		else                 renderText (Align::Right, text, shortKey.size(), 12);
 
 	}
 

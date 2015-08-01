@@ -34,7 +34,7 @@ char DataMap::lexChar() {
 	/* if End of file return EOF symbol */
 
 	if (feof(inFile)) { return EOF; }
-	
+
 	/* Read new Char */
 
 	fread (&buf, sizeof(char), 1, inFile);
@@ -56,7 +56,7 @@ char DataMap::lexChar() {
 		//puts("R");
 
 		/* Skip \n */
-		
+
 		if (buf == '\n') {
 
 			/* new line & new pos */
@@ -81,7 +81,7 @@ char DataMap::lexChar() {
 	}
 
 	/* Return char from stream */
-	
+
 	return buf;
 }
 
@@ -90,7 +90,7 @@ char DataMap::lexChar() {
  */
 
 void DataMap::lexOpenFile (const char *fileName) {
-	
+
 	fclose (inFile);
 	inFile = fopen (fileName, "r");
 	offsetStack.push_back(0);
@@ -120,7 +120,7 @@ char DataMap::lexNextToken (const bool skipTab) {
 
 		nts++;
 		lexPopToken();
-		
+
 		return tokenStack[nts].token;
 
 	} else {
@@ -151,7 +151,7 @@ char DataMap::lexPrevToken (const bool skipTab) {
 		nts--;
 		lexPopToken();
 	}
-	
+
 	return tokenStack[nts-1].token;
 
 }
@@ -166,7 +166,7 @@ void DataMap::lexPushToken() {
 	Tok.token = curToken;
 	Tok.idstr = idStr;
 	Tok.num   = numVal;
-	
+
 	tokenStack.push_back(Tok);
 
 }
@@ -229,8 +229,8 @@ char DataMap::lexToken (const bool skipTab) {
 	// return as ASCII
 
 	int thisChar = lastChar;
-	lastChar     = lexChar();
-	
+	lastChar	 = lexChar();
+
 	return thisChar;
 
 }
@@ -244,7 +244,7 @@ char DataMap::lexTokString() {
 	std::string strVal;
 	idStr = "";
 	int state = 0;
-	
+
 	/* State machine */
 
 	while (state != 2) {
@@ -259,9 +259,9 @@ char DataMap::lexTokString() {
 						idStr += lastChar;
 					}
 				} while (lastChar != '\"' && lastChar != EOF);
-	
+
 				if (lastChar == EOF) {
-					
+
 					/* TODO Error */
 
 				} else lastChar = lexChar();
@@ -280,7 +280,7 @@ char DataMap::lexTokString() {
 				while (isdigit(lastChar)) {
 					numStr += lastChar;//
 					lastChar = lexChar();
-				} 
+				}
 
 				//strtod(numStr.c_str(), 0);
 				char buff[3];
@@ -306,29 +306,29 @@ char DataMap::lexTokString() {
 char DataMap::lexTokId () {
 
 	idStr = lastChar;
-	
+
 	while (true) {
 
 		lastChar = lexChar();
-		
+
 		if (isdigit(lastChar) || isalpha(lastChar) || lastChar == '_') {
 			idStr += lastChar;
 			continue;
 		}
-		
+
 		break;
 
 	}
-	
+
 	std::transform (idStr.begin(), idStr.end(), idStr.begin(), ::tolower);
-	
+
 	// Key Words
 
-	if (idStr == "end")			return tok_end;
-	if (idStr == "include")		return tok_include;
-	if (idStr == "false")		{ numVal = 0  ; return tok_number; }
-	if (idStr == "true")		{ numVal = 1.f; return tok_number; }
-	
+	if (idStr == "end")                     return tok_end;
+	if (idStr == "include")                 return tok_include;
+	if (idStr == "false")   { numVal = 0  ; return tok_number; }
+	if (idStr == "true")    { numVal = 1.f; return tok_number; }
+
 	// Other Id
 
 	return tok_id;
@@ -343,12 +343,12 @@ char DataMap::lexTokId () {
 char DataMap::lexTokNumber () {
 
 	int stat = 2;
-		
+
 		bool neg = false;
 		std::string numStr;
 		std::string scaleStr;
 		int power = 0;
-		
+
 		/* State machine */
 
 		while (stat < 8) {
@@ -357,7 +357,7 @@ char DataMap::lexTokNumber () {
 				case 2 :
 					numStr += lastChar;
 					lastChar = lexChar();
-						
+
 					if (isdigit(lastChar)) {
 						stat = 2;
 					} else if (lastChar == '.') {
@@ -365,80 +365,80 @@ char DataMap::lexTokNumber () {
 					} else if (lastChar == 'E' || lastChar == 'e') {
 						stat = 5;
 					} else stat = 9; /* Final State */
-					
+
 					break;
-					
+
 				/* Comma */
 
 				case 3 :
 					numStr += lastChar;
 					lastChar = lexChar();
-					
+
 					if (isdigit(lastChar)) {
 						stat = 4;
 					} else stat = 9; /* TODO ERROR! */
-					
+
 					break;
-					
+
 				case 4 :
 					numStr += lastChar;
 					lastChar = lexChar();
-						
+
 					if (isdigit(lastChar)) {
 						stat = 4;
 					} else if (lastChar == 'E' || lastChar == 'e') {
 						stat = 5;
 					} else stat = 10; /* Final State */
-					
+
 					break;
-					
+
 				/* Power */
 
 				case 5 :
 					lastChar = lexChar();
-					
+
 					if (lastChar == '+' || lastChar == '-') {
 						stat = 6;
 					} else if (isdigit(lastChar)) {
 						stat = 7;
 					} else ; /* TODO ERROR! */
-					
+
 					break;
-					
+
 				case 6 :
 					scaleStr += lastChar;
 					lastChar = lexChar();
-					
+
 					if (isdigit(lastChar)) {
 						stat = 7;
 					} else ; /* TODO ERROR! */
-						
+
 					break;
-					
+
 				case 7 :
 					scaleStr += lastChar;
 					lastChar = lexChar();
-					
+
 					if (isdigit(lastChar)) {
 						stat = 7;
 					} else stat = 8; /* Final State */
-					
+
 					break;
-					
+
 				default : ;
 			}
 
-		} 
+		}
 
 		/* Convert string to Number */
-		
+
 		numVal = strtod (numStr.c_str(), 0);
-		
+
 		if (scaleStr != "") power = strtod(scaleStr.c_str(), 0);
-		
+
 		numVal = numVal*pow(10, power);
 		if (neg) numVal = -numVal;
-		
+
 		return tok_number;
 
 }
@@ -455,18 +455,18 @@ char DataMap::lexComment () {
 	// Single line
 
 	if (lastChar == '/') {
-		
+
 		/* Skip comment */
 
 		while (lastChar != EOF && lastChar != '\n' && lastChar != '\r')
 			lastChar = lexChar();
-		
+
 		/* Return Next Token */
 
 		if (lastChar != EOF)
 			return lexToken();
 	}
-	
+
 	// Multi line
 
 	if (lastChar == '*') {
@@ -476,7 +476,7 @@ char DataMap::lexComment () {
 		while (lastChar != EOF) {
 
 			lastChar = lexChar();
-			
+
 			if (lastChar == '*') {
 
 				lastChar = lexChar();
@@ -487,11 +487,11 @@ char DataMap::lexComment () {
 		}
 
 		/* Return next token */
-		
+
 		if (lastChar != EOF)
 			return lexToken();
 	}
-	
+
 	return thisChar;
 
 }

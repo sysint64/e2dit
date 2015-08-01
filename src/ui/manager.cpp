@@ -65,7 +65,7 @@ void UIIcons<count>::render (int x, int y, int ox, int oy, BaseObject *iconEleme
 	glUniform1i (manager->atlasShader->locations["Texture"], 2);
 	glUniform2f (manager->atlasShader->locations["Size"]  , width, height);
 	glUniform2f (manager->atlasShader->locations["Offset"], offsetsX[ox][oy],
-															offsetsY[ox][oy]);
+	                                                        offsetsY[ox][oy]);
 
 	iconElement->setPosition (glm::vec2 (x, y));
 	iconElement->setScale    (glm::vec2 (sizeIcon, sizeIcon));

@@ -92,7 +92,7 @@ void UIButton::render () {
 			if (drawAlign == Align::Right ) iOffset += iWidths[n];
 
 			manager->icons->render (absLeft+2+iOffset, app->windowHeight-height+2-absTop,
-								    iconOffset[0], iconOffset[1], iconElement.get());
+			                        iconOffset[0], iconOffset[1], iconElement.get());
 
 		}
 
@@ -113,7 +113,7 @@ void UIButton::render () {
 			if (drawAlign == Align::Right ) iOffset += iWidths[n];
 
 			manager->icons->render (absLeft+20+iOffset, app->windowHeight-height+2-absTop,
-								    icon2Offset[0], icon2Offset[1], iconElement2.get());
+			                        icon2Offset[0], icon2Offset[1], iconElement2.get());
 
 		}
 

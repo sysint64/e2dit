@@ -71,7 +71,7 @@ GLint Shader::programStatus (GLuint &program, GLenum param) const {
 
 	if (status != GL_TRUE) {
 
-        /* If fail, then write error to log */
+		/* If fail, then write error to log */
 
 		glGetProgramInfoLog (program, 1024, &length, buffer);
 		app->log.write ("Shader program error: %s\n", (const char*) buffer);
@@ -127,7 +127,7 @@ void Shader::load (const char *fileName) {
 
 	/* Current Text Buffer & Counter */
 
-    char *cp = fp;  // Current Buffer
+	char *cp = fp;  // Current Buffer
 	int  *ci = &fi; // Current Counter
 
 	/* Current Char */

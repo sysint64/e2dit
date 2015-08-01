@@ -37,7 +37,7 @@ void UICheckbox::precompute() {
 	/* Focus */
 
 	precomputeElement  (4, "checkboxfocus", "element");
-    precomputeIntArray ("checkboxfocus", "offsets", focusOffsets, 2);
+	precomputeIntArray ("checkboxfocus", "offsets", focusOffsets, 2);
 
 	/* Text */
 

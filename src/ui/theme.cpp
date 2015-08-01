@@ -31,7 +31,7 @@ UITheme::UITheme (const char *fileName, ReadType rt, Texture *skin, FTGLfont *fo
 	skin->wrapS  = GL_NONE;
 	skin->wrapT  = GL_NONE;
 	skin->buildMipmaps = false;
-	
+
 	skin->update();
 
 	switch (rt) {

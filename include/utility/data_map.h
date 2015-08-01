@@ -41,10 +41,10 @@ private:
 
 	struct DataVal {
 
-		float		 num;
-		std::string	 str;
+		float        num;
+		std::string  str;
 		std::wstring wstr;
-		bool		 isStr;
+		bool         isStr;
 
 	} typedef DataVal;
 
@@ -59,24 +59,24 @@ private:
 
 	/* In File */
 
-	FILE		*inFile;
+	FILE        *inFile;
 
 	/* Parser */
 
-	char		 curToken;
-	std::string	 idStr;
-	float		 numVal;
-	int			 lastChar = ' ';
-	int			 posno, lineno; // Line & Pos
-	bool		 end = false;
-	bool		 merge = false;
+	char         curToken;
+	std::string  idStr;
+	float        numVal;
+	int          lastChar = ' ';
+	int          posno, lineno; // Line & Pos
+	bool         end = false;
+	bool         merge = false;
 
 	/* Data */
 
 	std::vector<int> bytecode;
 	std::vector<int> offsetStack; // Files offset in bytes
 
-	/**/ 
+	/**/
 	Application *app = Application::getInstance();
 
 	/* Token */
@@ -90,9 +90,9 @@ private:
 	} typedef tok;
 
 	std::vector<tok> tokenStack;
-	int				 nts = 0;
-	int				 lastTabs = 0;
-	int				 tabSize  = 0;
+	int              nts = 0;
+	int              lastTabs = 0;
+	int              tabSize  = 0;
 
 	/**/
 
@@ -145,7 +145,7 @@ public:
 	enum Token {
 
 		tok_eof = -1, tok_tab = -2,
-		
+
 		tok_id = -3, tok_number = -4, tok_string = -5,
 		tok_begin = -6, tok_end = -7, tok_include = -8
 

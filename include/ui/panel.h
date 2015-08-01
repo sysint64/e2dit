@@ -146,7 +146,7 @@ public:
 
 	virtual void mouseDown  (int x, int y, int button)  override;
 	virtual void mouseUp    (int x, int y, int button)  override;
-	virtual void mouseWheel (int dx, int dy)			override;
+	virtual void mouseWheel (int dx, int dy)            override;
 
 	/* Constructor */
 

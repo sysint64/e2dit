@@ -23,4 +23,40 @@
 #ifndef E2DIT_UI_DROPMENU_H
 #define E2DIT_UI_DROPMENU_H
 
+#include "ui/button.h"
+#include "ui/listmenu.h"
+
+class UIDropMenu : public UIButton {
+private:
+	UIListMenu *menu = nullptr;
+
+public:
+	UIDropMenu (UIManager *manager, bool isMenu = false) : UIButton(manager) {
+
+		this->manager = manager;
+
+		if (isMenu) {
+
+			leaveElement = "flatbuttonleave";
+			enterElement = "flatbuttonenter";
+			clickElement = "flatbuttonenter";
+			focusElement = "flatbuttonleave";
+
+		} else {
+
+			leaveElement = "droplistleave";
+			enterElement = "droplistenter";
+			clickElement = "droplistclick";
+
+		}
+
+		textAlign = Align::Left;
+		showIcon  = true;
+
+		precompute();
+
+	}
+
+};
+
 #endif

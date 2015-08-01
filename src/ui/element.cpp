@@ -126,14 +126,14 @@ void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *
 	if (math::feq<float>(el->rotation, math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x+h, app->windowHeight-w-y)); else
 	if (math::feq<float>(el->rotation,-math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x-h, app->windowHeight+h-y)); else
 	if (math::feq<float>(el->rotation, math::pi    , math::pi/180.f)) el->setPosition (glm::vec2(x+w, app->windowHeight+h-y)); else
-																	  el->setPosition (glm::vec2(x  , app->windowHeight-h-y));
+	                                                                  el->setPosition (glm::vec2(x  , app->windowHeight-h-y));
 
 	el->setScale (glm::vec2(w, h));
 	el->updateModelMatrix();
 
 	glUniformMatrix4fv (manager->atlasShader->locations["MVP"], 1, GL_FALSE, &(el->MVPMatrix[0][0]));
-	glUniform2f		   (manager->atlasShader->locations["Size"]  , fWidths [idx], fHeights[idx]);
-	glUniform2f		   (manager->atlasShader->locations["Offset"], offsetsX[idx], offsetsY[idx]);
+	glUniform2f        (manager->atlasShader->locations["Size"]  , fWidths [idx], fHeights[idx]);
+	glUniform2f        (manager->atlasShader->locations["Offset"], offsetsX[idx], offsetsY[idx]);
 
 	el->render();
 
@@ -153,8 +153,8 @@ void UIElement::renderColorElement (int x, int y, int w, int h, BaseObject *el, 
 }
 
 void UIElement::renderPartsElementH (int il, int ic, int ir,
-									 BaseObject *el, BaseObject *ec, BaseObject *er,
-									 int x, int y, int w, bool ignoreDrawAlign) const
+                                     BaseObject *el, BaseObject *ec, BaseObject *er,
+                                     int x, int y, int w, bool ignoreDrawAlign) const
 {
 
 	int cw = w-iWidths[il]-iWidths[ir];
@@ -183,8 +183,8 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 }
 
 void UIElement::renderPartsElementH (int il, int ic, int ir,
-									 BaseObject *el, BaseObject *ec, BaseObject *er,
-									 int x, int y, int w, int h, bool ignoreDrawAlign) const
+                                     BaseObject *el, BaseObject *ec, BaseObject *er,
+                                     int x, int y, int w, int h, bool ignoreDrawAlign) const
 {
 
 	const int cw = w-iWidths[il]-iWidths[ir];
@@ -196,8 +196,8 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 }
 
 void UIElement::renderPartsElementV90 (int it, int im, int ib,
-									   BaseObject *et, BaseObject *em, BaseObject *eb,
-									   int x, int y, int h, bool ignoreDrawAlign) const
+                                       BaseObject *et, BaseObject *em, BaseObject *eb,
+                                       int x, int y, int h, bool ignoreDrawAlign) const
 {
 
 	const int mh = h-iWidths[it]-iWidths[ib];

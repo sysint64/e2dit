@@ -19,3 +19,5 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru
  */
+
+#include "ui/dropmenu.h"

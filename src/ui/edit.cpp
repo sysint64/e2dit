@@ -27,7 +27,7 @@
  */
 
 void UIEdit::render() {
-	
+
 	UIElement::render();
 	updateAbsPos();
 
@@ -61,7 +61,7 @@ void UIEdit::render() {
 	/* Render Skin */
 
 	if (!withoutSkin) renderSkin();
-	
+
 	int twidth = ftglGetTextWidth (manager->theme->font, text.substr(0, stickChPos));
 	stickPxPos = twidth;
 
@@ -76,9 +76,9 @@ void UIEdit::render() {
 	/* Render Stick */
 
 	if (showStick && focused) {
-		
+
 		renderElement (12, textPosX+stickPxPos-1, absTop, iWidths[12], iHeights[12], stickElement.get());
-		
+
 	}
 
 	/* Render Text */
@@ -102,7 +102,7 @@ void UIEdit::render() {
 		selx1  = textPosX+twidth+(iWidths[12] >> 1);
 		twidth = ftglGetTextWidth(manager->theme->font, text.substr (0, selEnd));
 		selx2  = textPosX+twidth+(iWidths[12] >> 1);
-		
+
 		if (selx1 > selx2) { // Swap
 
 			int tmp = selx1;
@@ -204,7 +204,7 @@ void UIEdit::setStickPos (int x, int y) {
 	stickTime = 0;
 
 	if (x > textPosX+twidth) {
-		
+
 		stickChPos = text.size();
 		return;
 
@@ -259,12 +259,12 @@ void UIEdit::mouseUp (int x, int y, int button) {
 
 		if (focused)
 			return;
-		
+
 		focus();
 
 		lastStickChPos = stickChPos;
 		stickChPos = text.size();
-		
+
 		selStart = 0;
 		selEnd   = stickChPos;
 
@@ -322,7 +322,7 @@ void UIEdit::dblClick (int x, int y, int button) {
 		bool next = true;
 
 		for (int j = 0; j < countof (splitChars); j++) {
-		
+
 			if (text[i] == splitChars[j]) {
 
 				next = false;
@@ -367,7 +367,7 @@ void UIEdit::keyPressed (int key) {
 	/* Clipboard */
 
 	switch (key) {
-		
+
 		/* Clipboard */
 
 		case keyC : if (pressed (keyCtrl)) copyText();  break;
@@ -421,7 +421,7 @@ void UIEdit::keyPressed (int key) {
 
 			}
 
-			text = splitLeft+splitRight;			
+			text = splitLeft+splitRight;
 			break;
 
 		/* Navigate */
@@ -518,10 +518,10 @@ void UIEdit::textEntered (int key) {
 	lastStickChPos = stickChPos;
 	stickChPos++;
 
-	if (onTextEntered != nullptr) 
+	if (onTextEntered != nullptr)
 		onTextEntered (this, key);
 
-	if (onChange != nullptr) 
+	if (onChange != nullptr)
 		onChange (this);
 
 }

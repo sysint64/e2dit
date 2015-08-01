@@ -42,9 +42,9 @@
 	#include <X11/Xatom.h>
 #endif
 
-#define _NET_WM_STATE_REMOVE    0l
-#define _NET_WM_STATE_ADD       1l
-#define _NET_WM_STATE_TOGGLE    2l
+#define _NET_WM_STATE_REMOVE   0l
+#define _NET_WM_STATE_ADD      1l
+#define _NET_WM_STATE_TOGGLE   2l
 
 namespace fs = boost::filesystem;
 
@@ -53,9 +53,9 @@ namespace fs = boost::filesystem;
 int main (int argc,char** argv) {
 
 	fs::path full_path (fs::initial_path<fs::path>());
-    full_path = fs::system_complete (fs::path (argv[0]));
+	full_path = fs::system_complete (fs::path (argv[0]));
 
-    //puts (full_path.string().c_str());
+	//puts (full_path.string().c_str());
 
 	Application *app = Application::getInstance();
 
@@ -211,13 +211,13 @@ int main (int argc,char** argv) {
 
 				/* Window */
 
-				case sf::Event::Closed	: running = false; break;
-				case sf::Event::Resized	: core->onResize (ev.size.width, ev.size.height); break;
+				case sf::Event::Closed  : running = false; break;
+				case sf::Event::Resized : core->onResize (ev.size.width, ev.size.height); break;
 
 				/* Mouse */
 
-				case sf::Event::MouseMoved			: core->onMouseMove  (ev.mouseMove.x     , ev.mouseMove  .y);                        break;
-				//case sf::Event::MouseWheelScrolled	: core->onMouseWheel (ev.mouseWheelScroll.delta);                                          break;
+				case sf::Event::MouseMoved: core->onMouseMove  (ev.mouseMove.x, ev.mouseMove  .y); break;
+				//case sf::Event::MouseWheelScrolled	: core->onMouseWheel (ev.mouseWheelScroll.delta); break;
 
 				case sf::Event::MouseWheelScrolled:
 
@@ -226,8 +226,8 @@ int main (int argc,char** argv) {
 
 					break;
 
-				case sf::Event::MouseButtonPressed	: core->onMouseDown  (ev.mouseButton.x   , ev.mouseButton.y, ev.mouseButton.button); break;
-				case sf::Event::MouseButtonReleased	:
+				case sf::Event::MouseButtonPressed  : core->onMouseDown  (ev.mouseButton.x   , ev.mouseButton.y, ev.mouseButton.button); break;
+				case sf::Event::MouseButtonReleased :
 
 					core->onMouseUp (ev.mouseButton.x, ev.mouseButton.y, ev.mouseButton.button);
 

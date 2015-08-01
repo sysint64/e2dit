@@ -39,8 +39,8 @@
 #include "utility/input.h"
 #include "utility/ui.h"
 
-#define ICONS_COUNT			11
-#define TOOL_ICONS_COUNT	4
+#define ICONS_COUNT        11
+#define TOOL_ICONS_COUNT   4
 
 class UIManager;
 
@@ -85,7 +85,7 @@ public:
 	/* UI State */
 
 	bool dialogOpened = false;
-	bool freezUI	  = false;
+	bool freezUI      = false;
 	bool focused      = false;
 	bool lockCursor   = false;
 
@@ -115,7 +115,7 @@ public:
 	UIElement *underMouse     = nullptr;
 	Shader    *atlasShader;
 	Shader    *colorShader;
-	UITheme	  *theme;
+	UITheme   *theme;
 
 	CursorIco cursor = CursorIco::Normal;
 	UIManager (Shader *atlasShader, Shader *colorShader, UITheme *theme);

@@ -56,7 +56,7 @@ void Logger::create (const char *fileName) {
 
 void Logger::write (const char *format, ...) {
 
-	va_list ap;
+	va_list  ap;
 	FILE    *output;
 
 	if ((output = fopen (fileName.c_str(), "a+")) == NULL)

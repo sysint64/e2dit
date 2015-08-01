@@ -35,41 +35,41 @@ void UIPanel::setScrollYByPx (int pxVal) { scrollY  = pxVal; resized (0, 0); }
 
 void UIPanel::addScrollXByPct (int pctVal) {
 
-	hbOffset += round((float)(hbMax-hbSize)*(float)pctVal/100.f);;
+	hbOffset += round(static_cast<float>(hbMax-hbSize)*static_cast<float>(pctVal)/100.f);;
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
 
-	float px = ((float)hbOffset*100.f)/(float)hbMax;
-	scrollX  =  round(((float)wrapperWidth*px)/100.f);
+	float px = (static_cast<float>(hbOffset)*100.f)/static_cast<float>(hbMax);
+	scrollX  =  round((static_cast<float>(wrapperWidth)*px)/100.f);
 
 }
 
 void UIPanel::addScrollYByPct (int pctVal) {
 
-	vbOffset += round((float)(vbMax-vbSize)*(float)pctVal/100.f);
+	vbOffset += round(static_cast<float>(vbMax-vbSize)*static_cast<float>(pctVal)/100.f);
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
 
-	float py = ((float)vbOffset*100.f)/(float)vbMax;
-	scrollY  = round(((float)wrapperHeight*py)/100.f);
+	float py = (static_cast<float>(vbOffset)*100.f)/static_cast<float>(vbMax);
+	scrollY  = round((static_cast<float>(wrapperHeight)*py)/100.f);
 
 }
 
 void UIPanel::setScrollYByPct (int pctVal) {
 
-	vbOffset = round((float)(vbMax-vbSize)*(float)pctVal/100.f);
+	vbOffset = round(static_cast<float>(vbMax-vbSize)*static_cast<float>(pctVal)/100.f);
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
 
-	float py = ((float)vbOffset*100.f)/(float)vbMax;
-	scrollY  = round(((float)wrapperHeight*py)/100.f);
+	float py = (static_cast<float>(vbOffset)*100.f)/static_cast<float>(vbMax);
+	scrollY  = round((static_cast<float>(wrapperHeight)*py)/100.f);
 
 }
 
 void UIPanel::setScrollXByPct (int pctVal) {
 
-	hbOffset = round((float)(hbMax-hbSize)*(float)pctVal/100.f);;
+	hbOffset = round(static_cast<float>(hbMax-hbSize)*static_cast<float>(pctVal)/100.f);;
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
 
-	float px = ((float)hbOffset*100.f)/(float)hbMax;
-	scrollX  = round(((float)wrapperWidth*px)/100.f);
+	float px = (static_cast<float>(hbOffset)*100.f)/static_cast<float>(hbMax);
+	scrollX  = round((static_cast<float>(wrapperWidth)*px)/100.f);
 
 }
 
@@ -419,8 +419,8 @@ void UIPanel::pollScroll() {
 			hbMin = iWidths[6]+iWidths[8];
 			hbMax = width-iHeights[4]+swh;
 
-			float x = ((float)hbMax*100.f)/(float)wrapperWidth;
-			hbSize  = ceil(((float)hbMax*x)/100.f);
+			float x = (static_cast<float>(hbMax)*100.f)/(float)wrapperWidth;
+			hbSize  = ceil((static_cast<float>(hbMax)*x)/100.f);
 			math::clamp (&hbSize, hbMin, hbMax);
 
 			scrollHEnter = pointInRect (app->mouseX, app->mouseY, hbOffset+absLeft, absTop+height-iHeights[6], hbSize, iHeights[6]);
@@ -430,8 +430,8 @@ void UIPanel::pollScroll() {
 				hbOffset = lhbOffset+app->mouseX-app->clickX;
 				math::clamp (&hbOffset, 0, hbMax-hbSize);
 
-				float py  = ((float)hbOffset*100.f)/(float)hbMax;
-				scrollX = ceil(((float)wrapperWidth*py)/100.f);
+				float py  = (static_cast<float>(hbOffset)*100.f)/static_cast<float>(hbMax);
+				scrollX = ceil((static_cast<float>(wrapperWidth)*py)/100.f);
 
 			}
 
@@ -450,8 +450,8 @@ void UIPanel::pollScroll() {
 			vbMin = iWidths[6]+iWidths[8];
 			vbMax = height-iHeights[4]+swv;
 
-			float x  = ((float)vbMax*100.f)/(float)wrapperHeight;
-			vbSize = ceil(((float)vbMax*x)/100.f);
+			float x  = (static_cast<float>(vbMax)*100.f)/static_cast<float>(wrapperHeight);
+			vbSize = ceil((static_cast<float>(vbMax)*x)/100.f);
 			math::clamp (&vbSize, vbMin, vbMax);
 
 			scrollVEnter = pointInRect (app->mouseX, app->mouseY, absLeft+width-iHeights[6], absTop+vbOffset, iHeights[6], vbSize);
@@ -463,8 +463,8 @@ void UIPanel::pollScroll() {
 				vbOffset = lvbOffset+app->mouseY-app->clickY;
 				math::clamp (&vbOffset, 0, vbMax-vbSize);
 
-				float py = ((float)vbOffset*100.f)/(float)vbMax;
-				scrollY  = ceil(((float)wrapperHeight*py)/100.f);
+				float py = (static_cast<float>(vbOffset)*100.f)/static_cast<float>(vbMax);
+				scrollY  = ceil((static_cast<float>(wrapperHeight)*py)/100.f);
 
 			}
 
@@ -584,7 +584,7 @@ void UIPanel::updateScroll() {
 		hbMin = iWidths[6]+iWidths[8];
 		hbMax = width-iHeights[4]+swh;
 
-		float px = (100.f*(float)scrollX)/(float)wrapperWidth;
+		float px = (100.f*static_cast<float>(scrollX))/static_cast<float>(wrapperWidth);
 		hbOffset = ceil((px*hbMax)/100.f);
 
 		math::clamp (&hbOffset, 0, hbMax-hbSize);
@@ -603,8 +603,8 @@ void UIPanel::updateScroll() {
 		vbMin = iWidths[6]+iWidths[8];
 		vbMax = height-iHeights[4]+swv;
 
-		float py = (100.f*(float)scrollY)/(float)wrapperHeight;
-		vbOffset = round((py*(float)vbMax)/100.f);
+		float py = (100.f*static_cast<float>(scrollY))/static_cast<float>(wrapperHeight);
+		vbOffset = round((py*static_cast<float>(vbMax))/100.f);
 
 		math::clamp (&vbOffset, 0, vbMax-vbSize);
 		math::clamp (&scrollY , 0, wrapperHeightClamped-height+scrollElementHeight);

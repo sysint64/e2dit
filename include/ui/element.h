@@ -63,7 +63,7 @@ protected:
 	void precomputeColor3f     (const std::string &element, const std::string &params, float *arr);
 	void precomputeColor4f     (const std::string &element, const std::string &params, float *arr);
 
-	void precomputeException (const std::string &element, const std::string &params, const int size) const;
+	void precomputeException   (const std::string &element, const std::string &params, const int size) const;
 
 	/* Render */
 
@@ -71,28 +71,28 @@ protected:
 	void renderColorElement    (int x, int y, int w, int h, BaseObject *el, float *color) const;
 
 	void renderPartsElementH   (int il, int ic, int ir,
-								BaseObject *el, BaseObject *ec, BaseObject *er,
-								int x, int y, int w, bool ignoreDrawAlign = false) const;
+	                            BaseObject *el, BaseObject *ec, BaseObject *er,
+	                            int x, int y, int w, bool ignoreDrawAlign = false) const;
 
 	void renderPartsElementH   (int il, int ic, int ir,
-								BaseObject *el, BaseObject *ec, BaseObject *er,
-								int x, int y, int w, int h, bool ignoreDrawAlign = false) const;
+	                            BaseObject *el, BaseObject *ec, BaseObject *er,
+	                            int x, int y, int w, int h, bool ignoreDrawAlign = false) const;
 
 	void renderPartsElementV   (int it, int im, int ib,
-								BaseObject *et, BaseObject *em, BaseObject *eb,
-								int x, int y, int h, bool ignoreDrawAlign = false) const;
+	                            BaseObject *et, BaseObject *em, BaseObject *eb,
+	                            int x, int y, int h, bool ignoreDrawAlign = false) const;
 
 	void renderPartsElementV90 (int it, int im, int ib,
-								BaseObject *et, BaseObject *em, BaseObject *eb,
-								int x, int y, int h, bool ignoreDrawAlign = false) const;
+	                            BaseObject *et, BaseObject *em, BaseObject *eb,
+	                            int x, int y, int h, bool ignoreDrawAlign = false) const;
 
 	inline void renderPartsElementBlock (int itl, int itc, int itr,
-										 int iml, int imc, int imr,
-										 int ibl, int ibc, int ibr,
-										 BaseObject *etl, BaseObject *etc, BaseObject *etr,
-										 BaseObject *eml, BaseObject *emc, BaseObject *emr,
-										 BaseObject *ebl, BaseObject *ebc, BaseObject *ebr,
-										 int x, int y, int w, int h) const
+	                                     int iml, int imc, int imr,
+	                                     int ibl, int ibc, int ibr,
+	                                     BaseObject *etl, BaseObject *etc, BaseObject *etr,
+	                                     BaseObject *eml, BaseObject *emc, BaseObject *emr,
+	                                     BaseObject *ebl, BaseObject *ebc, BaseObject *ebr,
+	                                     int x, int y, int w, int h) const
 	{
 
 		const int mh = h-iHeights[itc]-iHeights[ibc];
@@ -104,15 +104,15 @@ protected:
 	}
 
 	inline void renderPartsElementBlock (int pts[9], BaseObject *els[9],
-										 int x, int y, int w, int h) const
+	                                     int x, int y, int w, int h) const
 	{
 		renderPartsElementBlock (pts[0], pts[1], pts[2],
-								 pts[3], pts[4], pts[5],
-								 pts[6], pts[7], pts[8],
-								 els[0], els[1], els[2],
-								 els[3], els[4], els[5],
-								 els[6], els[7], els[8],
-								 x, y, w, h);
+		                         pts[3], pts[4], pts[5],
+		                         pts[6], pts[7], pts[8],
+		                         els[0], els[1], els[2],
+		                         els[3], els[4], els[5],
+		                         els[6], els[7], els[8],
+		                         x, y, w, h);
 	}
 
 public:
