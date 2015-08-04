@@ -19,3 +19,11 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+
+#include "ui/label.h"
+
+void UILabel::precompute() {
+
+	precomputeText (0, "label");
+
+}

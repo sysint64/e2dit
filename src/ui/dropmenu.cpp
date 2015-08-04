@@ -21,3 +21,47 @@
  */
 
 #include "ui/dropmenu.h"
+
+void UIDropMenu::render() {
+
+	UIButton::render();
+
+	if (!menu || isMenu)
+		return;
+
+	int x = absLeft+width-iWidths[0]-iWidths[2]-4;
+	int y = absTop;
+
+	renderElement (12, x, y, iWidths[12], iHeights[12], arrowElement.get());
+
+}
+
+void UIDropMenu::updateMenu() {
+
+	menu->top  = height+menuOffsets[2];
+	menu->left = menuOffsets[0];
+
+	if (autoSizeMenu)
+		menu->width = width+menuOffsets[1]-menuOffsets[0];
+
+}
+
+void UIDropMenu::mouseDown (int x, int y, int button) {
+
+	if (!menu)
+		return;
+
+	if (enter) {
+
+		checked = true;
+		updateMenu();
+
+	} else {
+
+		checked = false;
+
+	}
+
+	menu->visible = checked;
+
+}

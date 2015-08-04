@@ -237,7 +237,7 @@ void UIPanel::render() {
 			case Background::Light  : color = &backgroundLight [0]; break;
 			case Background::Dark   : color = &backgroundDark  [0]; break;
 			case Background::Action : color = &backgroundAction[0]; break;
-			default					: color = &backgroundLight [0]; break;
+			default                 : color = &backgroundLight [0]; break;
 
 		}
 
@@ -537,7 +537,6 @@ void UIPanel::mouseUp (int x, int y, int button) {
 	if (splitClick) {
 
 		splitClick = false;
-		//setTimeout (0.1f, [this]() { this->resized (0, 0); }); // update scroll
 
 	}
 

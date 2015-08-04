@@ -19,3 +19,27 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+
+#include "ui/element.h"
+#include "ui/manager.h"
+
+#include "renderer/base_object.h"
+#include <string>
+
+class UILabel : public UIElement {
+public:
+	std::wstring caption;
+
+	UILabel (UIManager *manager) : UIElement(manager) {
+
+		this->manager = manager;
+		this->height  = manager->theme->fontHeight;
+
+		precompute();
+
+	}
+
+	virtual void render();
+	virtual void precompute();
+
+};

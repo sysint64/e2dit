@@ -102,14 +102,6 @@ public:
 
 	inline void setMenu (std::unique_ptr<UIListMenu> m) {
 
-		/*menu = std::move (m);
-		menu->parent = this;//manager->root.get();
-
-		menu->next   = menu.get();  menu->prev    = menu.get();
-		menu->lastEl = menu.get();  menu->firstEl = menu.get();
-
-		//menu->visible = false;
-		manager->elementsStack.push_back (menu.get());*/
 		menu = m.get();
 		menu->visible = false;
 		addElement (std::move(m));

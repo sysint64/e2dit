@@ -19,3 +19,14 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru
  */
+
+#include "ui/dropmenu.h"
+
+void UIDropMenu::precompute() {
+
+	UIButton::precompute();
+
+	precomputeElement  (12, "droplist", "mark"); // Last id at button is 11
+	precomputeIntArray ("droplist", "offsets", menuOffsets, 3);
+
+}

@@ -19,3 +19,40 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+
+#include "ui/image.h"
+
+void UIImage::loadImage (const std::string &fileName) {
+
+	texture = std::make_unique<Texture> (fileName.c_str());
+
+	width  = texture->width;
+	height = texture->height;
+
+}
+
+void UIImage::cropImage (int ox, int oy, int cw, int ch) {
+
+	float tfw = static_cast<float>(texture->width );
+	float tfh = static_cast<float>(texture->height);
+
+	offsetsX[0] = static_cast<float>(ox) / tfw;  fWidths [0] = static_cast<float>(cw) / tfw;
+	offsetsY[0] = static_cast<float>(oy) / tfh;  fHeights[0] = static_cast<float>(ch) / tfh;
+
+	width  = cw;
+	height = ch;
+
+}
+
+void UIImage::render() {
+
+	updateAbsPos();
+
+	glActiveTexture (GL_TEXTURE4);
+	glBindTexture   (GL_TEXTURE_2D, texture->handle);
+
+	glUniform1i   (manager->atlasShader->locations["Texture"], 4);
+	renderElement (0, absLeft, absTop, width, height, imageElement.get());
+	glUniform1i   (manager->atlasShader->locations["Texture"], manager->themeTexID);
+
+}

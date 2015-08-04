@@ -1,4 +1,3 @@
-
 /**
  * Default theme of E2DIT
  * Dark theme
@@ -202,6 +201,7 @@ FlatButton
 
 		textOffset				: 0, 0
 		textColor				: 0, 0, 0
+		offsets					: 0, 0, 0
 
 	&Enter
 
@@ -364,12 +364,14 @@ CheckButton
 
 DropList
 
+	mark						: 40, 59, 10, 21
+	offsets						: -3, 3, 0
+
 	&Leave
 
 		left					: 89 , 35, 5 , 21
 		center					: 102, 35, 5 , 21
 		right					: 115, 35, 5 , 21
-		mark					: 40 , 59, 10, 21
 
 		textOffset				: 0,  0
 		textColor				: 220, 220, 220

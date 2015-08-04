@@ -381,7 +381,7 @@ void UIElement::addElement (std::unique_ptr<UIElement> el) {
 
 	/* FIXME: Allow add if not parent at element */
 
-	if (!isRoot && parent == nullptr)
+	if (!isRoot && !parent)
 		Application::getInstance()->log.ewrite ("Can't add element, element don't has parent!");
 
 	el->parent = this;

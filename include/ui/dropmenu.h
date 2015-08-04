@@ -29,11 +29,19 @@
 class UIDropMenu : public UIButton {
 private:
 	UIListMenu *menu = nullptr;
+	std::unique_ptr<BaseObject> arrowElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 public:
+	bool autoSizeMenu = true;
+	bool isMenu       = false;
+	int  menuOffsets[3];
+
+	void updateMenu();
+
 	UIDropMenu (UIManager *manager, bool isMenu = false) : UIButton(manager) {
 
 		this->manager = manager;
+		this->isMenu  = isMenu;
 
 		if (isMenu) {
 
@@ -50,12 +58,22 @@ public:
 
 		}
 
-		textAlign = Align::Left;
-		showIcon  = true;
-
 		precompute();
 
 	}
+
+	inline void setMenu (std::unique_ptr<UIListMenu> m) {
+
+		menu = m.get();
+		menu->visible = false;
+		addElement (std::move(m));
+
+	}
+
+	virtual void precompute() override;
+	virtual void render()     override;
+
+	virtual void mouseDown (int x, int y, int button) override;
 
 };
 

@@ -19,3 +19,34 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+
+#include "ui/element.h"
+#include "ui/manager.h"
+
+#include "renderer/base_object.h"
+#include "renderer/texture.h"
+
+#include <string>
+
+class UIImage : public UIElement {
+private:
+	std::unique_ptr<Texture>    texture;
+	std::unique_ptr<BaseObject> imageElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+
+public:
+
+	void loadImage (const std::string &fileName);
+	void cropImage (int ox, int oy, int cw, int ch);
+
+	UIImage (UIManager *manager) : UIElement(manager) {
+
+		this->manager = manager;
+
+		offsetsX[0] = 0.f; offsetsY[0] = 0.f;
+		fWidths [0] = 1.f; fHeights[0] = 1.f;
+
+	}
+
+	virtual void render();
+
+};

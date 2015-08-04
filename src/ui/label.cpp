@@ -19,3 +19,15 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+
+#include "ui/label.h"
+
+void UILabel::render() {
+
+	updateAbsPos();
+	
+	manager->atlasShader->unbind();
+	renderText (manager->theme->font, textColors, absLeft+textOffsets[0], absTop+textOffsets[1], caption);
+	manager->atlasShader->bind();
+
+}

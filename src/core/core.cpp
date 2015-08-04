@@ -21,8 +21,12 @@
  */
 
 #include "core.h"
+
 #include "ui/checkbox.h"
 #include "ui/listmenu.h"
+#include "ui/dropmenu.h"
+#include "ui/image.h"
+#include "ui/label.h"
 
 Core::Core() {
 
@@ -235,7 +239,17 @@ Core::Core() {
 	auto _menu3 = menu3.get();
 
 	//_p3->addElement (std::move(menu2));
-	_mi5->setMenu (std::move(menu3));
+	//_mi5->setMenu (std::move(menu3));
+
+	std::unique_ptr<UIDropMenu> dm1 = std::make_unique<UIDropMenu> (uiManager.get(), true);
+
+	dm1->left = 250;
+	dm1->top  = 50;
+	dm1->width = 180;
+
+	auto _dm1 = dm1.get();
+	_p3->addElement (std::move(dm1));
+	_dm1->setMenu (std::move(menu3));
 
 	std::unique_ptr<UIMenuItem> mi7 = std::make_unique<UIMenuItem> (uiManager.get());
 	std::unique_ptr<UIMenuItem> mi8 = std::make_unique<UIMenuItem> (uiManager.get());
@@ -250,6 +264,19 @@ Core::Core() {
 	_menu3->addElement (std::move(mi7));
 	_menu3->addElement (std::move(mi8));
 	_menu3->addElement (std::move(mi9));
+
+	std::unique_ptr<UIImage> image1 = std::make_unique<UIImage> (uiManager.get());
+	image1->left = 250;
+	image1->top  = 150;
+	image1->loadImage ("../set.png");
+	image1->cropImage (16, 290, 350, 258);
+	_p3->addElement (std::move(image1));
+
+	std::unique_ptr<UILabel> label1 = std::make_unique<UILabel> (uiManager.get());
+	label1->left = 10;
+	label1->top  = 40;
+	label1->caption = L"Hello World!";
+	_p3->addElement (std::move(label1));
 
 }
 
