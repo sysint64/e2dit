@@ -125,6 +125,8 @@ public:
 	int scrollX = 0;
 	int scrollY = 0;
 
+	bool autoSize = false;
+
 	/* Icon */
 
 	int iconOffset     [2] = {-1, -1}; bool showIcon      = false;

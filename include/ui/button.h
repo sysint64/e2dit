@@ -49,7 +49,6 @@ protected:
 	std::unique_ptr<BaseObject> iconElement2  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 	int focusOffsets[3]; // Left, Top, Width
-	bool allowCheck;
 
 	/* Draw Text */
 
@@ -58,6 +57,7 @@ protected:
 
 public:
 
+	bool allowCheck;
 	std::wstring caption = L"Test Button";
 	int  icoOffset = 0;
 	bool noRenderText = false;

@@ -35,7 +35,6 @@ protected:
 public:
 
 	std::wstring caption = L"Test Checkbox";
-	bool autoSize = true;
 
 	virtual void precompute() override;
 	virtual void render()     override;
@@ -46,6 +45,7 @@ public:
 
 	UICheckbox (UIManager *manager) : UIElement (manager) {
 
+		autoSize = true;
 		this->manager = manager;
 		precompute();
 

@@ -27,6 +27,7 @@
 #include "ui/dropmenu.h"
 #include "ui/image.h"
 #include "ui/label.h"
+#include "ui/grouped.h"
 
 Core::Core() {
 
@@ -56,9 +57,17 @@ Core::Core() {
 
 	//uiManager->icons.tex = std::make_unique<Texture> ("res/ui/icons.png");
 
-	std::unique_ptr<UIButton> b1 = std::make_unique<UIButton> (uiManager.get(), true);
+	std::unique_ptr<UIButton> b1 = std::make_unique<UIButton> (uiManager.get());
 	std::unique_ptr<UIButton> b2 = std::make_unique<UIButton> (uiManager.get());
 	std::unique_ptr<UIButton> b3 = std::make_unique<UIButton> (uiManager.get());
+
+	std::unique_ptr<UIGrouped> ge1 = std::make_unique<UIGrouped> (uiManager.get());
+
+	UIGrouped * _ge1 = ge1.get();
+	ge1->width = 400;
+
+	ge1->top = 60;
+	ge1->left = 30;
 
 	b1->caption = L"Test";
 	b1->left  = 30;
@@ -71,11 +80,12 @@ Core::Core() {
 	b1->iconOffset[1] = 1;
 	b1->icon2Offset[0] = 3;
 	b1->icon2Offset[1] = 2;
+	//b1->autoSize = true;
 	//uiManager->addElement (std::move(b1));
 
 	b2->caption = L"Test";
 	b2->left  = 300;
-	b2->top   = 100;
+	b2->top   = 60;
 	b2->width = 200;
 	b2->showIcon = true;
 	b2->showIcon2 = true;
@@ -83,13 +93,14 @@ Core::Core() {
 	b2->iconOffset[1] = 1;
 	b2->icon2Offset[0] = 3;
 	b2->icon2Offset[1] = 3;
+	b2->autoSize = true;
 	//uiManager->addElement (std::move(b2));
 
 	b3->caption = L"Test";
 	b3->left = 700;
-	b3->top  = 700;
+	b3->top  = 60;
 	b3->width = 200;
-
+	b3->autoSize = true;
 	b3->showIcon = true;
 	b3->showIcon2 = true;
 	b3->iconOffset[0] = 3;
@@ -151,7 +162,12 @@ Core::Core() {
 
 	_p1->addElement (std::move(p2));
 	//uiManager->addElement (std::move(p2));
-	_p2->addElement (std::move(b1));
+	//_p2->addElement (std::move(b1));
+	_p2->addElement (std::move(ge1));
+
+	_ge1->addElement (std::move (b1));
+	_ge1->addElement (std::move (b2));
+	_ge1->addElement (std::move (b3));
 
 	std::unique_ptr<UIPanel> p3 = std::make_unique<UIPanel> (uiManager.get());
 

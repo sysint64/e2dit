@@ -161,24 +161,54 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 
 	if (!ignoreDrawAlign) {
 
-		switch (drawAlign) {
+		//switch (drawAlign) {
 
-			case Align::Left   : cw = w-iWidths[ir];
-			case Align::Right  : cw = w-iWidths[il];
-			case Align::Center : cw = w;
-			default            : cw = w-iWidths[il]-iWidths[ir];
+			//case Align::Left   : cw = w-iWidths[ir];
+			//case Align::Right  : cw = w-iWidths[il];
+			//case Align::Center : cw = w;
+			//default            : cw = w-iWidths[il]-iWidths[ir];
 
-		}
+		//}
 
 	}
 
-	if (drawAlign == Align::Left  || drawAlign == Align::All)
+	/*if (drawAlign == Align::Left  || drawAlign == Align::All)
 		renderElement (il, x, y, iWidths[il], iHeights[il], el);
 
 	if (drawAlign == Align::Right || drawAlign == Align::All)
 		renderElement (ir, x+iWidths[il]+cw, y, iWidths[ir], iHeights[ir], er);
 
-	renderElement (ic, x+iWidths[il], y, cw, iHeights[ic], ec);
+	renderElement (ic, x+iWidths[il], y, cw, iHeights[ic], ec);*/
+
+	switch (drawAlign) {
+
+		case Align::Left :
+
+			renderElement (il, x, y, iWidths[il], iHeights[il], el);
+			renderElement (ic, x+iWidths[il], y, cw+iWidths[ir], iHeights[ic], ec);
+
+			break;
+
+		case Align::Right :
+
+			renderElement (ic, x, y, cw+iWidths[il], iHeights[ic], ec);
+			renderElement (ir, x+iWidths[il]+cw, y, iWidths[ir], iHeights[ir], er);
+
+			break;
+
+		case Align::Center :
+			renderElement (ic, x, y, cw+iWidths[il]+iWidths[ir], iHeights[ic], ec);
+			break;
+
+		default:
+
+			renderElement (il, x, y, iWidths[il], iHeights[il], el);
+			renderElement (ic, x+iWidths[il], y, cw, iHeights[ic], ec);
+			renderElement (ir, x+iWidths[il]+cw, y, iWidths[ir], iHeights[ir], er);
+
+			break;
+
+	}
 
 }
 

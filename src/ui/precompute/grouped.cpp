@@ -17,39 +17,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with E2DIT-UI. If not, see <http://www.gnu.org/licenses/>.
  *
- * Author: Kabylin Andrey <andrey@kabylin.ru
+ * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef E2DIT_UI_GROUPED_H
-#define E2DIT_UI_GROUPED_H
+#include "ui/grouped.h"
 
-#include <string>
+void UIGrouped::precompute() {
 
-#include "ui/element.h"
-#include "ui/manager.h"
-#include "ui/button.h"
+	precomputeElement (0, "general", "split");
 
-#include "renderer/base_object.h"
-
-class UIGrouped : public UIElement {
-protected:
-
-	std::unique_ptr<BaseObject> splitElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-
-public:
-
-	virtual void precompute() override;
-	virtual void render()     override;
-
-	virtual void mouseDown (int x, int y, int button) override;
-
-	UIGrouped (UIManager *manager) : UIElement (manager) {
-
-		this->manager = manager;
-		precompute();
-
-	}
-
-};
-
-#endif
+}
