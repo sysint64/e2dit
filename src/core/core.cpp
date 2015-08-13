@@ -56,7 +56,7 @@ Core::Core() {
 
 	//uiManager->icons.tex = std::make_unique<Texture> ("res/ui/icons.png");
 
-	std::unique_ptr<UIButton> b1 = std::make_unique<UIButton> (uiManager.get());
+	std::unique_ptr<UIButton> b1 = std::make_unique<UIButton> (uiManager.get(), true);
 	std::unique_ptr<UIButton> b2 = std::make_unique<UIButton> (uiManager.get());
 	std::unique_ptr<UIButton> b3 = std::make_unique<UIButton> (uiManager.get());
 
@@ -151,7 +151,7 @@ Core::Core() {
 
 	_p1->addElement (std::move(p2));
 	//uiManager->addElement (std::move(p2));
-	//_p2->addElement (std::move(b3));
+	_p2->addElement (std::move(b1));
 
 	std::unique_ptr<UIPanel> p3 = std::make_unique<UIPanel> (uiManager.get());
 

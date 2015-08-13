@@ -49,6 +49,7 @@ protected:
 	std::unique_ptr<BaseObject> iconElement2  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 	int focusOffsets[3]; // Left, Top, Width
+	bool allowCheck;
 
 	/* Draw Text */
 
@@ -60,16 +61,28 @@ public:
 	std::wstring caption = L"Test Button";
 	int  icoOffset = 0;
 	bool noRenderText = false;
-	bool allowCheck   = false;
 	Align textAlign = Align::Center;
 
 	virtual void precompute() override;
 	virtual void render()     override;
 
-	//using UIElement::UIElement;
-	UIButton (UIManager *manager) : UIElement (manager) {
+	virtual void mouseDown (int x, int y, int button) override;
 
-		this->manager = manager;
+	//using UIElement::UIElement;
+	UIButton (UIManager *manager, bool allowCheck = false) : UIElement (manager) {
+
+		this->manager    = manager;
+		this->allowCheck = allowCheck;
+
+		if (allowCheck) {
+
+			leaveElement = "checkbuttonleave";
+			enterElement = "checkbuttonenter";
+			clickElement = "checkbuttonclick";
+			focusElement = "checkbuttonfocus";
+
+		}
+
 		precompute();
 
 	}

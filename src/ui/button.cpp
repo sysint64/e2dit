@@ -238,3 +238,12 @@ void UIButton::renderText (const Align align, const std::string &text, const int
 	manager->atlasShader->bind();
 
 }
+
+void UIButton::mouseDown (int x, int y, int button) {
+
+	UIElement::mouseDown (x, y, button);
+
+	if (!allowCheck) return;
+	if (enter) checked = !checked;
+	
+}
