@@ -35,13 +35,15 @@ class UIGrouped : public UIElement {
 protected:
 
 	std::unique_ptr<BaseObject> splitElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	UIElement *lastSelected = nullptr;
 
 public:
 
+	friend UIButton;
+	bool multiSelect = true;
+
 	virtual void precompute() override;
 	virtual void render()     override;
-
-	virtual void mouseDown (int x, int y, int button) override;
 
 	UIGrouped (UIManager *manager) : UIElement (manager) {
 

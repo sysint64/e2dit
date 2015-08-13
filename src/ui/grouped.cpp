@@ -80,7 +80,3 @@ void UIGrouped::render() {
 	}
 
 }
-
-void UIGrouped::mouseDown (int x, int y, int button) {
-
-}

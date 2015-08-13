@@ -57,9 +57,9 @@ Core::Core() {
 
 	//uiManager->icons.tex = std::make_unique<Texture> ("res/ui/icons.png");
 
-	std::unique_ptr<UIButton> b1 = std::make_unique<UIButton> (uiManager.get());
-	std::unique_ptr<UIButton> b2 = std::make_unique<UIButton> (uiManager.get());
-	std::unique_ptr<UIButton> b3 = std::make_unique<UIButton> (uiManager.get());
+	std::unique_ptr<UIButton> b1 = std::make_unique<UIButton> (uiManager.get(), true);
+	std::unique_ptr<UIButton> b2 = std::make_unique<UIButton> (uiManager.get(), true);
+	std::unique_ptr<UIButton> b3 = std::make_unique<UIButton> (uiManager.get(), true);
 
 	std::unique_ptr<UIGrouped> ge1 = std::make_unique<UIGrouped> (uiManager.get());
 

@@ -364,9 +364,9 @@ CheckButton
 
 	&Focus
 
-		left					: 55, 107, 5, 21
-		center					: 68, 107, 5, 21
-		right					: 81, 107, 5, 21
+		left					: 0, 0, 0, 0
+		center					: 0, 0, 0, 0
+		right					: 0, 0, 0, 0
 		offsets					: 0, 0, 0
 
 

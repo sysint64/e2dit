@@ -21,6 +21,7 @@
  */
 
 #include "ui/button.h"
+#include "ui/grouped.h"
 
 #include "utility/config.h"
 #include "utility/renderer.h"
@@ -244,6 +245,20 @@ void UIButton::mouseDown (int x, int y, int button) {
 	UIElement::mouseDown (x, y, button);
 
 	if (!allowCheck) return;
-	if (enter) checked = !checked;
-	
+
+	UIGrouped *grouped = dynamic_cast<UIGrouped*>(parent);
+
+	if (grouped && !grouped->multiSelect) {
+
+		if (!enter)
+			return;
+
+		if (grouped->lastSelected != nullptr)
+			grouped->lastSelected->checked = false;
+
+		checked = true;
+		grouped->lastSelected = this;
+
+	} else if (enter) checked = !checked;
+
 }
