@@ -91,46 +91,4 @@ public:
 
 };
 
-/* Menu Item */
-
-class UIMenuItem : public UIButton {
-public:
-	UIListMenu *menu = nullptr;
-	std::wstring shortKey;
-
-	virtual void render() override;
-
-	inline void setMenu (std::unique_ptr<UIListMenu> m) {
-
-		menu = m.get();
-		menu->visible = false;
-		addElement (std::move(m));
-
-	}
-
-	UIMenuItem (UIManager *manager) : UIButton (manager) {
-
-		this->manager = manager;
-
-		leaveElement = "listitemleave";
-		enterElement = "listitementer";
-		clickElement = "listitementer";
-		focusElement = "listitemfocus";
-
-		textAlign = Align::Left;
-		showIcon  = true;
-
-		precompute();
-
-	}
-
-};
-
-class UIMenuHr : public UIElement {
-public:
-	UIMenuHr (UIManager *manager) : UIElement (manager) {
-		this->manager = manager;
-	}
-};
-
 #endif

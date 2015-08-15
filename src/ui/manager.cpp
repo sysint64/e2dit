@@ -84,8 +84,8 @@ template class UIIcons<ICONS_COUNT>;
  * Constructor, Create Root Element and
  */
 
-UIManager::UIManager (Shader *atlasShader, Shader *colorShader, UITheme *theme) :
-	atlasShader (atlasShader), colorShader (colorShader), theme (theme)
+UIManager::UIManager (Shader *atlasMaskShader, Shader *atlasShader, Shader *colorShader, UITheme *theme) :
+	atlasMaskShader (atlasMaskShader), atlasShader (atlasShader), colorShader (colorShader), theme (theme)
 
 {
 
@@ -239,6 +239,11 @@ void UIManager::poll() {
 void UIManager::render() {
 
 	/* Bind Theme Skin */
+
+	atlasMaskShader->bind();
+
+	glUniform1i (atlasMaskShader->locations["Mask" ], themeTexID);
+	glUniform1f (atlasMaskShader->locations["Alpha"], 1.0f);
 
 	atlasShader->bind();
 

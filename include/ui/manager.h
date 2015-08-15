@@ -114,11 +114,12 @@ public:
 	UIElement *focusedElement = nullptr;
 	UIElement *underMouse     = nullptr;
 	Shader    *atlasShader;
+	Shader    *atlasMaskShader;
 	Shader    *colorShader;
 	UITheme   *theme;
 
 	CursorIco cursor = CursorIco::Normal;
-	UIManager (Shader *atlasShader, Shader *colorShader, UITheme *theme);
+	UIManager (Shader *atlasMaskShader, Shader *atlasShader, Shader *colorShader, UITheme *theme);
 
 	void render();
 

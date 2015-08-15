@@ -152,7 +152,7 @@ public:
 
 	UIPanel (UIManager *manager) : UIElement (manager) {
 
-		canScroll = true;
+		allowScroll = true;
 
 		for (int i = 0; i < 6; ++i) {
 

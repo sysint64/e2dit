@@ -52,6 +52,7 @@ public:
 
 	std::unique_ptr<Shader>    atlasShader;
 	std::unique_ptr<Shader>    colorShader;
+	std::unique_ptr<Shader>    atlasMaskShader;
 
 	std::unique_ptr<UIButton>  button;
 	std::unique_ptr<UIPanel>  panel;

@@ -28,6 +28,7 @@ void UIGrouped::render() {
 	updateAbsPos();
 
 	int wh = 0;
+	int countFixSize = 0;
 
 	/* Calculate sizes */
 
@@ -35,12 +36,16 @@ void UIGrouped::render() {
 
 		UIElement *el = kvp.second.get();
 
-		if (!el->autoSize)
+		if (!el->autoSize) {
+
 			wh += el->width;
+			++countFixSize;
+
+		}
 
 	}
 
-	int partWidth = round (static_cast<float>(width-wh)/static_cast<float>(elements.size()));
+	int partWidth = round (static_cast<float>(width-wh)/static_cast<float>(elements.size()-countFixSize));
 	int offset = 0;
 
 	UIElement *firstElement = elements. begin()->second.get();

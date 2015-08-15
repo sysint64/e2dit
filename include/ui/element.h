@@ -68,6 +68,7 @@ protected:
 	/* Render */
 
 	void renderElement         (int idx, int x, int y, int w, int h, BaseObject *el) const;
+	void renderMaskElement     (int maskidx, int idx, int x, int y, int w, int h, BaseObject *el) const;
 	void renderColorElement    (int x, int y, int w, int h, BaseObject *el, float *color) const;
 
 	void renderPartsElementH   (int il, int ic, int ir,
@@ -117,6 +118,8 @@ protected:
 
 public:
 
+	std::vector<void*> metaData;
+
 	/* Scroll */
 
 	int scrollElementWidth  = 0;
@@ -148,9 +151,15 @@ public:
 	int id;
 	int tmp = 0;
 
-	int width  , height;
-	int absLeft, absTop;
-	int left   , top;
+	int width  = 0;
+	int height = 0;
+
+	int absLeft = 0;
+	int absTop  = 0;
+
+	int left = 0;
+	int top  = 0;
+
 	int wrapperWidth, wrapperHeight;
 	int wrapperWidthClamped, wrapperHeightClamped;
 
@@ -162,8 +171,8 @@ public:
 	bool withoutSkin = false;
 	bool wasClick    = false;
 
-	bool keyClick  = false;
-	bool canScroll = false;
+	bool keyClick    = false;
+	bool allowScroll = false;
 
 	/* Mouse State */
 
@@ -201,6 +210,17 @@ public:
 		this->manager = manager;
 		precompute();
 
+	}
+
+	inline int maxScrollX() { return wrapperWidthClamped-width+scrollElementWidth;    }
+	inline int maxScrollY() { return wrapperHeightClamped-height+scrollElementHeight; }
+
+	inline bool canScrollX() {
+		return allowScroll && scrollElementWidth  != 0 && scrollX > 0 && scrollX < maxScrollX();
+	}
+
+	inline bool canScrollY() {
+		return allowScroll && scrollElementHeight != 0 && scrollY > 0 && scrollY < maxScrollY();
 	}
 
 	virtual ~UIElement() {}

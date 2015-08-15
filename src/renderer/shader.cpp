@@ -42,7 +42,7 @@ GLint Shader::shaderStatus (GLuint &shader, GLenum param) const {
 		/* If fail, then write error to log */
 
 		glGetShaderInfoLog (shader, 1024, &length, buffer);
-		app->log.write ("Shader error: %s\n", (const char*) buffer);
+		app->log.write (("Shader error ("+fileName+"): %s\n").c_str(), (const char*) buffer);
 
 	}
 
@@ -74,7 +74,7 @@ GLint Shader::programStatus (GLuint &program, GLenum param) const {
 		/* If fail, then write error to log */
 
 		glGetProgramInfoLog (program, 1024, &length, buffer);
-		app->log.write ("Shader program error: %s\n", (const char*) buffer);
+		app->log.write (("Shader program error ("+fileName+"): %s\n").c_str(), (const char*) buffer);
 
 	}
 

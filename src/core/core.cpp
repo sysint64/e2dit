@@ -28,6 +28,7 @@
 #include "ui/image.h"
 #include "ui/label.h"
 #include "ui/grouped.h"
+#include "ui/menuitems.h"
 
 Core::Core() {
 
@@ -43,13 +44,15 @@ Core::Core() {
 	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/dark/controls.e2t", ReadType::Text, skin.get(), font);
 	uiTheme->fontHeight = 12;
 
-	std::vector<std::string> atlasLocations {"MVP", "Size", "Offset", "Texture", "Alpha"};
-	std::vector<std::string> colorLocations {"MVP", "Color"};
+	std::vector<std::string> atlasMaskLocations {"MVP", "Size", "Offset", "Texture", "Alpha", "Mask", "MaskOffset", "MaskSize"};
+	std::vector<std::string> atlasLocations     {"MVP", "Size", "Offset", "Texture", "Alpha"};
+	std::vector<std::string> colorLocations     {"MVP", "Color"};
 
-	atlasShader = std::make_unique<Shader> ("../res/glsl/GL2/tex_atlas.glsl", atlasLocations);
-	colorShader = std::make_unique<Shader> ("../res/glsl/GL2/colorize.glsl" , colorLocations);
+	atlasMaskShader = std::make_unique<Shader> ("../res/glsl/GL2/tex_atlas_mask.glsl", atlasMaskLocations);
+	atlasShader     = std::make_unique<Shader> ("../res/glsl/GL2/tex_atlas.glsl"     , atlasLocations);
+	colorShader     = std::make_unique<Shader> ("../res/glsl/GL2/colorize.glsl"      , colorLocations);
 
-	uiManager   = std::make_unique<UIManager> (atlasShader.get(), colorShader.get(), uiTheme.get());
+	uiManager   = std::make_unique<UIManager> (atlasMaskShader.get(), atlasShader.get(), colorShader.get(), uiTheme.get());
 	uiManager->uiDataRender = new SpriteData (false, false, true);
 
 	std::unique_ptr<Texture> iconsTex = std::make_unique<Texture> ("../res/ui/icons/icons.png");
@@ -62,6 +65,17 @@ Core::Core() {
 	std::unique_ptr<UIButton> b3 = std::make_unique<UIButton> (uiManager.get(), true);
 
 	std::unique_ptr<UIGrouped> ge1 = std::make_unique<UIGrouped> (uiManager.get());
+
+	std::unique_ptr<UITallMenuItem> tmi1 = std::make_unique<UITallMenuItem> (uiManager.get());
+
+	tmi1->width = 200;
+	tmi1->top = 100;
+	tmi1->left = 30;
+
+	tmi1->caption = L"Test";
+	tmi1->desc    = L"./xx.jpg";
+
+	tmi1->loadImage ("../res/p2.jpg");
 
 	UIGrouped * _ge1 = ge1.get();
 	ge1->width = 400;
@@ -164,10 +178,18 @@ Core::Core() {
 	//uiManager->addElement (std::move(p2));
 	//_p2->addElement (std::move(b1));
 	_p2->addElement (std::move(ge1));
+	_p2->addElement (std::move(tmi1));
+	_p2->addElement (std::move(e1));
+
+	auto _b1 = b1.get();
+	auto _b3 = b3.get();
 
 	_ge1->addElement (std::move (b1));
 	_ge1->addElement (std::move (b2));
 	_ge1->addElement (std::move (b3));
+
+	_ge1->checkElement (_b3);
+	_ge1->checkElement (_b1);
 
 	std::unique_ptr<UIPanel> p3 = std::make_unique<UIPanel> (uiManager.get());
 
@@ -257,7 +279,7 @@ Core::Core() {
 	//_p3->addElement (std::move(menu2));
 	//_mi5->setMenu (std::move(menu3));
 
-	std::unique_ptr<UIDropMenu> dm1 = std::make_unique<UIDropMenu> (uiManager.get(), true);
+	std::unique_ptr<UIDropMenu> dm1 = std::make_unique<UIDropMenu> (uiManager.get());
 
 	dm1->left = 250;
 	dm1->top  = 50;

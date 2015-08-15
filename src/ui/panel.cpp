@@ -26,10 +26,10 @@
 /* Scroll */
 /* By Pixel */
 
-void UIPanel::addScrollXByPx (int pxVal) { scrollX += pxVal; resized (0, 0); }
-void UIPanel::addScrollYByPx (int pxVal) { scrollY += pxVal; resized (0, 0); }
-void UIPanel::setScrollXByPx (int pxVal) { scrollX  = pxVal; resized (0, 0); }
-void UIPanel::setScrollYByPx (int pxVal) { scrollY  = pxVal; resized (0, 0); }
+void UIPanel::addScrollXByPx (int pxVal) { scrollX += pxVal; }
+void UIPanel::addScrollYByPx (int pxVal) { scrollY += pxVal; }
+void UIPanel::setScrollXByPx (int pxVal) { scrollX  = pxVal; }
+void UIPanel::setScrollYByPx (int pxVal) { scrollY  = pxVal; }
 
 /* By Percent */
 
@@ -547,18 +547,33 @@ void UIPanel::mouseWheel (int dx, int dy) {
 	UIElement::mouseWheel (dx, dy);
 	UIElement *el = manager->underMouse;
 
-	if (!over || ((el->canScroll && el->scrollElementWidth != 0) && el != this))
-		return;
+	//bool underCanScroll = el->canScroll();
+	bool underCanScrollX;// = el->canScrollX();
+	bool underCanScrollY;// = el->canScrollY();
+	auto lastParent = el;
+
+	if (!over) return;
+	while (true) {
+
+		if (lastParent->isRoot) break;
+		if (lastParent == this) break;
+		//if (lastParent->canScroll()) return;
+		underCanScrollX = lastParent->canScrollX();
+		underCanScrollY = lastParent->canScrollY();
+
+		lastParent = lastParent->parent;
+
+	}
 
 	if (pressed(keyShift)) { // Inverse
 
-		if (wrapperHeight > height && showScrollY) addScrollYByPx (-dx*scrollDelta);
-		if (wrapperWidth  > width  && showScrollX) addScrollXByPx (-dy*scrollDelta);
+		if (wrapperHeight > height && showScrollY && !underCanScrollY) addScrollYByPx (-dx*scrollDelta);
+		if (wrapperWidth  > width  && showScrollX && !underCanScrollX) addScrollXByPx (-dy*scrollDelta);
 
 	} else {
 
-		if (wrapperHeight > height && showScrollY) addScrollYByPx (-dy*scrollDelta);
-		if (wrapperWidth  > width  && showScrollX) addScrollXByPx (-dx*scrollDelta);
+		if (wrapperHeight > height && showScrollY && !underCanScrollY) addScrollYByPx (-dy*scrollDelta);
+		if (wrapperWidth  > width  && showScrollX && !underCanScrollX) addScrollXByPx (-dx*scrollDelta);
 
 	}
 
@@ -570,7 +585,7 @@ void UIPanel::updateScroll() {
 
 	/* Update Scroll Sizes */
 
-	if (wrapperWidth == 0 || wrapperHeight == 0)
+	if (wrapperWidth == 0 && wrapperHeight == 0)
 		return;
 
 	int swv = iHeights[4]-scrollElementHeight;
@@ -587,7 +602,7 @@ void UIPanel::updateScroll() {
 		hbOffset = ceil((px*hbMax)/100.f);
 
 		math::clamp (&hbOffset, 0, hbMax-hbSize);
-		math::clamp (&scrollX , 0, wrapperWidthClamped-width+scrollElementWidth);
+		math::clamp (&scrollX , 0, maxScrollX());
 
 	} else {
 
@@ -606,7 +621,7 @@ void UIPanel::updateScroll() {
 		vbOffset = round((py*static_cast<float>(vbMax))/100.f);
 
 		math::clamp (&vbOffset, 0, vbMax-vbSize);
-		math::clamp (&scrollY , 0, wrapperHeightClamped-height+scrollElementHeight);
+		math::clamp (&scrollY , 0, maxScrollY());
 
 	} else {
 

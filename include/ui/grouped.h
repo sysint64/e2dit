@@ -40,10 +40,23 @@ protected:
 public:
 
 	friend UIButton;
-	bool multiSelect = true;
+	bool   multiSelect = false;
 
 	virtual void precompute() override;
 	virtual void render()     override;
+
+	inline void checkElement (UIElement* el) {
+
+		if (el->parent != this)
+			return;
+
+		if (!multiSelect && lastSelected != nullptr)
+			lastSelected->checked = false;
+
+		el->checked  = true;
+		lastSelected = el;
+
+	}
 
 	UIGrouped (UIManager *manager) : UIElement (manager) {
 

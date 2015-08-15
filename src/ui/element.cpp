@@ -139,6 +139,28 @@ void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *
 
 }
 
+void UIElement::renderMaskElement (int maskidx, int idx, int x, int y, int w, int h, BaseObject *el) const {
+
+	el->setPosition (glm::vec2(x, app->windowHeight-h-y));
+	el->setScale    (glm::vec2(w, h));
+	el->updateModelMatrix();
+
+	glUniformMatrix4fv (manager->atlasMaskShader->locations["MVP"], 1, GL_FALSE, &(el->MVPMatrix[0][0]));
+
+	/* Image */
+
+	glUniform2f (manager->atlasMaskShader->locations["Size"]  , fWidths [idx], fHeights[idx]);
+	glUniform2f (manager->atlasMaskShader->locations["Offset"], offsetsX[idx], offsetsY[idx]);
+
+	/* Mask */
+
+	glUniform2f (manager->atlasMaskShader->locations["MaskSize"]  , fWidths [maskidx], fHeights[maskidx]);
+	glUniform2f (manager->atlasMaskShader->locations["MaskOffset"], offsetsX[maskidx], offsetsY[maskidx]);
+
+	el->render();
+
+}
+
 void UIElement::renderColorElement (int x, int y, int w, int h, BaseObject *el, float *color) const {
 
 	el->setPosition (glm::vec2(x, app->windowHeight-y-h));
@@ -158,27 +180,6 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 {
 
 	int cw = w-iWidths[il]-iWidths[ir];
-
-	if (!ignoreDrawAlign) {
-
-		//switch (drawAlign) {
-
-			//case Align::Left   : cw = w-iWidths[ir];
-			//case Align::Right  : cw = w-iWidths[il];
-			//case Align::Center : cw = w;
-			//default            : cw = w-iWidths[il]-iWidths[ir];
-
-		//}
-
-	}
-
-	/*if (drawAlign == Align::Left  || drawAlign == Align::All)
-		renderElement (il, x, y, iWidths[il], iHeights[il], el);
-
-	if (drawAlign == Align::Right || drawAlign == Align::All)
-		renderElement (ir, x+iWidths[il]+cw, y, iWidths[ir], iHeights[ir], er);
-
-	renderElement (ic, x+iWidths[il], y, cw, iHeights[ic], ec);*/
 
 	switch (drawAlign) {
 
@@ -200,13 +201,13 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 			renderElement (ic, x, y, cw+iWidths[il]+iWidths[ir], iHeights[ic], ec);
 			break;
 
-		default:
+	}
 
-			renderElement (il, x, y, iWidths[il], iHeights[il], el);
-			renderElement (ic, x+iWidths[il], y, cw, iHeights[ic], ec);
-			renderElement (ir, x+iWidths[il]+cw, y, iWidths[ir], iHeights[ir], er);
+	if (ignoreDrawAlign || drawAlign == Align::All) {
 
-			break;
+		renderElement (il, x, y, iWidths[il], iHeights[il], el);
+		renderElement (ic, x+iWidths[il], y, cw, iHeights[ic], ec);
+		renderElement (ir, x+iWidths[il]+cw, y, iWidths[ir], iHeights[ir], er);
 
 	}
 
