@@ -75,12 +75,12 @@ Core::Core() {
 	tmi1->caption = L"Test";
 	tmi1->desc    = L"./xx.jpg";
 
-	tmi1->loadImage ("../res/p2.jpg");
+	//tmi1->loadImage ("../res/p2.jpg");
 
 	UIGrouped * _ge1 = ge1.get();
 	ge1->width = 400;
 
-	ge1->top = 60;
+	ge1->top = 0;
 	ge1->left = 30;
 
 	b1->caption = L"Test";
@@ -178,7 +178,7 @@ Core::Core() {
 	//uiManager->addElement (std::move(p2));
 	//_p2->addElement (std::move(b1));
 	_p2->addElement (std::move(ge1));
-	_p2->addElement (std::move(tmi1));
+	//_p2->addElement (std::move(tmi1));
 	_p2->addElement (std::move(e1));
 
 	auto _b1 = b1.get();

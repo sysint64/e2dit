@@ -339,8 +339,8 @@ void UIElement::updateAbsPos() {
 
 	while (lastParent != nullptr) {
 
-		res.x += lastParent->left-lastParent->scrollX;
-		res.y += lastParent->top -lastParent->scrollY;
+		res.x += lastParent->left-lastParent->scrollX+lastParent->paddingLeft;
+		res.y += lastParent->top -lastParent->scrollY+lastParent->paddingTop;
 
 		lastParent = lastParent->parent;
 
@@ -384,20 +384,17 @@ void UIElement::render() {
 		// TODO: Move to UIPanel
 
 		if (el->align != Align::Top && el->align != Align::Bottom)
-			wrapperWidth  = math::max (wrapperWidth , el->left+el->width);
+			wrapperWidth  = math::max (wrapperWidth , el->left+el->width+paddingLeft);
 
 		if (el->align != Align::Left && el->align != Align::Right)
-			wrapperHeight = math::max (wrapperHeight, el->top +el->height);
-
-		if (el->align != Align::Top && el->align != Align::Bottom)
-			wrapperWidthClamped  = math::max (wrapperWidthClamped , el->left+el->width);
-
-		if (el->align != Align::Left && el->align != Align::Right)
-			wrapperHeightClamped = math::max (wrapperHeightClamped, el->top +el->height);
+			wrapperHeight = math::max (wrapperHeight, el->top +el->height+paddingTop);
 
 		el->render();
 
 	}
+
+	wrapperWidthClamped  = math::max (wrapperWidthClamped , wrapperWidth);
+	wrapperHeightClamped = math::max (wrapperHeightClamped, wrapperHeight);
 
 }
 

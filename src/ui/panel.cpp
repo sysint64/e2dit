@@ -256,6 +256,7 @@ void UIPanel::render() {
 	if (allowHide) {
 
 		int n = headerEnter ? 17 : 16;
+		paddingTop = headerHeight;
 
 		headerEnter = pointInRect (app->mouseX, app->mouseY, absLeft, absTop, width, iHeights[n]);
 		renderElement (n, absLeft, absTop, width, iHeights[n], header.get());
@@ -303,16 +304,15 @@ void UIPanel::render() {
 	if (wrapperHeight > height && showScrollY) {
 
 		int n = scrollVEnter || scrollVClick ? 9 : 6;
-		int offset = allowHide ? 0 : 0;
 
-		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width-scrollElementWidth, absTop+offset, scrollHeight, true);
-		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width-scrollElementWidth, absTop+offset+vbOffset, vbSize, true);
+		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width-scrollElementWidth, absTop+paddingTop, scrollHeight-paddingTop, true);
+		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width-scrollElementWidth, absTop+vbOffset+paddingTop, vbSize-paddingTop, true);
 
 	}
 
 	/* */
 
-	manager->pushScissor (absLeft, absTop, width-scrollElementWidth, height-scrollElementHeight);
+	manager->pushScissor (absLeft, absTop+paddingTop, width-scrollElementWidth, height-scrollElementHeight-paddingTop);
 
 	if (splitClick) {
 
@@ -400,6 +400,8 @@ void UIPanel::calculateSplit() {
 }
 
 void UIPanel::pollScroll() {
+
+	if (!open) return;
 
 	int swv = iHeights[4];
 	int swh = iHeights[4];
@@ -494,7 +496,7 @@ void UIPanel::mouseDown (int x, int y, int button) {
 
 	}
 
-	/*for (const auto &kvp : parent->elements) {
+	for (const auto &kvp : parent->elements) {
 
 		UIElement *el = kvp.second.get();
 		UIPanel *panel = dynamic_cast<UIPanel*>(el);
@@ -512,7 +514,7 @@ void UIPanel::mouseDown (int x, int y, int button) {
 
 	/* Open/Close Panel */
 
-	/*open = !open;
+	open = !open;
 
 	if (!open) {
 
@@ -523,7 +525,7 @@ void UIPanel::mouseDown (int x, int y, int button) {
 
 		height = lastHeight;
 
-	}*/
+	}
 
 }
 
@@ -544,12 +546,13 @@ void UIPanel::mouseUp (int x, int y, int button) {
 
 void UIPanel::mouseWheel (int dx, int dy) {
 
+	if (!open) return;
+
 	UIElement::mouseWheel (dx, dy);
 	UIElement *el = manager->underMouse;
 
-	//bool underCanScroll = el->canScroll();
-	bool underCanScrollX;// = el->canScrollX();
-	bool underCanScrollY;// = el->canScrollY();
+	bool underCanScrollX;
+	bool underCanScrollY;
 	auto lastParent = el;
 
 	if (!over) return;
@@ -557,7 +560,7 @@ void UIPanel::mouseWheel (int dx, int dy) {
 
 		if (lastParent->isRoot) break;
 		if (lastParent == this) break;
-		//if (lastParent->canScroll()) return;
+
 		underCanScrollX = lastParent->canScrollX();
 		underCanScrollY = lastParent->canScrollY();
 

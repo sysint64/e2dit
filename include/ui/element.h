@@ -54,6 +54,9 @@ protected:
 	float textColors [32];
 	float textOffsets[32];
 
+	int paddingTop  = 0;
+	int paddingLeft = 0;
+
 	/* Precompute */
 
 	void precomputeElement     (const int n, const std::string &element, const std::string &params);

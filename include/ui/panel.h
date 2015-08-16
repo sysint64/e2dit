@@ -78,7 +78,6 @@ protected:
 	bool splitEnter   = false;
 	bool headerEnter  = false;
 	bool drag         = false;
-	int  paddingTop   = 0;
 	int  headerHeight = 0;
 
 	/* */
