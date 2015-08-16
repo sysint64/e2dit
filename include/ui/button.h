@@ -57,6 +57,14 @@ protected:
 
 public:
 
+	/* Icon */
+
+	int iconOffset     [2] = {-1, -1}; bool showIcon      = false;
+	int icon2Offset    [2] = {-1, -1}; bool showIcon2     = false;
+	int clickIconOffset[2] = {-1, -1}; bool showClickIcon = false;
+
+	//
+
 	bool allowCheck;
 	std::wstring caption = L"Test Button";
 	int  icoOffset = 0;

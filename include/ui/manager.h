@@ -73,21 +73,22 @@ typedef UIIcons<ICONS_COUNT> UIMainIcons;
  * Manager of UI Elements
  */
 
+class UIPanel;
+class UIDialog;
 class UIManager {
 private:
 	Application *app = Application::getInstance();
 	std::vector<std::string> debugStrings;
+	int lastId = 0;
 
 public:
 
-	int lastId = 0;
+	friend UIElement;
 
 	/* UI State */
 
 	bool dialogOpened = false;
 	bool freezUI      = false;
-	bool focused      = false;
-	bool lockCursor   = false;
 
 	/* Icons */
 

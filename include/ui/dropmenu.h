@@ -29,13 +29,13 @@
 class UIDropMenu : public UIButton {
 private:
 	UIListMenu *menu = nullptr;
+	bool isMenu      = false;
+	int  menuOffsets[3];
+
 	std::unique_ptr<BaseObject> arrowElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 public:
 	bool autoSizeMenu = true;
-	bool isMenu       = false;
-	int  menuOffsets[3];
-
 	void updateMenu();
 
 	UIDropMenu (UIManager *manager, bool isMenu = false) : UIButton(manager) {

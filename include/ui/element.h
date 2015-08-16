@@ -43,6 +43,8 @@ using namespace boost::assign;
 enum class Align {None, Left, Center, Right, Client, Bottom, Top, All};
 
 class UIManager;
+class UIPanel;
+
 class UIElement {
 protected:
 	Application *app = Application::getInstance();
@@ -56,6 +58,33 @@ protected:
 
 	int paddingTop  = 0;
 	int paddingLeft = 0;
+
+	int scrollElementWidth  = 0;
+	int scrollElementHeight = 0;
+
+	/* Navigation (for focus) */
+
+	UIElement *next = nullptr;
+	UIElement *prev = nullptr;
+
+	UIElement *lastEl  = nullptr;
+	UIElement *firstEl = nullptr;
+
+	int wrapperWidth, wrapperHeight;
+	int wrapperWidthClamped, wrapperHeightClamped;
+
+	bool wasClick = false; // ???
+	bool keyClick = false; // ???
+
+	/* Mouse State */
+
+	bool enter  = false;
+	bool leave  = true;
+	bool click  = false;
+	bool over   = false; // true if mouse over element even if another element overlaps it
+	
+	bool focused  = false;
+	bool inDialog = false;
 
 	/* Precompute */
 
@@ -121,70 +150,34 @@ protected:
 
 public:
 
+	friend UIManager;
+	friend UIPanel;
+
 	std::vector<void*> metaData;
 
 	/* Scroll */
-
-	int scrollElementWidth  = 0;
-	int scrollElementHeight = 0;
 
 	int scrollX = 0;
 	int scrollY = 0;
 
 	bool autoSize = false;
 
-	/* Icon */
-
-	int iconOffset     [2] = {-1, -1}; bool showIcon      = false;
-	int icon2Offset    [2] = {-1, -1}; bool showIcon2     = false;
-	int clickIconOffset[2] = {-1, -1}; bool showClickIcon = false;
-
-	/* Navigation (for focus) */
-
-	UIElement *next = nullptr;
-	UIElement *prev = nullptr;
-
-	UIElement *lastEl  = nullptr;
-	UIElement *firstEl = nullptr;
-
 	/* */
 
 	bool isRoot = false;
 
 	int id;
-	int tmp = 0;
 
-	int width  = 0;
-	int height = 0;
-
-	int absLeft = 0;
-	int absTop  = 0;
-
-	int left = 0;
-	int top  = 0;
-
-	int wrapperWidth, wrapperHeight;
-	int wrapperWidthClamped, wrapperHeightClamped;
+	int width   = 0; int height = 0;
+	int absLeft = 0; int absTop = 0;
+	int left    = 0; int top    = 0;
 
 	bool visible = true;
 	bool enabled = true;
-	bool focused = false;
 	bool checked = false;
 
 	bool withoutSkin = false;
-	bool wasClick    = false;
-
-	bool keyClick    = false;
 	bool allowScroll = false;
-
-	/* Mouse State */
-
-	bool enter  = false;
-	bool leave  = true;
-	bool click  = false;
-	bool over   = false; // true if mouse over element even if another element overlaps it
-
-	bool inDialog = false;
 
 	UIElement *parent  = nullptr;
 	UIManager *manager = nullptr;
@@ -205,6 +198,12 @@ public:
 	/* Childrens */
 
 	std::map<int, std::unique_ptr<UIElement>> elements;
+
+	inline bool isEnter()   { return enter;   }
+	inline bool isLeave()   { return leave;   }
+	inline bool isClick()   { return click;   }
+	inline bool isOver ()   { return over;    }
+	inline bool isFocused() { return focused; }
 
 	/* Methods */
 

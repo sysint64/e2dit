@@ -85,18 +85,20 @@ protected:
 	bool scrollHClick = false;
 	bool scrollVClick = false;
 
-	void updateAlign();
-	void updateScroll();
-	void pollScroll();
-	void calculateSplit();
-
-public:
+	/* */
 
 	int hbSize = 0; // Horizontal button size
 	int vbSize = 0; // Vertical button size
 
 	int hbMin = 0; int hbMax = 0;
 	int vbMin = 0; int vbMax = 0;
+
+	void updateAlign();
+	void updateScroll();
+	void pollScroll();
+	void calculateSplit();
+
+public:
 
 	int minSize = 40;
 	int maxSize = 999;

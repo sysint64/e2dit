@@ -268,7 +268,6 @@ void UIManager::render() {
 	poll();
 	root->progress();
 
-	focused = false;
 	atlasShader->unbind();
 	app->cursor->set (cursor);
 

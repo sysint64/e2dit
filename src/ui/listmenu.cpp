@@ -69,7 +69,7 @@ void UIListMenu::render() {
 		if (!item)
 			continue;
 
-		if (openedMenu && item->enter && openedMenu != item->menu) {
+		if (openedMenu && item->isEnter() && openedMenu != item->menu) {
 
 			openedMenu->visible = false;
 			openedMenu->closeSubMenus();
@@ -81,7 +81,7 @@ void UIListMenu::render() {
 			continue;
 
 		int n = 9;
-		if (item->enter) n = 10;
+		if (item->isEnter()) n = 10;
 
 		int x = absLeft+width-iWidths[5]-iWidths[3]-4;
 		int y = absTop+ey-item->height-1;
@@ -90,14 +90,14 @@ void UIListMenu::render() {
 
 		/* Open menu if enter */
 
-		if (setedTime || !item->enter || item->menu->visible)
+		if (setedTime || !item->isEnter() || item->menu->visible)
 			continue;
 
 		setedTime = true;
 		setTimeout (0.25f, [item, this]() {
 
 			setedTime = false;
-			if (!item->enter)
+			if (!item->isEnter())
 				return;
 
 			item->menu->left    = width;
@@ -124,7 +124,7 @@ void UIListMenu::mouseDown (int x, int y, int button) {
 		el->mouseDown (x, y, button);
 
 		if (!checkList) return;
-		if (el->enter && button == mouseLeft) {
+		if (el->isEnter() && button == mouseLeft) {
 
 			if (lastCheck != nullptr)
 				lastCheck->checked = false;

@@ -37,10 +37,11 @@ protected:
 	std::unique_ptr<BaseObject> splitElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	UIElement *lastSelected = nullptr;
 
+	bool multiSelect = false;
+
 public:
 
 	friend UIButton;
-	bool   multiSelect = false;
 
 	virtual void precompute() override;
 	virtual void render()     override;
@@ -58,9 +59,11 @@ public:
 
 	}
 
-	UIGrouped (UIManager *manager) : UIElement (manager) {
+	UIGrouped (UIManager *manager, bool multiSelect = false) : UIElement (manager) {
 
-		this->manager = manager;
+		this->manager     = manager;
+		this->multiSelect = multiSelect;
+
 		precompute();
 
 	}
