@@ -262,7 +262,7 @@ char DataMap::lexTokString() {
 
 				if (lastChar == EOF) {
 
-					/* TODO Error */
+					/* #TODO:40 Error */
 
 				} else lastChar = lexChar();
 
@@ -376,7 +376,7 @@ char DataMap::lexTokNumber () {
 
 					if (isdigit(lastChar)) {
 						stat = 4;
-					} else stat = 9; /* TODO ERROR! */
+					} else stat = 9; /* #TODO:10 ERROR! */
 
 					break;
 
@@ -401,7 +401,7 @@ char DataMap::lexTokNumber () {
 						stat = 6;
 					} else if (isdigit(lastChar)) {
 						stat = 7;
-					} else ; /* TODO ERROR! */
+					} else ; /* #TODO:30 ERROR! */
 
 					break;
 
@@ -411,7 +411,7 @@ char DataMap::lexTokNumber () {
 
 					if (isdigit(lastChar)) {
 						stat = 7;
-					} else ; /* TODO ERROR! */
+					} else ; /* #TODO:20 ERROR! */
 
 					break;
 

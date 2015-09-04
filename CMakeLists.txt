@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(e2dit)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-#set(Boost_NO_SYSTEM_PATHS ON)
-#set(SFML_NO_SYSTEM_PATHS ON)
+set(Boost_NO_SYSTEM_PATHS ON)
+set(SFML_NO_SYSTEM_PATHS ON)
 
 if (APPLE)
 	set(PLATFORM _osx_)
@@ -44,7 +44,7 @@ add_definitions(-DGLM_FORCE_RADIANS)
 add_definitions(-D${PLATFORM})
 
 #set(SFML_STATIC_LIBRARIES TRUE)
-find_package(SFML 2.2 COMPONENTS graphics window system REQUIRED)
+find_package(SFML 2.3 COMPONENTS graphics window system REQUIRED)
 find_package(Boost COMPONENTS system filesystem REQUIRED)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -80,4 +80,4 @@ add_subdirectory(src/utility)
 add_subdirectory(src/renderer)
 add_subdirectory(src/ui)
 
-target_link_libraries(main libe2dit-utility libe2dit-renderer libe2dit-ui ${libs})
+target_link_libraries(main e2dit-utility e2dit-renderer e2dit-ui ${libs})

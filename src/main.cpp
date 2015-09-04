@@ -75,7 +75,7 @@ int main (int argc,char** argv) {
 	app->screenWidth  = sf::VideoMode::getDesktopMode().width;
 	app->screenHeight = sf::VideoMode::getDesktopMode().height;
 
-	/* TODO */
+	/* #TODO:0 */
 
 	app->windowWidth  = 1024;//app->screenWidth -100;
 	app->windowHeight = 640;//app->screenHeight-100;
@@ -203,6 +203,11 @@ int main (int argc,char** argv) {
 
 		//core->onResize (app->windowWidth, app->windowHeight);
 
+		sf::Vector2i mp = sf::Mouse::getPosition(window);
+		//std::cout << mp.x << ":" << mp.y << std::endl;
+		app->mouseX = mp.x;
+		app->mouseY = mp.y;
+
 		/* Poll Events */
 
 		while (window.pollEvent (ev)) {
@@ -216,9 +221,7 @@ int main (int argc,char** argv) {
 
 				/* Mouse */
 
-				case sf::Event::MouseMoved: core->onMouseMove  (ev.mouseMove.x, ev.mouseMove  .y); break;
-				//case sf::Event::MouseWheelScrolled	: core->onMouseWheel (ev.mouseWheelScroll.delta); break;
-
+				case sf::Event::MouseMoved: core->onMouseMove (ev.mouseMove.x, ev.mouseMove.y); break;
 				case sf::Event::MouseWheelScrolled:
 
 					     if (ev.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel  ) core->onMouseWheel (0, ev.mouseWheelScroll.delta);

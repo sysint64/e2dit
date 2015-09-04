@@ -381,7 +381,7 @@ void UIElement::render() {
 
 		el->over = pointInRect (app->mouseX, app->mouseY, el->absLeft, el->absTop, el->width, el->height);
 
-		// TODO: Move to UIPanel
+		// #TODO:50 Move to UIPanel
 
 		if (el->align != Align::Top && el->align != Align::Bottom)
 			wrapperWidth  = math::max (wrapperWidth , el->left+el->width+paddingLeft);
@@ -414,6 +414,7 @@ void UIElement::addElement (std::unique_ptr<UIElement> el) {
 
 	el->parent = this;
 	el->id = manager->lastId;
+	el->depth = depth+1;
 
 	/* Make Loop */
 

@@ -32,7 +32,9 @@
 
 void UIButton::render () {
 
-	UIElement::render();
+	if (drawChilds)
+		UIElement::render();
+		
 	updateAbsPos();
 
 	//if (!enabled || (parent != nullptr && !parent->enabled))

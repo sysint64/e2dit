@@ -68,8 +68,10 @@ void Core::onDblClick (int x, int y, int button) {
 
 void Core::onMouseMove (int x, int y) {
 
-	app->mouseX = x;
-	app->mouseY = y;
+	//app->mouseX = x;
+	//app->mouseY = y;
+
+	//std::cout << x << ":" << y << std::endl;
 
 	uiManager->mouseMove (x, y, app->mouseButton);
 

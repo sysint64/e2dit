@@ -287,7 +287,7 @@ void UIManager::mouseDown (int x, int y, int button) {
 
 		auto el = elementsStack[i];
 
-		if (el == nullptr) // TODO: Remove empty element from stack
+		if (el == nullptr) // #TODO:60 Remove empty element from stack
 			continue;
 
 		if (el->enter) {
@@ -322,7 +322,7 @@ void UIManager::mouseUp (int x, int y, int button) {
 
 		auto el = elementsStack[i];
 
-		if (el == nullptr) // TODO: Remove empty element from stack
+		if (el == nullptr) // #TODO:70 Remove empty element from stack
 			continue;
 
 		if (el->enter) {

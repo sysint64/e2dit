@@ -33,6 +33,8 @@
 class UIButton : public UIElement {
 protected:
 
+	bool drawChilds = true;
+
 	/* Param Names for load from Layout file */
 
 	std::string leaveElement = "buttonleave";

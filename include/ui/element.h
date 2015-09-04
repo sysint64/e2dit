@@ -62,6 +62,8 @@ protected:
 	int scrollElementWidth  = 0;
 	int scrollElementHeight = 0;
 
+	int depth = 0;
+
 	/* Navigation (for focus) */
 
 	UIElement *next = nullptr;
@@ -82,7 +84,7 @@ protected:
 	bool leave  = true;
 	bool click  = false;
 	bool over   = false; // true if mouse over element even if another element overlaps it
-	
+
 	bool focused  = false;
 	bool inDialog = false;
 
