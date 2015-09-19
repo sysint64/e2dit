@@ -135,6 +135,15 @@ void UITreeListNode::mouseUp (int x, int y, int button) {
 
 }
 
+void UITreeListNode::mouseDown (int x, int y, int button) {
+
+	UIElement::mouseDown (x, y, button);
+	
+	if (isEnter() && button == mouseLeft)
+		treeList->checkElement (this);
+
+}
+
 void UITreeList::render() {
 
 	height = 0;

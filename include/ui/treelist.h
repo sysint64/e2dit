@@ -51,12 +51,13 @@ public:
 	virtual void precompute() override;
 	virtual void render()     override;
 
-	virtual void mouseUp (int x, int y, int button)  override;
+	virtual void mouseUp   (int x, int y, int button) override;
+	virtual void mouseDown (int x, int y, int button) override;
 
 	UITreeListNode (UIManager *manager, UITreeList *treeList) : UIButton (manager) {
 
-		this->manager  = manager;
-		this->treeList = treeList;
+		this->manager          = manager;
+		this->treeList         = treeList;
 		this->ignoreParentOver = true;
 
 		leaveElement = "treelistnodeleave";
@@ -74,15 +75,33 @@ public:
 };
 
 class UITreeList : public UIElement {
+private:
+	UIElement *lastCheck = nullptr;
+
 public:
 
 	friend UITreeListNode;
+	UITreeListNode *selected = nullptr;
+
 	virtual void render() override;
 
 	UITreeList (UIManager *manager) : UIElement (manager) {
 
 		this->manager = manager;
 		precompute();
+
+	}
+
+	inline void checkElement (UITreeListNode *el) {
+
+		//assert (el->parent == this); TODO: Make method for check if el has child of this
+
+		if (lastCheck != nullptr)
+			lastCheck->checked = false;
+
+		el->checked = true;
+		lastCheck   = el;
+		selected    = el;
 
 	}
 
