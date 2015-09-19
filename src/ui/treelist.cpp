@@ -58,7 +58,6 @@ void UITreeListNode::renderLines() {
 
 					y0 = app->windowHeight-absTop-5-offset;
 					y1 = app->windowHeight-parent->absTop-20;
-					//puts ("!");
 
 				}
 
@@ -85,10 +84,9 @@ void UITreeListNode::render() {
 	int depth = this->depth-treeList->depth;
 	width = treeList->width-20*depth;
 
-	glUniform1f (manager->atlasShader->locations["Alpha"], 1.f);
 	UIButton::render();
 
-	heightIn = height;
+	heightIn = iHeights[2];
 
 	if (elements.size() > 0) {
 
@@ -98,15 +96,18 @@ void UITreeListNode::render() {
 
 		buttonEnter = pointInRect (app->mouseX, app->mouseY, bx, by, iWidths[12], iHeights[12]);
 
-		glUniform1f (manager->atlasShader->locations["Alpha"], buttonEnter ? 1.f : 0.7f);
+		glUniform1f   (manager->atlasShader->locations["Alpha"], buttonEnter ? 1.f : 0.7f);
 		renderElement (n, bx, by, iWidths[12], iHeights[12], expandElement.get());
+		glUniform1f (manager->atlasShader->locations["Alpha"], 1.f);
 
 	}
 
 	treeList->height += height; // Update Tree List height
 
-	if (!open)
+	if (!open) {
+		overHeight = heightIn;
 		return;
+	}
 
 	for (const auto &kvp : elements) {
 
@@ -124,13 +125,15 @@ void UITreeListNode::render() {
 
 	}
 
+	overHeight = heightIn;
+
 }
 
 void UITreeListNode::mouseUp (int x, int y, int button) {
 
 	UIButton::mouseUp (x, y, button);
 
-	if (buttonEnter && button == mouseLeft)
+	if (buttonEnter && button == mouseLeft && parent->over)
 		open = !open;
 
 }
@@ -138,7 +141,7 @@ void UITreeListNode::mouseUp (int x, int y, int button) {
 void UITreeListNode::mouseDown (int x, int y, int button) {
 
 	UIElement::mouseDown (x, y, button);
-	
+
 	if (isEnter() && button == mouseLeft)
 		treeList->checkElement (this);
 
@@ -147,6 +150,8 @@ void UITreeListNode::mouseDown (int x, int y, int button) {
 void UITreeList::render() {
 
 	height = 0;
+	over = parent->over;
 	UIElement::render();
+	overHeight = height;
 
 }

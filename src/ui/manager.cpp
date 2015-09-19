@@ -202,6 +202,14 @@ void UIManager::poll() {
 		el->setCursor();
 		el->enter = false;
 
+		if (!el->visible)
+			continue;
+
+		int w = el->overWidth  >= 0 ? el->overWidth  : el->width;
+		int h = el->overHeight >= 0 ? el->overHeight : el->height;
+
+		el->over = el->parent->over && pointInRect (app->mouseX, app->mouseY, el->absLeft, el->absTop, w, h);
+
 	}
 
 	/* State */
@@ -212,7 +220,7 @@ void UIManager::poll() {
 
 		auto el = elementsStack[i];
 
-		if (el == nullptr || (!el->parent->over && !el->ignoreParentOver))
+		if (el == nullptr || !el->over)
 			continue;
 
 		if (!el->visible) continue;

@@ -362,7 +362,7 @@ void UIElement::render() {
 
 		over = true;
 
-		left = 0; top = 0;
+		left    = 0; top    = 0;
 		absLeft = 0; absTop = 0;
 
 		width  = app->windowWidth;
@@ -378,8 +378,6 @@ void UIElement::render() {
 
 		if (!el->visible)
 			continue;
-
-		el->over = pointInRect (app->mouseX, app->mouseY, el->absLeft, el->absTop, el->width, el->height);
 
 		// #TODO:50 Move to UIPanel
 

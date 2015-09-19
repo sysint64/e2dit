@@ -56,13 +56,12 @@ public:
 
 	UITreeListNode (UIManager *manager, UITreeList *treeList) : UIButton (manager) {
 
-		this->manager          = manager;
-		this->treeList         = treeList;
-		this->ignoreParentOver = true;
+		this->manager  = manager;
+		this->treeList = treeList;
 
 		leaveElement = "treelistnodeleave";
 		enterElement = "treelistnodeenter";
-		clickElement = "treelistnodeenter";
+		clickElement = "treelistnodeclick";
 		focusElement = "treelistnodefocus";
 
 		textAlign  = Align::Left;

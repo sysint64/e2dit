@@ -45,6 +45,7 @@ enum class Align {None, Left, Center, Right, Client, Bottom, Top, All};
 class UIManager;
 class UIPanel;
 class UITreeListNode;
+class UITreeList;
 
 class UIElement {
 protected:
@@ -76,6 +77,9 @@ protected:
 	int wrapperWidth, wrapperHeight;
 	int wrapperWidthClamped, wrapperHeightClamped;
 
+	int overWidth  = -1;
+	int overHeight = -1;
+
 	bool wasClick = false; // ???
 	bool keyClick = false; // ???
 
@@ -88,8 +92,6 @@ protected:
 
 	bool focused  = false;
 	bool inDialog = false;
-
-	bool ignoreParentOver = false;
 
 	/* Precompute */
 
@@ -158,6 +160,7 @@ public:
 	friend UIManager;
 	friend UIPanel;
 	friend UITreeListNode;
+	friend UITreeList;
 
 	std::vector<void*> metaData;
 
