@@ -25,7 +25,8 @@
 void UITreeListNode::precompute() {
 
 	UIButton::precompute();
-	//precomputeElement (12, "treelistnode", "openicon");
-	//precomputeElement (13, "treelistnode", "closeicon");
+
+	precomputeElement (12, "treelistnode", "openicon");
+	precomputeElement (13, "treelistnode", "closeicon");
 
 }

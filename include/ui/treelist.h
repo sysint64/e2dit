@@ -38,6 +38,7 @@ private:
 	std::unique_ptr<BaseObject> expandElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	UITreeList *treeList = nullptr;
 	int heightIn = 0;
+	bool buttonEnter = false;
 
 public:
 
@@ -45,6 +46,8 @@ public:
 
 	virtual void precompute() override;
 	virtual void render()     override;
+
+	virtual void mouseUp (int x, int y, int button)  override;
 
 	UITreeListNode (UIManager *manager, UITreeList *treeList) : UIButton (manager) {
 

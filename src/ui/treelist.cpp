@@ -24,10 +24,82 @@
 
 void UITreeListNode::render() {
 
+	int btnOffset = parent == treeList ? 20 : 14;
+
+	/* Render Lines */
+
+	int mdepth = (depth-treeList->depth);
+	updateAbsPos();
+
+	if (mdepth < 3) {
+
+		manager->atlasShader->unbind();
+
+		glBegin2D();
+			glBegin (GL_LINES);
+
+				int offset = elements.size() > 0 ? 8 : 4;
+
+				int x0 = absLeft-btnOffset+offset;     int x1 = absLeft;
+				int y0 = app->windowHeight-absTop-5-4; int y1 = 0;
+
+				glColor3f  (0.3f, 0.3f, 0.3f);
+
+				glVertex2f (x0, y0);
+				glVertex2f (x1, y0);
+
+				if (mdepth == 2) {
+
+					x0 = absLeft-btnOffset+5;
+
+					if (this != parent->firstEl) {
+
+						y0 = app->windowHeight-absTop-5-offset;
+						y1 = app->windowHeight-prev->absTop-5-4;
+
+						if (prev->elements.size() > 0) y1 -= 4;
+
+					} else {
+
+						y0 = app->windowHeight-absTop-5-offset;
+						y1 = app->windowHeight-parent->absTop-20;
+						//puts ("!");
+
+					}
+
+					glVertex2f (x0, y0);
+					glVertex2f (x0, y1);
+
+				}
+
+			glEnd();
+		glEnd2D();
+
+		manager->atlasShader->bind();
+
+	}
+
+	/* Render Node */
+
 	width = parent->width;
+
+	glUniform1f (manager->atlasShader->locations["Alpha"], 1.f);
 	UIButton::render();
 
 	heightIn = height;
+
+	if (elements.size() > 0) {
+
+		int n  = open ? 12 : 13;
+		int bx = absLeft-btnOffset; // Button left
+		int by = absTop +5 ; // Button Top
+
+		buttonEnter = pointInRect (app->mouseX, app->mouseY, bx, by, iWidths[12], iHeights[12]);
+
+		glUniform1f (manager->atlasShader->locations["Alpha"], buttonEnter ? 1.f : 0.7f);
+		renderElement (n, bx, by, iWidths[12], iHeights[12], expandElement.get());
+
+	}
 
 	if (!open) {
 
@@ -46,14 +118,8 @@ void UITreeListNode::render() {
 
 		int depth = (node->depth-treeList->depth);
 
-		/**/
-
-		
-
-		/**/
-
-		node->left = depth*10;
-		node->top  = heightIn+1;
+		node->left = 20;
+		node->top  = heightIn;
 		node->render();
 
 		heightIn += node->heightIn;
@@ -61,6 +127,15 @@ void UITreeListNode::render() {
 	}
 
 	treeList->height += heightIn; // Update Tree List height
+
+}
+
+void UITreeListNode::mouseUp (int x, int y, int button) {
+
+	UIButton::mouseUp (x, y, button);
+
+	if (buttonEnter && button == mouseLeft)
+		open = !open;
 
 }
 

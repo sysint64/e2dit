@@ -188,14 +188,14 @@ Button
 		center                  : 68, 83, 5, 21
 		right                   : 81, 83, 5, 21
 		textOffset              : 0, -1
-		textColor               : 200, 200, 200
+		textColor               : 0, 0, 0
 
 	&Focus
 
-		left                    : 55, 107, 5, 21
-		center                  : 68, 107, 5, 21
-		right                   : 81, 107, 5, 21
-		offsets                 : 0, 0, 0
+		left                    : 53, 105, 6, 25
+		center                  : 68, 105, 6, 25
+		right                   : 83, 105, 6, 25
+		offsets                 : -2, -2, 5
 
 /**
  * FlatButton
@@ -308,6 +308,9 @@ ListItem
 
 TreeListNode
 
+	openicon                    : 4 , 152, 9, 9
+	closeIcon                   : 17, 152, 9, 9
+
 	&Leave
 
 		left                    : 55 , 180, 5 , 21
@@ -334,7 +337,7 @@ TreeListNode
 		center                  : 68 , 180, 5 , 21
 		right                   : 81 , 180, 5 , 21
 
-		offsets                 : 200, 200, 200
+		offsets                 : 0, 0, 0
 
 /**
  * ListMenu
