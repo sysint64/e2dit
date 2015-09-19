@@ -292,7 +292,11 @@ void UIPanel::render() {
 
 	if (wrapperWidth > width && showScrollX) {
 
-		int n = scrollHEnter || scrollHClick ? 9 : 6;
+		//int n = scrollHEnter || scrollHClick ? 9 : 6;
+		int n = 6;
+
+		if (scrollHEnter) n = 9;
+		if (scrollHClick) n = 18;
 
 		renderPartsElementH (0,   1,   2, scrollBg [0].get(), scrollBg [1].get(), scrollBg [2].get(), absLeft, bottom, scrollWidth, true);
 		renderPartsElementH (n, n+1, n+2, scrollBtn[0].get(), scrollBtn[1].get(), scrollBtn[2].get(), absLeft+hbOffset, bottom, hbSize, true);
@@ -303,7 +307,11 @@ void UIPanel::render() {
 
 	if (wrapperHeight > height && showScrollY) {
 
-		int n = scrollVEnter || scrollVClick ? 9 : 6;
+		//int n = scrollVEnter || scrollVClick ? 9 : 6;
+		int n = 6;
+
+		if (scrollVEnter) n = 9;
+		if (scrollVClick) n = 18;
 
 		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width-scrollElementWidth, absTop+paddingTop, scrollHeight-paddingTop, true);
 		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width-scrollElementWidth, absTop+vbOffset+paddingTop, vbSize-paddingTop, true);

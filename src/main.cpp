@@ -110,6 +110,7 @@ int main (int argc,char** argv) {
 
 		/*XSendEvent (display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &e);
 		XSync (display, False);*/
+
 	#endif
 
 	app->windowHandle = window.getSystemHandle();

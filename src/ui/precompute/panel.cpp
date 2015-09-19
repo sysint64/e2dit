@@ -53,6 +53,12 @@ void UIPanel::precompute() {
 	precomputeElement (10, "scrollbuttonenter", "center");
 	precomputeElement (11, "scrollbuttonenter", "right");
 
+	/* Click */
+
+	precomputeElement (18, "scrollbuttonclick", "left");
+	precomputeElement (20, "scrollbuttonclick", "right");
+	precomputeElement (19, "scrollbuttonclick", "center");
+
 	/* Split */
 
 	precomputeElement (12, "panel", "splitlight");

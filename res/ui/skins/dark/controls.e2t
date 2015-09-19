@@ -107,6 +107,12 @@ Scroll
 			center              : 200, 22, 8, 14
 			right               : 212, 22, 8, 14
 
+		&Enter
+
+			left                : 187, 22, 8, 14
+			center              : 200, 22, 8, 14
+			right               : 212, 22, 8, 14
+
 /**
  * Tabs
  */
