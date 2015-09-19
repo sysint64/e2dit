@@ -321,7 +321,7 @@ Core::Core() {
 	auto _tlNode1 = tlNode1.get();
 
 	tlNode1->caption = L"Root Node 1"; tlNode1->showIcon = true;
-	tlNode1->iconOffset[0] = 4;      tlNode1->iconOffset[1] = 1;
+	tlNode1->iconOffset[0] = 4;        tlNode1->iconOffset[1] = 1;
 
 	//
 

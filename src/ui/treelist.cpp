@@ -28,7 +28,6 @@ void UITreeListNode::renderLines() {
 	if (depth >= 3)
 		return;
 
-	updateAbsPos();
 	manager->atlasShader->unbind();
 
 	glBegin2D();
@@ -77,12 +76,14 @@ void UITreeListNode::renderLines() {
 
 void UITreeListNode::render() {
 
+	updateAbsPos();
 	btnOffset = parent == treeList ? 20 : 14;
 	renderLines();
 
 	/* Render Node */
 
-	width = parent->width;
+	int depth = this->depth-treeList->depth;
+	width = treeList->width-20*depth;
 
 	glUniform1f (manager->atlasShader->locations["Alpha"], 1.f);
 	UIButton::render();
@@ -117,7 +118,6 @@ void UITreeListNode::render() {
 
 		node->left = 20;
 		node->top  = heightIn;
-		node->width = parent->width-(node->absLeft-parent->absLeft);
 		node->render();
 
 		heightIn += node->heightIn;
