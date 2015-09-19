@@ -30,7 +30,10 @@
 #define APP_NAME  "E2DIT"
 
 typedef int Uint16;
-typedef char BYTE;
+
+#ifndef _win_
+	typedef char BYTE;
+#endif
 
 #include <iostream>
 

@@ -36,7 +36,8 @@ class UITreeList;
 class UITreeListNode : public UIButton {
 private:
 	std::unique_ptr<BaseObject> expandElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	UITreeList *treeList;
+	UITreeList *treeList = nullptr;
+	int heightIn = 0;
 
 public:
 
@@ -67,8 +68,8 @@ public:
 class UITreeList : public UIElement {
 public:
 
-	//virtual void precompute() override;
-	//virtual void render()     override;
+	friend UITreeListNode;
+	virtual void render() override;
 
 	UITreeList (UIManager *manager) : UIElement (manager) {
 

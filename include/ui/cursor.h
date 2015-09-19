@@ -69,14 +69,22 @@
 
 	enum class CursorIco {
 
-		None			= -1,
+		/*None			= IDC_NONE,
 		Hand			= IDC_HAND,
 		Normal			= IDC_ARROW,
 		IBeam			= IDC_IBEAM,
 		VDoubleArrow	= IDC_SIZENS,
 		HDoubleArrow	= IDC_SIZEWE,
 		CrossHair		= IDC_CROSS,
-		Drag			= IDC_SIZEALL
+		Drag			= IDC_SIZEALL*/
+		None			= -1,
+		Hand			= 0,
+		Normal			= 1,
+		IBeam			= 2,
+		VDoubleArrow	= 3,
+		HDoubleArrow	= 4,
+		CrossHair		= 5,
+		Drag			= 6
 
 	};
 

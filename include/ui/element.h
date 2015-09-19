@@ -44,6 +44,7 @@ enum class Align {None, Left, Center, Right, Client, Bottom, Top, All};
 
 class UIManager;
 class UIPanel;
+class UITreeListNode;
 
 class UIElement {
 protected:
@@ -154,6 +155,7 @@ public:
 
 	friend UIManager;
 	friend UIPanel;
+	friend UITreeListNode;
 
 	std::vector<void*> metaData;
 

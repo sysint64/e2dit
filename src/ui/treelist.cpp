@@ -24,8 +24,49 @@
 
 void UITreeListNode::render() {
 
-	//left = 40+depth;
 	width = parent->width;
 	UIButton::render();
+
+	heightIn = height;
+
+	if (!open) {
+
+		treeList->height += heightIn; // Update Tree List height
+		return;
+
+	}
+
+	for (const auto &kvp : elements) {
+
+		UIElement *el = kvp.second.get();
+		UITreeListNode *node = dynamic_cast<UITreeListNode*> (el);
+
+		if (!node)
+			continue;
+
+		int depth = (node->depth-treeList->depth);
+
+		/**/
+
+		
+
+		/**/
+
+		node->left = depth*10;
+		node->top  = heightIn+1;
+		node->render();
+
+		heightIn += node->heightIn;
+
+	}
+
+	treeList->height += heightIn; // Update Tree List height
+
+}
+
+void UITreeList::render() {
+
+	height = 0;
+	UIElement::render();
 
 }

@@ -29,6 +29,10 @@
 #define countof(a) ((sizeof(a) / sizeof(*(a))) / static_cast<size_t>(!(sizeof(a) % sizeof(*(a)))))
 namespace math {
 
+	const float pi  = 3.14159265358979f;
+	const float pi2 = pi/2.f;
+	const float pi4 = pi/4.f;
+
 	/**
 	 * Min, Max
 	 */
@@ -108,7 +112,7 @@ namespace math {
 
 	inline float deg2rad (float deg) {
 
-		return M_PI*deg / 180.0f;
+		return pi*deg / 180.0f;
 
 	}
 
@@ -135,10 +139,6 @@ namespace math {
 		if (val >= max) return max;
 		return val;
 	}
-
-	const float pi  = 3.14159265358979f;
-	const float pi2 = pi/2.f;
-	const float pi4 = pi/4.f;
 
 }
 

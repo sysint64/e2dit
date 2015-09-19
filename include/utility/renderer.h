@@ -23,11 +23,12 @@
 #ifndef E2DIT_UTILITY_RENDERER_H
 #define E2DIT_UTILITY_RENDERER_H
 
+#include "GL/glew.h"
+
 #include "utility/application.h"
 #include "utility/string.h"
 
 #include "FTGL/ftgl.h"
-#include "GL/glew.h"
 
 using namespace FTGL;
 

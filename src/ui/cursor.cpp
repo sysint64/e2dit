@@ -39,7 +39,22 @@ void UICursor::set (CursorIco cur) {
 	#endif
 
 	#ifdef _win_
-		cursor = LoadCursor (nullptr, cur);
+		//cursor = LoadCursor (nullptr, cur);
+
+		switch (cur) {
+
+			case CursorIco::CrossHair    : cursor = LoadCursor (nullptr, IDC_CROSS);   break;
+			case CursorIco::Hand         : cursor = LoadCursor (nullptr, IDC_HAND);    break;
+			case CursorIco::Normal       : cursor = LoadCursor (nullptr, IDC_ARROW);   break;
+			case CursorIco::IBeam        : cursor = LoadCursor (nullptr, IDC_IBEAM);   break;
+			case CursorIco::VDoubleArrow : cursor = LoadCursor (nullptr, IDC_SIZENS);  break;
+			case CursorIco::HDoubleArrow : cursor = LoadCursor (nullptr, IDC_SIZEWE);  break;
+			case CursorIco::Drag         : cursor = LoadCursor (nullptr, IDC_SIZEALL); break;
+
+			default: return;
+
+		}
+
 		SetClassLongPtr (windowHandle, GCLP_HCURSOR, reinterpret_cast<LONG_PTR>(cursor));
 	#endif
 
