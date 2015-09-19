@@ -212,7 +212,7 @@ void UIManager::poll() {
 
 		auto el = elementsStack[i];
 
-		if (el == nullptr || !el->parent->over)
+		if (el == nullptr || (!el->parent->over && !el->ignoreParentOver))
 			continue;
 
 		if (!el->visible) continue;

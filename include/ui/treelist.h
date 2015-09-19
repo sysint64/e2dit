@@ -37,8 +37,12 @@ class UITreeListNode : public UIButton {
 private:
 	std::unique_ptr<BaseObject> expandElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	UITreeList *treeList = nullptr;
-	int heightIn = 0;
+
+	int  heightIn = 0;
+	int  btnOffset = 0;
 	bool buttonEnter = false;
+
+	void renderLines();
 
 public:
 
@@ -53,6 +57,7 @@ public:
 
 		this->manager  = manager;
 		this->treeList = treeList;
+		this->ignoreParentOver = true;
 
 		leaveElement = "treelistnodeleave";
 		enterElement = "treelistnodeenter";

@@ -22,62 +22,63 @@
 
 #include "ui/treelist.h"
 
-void UITreeListNode::render() {
+void UITreeListNode::renderLines() {
 
-	int btnOffset = parent == treeList ? 20 : 14;
+	int depth = this->depth-treeList->depth;
+	if (depth >= 3)
+		return;
 
-	/* Render Lines */
-
-	int mdepth = (depth-treeList->depth);
 	updateAbsPos();
+	manager->atlasShader->unbind();
 
-	if (mdepth < 3) {
+	glBegin2D();
+		glBegin (GL_LINES);
 
-		manager->atlasShader->unbind();
+			int offset = elements.size() > 0 ? 8 : 4;
 
-		glBegin2D();
-			glBegin (GL_LINES);
+			int x0 = absLeft-btnOffset+offset;     int x1 = absLeft;
+			int y0 = app->windowHeight-absTop-5-4; int y1 = 0;
 
-				int offset = elements.size() > 0 ? 8 : 4;
+			glColor3f  (0.3f, 0.3f, 0.3f);
 
-				int x0 = absLeft-btnOffset+offset;     int x1 = absLeft;
-				int y0 = app->windowHeight-absTop-5-4; int y1 = 0;
+			glVertex2f (x0, y0);
+			glVertex2f (x1, y0);
 
-				glColor3f  (0.3f, 0.3f, 0.3f);
+			if (depth == 2) {
 
-				glVertex2f (x0, y0);
-				glVertex2f (x1, y0);
+				x0 = absLeft-btnOffset+5;
 
-				if (mdepth == 2) {
+				if (this != parent->firstEl) {
 
-					x0 = absLeft-btnOffset+5;
+					y0 = app->windowHeight-absTop-5-offset;
+					y1 = app->windowHeight-prev->absTop-5-4;
 
-					if (this != parent->firstEl) {
+					if (prev->elements.size() > 0) y1 -= 4;
 
-						y0 = app->windowHeight-absTop-5-offset;
-						y1 = app->windowHeight-prev->absTop-5-4;
+				} else {
 
-						if (prev->elements.size() > 0) y1 -= 4;
-
-					} else {
-
-						y0 = app->windowHeight-absTop-5-offset;
-						y1 = app->windowHeight-parent->absTop-20;
-						//puts ("!");
-
-					}
-
-					glVertex2f (x0, y0);
-					glVertex2f (x0, y1);
+					y0 = app->windowHeight-absTop-5-offset;
+					y1 = app->windowHeight-parent->absTop-20;
+					//puts ("!");
 
 				}
 
-			glEnd();
-		glEnd2D();
+				glVertex2f (x0, y0);
+				glVertex2f (x0, y1);
 
-		manager->atlasShader->bind();
+			}
 
-	}
+		glEnd();
+	glEnd2D();
+
+	manager->atlasShader->bind();
+
+}
+
+void UITreeListNode::render() {
+
+	btnOffset = parent == treeList ? 20 : 14;
+	renderLines();
 
 	/* Render Node */
 
@@ -101,12 +102,10 @@ void UITreeListNode::render() {
 
 	}
 
-	if (!open) {
+	treeList->height += height; // Update Tree List height
 
-		treeList->height += heightIn; // Update Tree List height
+	if (!open)
 		return;
-
-	}
 
 	for (const auto &kvp : elements) {
 
@@ -116,17 +115,14 @@ void UITreeListNode::render() {
 		if (!node)
 			continue;
 
-		int depth = (node->depth-treeList->depth);
-
 		node->left = 20;
 		node->top  = heightIn;
+		node->width = parent->width-(node->absLeft-parent->absLeft);
 		node->render();
 
 		heightIn += node->heightIn;
 
 	}
-
-	treeList->height += heightIn; // Update Tree List height
 
 }
 

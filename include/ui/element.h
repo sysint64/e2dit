@@ -89,6 +89,8 @@ protected:
 	bool focused  = false;
 	bool inDialog = false;
 
+	bool ignoreParentOver = false;
+
 	/* Precompute */
 
 	void precomputeElement     (const int n, const std::string &element, const std::string &params);
