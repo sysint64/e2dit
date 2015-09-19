@@ -83,6 +83,7 @@ void UITreeListNode::render() {
 
 	int depth = this->depth-treeList->depth;
 	width = treeList->width-20*depth;
+	left  = 20;
 
 	UIButton::render();
 
@@ -117,7 +118,6 @@ void UITreeListNode::render() {
 		if (!node)
 			continue;
 
-		node->left = 20;
 		node->top  = heightIn;
 		node->render();
 
@@ -133,7 +133,7 @@ void UITreeListNode::mouseUp (int x, int y, int button) {
 
 	UIButton::mouseUp (x, y, button);
 
-	if (buttonEnter && button == mouseLeft && parent->over)
+	if (buttonEnter && button == mouseLeft && treeList->parent->over)
 		open = !open;
 
 }

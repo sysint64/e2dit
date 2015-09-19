@@ -309,7 +309,7 @@ Core::Core() {
 	std::unique_ptr<UITreeList> treeList = std::make_unique<UITreeList> (uiManager.get());
 
 	treeList->width = 200;
-	treeList->left = 50;
+	treeList->left = 0;
 	treeList->top  = 85;
 
 	auto _treeList = treeList.get();
@@ -369,9 +369,9 @@ Core::Core() {
 	_tlNode1 ->addElement (std::move (tlNode2));
 	_tlNode1 ->addElement (std::move (tlNode3));
 	//_tlNode1 ->addElement (std::move (tlNode3));
-	_tlNode2 ->addElement (std::move (tlNode4));
-	_tlNode2 ->addElement (std::move (tlNode5));
-	_tlNode5 ->addElement (std::move (tlNode6));
+	_tlNode1 ->addElement (std::move (tlNode4));
+	_tlNode1 ->addElement (std::move (tlNode5));
+	_tlNode2 ->addElement (std::move (tlNode6));
 	_tlNode2->open = false;
 
 	/*std::unique_ptr<UIImage> image1 = std::make_unique<UIImage> (uiManager.get());
