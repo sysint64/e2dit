@@ -204,6 +204,8 @@ void UIPanel::setCursor() {
 
 	}
 
+	manager->disablePollMap[id] = splitEnter;
+
 }
 
 void UIPanel::progress() {

@@ -216,6 +216,13 @@ void UIManager::poll() {
 
 	underMouse = nullptr;
 
+	for (auto const &kvp : disablePollMap) {
+
+		if (kvp.second)
+			return;
+
+	}
+
 	for (int i = elementsStack.size()-1; i >= 0; --i) {
 
 		auto el = elementsStack[i];

@@ -107,6 +107,7 @@ public:
 	std::vector<UIElement*> drawStack;
 	std::vector<UIElement*> unfocusedElements;
 	std::vector<UIElement*> elementsStack; // For poll elements
+	std::map<int, bool>     disablePollMap;
 
 	std::unique_ptr<UIElement> root;
 
