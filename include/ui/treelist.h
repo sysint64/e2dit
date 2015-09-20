@@ -46,7 +46,8 @@ private:
 
 public:
 
-	bool open = true;
+	bool open      = true;
+	bool allowHide = true;
 
 	virtual void precompute() override;
 	virtual void render()     override;
@@ -81,6 +82,7 @@ public:
 
 	friend UITreeListNode;
 	UITreeListNode *selected = nullptr;
+	bool drawLines = true;
 
 	virtual void render() override;
 

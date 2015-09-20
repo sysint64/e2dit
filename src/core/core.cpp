@@ -308,8 +308,9 @@ Core::Core() {
 
 	std::unique_ptr<UITreeList> treeList = std::make_unique<UITreeList> (uiManager.get());
 
+	treeList->drawLines = false;
 	treeList->width = 200;
-	treeList->left = 0;
+	treeList->left = 40;
 	treeList->top  = 85;
 
 	auto _treeList = treeList.get();
@@ -322,6 +323,7 @@ Core::Core() {
 
 	tlNode1->caption = L"Root Node 1"; tlNode1->showIcon = true;
 	tlNode1->iconOffset[0] = 4;        tlNode1->iconOffset[1] = 1;
+	tlNode1->allowHide = false;
 
 	//
 
@@ -360,7 +362,7 @@ Core::Core() {
 	std::unique_ptr<UITreeListNode> tlNode6 = std::make_unique<UITreeListNode> (uiManager.get(), _treeList);
 	auto _tlNode6 = tlNode6.get();
 
-	tlNode6->caption = L"Child Node 5"; tlNode6->showIcon = true;
+	tlNode6->caption = L"Child Node 6"; tlNode6->showIcon = true;
 	tlNode6->iconOffset[0] = 4;       tlNode6->iconOffset[1] = 6;
 
 	//
@@ -368,10 +370,9 @@ Core::Core() {
 	_treeList->addElement (std::move (tlNode1));
 	_tlNode1 ->addElement (std::move (tlNode2));
 	_tlNode1 ->addElement (std::move (tlNode3));
-	//_tlNode1 ->addElement (std::move (tlNode3));
 	_tlNode1 ->addElement (std::move (tlNode4));
-	_tlNode1 ->addElement (std::move (tlNode5));
-	_tlNode2 ->addElement (std::move (tlNode6));
+	_tlNode3 ->addElement (std::move (tlNode5));
+	_tlNode5 ->addElement (std::move (tlNode6));
 	_tlNode2->open = false;
 
 	/*std::unique_ptr<UIImage> image1 = std::make_unique<UIImage> (uiManager.get());

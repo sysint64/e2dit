@@ -77,7 +77,9 @@ void UITreeListNode::render() {
 
 	updateAbsPos();
 	btnOffset = parent == treeList ? 20 : 14;
-	renderLines();
+
+	if (treeList->drawLines)
+		renderLines();
 
 	/* Render Node */
 
@@ -89,7 +91,7 @@ void UITreeListNode::render() {
 
 	heightIn = iHeights[2];
 
-	if (elements.size() > 0) {
+	if (elements.size() > 0 && allowHide) {
 
 		int n  = open ? 12 : 13;
 		int bx = absLeft-btnOffset; // Button left
@@ -133,6 +135,9 @@ void UITreeListNode::mouseUp (int x, int y, int button) {
 
 	UIButton::mouseUp (x, y, button);
 
+	if (!allowHide)
+		return;
+		
 	if (buttonEnter && button == mouseLeft && treeList->parent->over)
 		open = !open;
 
