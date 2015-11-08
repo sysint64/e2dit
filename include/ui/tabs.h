@@ -31,11 +31,7 @@ public:
 
 		this->manager = manager;
 
-		leaveElement = "tabbuttonleave";
-		enterElement = "tabbuttonenter";
-		clickElement = "tabbuttonactive";
-		focusElement = "tabbuttonfocus";
-
+		style = "tabbutton";
 		precompute();
 
 	}
@@ -44,5 +40,5 @@ public:
 
 class UITabs : public UIElement {
 public:
-	
+
 };

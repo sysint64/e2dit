@@ -41,10 +41,10 @@ protected:
 
 	/* Param Names for load from Layout file */
 
-	std::string leaveElement = "buttonleave";
-	std::string enterElement = "buttonenter";
-	std::string clickElement = "buttonclick";
-	std::string focusElement = "buttonfocus";
+	std::string leaveElement = "leave";
+	std::string enterElement = "enter";
+	std::string clickElement = "click";
+	std::string focusElement = "focus";
 
 	/* Render Objects */
 
@@ -88,14 +88,16 @@ public:
 		this->manager    = manager;
 		this->allowCheck = allowCheck;
 
-		if (allowCheck) {
+		style = allowCheck ? "checkbutton" : "button";
+
+		/*if (allowCheck) {
 
 			leaveElement = "checkbuttonleave";
 			enterElement = "checkbuttonenter";
 			clickElement = "checkbuttonclick";
 			focusElement = "checkbuttonfocus";
 
-		}
+		}*/
 
 		precompute();
 

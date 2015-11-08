@@ -7,9 +7,6 @@
 General
 
 	font                        : "res/fonts/ttf-dejavu/DejaVuSans.ttf", 12, true
-
-	split                       : 45, 35, 1, 21
-	menuSplit                   : 10, 141, 2, 2
 	hr                          : 10, 131, 2, 2
 	vertex                      : 226, 6, 6, 6
 	newVertex                   : 226, 16, 6, 6
@@ -66,6 +63,9 @@ Dialog
 	textOffset                  : 0,  0
 	textColor                   : 255, 255, 255
 
+Grouped
+	split                       : 45, 35, 1, 21
+
 /**
  * Split
  */
@@ -119,14 +119,6 @@ Scroll
 
 TabButton
 
-	&Active
-
-		left                    : 230, 227, 6, 21
-		center                  : 249, 227, 6, 21
-		right                   : 268, 227, 6, 21
-		textOffset              : 0,  -1
-		textColor               : 20, 20, 20
-
 	&Leave
 
 		left                    : 279, 227, 6, 21
@@ -149,6 +141,14 @@ TabButton
 		center                  : 0, 0, 0, 0
 		right                   : 0, 0, 0, 0
 		offsets                 : 0, 0, 0
+
+	&Click
+
+		left                    : 230, 227, 6, 21
+		center                  : 249, 227, 6, 21
+		right                   : 268, 227, 6, 21
+		textOffset              : 0,  -1
+		textColor               : 20, 20, 20
 
 /**
  * Tool Tabs
@@ -240,6 +240,9 @@ Button
 
 FlatButton
 
+	mark                        : 40, 59, 10, 21
+	offsets                     : -3, 3, 0
+
 	&Leave
 
 		left                    : 55, 180, 5, 21
@@ -267,6 +270,13 @@ FlatButton
 
 		textOffset              : 0, 0
 		textColor               : 0, 0, 0
+
+	&Focus
+
+		left                    : 0, 0, 0, 0
+		center                  : 0, 0, 0, 0
+		right                   : 0, 0, 0, 0
+		offsets                 : 0, 0, 0
 
 /**
  * TallMenuItem
@@ -390,6 +400,8 @@ TreeListNode
 
 ListMenu
 
+	menuSplit                   : 10, 141, 2, 2
+
 	&Top
 
 		left                    : 123, 39, 8, 8
@@ -485,6 +497,13 @@ DropList
 
 		textOffset              : 0, 0
 		textColor               : 20, 20, 20
+
+	&Focus
+
+		left                    : 0, 0, 0, 0
+		center                  : 0, 0, 0, 0
+		right                   : 0, 0, 0, 0
+		offsets                 : 0, 0, 0
 
 /**
  * PopupList

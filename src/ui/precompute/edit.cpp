@@ -30,40 +30,40 @@ void UIEdit::precompute() {
 
 	/* Leave */
 
-	precomputeElement (0, leaveElement, "left");
-	precomputeElement (1, leaveElement, "center");
-	precomputeElement (2, leaveElement, "right");
+	precomputeElement (0, style+leaveElement, "left");
+	precomputeElement (1, style+leaveElement, "center");
+	precomputeElement (2, style+leaveElement, "right");
 
 	/* Enter */
 
-	precomputeElement (3, enterElement, "left");
-	precomputeElement (4, enterElement, "center");
-	precomputeElement (5, enterElement, "right");
+	precomputeElement (3, style+enterElement, "left");
+	precomputeElement (4, style+enterElement, "center");
+	precomputeElement (5, style+enterElement, "right");
 
 	/* Enter */
 
-	precomputeElement (6, clickElement, "left");
-	precomputeElement (7, clickElement, "center");
-	precomputeElement (8, clickElement, "right");
+	precomputeElement (6, style+clickElement, "left");
+	precomputeElement (7, style+clickElement, "center");
+	precomputeElement (8, style+clickElement, "right");
 
 	/* Focused */
 
-	precomputeElement (9 , focusElement, "left");
-	precomputeElement (10, focusElement, "center");
-	precomputeElement (11, focusElement, "right");
+	precomputeElement (9 , style+focusElement, "left");
+	precomputeElement (10, style+focusElement, "center");
+	precomputeElement (11, style+focusElement, "right");
 
 	/* Stick */
 
-	precomputeElement (12, elementName , "stick");
+	precomputeElement (12, style , "stick");
 
-	precomputeFloatArray (elementName , "selrectcolor" , selectColor , 4, 255.f);
-	precomputeFloatArray (elementName , "selrectoffset", selectOffset, 2);
+	precomputeFloatArray (style , "selrectcolor" , selectColor , 4, 255.f);
+	precomputeFloatArray (style , "selrectoffset", selectOffset, 2);
 
 	/* Text */
 
-	precomputeText    (0, leaveElement);
-	precomputeText    (1, enterElement);
-	precomputeText    (2, clickElement);
+	precomputeText    (0, style+leaveElement);
+	precomputeText    (1, style+enterElement);
+	precomputeText    (2, style+clickElement);
 
 	/* Calculate Size */
 

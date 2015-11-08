@@ -46,6 +46,7 @@ public:
 	UICheckbox (UIManager *manager) : UIElement (manager) {
 
 		autoSize = true;
+		style = "checkbox";
 		this->manager = manager;
 		precompute();
 

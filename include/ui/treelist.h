@@ -60,10 +60,7 @@ public:
 		this->manager  = manager;
 		this->treeList = treeList;
 
-		leaveElement = "treelistnodeleave";
-		enterElement = "treelistnodeenter";
-		clickElement = "treelistnodeclick";
-		focusElement = "treelistnodefocus";
+		style = "treelistnode";
 
 		textAlign  = Align::Left;
 		drawChilds = false;

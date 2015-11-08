@@ -43,7 +43,9 @@ public:
 		this->manager = manager;
 		this->isMenu  = isMenu;
 
-		if (isMenu) {
+		style = isMenu ? "flatbutton" : "droplist";
+
+		/*if (isMenu) {
 
 			leaveElement = "flatbuttonleave";
 			enterElement = "flatbuttonenter";
@@ -56,7 +58,7 @@ public:
 			enterElement = "droplistenter";
 			clickElement = "droplistclick";
 
-		}
+		}*/
 
 		precompute();
 

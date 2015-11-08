@@ -26,29 +26,29 @@ void UIListMenu::precompute() {
 
 	/* Top */
 
-	precomputeElement (0, "listmenutop", "left");
-	precomputeElement (1, "listmenutop", "center");
-	precomputeElement (2, "listmenutop", "right");
+	precomputeElement (0, style+"top", "left");
+	precomputeElement (1, style+"top", "center");
+	precomputeElement (2, style+"top", "right");
 
 	/* Middle */
 
-	precomputeElement (3, "listmenumiddle", "left");
-	precomputeElement (4, "listmenumiddle", "center");
-	precomputeElement (5, "listmenumiddle", "right");
+	precomputeElement (3, style+"middle", "left");
+	precomputeElement (4, style+"middle", "center");
+	precomputeElement (5, style+"middle", "right");
 
 	/* Bottom */
 
-	precomputeElement (6, "listmenubottom", "left");
-	precomputeElement (7, "listmenubottom", "center");
-	precomputeElement (8, "listmenubottom", "right");
+	precomputeElement (6, style+"bottom", "left");
+	precomputeElement (7, style+"bottom", "center");
+	precomputeElement (8, style+"bottom", "right");
 
 	/* Mark */
 
-	precomputeElement (9 , "listitemleave", "mark");
-	precomputeElement (10, "listitementer", "mark");
+	precomputeElement (9 , listitemstyle+"leave", "mark");
+	precomputeElement (10, listitemstyle+"enter", "mark");
 
 	/* Split */
 
-	precomputeElement (11, "general", "menusplit");
+	precomputeElement (11, style, "menusplit");
 
 }

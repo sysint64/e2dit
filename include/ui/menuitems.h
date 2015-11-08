@@ -45,10 +45,8 @@ public:
 
 		this->manager = manager;
 
-		leaveElement = "listitemleave";
-		enterElement = "listitementer";
-		clickElement = "listitementer";
-		focusElement = "listitemfocus";
+		clickElement = "enter";
+		style = "listitem";
 
 		textAlign = Align::Left;
 		showIcon  = true;
@@ -81,10 +79,8 @@ public:
 
 		this->manager = manager;
 
-		leaveElement = "tallmenuitemleave";
-		enterElement = "tallmenuitementer";
-		clickElement = "tallmenuitementer";
-		focusElement = "tallmenuitemfocus";
+		clickElement = "enter";
+		style = "tallmenuitem";
 
 		textAlign = Align::Left;
 		showIcon  = true;

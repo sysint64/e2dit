@@ -26,11 +26,11 @@ void UITallMenuItem::precompute() {
 
 	UIButton::precompute();
 
-	precomputeElement (12, "tallmenuitem", "mask");
-	precomputeElement (13, "tallmenuitem", "border");
+	precomputeElement (12, style, "mask");
+	precomputeElement (13, style, "border");
 
-	precomputeColor3f ("tallmenuitemleave", "desccolor", &descColors[0]);
-	precomputeColor3f ("tallmenuitementer", "desccolor", &descColors[3]);
+	precomputeColor3f (style+"leave", "desccolor", &descColors[0]);
+	precomputeColor3f (style+"enter", "desccolor", &descColors[3]);
 
 	/* Texture */
 

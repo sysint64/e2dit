@@ -24,6 +24,6 @@
 
 void UILabel::precompute() {
 
-	precomputeText (0, "label");
+	precomputeText (0, style);
 
 }

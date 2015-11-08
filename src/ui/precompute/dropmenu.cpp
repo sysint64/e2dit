@@ -26,7 +26,7 @@ void UIDropMenu::precompute() {
 
 	UIButton::precompute();
 
-	precomputeElement  (12, "droplist", "mark"); // Last id at button is 11
-	precomputeIntArray ("droplist", "offsets", menuOffsets, 3);
+	precomputeElement  (12, style, "mark"); // Last id at button is 11
+	precomputeIntArray (style, "offsets", menuOffsets, 3);
 
 }

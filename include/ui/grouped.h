@@ -66,6 +66,7 @@ public:
 		this->multiSelect = multiSelect;
 		this->spacing     = spacing;
 
+		style = "grouped";
 		precompute();
 
 	}

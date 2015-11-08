@@ -24,6 +24,6 @@
 
 void UIGrouped::precompute() {
 
-	precomputeElement (0, "general", "split");
+	precomputeElement (0, style, "split");
 
 }

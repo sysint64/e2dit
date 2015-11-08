@@ -201,6 +201,8 @@ public:
 	Align drawAlign  = Align::All;        ///< Skin draw align: Left [-]; Center -; Right ->; All <->
 	Align align      = Align::None;
 
+	std::string style = "";
+
 	/* Functors: Callback Events */
 
 	std::function<void(UIElement*)>                onClick      = nullptr;

@@ -56,6 +56,8 @@ public:
 	bool transparent = false;
 	bool popup       = true;
 
+	std::string listitemstyle;
+
 	virtual void precompute() override;
 	virtual void render()     override;
 
@@ -73,6 +75,10 @@ public:
 		}
 
 		this->manager = manager;
+
+		style         = "listmenu";
+		listitemstyle = "listitem";
+
 		precompute();
 
 	}

@@ -35,6 +35,7 @@ public:
 		this->manager = manager;
 		this->height  = manager->theme->fontHeight;
 
+		style = "label";
 		precompute();
 
 	}

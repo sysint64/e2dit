@@ -26,23 +26,23 @@ void UICheckbox::precompute() {
 
 	/* Leave */
 
-	precomputeElement (0, "checkboxleave", "unchecked");
-	precomputeElement (1, "checkboxleave", "checked");
+	precomputeElement (0, style+"leave", "unchecked");
+	precomputeElement (1, style+"leave", "checked");
 
 	/* Enter */
 
-	precomputeElement (2, "checkboxenter", "unchecked");
-	precomputeElement (3, "checkboxenter", "checked");
+	precomputeElement (2, style+"enter", "unchecked");
+	precomputeElement (3, style+"enter", "checked");
 
 	/* Focus */
 
-	precomputeElement  (4, "checkboxfocus", "element");
-	precomputeIntArray ("checkboxfocus", "offsets", focusOffsets, 2);
+	precomputeElement  (4, style+"focus", "element");
+	precomputeIntArray (style+"focus", "offsets", focusOffsets, 2);
 
 	/* Text */
 
-	precomputeText    (0, "checkboxleave");
-	precomputeText    (1, "checkboxenter");
+	precomputeText    (0, style+"leave");
+	precomputeText    (1, style+"enter");
 
 	//
 

@@ -408,6 +408,11 @@ Core::Core() {
 	_tabs->left = 5;
 	_tabs->top  = 6;
 	_tabs->width = 400;
+	_tabs->style = "tabs";
+
+	tab2->showIcon = true;
+	tab2->iconOffset[0] = 8;
+	tab2->iconOffset[1] = 9;
 
 	_p4->addElement (std::move(tabs));
 	_tabs->addElement (std::move(tab));

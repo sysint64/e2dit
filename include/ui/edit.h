@@ -55,11 +55,10 @@ protected:
 
 	/* Params */
 
-	std::string elementName  = "edit";
-	std::string leaveElement = "editleave";
-	std::string enterElement = "editenter";
-	std::string clickElement = "editclick";
-	std::string focusElement = "editfocus";
+	std::string leaveElement = "leave";
+	std::string enterElement = "enter";
+	std::string clickElement = "click";
+	std::string focusElement = "focus";
 
 	/* Render Objects */
 
@@ -146,10 +145,11 @@ public:
 	/* Constructor */
 
 	UIEdit (UIManager *manager) : UIElement (manager) {
-		
+
 		this->manager = manager;
 		this->cursor  = CursorIco::IBeam;
 
+		style = "edit";
 		precompute();
 
 	}
