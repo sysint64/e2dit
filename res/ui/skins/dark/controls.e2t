@@ -7,9 +7,6 @@
 General
 
 	font                        : "res/fonts/ttf-dejavu/DejaVuSans.ttf", 12, true
-
-	split                       : 45, 35, 1, 21
-	menuSplit                   : 10, 141, 2, 2
 	hr                          : 10, 131, 2, 2
 	vertex                      : 226, 6, 6, 6
 	newVertex                   : 226, 16, 6, 6
@@ -43,8 +40,6 @@ Panel
 	arrowOpen                   : 5 , 21, 10, 10
 	arrowClose                  : 22, 21, 10, 10
 
-
-
 /**
  * Dialog
  */
@@ -65,6 +60,9 @@ Dialog
 
 	textOffset                  : 0,  0
 	textColor                   : 255, 255, 255
+
+Grouped
+	split                       : 45, 35, 1, 21
 
 /**
  * Split
@@ -107,7 +105,7 @@ Scroll
 			center              : 200, 22, 8, 14
 			right               : 212, 22, 8, 14
 
-		&Enter
+		&Click
 
 			left                : 187, 22, 8, 14
 			center              : 200, 22, 8, 14
@@ -119,23 +117,21 @@ Scroll
 
 TabButton
 
-	&Active
-
-		left                    : 230, 227, 6, 21
-		center                  : 249, 227, 6, 21
-		right                   : 268, 227, 6, 21
-
 	&Leave
 
-		left                    : 279, 227, 6, 21
-		center                  : 298, 227, 6, 21
-		right                   : 317, 227, 6, 21
+		left                    : 289, 226, 6, 21
+		center                  : 308, 226, 6, 21
+		right                   : 327, 226, 6, 21
+		textOffset              : 0,  -1
+		textColor               : 20, 20, 20
 
 	&Enter
 
-		left                    : 328, 227, 6, 21
-		center                  : 347, 227, 6, 21
-		right                   : 366, 227, 6, 21
+		left                    : 338, 226, 6, 21
+		center                  : 357, 226, 6, 21
+		right                   : 376, 226, 6, 21
+		textOffset              : 0, -1
+		textColor               : 40, 40, 40
 
 	&Focus
 
@@ -144,6 +140,13 @@ TabButton
 		right                   : 0, 0, 0, 0
 		offsets                 : 0, 0, 0
 
+	&Click
+
+		left                    : 240, 226, 6, 21
+		center                  : 259, 226, 6, 21
+		right                   : 278, 226, 6, 21
+		textOffset              : 0,  -1
+		textColor               : 20, 20, 20
 /**
  * Tool Tabs
  */
@@ -262,6 +265,13 @@ FlatButton
 		textOffset              : 0, 0
 		textColor               : 0, 0, 0
 
+	&Focus
+
+		left                    : 0, 0, 0, 0
+		center                  : 0, 0, 0, 0
+		right                   : 0, 0, 0, 0
+		offsets                 : 0, 0, 0
+
 /**
  * TallMenuItem
  */
@@ -339,6 +349,9 @@ ListItem
 
 TreeListNode
 
+	openicon                    : 4 , 152, 9, 9
+	closeIcon                   : 17, 152, 9, 9
+
 	&Leave
 
 		left                    : 55 , 180, 5 , 21
@@ -359,6 +372,15 @@ TreeListNode
 		textOffset              : 3, 0
 		textColor               : 200, 200, 200
 
+	&Click
+
+		left                    : 55, 131, 5, 21
+		center                  : 68, 131, 5, 21
+		right                   : 81, 131, 5, 21
+
+		textOffset              : 0, 0
+		textColor               : 0, 0, 0
+
 	&Focus
 
 		left                    : 55 , 180, 5 , 21
@@ -372,6 +394,8 @@ TreeListNode
  */
 
 ListMenu
+
+	menuSplit                   : 10, 141, 2, 2
 
 	&Top
 
@@ -468,6 +492,13 @@ DropList
 
 		textOffset              : 0, 0
 		textColor               : 180, 180, 180
+
+	&Focus
+
+		left                    : 0, 0, 0, 0
+		center                  : 0, 0, 0, 0
+		right                   : 0, 0, 0, 0
+		offsets                 : 0, 0, 0
 
 /**
  * PopupList
