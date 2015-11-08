@@ -121,17 +121,17 @@ TabButton
 
 	&Leave
 
-		left                    : 279, 227, 6, 21
-		center                  : 298, 227, 6, 21
-		right                   : 317, 227, 6, 21
+		left                    : 279, 226, 6, 22
+		center                  : 298, 226, 6, 22
+		right                   : 317, 226, 6, 22
 		textOffset              : 0,  -1
 		textColor               : 20, 20, 20
 
 	&Enter
 
-		left                    : 328, 227, 6, 21
-		center                  : 347, 227, 6, 21
-		right                   : 366, 227, 6, 21
+		left                    : 328, 226, 6, 22
+		center                  : 347, 226, 6, 22
+		right                   : 366, 226, 6, 22
 		textOffset              : 0, -1
 		textColor               : 20, 20, 20
 
@@ -144,9 +144,9 @@ TabButton
 
 	&Click
 
-		left                    : 230, 227, 6, 21
-		center                  : 249, 227, 6, 21
-		right                   : 268, 227, 6, 21
+		left                    : 230, 226, 6, 22
+		center                  : 249, 226, 6, 22
+		right                   : 268, 226, 6, 22
 		textOffset              : 0,  -1
 		textColor               : 20, 20, 20
 

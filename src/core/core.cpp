@@ -42,8 +42,8 @@ Core::Core() {
 	ftglSetFontFaceSize (font, 12, 12);
 	ftglSetFontCharMap  (font, ft_encoding_unicode);
 
-	skin    = std::make_unique<Texture> ("../res/ui/skins/dark/controls.png");
-	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/dark/controls.e2t", ReadType::Text, skin.get(), font);
+	skin    = std::make_unique<Texture> ("../res/ui/skins/light/controls.png");
+	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/light/controls.e2t", ReadType::Text, skin.get(), font);
 	uiTheme->fontHeight = 12;
 
 	std::vector<std::string> atlasMaskLocations {"MVP", "Size", "Offset", "Texture", "Alpha", "Mask", "MaskOffset", "MaskSize"};
@@ -145,7 +145,7 @@ Core::Core() {
 	p1->top    = 100;
 	p1->width  = 500;
 	p1->height = 400;
-	p1->background = UIPanel::Background::Action;
+	p1->background = UIPanel::Background::Dark;
 	//p1->showScrollX = false;
 
 	//p1->scrollToElement(e1.get());
@@ -392,21 +392,21 @@ Core::Core() {
 
 	std::unique_ptr<UITab> tab = std::make_unique<UITab>(uiManager.get());
 	tab->caption = L"Tab 1";
-	tab->width = 100;
+	tab->width = 80;
 
 	std::unique_ptr<UITab> tab3 = std::make_unique<UITab>(uiManager.get());
 	tab3->caption = L"Tab 3";
-	tab3->width = 100;
+	tab3->width = 80;
 
 	std::unique_ptr<UITab> tab2 = std::make_unique<UITab>(uiManager.get());
 	tab2->caption = L"Tab 2";
-	tab2->width = 100;
+	tab2->width = 80;
 
 	std::unique_ptr<UIGrouped> tabs = std::make_unique<UIGrouped> (uiManager.get(), false, 2);
 	auto _tabs = tabs.get();
 
 	_tabs->left = 5;
-	_tabs->top  = 6;
+	_tabs->top  = 5;
 	_tabs->width = 400;
 	_tabs->style = "tabs";
 
