@@ -38,6 +38,7 @@ protected:
 	UIElement *lastSelected = nullptr;
 
 	bool multiSelect = false;
+	int  spacing     = 0;
 
 public:
 
@@ -59,10 +60,11 @@ public:
 
 	}
 
-	UIGrouped (UIManager *manager, bool multiSelect = false) : UIElement (manager) {
+	UIGrouped (UIManager *manager, bool multiSelect = false, bool spacing = 0) : UIElement (manager) {
 
 		this->manager     = manager;
 		this->multiSelect = multiSelect;
+		this->spacing     = spacing;
 
 		precompute();
 

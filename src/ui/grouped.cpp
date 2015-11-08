@@ -48,19 +48,26 @@ void UIGrouped::render() {
 	int partWidth = round (static_cast<float>(width-wh)/static_cast<float>(elements.size()-countFixSize));
 	int offset = 0;
 
+	partWidth += spacing;
+
 	UIElement *firstElement = elements. begin()->second.get();
 	UIElement *lastElement  = elements.rbegin()->second.get();
 
-	firstElement->drawAlign = Align::Left;
-	lastElement ->drawAlign = Align::Right;
+	if (spacing == 0) {
+
+		firstElement->drawAlign = Align::Left;
+		lastElement ->drawAlign = Align::Right;
+
+	}
 
 	for (const auto &kvp : elements) {
 
 		UIElement *el = kvp.second.get();
+
 		el->top  = 0;
 		el->left = offset;
 
-		if (el != firstElement && el != lastElement)
+		if (spacing == 0 && el != firstElement && el != lastElement)
 			el->drawAlign = Align::Center;
 
 		if (el->autoSize) {
@@ -79,7 +86,7 @@ void UIGrouped::render() {
 
 		// Draw Split
 
-		if (el != lastElement)
+		if (spacing == 0 && el != lastElement)
 			renderElement (0, absLeft+offset-iWidths[0], absTop, iWidths[0], iHeights[0], splitElement.get());
 
 	}

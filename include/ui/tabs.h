@@ -19,3 +19,30 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+
+#include "ui/element.h"
+#include "ui/button.h"
+#include "ui/manager.h"
+
+class UITab : public UIButton {
+public:
+
+	UITab (UIManager *manager) : UIButton (manager, true) {
+
+		this->manager = manager;
+
+		leaveElement = "tabbuttonleave";
+		enterElement = "tabbuttonenter";
+		clickElement = "tabbuttonactive";
+		focusElement = "tabbuttonfocus";
+
+		precompute();
+
+	}
+
+};
+
+class UITabs : public UIElement {
+public:
+	
+};

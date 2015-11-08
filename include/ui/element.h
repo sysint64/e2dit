@@ -47,6 +47,12 @@ class UIPanel;
 class UITreeListNode;
 class UITreeList;
 
+/**
+	\brief Base user interface class
+
+	Such class have base parameters for rendering, events...
+*/
+
 class UIElement {
 protected:
 	Application *app = Application::getInstance();
@@ -162,20 +168,20 @@ public:
 	friend UITreeListNode;
 	friend UITreeList;
 
-	std::vector<void*> metaData;
+	std::vector<void*> metaData;  ///< Extended data
 
 	/* Scroll */
 
-	int scrollX = 0;
-	int scrollY = 0;
+	int scrollX = 0; ///< Horizontal scroll inside element
+	int scrollY = 0; ///< Vertical scroll inside element
 
-	bool autoSize = false;
+	bool autoSize = false; ///< Size will calculate automatically if true
 
 	/* */
 
-	bool isRoot = false;
+	bool isRoot = false; ///< Root of system
 
-	int id;
+	int id; ///< Unique identifier
 
 	int width   = 0; int height = 0;
 	int absLeft = 0; int absTop = 0;
@@ -185,14 +191,14 @@ public:
 	bool enabled = true;
 	bool checked = false;
 
-	bool withoutSkin = false;
+	bool withoutSkin = false; ///< No draw skin element if true
 	bool allowScroll = false;
 
-	UIElement *parent  = nullptr;
-	UIManager *manager = nullptr;
+	UIElement *parent  = nullptr; ///< Parent element
+	UIManager *manager = nullptr; ///< Elements manager
 
-	CursorIco cursor = CursorIco::Normal;
-	Align drawAlign  = Align::All;
+	CursorIco cursor = CursorIco::Normal; ///< System cursor icon
+	Align drawAlign  = Align::All;        ///< Skin draw align: Left [-]; Center -; Right ->; All <->
 	Align align      = Align::None;
 
 	/* Functors: Callback Events */

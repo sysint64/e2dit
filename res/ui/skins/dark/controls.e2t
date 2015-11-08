@@ -114,10 +114,41 @@ Scroll
 			right               : 212, 22, 8, 14
 
 /**
- * Tabs
+ * Tab Button
  */
 
-Tabs
+TabButton
+
+	&Active
+
+		left                    : 230, 227, 6, 21
+		center                  : 249, 227, 6, 21
+		right                   : 268, 227, 6, 21
+
+	&Leave
+
+		left                    : 279, 227, 6, 21
+		center                  : 298, 227, 6, 21
+		right                   : 317, 227, 6, 21
+
+	&Enter
+
+		left                    : 328, 227, 6, 21
+		center                  : 347, 227, 6, 21
+		right                   : 366, 227, 6, 21
+
+	&Focus
+
+		left                    : 0, 0, 0, 0
+		center                  : 0, 0, 0, 0
+		right                   : 0, 0, 0, 0
+		offsets                 : 0, 0, 0
+
+/**
+ * Tool Tabs
+ */
+
+ToolTabs
 
 	background                  : 45 , 226, 5, 80
 	split                       : 114, 226, 5, 80
@@ -125,10 +156,10 @@ Tabs
 	tabOffset                   : 12
 
 /**
- * Tab Button
+ * Tool Tab Button
  */
 
-TabButton
+ToolTabButton
 
 	&Leave
 

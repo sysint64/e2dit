@@ -36,5 +36,6 @@ typedef int Uint16;
 #endif
 
 #include <iostream>
+#include <memory>
 
 #endif

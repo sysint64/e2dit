@@ -30,6 +30,10 @@
 
 #include "renderer/base_object.h"
 
+/**
+ * \brief UI Button element
+ */
+
 class UIButton : public UIElement {
 protected:
 

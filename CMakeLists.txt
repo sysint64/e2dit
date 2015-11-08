@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(e2dit)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-set(Boost_NO_SYSTEM_PATHS ON)
+#set(Boost_NO_SYSTEM_PATHS ON)
 #set(SFML_NO_SYSTEM_PATHS ON)
 
 if (APPLE)
@@ -45,7 +45,7 @@ include_directories(${GLM_INCLUDE_DIR})
 include_directories(${FREETYPE_INCLUDE_DIRS})
 include_directories(${Boost_INCLUDE_DIRS})
 
-set(GLEW_LIBRARIES "F:/mingw64/lib/libglew32.dll.a")
+#set(GLEW_LIBRARIES "F:/mingw64/lib/libglew32.dll.a")
 
 add_definitions(-DGLM_FORCE_RADIANS)
 add_definitions(-D${PLATFORM})

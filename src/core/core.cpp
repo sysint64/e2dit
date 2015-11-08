@@ -30,6 +30,7 @@
 #include "ui/grouped.h"
 #include "ui/menuitems.h"
 #include "ui/treelist.h"
+#include "ui/tabs.h"
 
 Core::Core() {
 
@@ -175,7 +176,19 @@ Core::Core() {
 	p2->allowResize = true;
 	p2->allowHide = true;
 
+	std::unique_ptr<UIPanel> p4 = std::make_unique<UIPanel> (uiManager.get());
+
+	auto _p4 = p4.get();
+
+	p4->height = 27;
+	//p2->background = UIPanel::Background::Dark;
+	p4->align = Align::Top;
+	p4->background = UIPanel::Background::Dark;
+	p4->allowResize = false;
+	p4->allowHide = false;
+
 	_p1->addElement (std::move(p2));
+	_p1->addElement (std::move(p4));
 	//uiManager->addElement (std::move(p2));
 	//_p2->addElement (std::move(b1));
 	_p2->addElement (std::move(ge1));
@@ -308,7 +321,7 @@ Core::Core() {
 
 	std::unique_ptr<UITreeList> treeList = std::make_unique<UITreeList> (uiManager.get());
 
-	treeList->drawLines = false;
+	//treeList->drawLines = false;
 	treeList->width = 200;
 	treeList->left = 40;
 	treeList->top  = 85;
@@ -374,6 +387,32 @@ Core::Core() {
 	_tlNode3 ->addElement (std::move (tlNode5));
 	_tlNode5 ->addElement (std::move (tlNode6));
 	_tlNode2->open = false;
+
+	//
+
+	std::unique_ptr<UITab> tab = std::make_unique<UITab>(uiManager.get());
+	tab->caption = L"Tab 1";
+	tab->width = 100;
+
+	std::unique_ptr<UITab> tab3 = std::make_unique<UITab>(uiManager.get());
+	tab3->caption = L"Tab 3";
+	tab3->width = 100;
+
+	std::unique_ptr<UITab> tab2 = std::make_unique<UITab>(uiManager.get());
+	tab2->caption = L"Tab 2";
+	tab2->width = 100;
+
+	std::unique_ptr<UIGrouped> tabs = std::make_unique<UIGrouped> (uiManager.get(), false, 2);
+	auto _tabs = tabs.get();
+
+	_tabs->left = 5;
+	_tabs->top  = 6;
+	_tabs->width = 400;
+
+	_p4->addElement (std::move(tabs));
+	_tabs->addElement (std::move(tab));
+	_tabs->addElement (std::move(tab2));
+	_tabs->addElement (std::move(tab3));
 
 	/*std::unique_ptr<UIImage> image1 = std::make_unique<UIImage> (uiManager.get());
 	image1->left = 250;
