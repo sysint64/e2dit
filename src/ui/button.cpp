@@ -34,7 +34,7 @@ void UIButton::render () {
 
 	if (drawChilds)
 		UIElement::render();
-		
+
 	updateAbsPos();
 
 	//if (!enabled || (parent != nullptr && !parent->enabled))
@@ -94,7 +94,7 @@ void UIButton::render () {
 			if (drawAlign == Align::Center) iOffset += iWidths[n]; else
 			if (drawAlign == Align::Right ) iOffset += iWidths[n];
 
-			manager->icons->render (absLeft+2+iOffset, app->windowHeight-height+2-absTop,
+			manager->icons->render (absLeft+iconLeft+iOffset, app->windowHeight-height-iconTop+2-absTop,
 			                        iconOffset[0], iconOffset[1], iconElement.get());
 
 		}
@@ -115,7 +115,7 @@ void UIButton::render () {
 			if (drawAlign == Align::Center) iOffset += iWidths[n]; else
 			if (drawAlign == Align::Right ) iOffset += iWidths[n];
 
-			manager->icons->render (absLeft+20+iOffset, app->windowHeight-height+2-absTop,
+			manager->icons->render (absLeft+iconLeft+18+iOffset, app->windowHeight-height-iconTop+2-absTop,
 			                        icon2Offset[0], icon2Offset[1], iconElement2.get());
 
 		}

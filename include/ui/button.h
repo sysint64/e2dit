@@ -38,6 +38,8 @@ class UIButton : public UIElement {
 protected:
 
 	bool drawChilds = true;
+	int  iconLeft   = 2;
+	int  iconTop    = 0;
 
 	/* Param Names for load from Layout file */
 

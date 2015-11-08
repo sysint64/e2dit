@@ -31,6 +31,8 @@ public:
 
 		this->manager = manager;
 
+		iconLeft = 5;
+		iconTop  = 1;
 		style = "tabbutton";
 		precompute();
 
