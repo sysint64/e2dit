@@ -59,15 +59,17 @@ public:
 	float offsetsY[count][count];
 	float width; float height;
 	float sizeIcon;
+	int   texBindId;
 
 	UIManager *manager;
 
-	UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float sizeIcon);
+	UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float sizeIcon, int margin, int spacing);
 	void render (int x, int y, int ox, int oy, BaseObject *iconElement);
 
 };
 
-typedef UIIcons<ICONS_COUNT> UIMainIcons;
+typedef UIIcons<ICONS_COUNT>      UIMainIcons;
+typedef UIIcons<TOOL_ICONS_COUNT> UIToolIcons;
 
 /**
  * Manager of UI Elements
@@ -93,7 +95,7 @@ public:
 	/* Icons */
 
 	std::unique_ptr<UIMainIcons> icons;
-	std::unique_ptr<UIIcons<4 >> toolIcons;
+	std::unique_ptr<UIToolIcons> toolIcons;
 
 	/* Render */
 

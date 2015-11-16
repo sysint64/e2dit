@@ -151,21 +151,21 @@ TabButton
 		textColor               : 20, 20, 20
 
 /**
- * Tool Tabs
+ * Toolbar
  */
 
-ToolTabs
+Toolbar
 
 	background                  : 45 , 226, 5, 80
 	split                       : 114, 226, 5, 80
 	shadowHeight                : 3
-	tabOffset                   : 12
+	tabOffset                   : 10
 
 /**
- * Tool Tab Button
+ * Toolbar Tab Button
  */
 
-ToolTabButton
+ToolbarTab
 
 	&Leave
 
@@ -195,6 +195,30 @@ ToolTabButton
 
 		textOffset              : 0, 0
 		textColor               : 40, 40, 40
+
+	&Focus
+
+		left                    : 0, 0, 0, 0
+		center                  : 0, 0, 0, 0
+		right                   : 0, 0, 0, 0
+		offsets                 : 0, 0, 0
+
+ToolbarItem
+
+	&Leave
+		alpha                   : 75
+		textOffset              : 0, 0
+		textColor               : 110, 110, 110
+
+	&Enter
+		alpha                   : 100
+		textOffset              : 0, 0
+		textColor               : 0, 0, 0
+
+	&Click
+		alpha                   : 100
+		textOffset              : 0, 0
+		textColor               : 10, 10, 210
 
 /**
  * Button

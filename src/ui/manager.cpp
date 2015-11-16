@@ -27,7 +27,7 @@
  */
 
 template <int count>
-UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float sizeIcon) {
+UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float sizeIcon, int margin, int spacing) {
 
 	this->sizeIcon = sizeIcon;
 	this->tex      = std::move (tex);
@@ -43,8 +43,8 @@ UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float
 
 			/* Calculate Offsets in Texture Coordinate System */
 
-			offsetsX[i][j] = (float)(9+i*sizeIcon+3*i) / this->tex->width;
-			offsetsY[i][j] = (float)(9+j*sizeIcon+3*j) / this->tex->height;
+			offsetsX[i][j] = (float)(margin+i*sizeIcon+spacing*i) / this->tex->width;
+			offsetsY[i][j] = (float)(margin+j*sizeIcon+spacing*j) / this->tex->height;
 
 		}
 
@@ -62,10 +62,10 @@ UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float
 template <int count>
 void UIIcons<count>::render (int x, int y, int ox, int oy, BaseObject *iconElement) {
 
-	glUniform1i (manager->atlasShader->locations["Texture"], 2);
-	glUniform2f (manager->atlasShader->locations["Size"]  , width, height);
-	glUniform2f (manager->atlasShader->locations["Offset"], offsetsX[ox][oy],
-	                                                        offsetsY[ox][oy]);
+	glUniform1i (manager->atlasShader->locations["Texture"], texBindId);
+	glUniform2f (manager->atlasShader->locations["Size"]   , width, height);
+	glUniform2f (manager->atlasShader->locations["Offset"] , offsetsX[ox][oy],
+	                                                         offsetsY[ox][oy]);
 
 	iconElement->setPosition (glm::vec2 (x, y));
 	iconElement->setScale    (glm::vec2 (sizeIcon, sizeIcon));
@@ -79,6 +79,7 @@ void UIIcons<count>::render (int x, int y, int ox, int oy, BaseObject *iconEleme
 }
 
 template class UIIcons<ICONS_COUNT>;
+template class UIIcons<TOOL_ICONS_COUNT>;
 
 /**
  * Constructor, Create Root Element and
@@ -267,6 +268,12 @@ void UIManager::render() {
 
 	glActiveTexture (GL_TEXTURE2);
 	glBindTexture   (GL_TEXTURE_2D, icons->tex->handle);
+
+	glActiveTexture (GL_TEXTURE5);
+	glBindTexture   (GL_TEXTURE_2D, toolIcons->tex->handle);
+
+	icons    ->texBindId = 2;
+	toolIcons->texBindId = 5;
 
 	/* Bind UI VBO Data Render */
 

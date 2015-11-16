@@ -31,36 +31,18 @@
 
 #include "renderer/base_object.h"
 
-class UIGrouped : public UIElement {
+class UIGrouped : public UICheckedElements {
 protected:
 
 	std::unique_ptr<BaseObject> splitElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	UIElement *lastSelected = nullptr;
-
-	bool multiSelect = false;
 	int  spacing     = 0;
 
 public:
 
-	friend UIButton;
-
 	virtual void precompute() override;
 	virtual void render()     override;
 
-	inline void checkElement (UIElement* el) {
-
-		if (el->parent != this)
-			return;
-
-		if (!multiSelect && lastSelected != nullptr)
-			lastSelected->checked = false;
-
-		el->checked  = true;
-		lastSelected = el;
-
-	}
-
-	UIGrouped (UIManager *manager, bool multiSelect = false, bool spacing = 0) : UIElement (manager) {
+	UIGrouped (UIManager *manager, bool multiSelect = false, bool spacing = 0) : UICheckedElements (manager) {
 
 		this->manager     = manager;
 		this->multiSelect = multiSelect;

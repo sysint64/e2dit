@@ -248,7 +248,7 @@ void UIButton::mouseDown (int x, int y, int button) {
 
 	if (!allowCheck) return;
 
-	UIGrouped *grouped = dynamic_cast<UIGrouped*>(parent);
+	UICheckedElements *grouped = dynamic_cast<UICheckedElements*>(parent);
 
 	if (grouped && !grouped->multiSelect) {
 

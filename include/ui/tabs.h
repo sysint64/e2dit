@@ -20,6 +20,8 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
+#pragma once
+
 #include "ui/element.h"
 #include "ui/button.h"
 #include "ui/manager.h"
@@ -33,7 +35,7 @@ public:
 
 		iconLeft = 5;
 		iconTop  = 1;
-		style = "tabbutton";
+		style    = "tabbutton";
 		precompute();
 
 	}

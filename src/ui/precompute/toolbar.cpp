@@ -19,3 +19,34 @@
  *
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
+
+#include "ui/toolbar.h"
+#include "utility/renderer.h"
+
+/**
+ * User Interface Precompute Texture Atlas values
+ */
+
+void UIToolbar::precompute() {
+
+	precomputeElement (0, style, "background");
+	precomputeElement (1, style, "split");
+
+	tabOffset    = precomputeInt (style, "taboffset");
+	shadowHeight = precomputeInt (style, "shadowheight");
+
+	height = iHeights[0]-shadowHeight+1;
+
+}
+
+void UIToolbarItem::precompute() {
+
+	precomputeText (0, style+leaveElement);
+	precomputeText (1, style+enterElement);
+	precomputeText (2, style+clickElement);
+
+	alphas[0] = static_cast<float> (precomputeInt (style+leaveElement, "alpha")) / 100.f;
+	alphas[1] = static_cast<float> (precomputeInt (style+enterElement, "alpha")) / 100.f;
+	alphas[2] = static_cast<float> (precomputeInt (style+clickElement, "alpha")) / 100.f;
+
+}

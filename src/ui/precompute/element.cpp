@@ -132,8 +132,14 @@ void UIElement::precomputeFloatArray (const std::string &element, const std::str
 void UIElement::precomputeIntArray (const std::string &element, const std::string &params, int *arr, const int size) {
 
 	precomputeException (element, params, size);
-	
+
 	for (int i = 0; i < size; i++)
 		arr[i] = manager->theme->element[element].params[params][i].num;
+
+}
+
+int UIElement::precomputeInt (const std::string &element, const std::string &param) {
+
+	return floor (manager->theme->element[element].params[param][0].num);
 
 }

@@ -31,6 +31,7 @@
 #include "ui/menuitems.h"
 #include "ui/treelist.h"
 #include "ui/tabs.h"
+#include "ui/toolbar.h"
 
 Core::Core() {
 
@@ -58,9 +59,63 @@ Core::Core() {
 	uiManager->uiDataRender = new SpriteData (false, false, true);
 
 	std::unique_ptr<Texture> iconsTex = std::make_unique<Texture> ("../res/ui/icons/icons.png");
-	uiManager->icons = std::make_unique<UIMainIcons> (uiManager.get(), std::move (iconsTex), 18.f);
+	uiManager->icons = std::make_unique<UIMainIcons> (uiManager.get(), std::move (iconsTex), 18.f, 9, 3);
+
+	iconsTex = std::make_unique<Texture> ("../res/ui/icons/main_toolbar_icons.png");
+	uiManager->toolIcons = std::make_unique<UIToolIcons> (uiManager.get(), std::move (iconsTex), 48.f, 1, 1);
 
 	//uiManager->icons.tex = std::make_unique<Texture> ("res/ui/icons.png");
+
+	std::unique_ptr<UIPanel> pmenu = std::make_unique<UIPanel> (uiManager.get());
+	pmenu->height = 25;
+	pmenu->background = UIPanel::Background::Dark;
+	pmenu->align = Align::Top;
+
+	uiManager->addElement (std::move (pmenu));
+
+	std::unique_ptr<UIToolbar> toolbar = std::make_unique<UIToolbar> (uiManager.get());
+	auto _toolbar = toolbar.get();
+	uiManager->addElement (std::move(toolbar));
+
+	std::unique_ptr<UIToolbarItem> toolitem = std::make_unique<UIToolbarItem> (uiManager.get());
+	toolitem->top = 200;
+	toolitem->left = 100;
+	toolitem->iconOffset[0] = 1;
+	toolitem->iconOffset[1] = 1;
+	toolitem->caption = L"My Tool";
+
+	std::unique_ptr<UIToolbarTab> tooltab = std::make_unique<UIToolbarTab> (uiManager.get());
+	tooltab->width = 150;
+	tooltab->iconOffset[0] = 3;
+	tooltab->iconOffset[1] = 4;
+	tooltab->showIcon = true;
+	tooltab->caption = L"Tab1";
+
+	std::unique_ptr<UIToolbarTab> tooltab2 = std::make_unique<UIToolbarTab> (uiManager.get());
+	tooltab2->width = 150;
+	tooltab2->iconOffset[0] = 6;
+	tooltab2->iconOffset[1] = 4;
+	tooltab2->showIcon = true;
+	tooltab2->caption = L"Tab2";
+
+	std::unique_ptr<UIToolbarTab> tooltab3 = std::make_unique<UIToolbarTab> (uiManager.get());
+	tooltab3->width = 150;
+	tooltab3->iconOffset[0] = 10;
+	tooltab3->iconOffset[1] = 6;
+	tooltab3->showIcon = true;
+	tooltab3->caption = L"Tab3";
+
+	auto _tooltab  = tooltab .get();
+	auto _tooltab2 = tooltab2.get();
+	auto _tooltab3 = tooltab3.get();
+
+	_toolbar->addElement (std::move (tooltab ));
+	_toolbar->addElement (std::move (tooltab2));
+	_toolbar->addElement (std::move (tooltab3));
+
+	_toolbar->checkElement (_tooltab2);
+
+	//uiManager->addElement (std::move (tooltab));
 
 	std::unique_ptr<UIButton> b1 = std::make_unique<UIButton> (uiManager.get(), false);
 	std::unique_ptr<UIButton> b2 = std::make_unique<UIButton> (uiManager.get(), true);
@@ -157,6 +212,7 @@ Core::Core() {
 	auto _p1 = p1.get();
 
 	uiManager->addElement (std::move(p1));
+	uiManager->addElement (std::move(toolitem));
 
 	//_p1->addElement (std::move(b1));
 	//_p1->addElement (std::move(b2));
@@ -414,10 +470,14 @@ Core::Core() {
 	tab2->iconOffset[0] = 8;
 	tab2->iconOffset[1] = 9;
 
+	auto _tab = tab.get();
+
 	_p4->addElement (std::move(tabs));
 	_tabs->addElement (std::move(tab));
 	_tabs->addElement (std::move(tab2));
 	_tabs->addElement (std::move(tab3));
+
+	_tabs->checkElement (_tab);
 
 	/*std::unique_ptr<UIImage> image1 = std::make_unique<UIImage> (uiManager.get());
 	image1->left = 250;

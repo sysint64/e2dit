@@ -93,7 +93,6 @@ protected:
 	int hbMin = 0; int hbMax = 0;
 	int vbMin = 0; int vbMax = 0;
 
-	void updateAlign();
 	void updateScroll();
 	void pollScroll();
 	void calculateSplit();

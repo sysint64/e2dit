@@ -20,8 +20,7 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef E2DIT_UI_ELEMENT_H
-#define E2DIT_UI_ELEMENT_H
+#pragma once
 
 #include "utility/config.h"
 #include "utility/application.h"
@@ -44,6 +43,7 @@ enum class Align {None, Left, Center, Right, Client, Bottom, Top, All};
 
 class UIManager;
 class UIPanel;
+class UIButton;
 class UITreeListNode;
 class UITreeList;
 
@@ -99,6 +99,8 @@ protected:
 	bool focused  = false;
 	bool inDialog = false;
 
+	void updateAlign();
+
 	/* Precompute */
 
 	void precomputeElement     (const int n, const std::string &element, const std::string &params);
@@ -107,6 +109,7 @@ protected:
 	void precomputeIntArray    (const std::string &element, const std::string &params, int   *arr, const int size);
 	void precomputeColor3f     (const std::string &element, const std::string &params, float *arr);
 	void precomputeColor4f     (const std::string &element, const std::string &params, float *arr);
+	int  precomputeInt         (const std::string &element, const std::string &params);
 
 	void precomputeException   (const std::string &element, const std::string &params, const int size) const;
 
@@ -283,4 +286,33 @@ public:
 
 };
 
-#endif
+class UICheckedElements : public UIElement {
+protected:
+	UIElement *lastSelected = nullptr;
+
+public:
+
+	friend UIButton;
+	bool multiSelect = false;
+
+	inline void checkElement (UIElement* el) {
+
+		if (el->parent != this)
+			return;
+
+		if (!multiSelect && lastSelected != nullptr)
+			lastSelected->checked = false;
+
+		el->checked  = true;
+		lastSelected = el;
+
+	}
+
+	UICheckedElements (UIManager *manager) : UIElement (manager) {
+
+		this->manager = manager;
+		precompute();
+
+	}
+
+};
