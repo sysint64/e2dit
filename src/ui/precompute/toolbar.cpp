@@ -30,7 +30,6 @@
 void UIToolbar::precompute() {
 
 	precomputeElement (0, style, "background");
-	precomputeElement (1, style, "split");
 
 	tabOffset    = precomputeInt (style, "taboffset");
 	shadowHeight = precomputeInt (style, "shadowheight");
@@ -48,5 +47,12 @@ void UIToolbarItem::precompute() {
 	alphas[0] = static_cast<float> (precomputeInt (style+leaveElement, "alpha")) / 100.f;
 	alphas[1] = static_cast<float> (precomputeInt (style+enterElement, "alpha")) / 100.f;
 	alphas[2] = static_cast<float> (precomputeInt (style+clickElement, "alpha")) / 100.f;
+
+}
+
+void UIToolbarSplit::precompute() {
+
+	precomputeElement (0, style, "split");
+	width = iWidths[0]+10;
 
 }

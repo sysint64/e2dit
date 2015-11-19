@@ -89,13 +89,6 @@ protected:
 	bool wasClick = false; // ???
 	bool keyClick = false; // ???
 
-	/* Mouse State */
-
-	bool enter  = false;
-	bool leave  = true;
-	bool click  = false;
-	bool over   = false; // true if mouse over element even if another element overlaps it
-
 	bool focused  = false;
 	bool inDialog = false;
 
@@ -172,6 +165,16 @@ public:
 	friend UITreeList;
 
 	std::vector<void*> metaData;  ///< Extended data
+
+	/* Mouse State */
+
+	bool enter  = false;
+	bool leave  = true;
+	bool click  = false;
+	bool over   = false; // true if mouse over element even if another element overlaps it
+
+	std::string hint = "element";
+	int         tag  = 0;
 
 	/* Scroll */
 

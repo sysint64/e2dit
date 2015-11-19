@@ -29,8 +29,27 @@
 #include "renderer/base_object.h"
 #include <string>
 
-class UIToolbarSplit : public UIElement {};
-class UIToolbarTab   : public UIButton {
+class UIToolbarSplit : public UIElement {
+protected:
+	std::unique_ptr<BaseObject> splitElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+
+public:
+
+	virtual void precompute() override;
+	virtual void render()     override;
+
+	UIToolbarSplit (UIManager *manager) : UIElement (manager) {
+
+		this->style   = "toolbar";
+		this->manager = manager;
+
+		precompute();
+
+	}
+
+};
+
+class UIToolbarTab : public UIButton {
 public:
 
 	UIToolbarTab (UIManager *manager) : UIButton (manager) {
@@ -47,9 +66,11 @@ public:
 
 };
 
+class UIToolbar;
 class UIToolbarItem : public UIElement {
 protected:
 	std::unique_ptr<BaseObject> iconElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	UIToolbar *toolbar = nullptr;
 
 public:
 	std::string leaveElement = "leave";
@@ -64,13 +85,16 @@ public:
 	virtual void precompute() override;
 	virtual void render()     override;
 
-	UIToolbarItem (UIManager *manager) : UIElement (manager) {
+	virtual void mouseDown (int x, int y, int button) override;
+
+	UIToolbarItem (UIManager *manager, UIToolbar *toolbar) : UIElement (manager) {
 
 		style  = "toolbaritem";
 		width  = manager->toolIcons->sizeIcon;
 		height = manager->toolIcons->sizeIcon+18+manager->theme->fontHeight+2;
 
 		this->manager = manager;
+		this->toolbar = toolbar;
 
 		precompute();
 
@@ -88,6 +112,8 @@ protected:
 
 public:
 
+	UIElement *lastTool = nullptr;
+
 	int tabsOffset = 20;
 	int tabSize    = 150;
 
@@ -101,6 +127,16 @@ public:
 		this->manager = manager;
 
 		precompute();
+
+	}
+
+	void checkTool (UIElement *tool) {
+
+		if (lastTool != nullptr)
+			lastTool->checked = false;
+
+		tool->checked = true;
+		lastTool = tool;
 
 	}
 

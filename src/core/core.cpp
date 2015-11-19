@@ -77,13 +77,6 @@ Core::Core() {
 	auto _toolbar = toolbar.get();
 	uiManager->addElement (std::move(toolbar));
 
-	std::unique_ptr<UIToolbarItem> toolitem = std::make_unique<UIToolbarItem> (uiManager.get());
-	toolitem->top = 200;
-	toolitem->left = 100;
-	toolitem->iconOffset[0] = 1;
-	toolitem->iconOffset[1] = 1;
-	toolitem->caption = L"My Tool";
-
 	std::unique_ptr<UIToolbarTab> tooltab = std::make_unique<UIToolbarTab> (uiManager.get());
 	tooltab->width = 150;
 	tooltab->iconOffset[0] = 3;
@@ -114,6 +107,34 @@ Core::Core() {
 	_toolbar->addElement (std::move (tooltab3));
 
 	_toolbar->checkElement (_tooltab2);
+
+	std::unique_ptr<UIToolbarItem> toolitem = std::make_unique<UIToolbarItem> (uiManager.get(), _toolbar);
+	toolitem->iconOffset[0] = 1;
+	toolitem->iconOffset[1] = 1;
+	toolitem->caption = L"My Tool";
+
+	std::unique_ptr<UIToolbarItem> toolitem2 = std::make_unique<UIToolbarItem> (uiManager.get(), _toolbar);
+	toolitem2->iconOffset[0] = 2;
+	toolitem2->iconOffset[1] = 1;
+	toolitem2->caption = L"My Tool";
+
+	std::unique_ptr<UIToolbarItem> toolitem3 = std::make_unique<UIToolbarItem> (uiManager.get(), _toolbar);
+	toolitem3->iconOffset[0] = 1;
+	toolitem3->iconOffset[1] = 3;
+	toolitem3->caption = L"My Tool";
+
+	std::unique_ptr<UIToolbarItem> toolitem4 = std::make_unique<UIToolbarItem> (uiManager.get(), _toolbar);
+	toolitem4->iconOffset[0] = 2;
+	toolitem4->iconOffset[1] = 2;
+	toolitem4->caption = L"My Tool";
+
+	std::unique_ptr<UIToolbarSplit> toolsplit = std::make_unique<UIToolbarSplit> (uiManager.get());
+
+	_tooltab->addElement (std::move (toolitem));
+	_tooltab->addElement (std::move (toolitem2));
+	_tooltab->addElement (std::move (toolitem3));
+	_tooltab->addElement (std::move (toolsplit));
+	_tooltab->addElement (std::move (toolitem4));
 
 	//uiManager->addElement (std::move (tooltab));
 
@@ -212,7 +233,6 @@ Core::Core() {
 	auto _p1 = p1.get();
 
 	uiManager->addElement (std::move(p1));
-	uiManager->addElement (std::move(toolitem));
 
 	//_p1->addElement (std::move(b1));
 	//_p1->addElement (std::move(b2));

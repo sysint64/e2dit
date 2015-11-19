@@ -46,15 +46,35 @@ void UIToolbar::render() {
 		if (tab->checked)
 			continue;
 
+		tab->over = false;
 		tab->render();
 
 	}
 
 	renderElement (0, absLeft, absTop, width, iHeights[0], bgElement.get());
+	over = pointInRect (app->mouseX, app->mouseY, absLeft, absTop-22, width, iHeights[0]+22);
 
-	if (lastSelected != nullptr) {
+	if (lastSelected == nullptr)
+		return;
 
-		lastSelected->render();
+	lastSelected->render();
+	lastSelected->over = over;
+
+	//  Render Active tab elements
+	// TODO: Remove hardcode
+
+	int elx = -tabsOffset+10;
+	int ely = 27;
+
+	for (const auto &kvp : lastSelected->elements) {
+
+		UIElement *el = kvp.second.get();
+
+		el->left = elx;
+		el->top  = ely;
+
+		el->render();
+		elx += el->width+10;
 
 	}
 
@@ -75,9 +95,23 @@ void UIToolbarItem::render() {
 	int tx = absLeft+((width-twidth) >> 1);
 
 	manager->atlasShader->unbind();
-	renderText (manager->theme->font, &(textColors[ci]), tx, absTop+manager->toolIcons->sizeIcon+18, caption);
+	renderText (manager->theme->font, &(textColors[ci]), tx, absTop+manager->toolIcons->sizeIcon+14, caption);
 	manager->atlasShader->bind();
 
 	glUniform1f (manager->atlasShader->locations["Alpha"], 1.0f);
+
+}
+
+void UIToolbarItem::mouseDown (int x, int y, int button) {
+
+	if (enter)
+		toolbar->checkTool (this);
+
+}
+
+void UIToolbarSplit::render() {
+
+	updateAbsPos();
+	renderElement (0, absLeft+5, absTop-1, iWidths[0], iHeights[0], splitElement.get());
 
 }
