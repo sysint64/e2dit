@@ -92,6 +92,8 @@ protected:
 	bool focused  = false;
 	bool inDialog = false;
 
+	int  layer    = 0; ///< Work layer, if current layer not eq of this layer, then element will disabled
+
 	void updateAlign();
 
 	/* Precompute */

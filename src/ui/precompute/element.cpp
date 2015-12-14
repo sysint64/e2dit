@@ -35,7 +35,7 @@ void UIElement::precomputeException (const std::string &element, const std::stri
 
 	if (manager->theme->element[element].params[params].size() < size)
 		throw std::runtime_error (Formatter() << element << "[" << params << "] size less than " << size << " ("
-											  << manager->theme->element[element].params[params].size() << ")");
+		                                      << manager->theme->element[element].params[params].size() << ")");
 
 }
 

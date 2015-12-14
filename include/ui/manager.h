@@ -91,6 +91,7 @@ public:
 
 	bool dialogOpened = false;
 	bool freezUI      = false;
+	int  currentLayer = 0;
 
 	/* Icons */
 

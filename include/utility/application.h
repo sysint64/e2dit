@@ -72,6 +72,8 @@ public:
 
 	/* Timers */
 
+	// TODO: Rewrite!!!!!
+	
 	Timer *timers[timersCount];
 	std::unordered_map<int, bool> timersMap;
 	std::vector<int> activeTimers;

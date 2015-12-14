@@ -32,6 +32,7 @@
 #include "ui/treelist.h"
 #include "ui/tabs.h"
 #include "ui/toolbar.h"
+#include "ui/dialog.h"
 
 Core::Core() {
 
@@ -492,7 +493,7 @@ Core::Core() {
 
 	auto _tab = tab.get();
 
-	_p4->addElement (std::move(tabs));
+	_p4  ->addElement (std::move(tabs));
 	_tabs->addElement (std::move(tab));
 	_tabs->addElement (std::move(tab2));
 	_tabs->addElement (std::move(tab3));
@@ -511,6 +512,15 @@ Core::Core() {
 	label1->top  = 40;
 	label1->caption = L"Hello World!";
 	_p3->addElement (std::move(label1));
+
+	std::unique_ptr<UIDialog> dialog = std::make_unique<UIDialog> (uiManager.get());
+
+	dialog->left   = 100;
+	dialog->top    = 100;
+	dialog->width  = 300;
+	dialog->height = 200;
+
+	uiManager->addElement (std::move (dialog));
 
 }
 
