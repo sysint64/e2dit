@@ -19,9 +19,9 @@ You can either build E2DIT yourself (see below)
 ##Build instructions (Linux)
 
 ##Dependencies
-Editor use C++14 standart, we recomended use clang compiler.
+Editor use C++14 standart.
 
-First you need compile SFML 2.+ and boost for C++14
+If You use clang, first you need compile SFML 2.+ and boost for C++14 with flags `-std=c++14 -stdlib=libc++`
 
 **Make sure to install these libs first**
 
