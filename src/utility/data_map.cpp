@@ -102,7 +102,7 @@ void DataMap::saveToText (const char *fileName) {
 
 	/* Get All Elements */
 
-	for (auto it:element) {
+	for (const auto &it : element) {
 
 		fputs (it.first.c_str(), outFile); fputs ("\n", outFile);
 		DataParams tf = element[it.first];

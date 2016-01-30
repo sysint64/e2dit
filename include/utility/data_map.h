@@ -26,6 +26,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <memory>
 #include "stdio.h"
 #include "utility/application.h"
 #include "boost/filesystem.hpp"
@@ -48,14 +49,25 @@ private:
 
 	} typedef DataVal;
 
-	/* Data Functiosn */
+	/* Data Functions */
 
 	struct DataParams {
 
 		std::map <std::string, std::vector<DataVal> > params;
+		std::string type = "undef";
 		bool def;
 
 	} typedef DataParams;
+
+	struct DataNode {
+
+		std::map <std::string, std::vector<DataVal> > params;
+		std::string type = "undef";
+		std::string name = "";
+		DataNode *parent = nullptr;
+		std::vector <std::unique_ptr<DataNode>> childs;
+
+	} typedef DataNode;
 
 	/* In File */
 
@@ -93,7 +105,7 @@ private:
 	int              nts = 0;
 	int              lastTabs = 0;
 	int              tabSize  = 0;
-
+	int              lastHierarchyTabs = 0;
 	/**/
 
 	//std::vector<std::string> names;
@@ -102,13 +114,31 @@ private:
 	std::string names  [32];
 	std::string parents[32];
 
+	//
+	DataNode *parentNode = nullptr;
+	DataNode *lastNode   = nullptr;
+
+	/*  */
+
+	inline void pushNode() {
+		//parentNode = node;
+		//parentNode = lastNode;
+	}
+
+	inline void popNode() {
+
+		if (parentNode != nullptr)
+			parentNode = parentNode->parent;
+
+	}
+
 	/* Lexer */
 
 	char lexChar();
-	char lexToken     (const bool skipTab = true);
-	char lexNextToken (const bool skipTab = true);
-	char lexPrevToken (const bool skipTab = true);
 	char lexStrLen();
+	char lexToken      (const bool skipTab = true);
+	char lexNextToken  (const bool skipTab = true);
+	char lexPrevToken  (const bool skipTab = true);
 	void lexOpenFile   (const char *fileName);
 	void lexReopenFile (const char *fileName);
 
@@ -164,6 +194,11 @@ public:
 	std::map<std::string, DataParams> element;
 	bool haltIfErr = false;
 	std::string fileName;
+
+	// Hierarchy Representation
+
+	bool hierarchy = false;
+	std::unique_ptr<DataNode> root;
 
 	/* Methods */
 

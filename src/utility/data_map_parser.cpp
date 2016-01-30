@@ -29,6 +29,17 @@
 
 void DataMap::parse() {
 
+	if (hierarchy) {
+
+		root = std::make_unique<DataNode>();
+		root->name = "root";
+		root->parent = root.get();
+
+		parentNode = root.get();
+		lastNode   = root.get();
+
+	}
+
 	lexNextToken();
 
 	while (1) {
@@ -56,7 +67,7 @@ void DataMap::parse() {
 void DataMap::parseElement() {
 
 	std::string Name = idStr;
-	std::string Type = "";
+	std::string type = "";
 
 	bytecode.push_back (op_elem);
 	bytecode.push_back (Name.size());
@@ -65,17 +76,18 @@ void DataMap::parseElement() {
 		bytecode.push_back(Name[i]);
 
 	lexNextToken (false);
+	puts (Name.c_str());
 
 	if (curToken == '(') {
 
 		lexNextToken();
-		Type = idStr;
+		type = idStr;
 
 		bytecode.push_back (op_type);
-		bytecode.push_back (Type.size());
+		bytecode.push_back (type.size());
 
-		for (int i = 0; i < Type.size(); i++)
-			bytecode.push_back(Type[i]);
+		for (int i = 0; i < type.size(); i++)
+			bytecode.push_back(type[i]);
 
 		lexNextToken();
 
@@ -99,17 +111,55 @@ void DataMap::parseElement() {
 
 	std::vector<DataVal> params;
 
-	if (lastTabs == 0) {
+	if (hierarchy) {
 
-		params.push_back ({0, "Root", L"", true});
-		element[Name].params["parent"] = params;
+		if (lastTabs > lastHierarchyTabs) {
+
+			parentNode = lastNode;
+
+		} else
+
+		while (lastTabs < lastHierarchyTabs) {
+
+			parentNode = parentNode->parent;
+			lastHierarchyTabs--;
+
+		}
+
+		auto node = std::make_unique<DataNode>();
+		node->name = Name;
+		node->type = type;
+		node->parent = parentNode;
+		lastNode = node.get();
+		parentNode->childs.push_back(std::move(node));
+
+		puts("ok");
 
 	} else {
 
-		params.push_back ({0, parents[lastTabs-1], L"", true});
-		element[Name].params["parent"] = params;
+		if (lastTabs == 0) {
+
+			params.push_back ({0, "Root", L"", true});
+
+			element[Name].params["parent"] = params;
+			element[Name].type             = type;
+
+		} else {
+
+			params.push_back ({0, parents[lastTabs-1], L"", true});
+
+			element[Name].params["parent"] = params;
+			element[Name].type             = type;
+
+		}
 
 	}
+
+	printf("%d, %d\n", lastTabs, lastHierarchyTabs);
+	lastHierarchyTabs = lastTabs;
+
+	if (hierarchy && parentNode != nullptr)
+		puts (("parent: "+parentNode->name).c_str());
 
 	if (merge) {
 

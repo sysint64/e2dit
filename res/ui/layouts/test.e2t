@@ -1,0 +1,29 @@
+
+/* Panel */
+
+TopPanel
+	color: 0
+
+	OKButton
+		size: 100, auto
+		caption: "Hello Word!"
+
+		Edit2
+			size: 100, auto
+			text: "Test"
+
+	Edit3
+		size: 100, auto
+		text: "Test"
+
+	Edit4
+		size: 100, auto
+		text: "Test"
+
+		Edit5
+			size: 100, auto
+			text: "Test"
+
+Edit5
+	size: 100, auto
+	text: "Test"

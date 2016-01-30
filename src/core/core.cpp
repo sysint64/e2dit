@@ -33,6 +33,7 @@
 #include "ui/tabs.h"
 #include "ui/toolbar.h"
 #include "ui/dialog.h"
+#include "ui/loader.h"
 
 Core::Core() {
 
@@ -65,8 +66,11 @@ Core::Core() {
 	iconsTex = std::make_unique<Texture> ("../res/ui/icons/main_toolbar_icons.png");
 	uiManager->toolIcons = std::make_unique<UIToolIcons> (uiManager.get(), std::move (iconsTex), 48.f, 1, 1);
 
+	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager.get(), "../res/ui/layouts/test.e2t");
+
 	//uiManager->icons.tex = std::make_unique<Texture> ("res/ui/icons.png");
 
+	/*
 	std::unique_ptr<UIPanel> pmenu = std::make_unique<UIPanel> (uiManager.get());
 	pmenu->height = 25;
 	pmenu->background = UIPanel::Background::Dark;
@@ -203,8 +207,6 @@ Core::Core() {
 	b3->icon2Offset[1] = 4;
 
 	//uiManager->addElement (std::move(b3));
-
-	/* */
 
 	std::unique_ptr<UIEdit> e1 = std::make_unique<UIEdit> (uiManager.get());
 	e1->text  = L"Test";
@@ -394,7 +396,7 @@ Core::Core() {
 	_menu3->addElement (std::move(mi8));
 	_menu3->addElement (std::move(mi9));
 
-	/* Tree List Demo */
+	//- Tree List Demo -//
 
 	std::unique_ptr<UITreeList> treeList = std::make_unique<UITreeList> (uiManager.get());
 
@@ -406,7 +408,7 @@ Core::Core() {
 	auto _treeList = treeList.get();
 	_p2->addElement (std::move (treeList));
 
-	/* Tree List Nodes */
+	//- Tree List Nodes -//
 
 	std::unique_ptr<UITreeListNode> tlNode1 = std::make_unique<UITreeListNode> (uiManager.get(), _treeList);
 	auto _tlNode1 = tlNode1.get();
@@ -507,7 +509,7 @@ Core::Core() {
 	image1->cropImage (16, 290, 350, 258);
 	_p3->addElement (std::move(image1));*/
 
-	std::unique_ptr<UILabel> label1 = std::make_unique<UILabel> (uiManager.get());
+	/*std::unique_ptr<UILabel> label1 = std::make_unique<UILabel> (uiManager.get());
 	label1->left = 10;
 	label1->top  = 40;
 	label1->caption = L"Hello World!";
@@ -520,7 +522,7 @@ Core::Core() {
 	dialog->width  = 300;
 	dialog->height = 200;
 
-	uiManager->addElement (std::move (dialog));
+	uiManager->addElement (std::move (dialog));*/
 
 }
 

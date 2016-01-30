@@ -176,6 +176,7 @@ public:
 	bool over   = false; // true if mouse over element even if another element overlaps it
 
 	std::string hint = "element";
+	std::string name = "";
 	int         tag  = 0;
 
 	/* Scroll */
