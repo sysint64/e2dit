@@ -1,27 +1,33 @@
 
 /* Panel */
 
-TopPanel (panel)
+RightPanel (Panel)
 	align: right
 	size: 400, 200
 	location: 100, 100
-	allowResize: true
-	allowHide: true
-	background: light
+	background: dark
 	blackSplit: true
-	caption: "Тестовая панель"
+	allowResize: true
 
-	OKButton (button)
-		size: 100, 21
-		location: 10, 10
-		caption: "Hello Word!"
+	Hierarchy (Panel)
+		background: light
+		align: top
+		size: 0, 400
+		allowResize: true
+		allowHide: true
+		caption: "Иерархия"
 
-	Lola (button)
-		size: 100, 21
-		location: 10, 40
-		caption: "Привет"
+		OKButton (Button)
+			size: 100, 21
+			location: 10, 10
+			caption: "Hello Word!"
 
-	OkButton2 (button)
-		size: 100, 21
-		location: 140, 30
-		caption: "OK"
+		Lola (button)
+			size: 100, 21
+			location: 10, 40
+			caption: "Привет"
+
+		OkButton2 (button)
+			size: 100, 21
+			location: 140, 30
+			caption: "OK"

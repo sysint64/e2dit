@@ -77,41 +77,13 @@ int main (int argc,char** argv) {
 
 	/* #TODO:0 */
 
-	app->windowWidth  = 1024;//app->screenWidth -100;
-	app->windowHeight = 640;//app->screenHeight-100;
+	app->windowWidth  = app->screenWidth -200;
+	app->windowHeight = app->screenHeight-200;
 
 	/* Create Window */
 
 	sf::Window window (sf::VideoMode (app->windowWidth, app->windowHeight, 24), APP_NAME,
-					   sf::Style::Default, settings);
-
-	#ifdef _linux_
-
-		/* Maximize Window */
-
-		XEvent xev;
-		Display* display  = XOpenDisplay (NULL);
-
-		Atom _NET_WM_STATE = XInternAtom(display, "_NET_WM_STATE", False);
-		Atom _NET_WM_STATE_MAXIMIZED_VERT = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_VERT", False);
-		Atom _NET_WM_STATE_MAXIMIZED_HORZ = XInternAtom(display, "_NET_WM_STATE_MAXIMIZED_HORZ", False);
-
-		XEvent e;
-
-		e.xany.type = ClientMessage;
-		e.xany.window = window.getSystemHandle();
-		e.xclient.message_type = _NET_WM_STATE;
-		e.xclient.format = 32;
-		e.xclient.data.l[0] = _NET_WM_STATE_ADD;
-		e.xclient.data.l[1] = _NET_WM_STATE_MAXIMIZED_VERT;
-		e.xclient.data.l[2] = _NET_WM_STATE_MAXIMIZED_HORZ;
-		e.xclient.data.l[3] = 0l;
-		e.xclient.data.l[4] = 0l;
-
-		/*XSendEvent (display, DefaultRootWindow(display), 0, SubstructureNotifyMask | SubstructureRedirectMask, &e);
-		XSync (display, False);*/
-
-	#endif
+					   sf::Style::Default | sf::Style::Maximize, settings);
 
 	app->windowHandle = window.getSystemHandle();
 	app->cursor = std::make_unique<UICursor> (window.getSystemHandle());
@@ -137,7 +109,7 @@ int main (int argc,char** argv) {
 
 	}
 
-	/*if (app->OGLMajor == 3 && !__GLEW_VERSION_3_3) {
+	if (app->OGLMajor == 3 && !__GLEW_VERSION_3_3) {
 
 		app->log.write ("Error: OpenGL Version less than 3.3\n");
 		exit (EXIT_FAILURE);
@@ -149,18 +121,13 @@ int main (int argc,char** argv) {
 		app->log.write ("Error: OpenGL Version less than 4.3\n");
 		exit (EXIT_FAILURE);
 
-	}*/
+	}
 
 	app->log.write ("Initialize OpenGL, Version : %d.%d\n", app->OGLMajor, app->OGLMinor);
 
 	/* Create Core */
 
 	std::unique_ptr<Core> core = std::make_unique<Core>();
-
-	sf::Event ev;
-	window.setActive();
-	window.pollEvent (ev);
-	core->onResize (window.getSize().x, window.getSize().y);
 
 	/* */
 
@@ -183,18 +150,6 @@ int main (int argc,char** argv) {
 	//glClearColor (144.f/255.f, 144.f/255.f, 144.f/255.f, 0);
 	glClearColor (150.f/255.f, 150.f/255.f, 150.f/255.f, 0);
 
-	/*setTimeout (1.f, []() {
-
-		std::cout << "Hello World!" << std::endl;
-
-	});
-
-	setInterval (2.f, []() {
-
-		std::cout << "Hello World2!" << std::endl;
-
-	});*/
-
 	/* Main loop */
 
 	while (running) {
@@ -202,10 +157,7 @@ int main (int argc,char** argv) {
 		sf::Event ev;
 		glViewport (0, 0, app->screenWidth, app->screenHeight);
 
-		//core->onResize (app->windowWidth, app->windowHeight);
-
 		sf::Vector2i mp = sf::Mouse::getPosition(window);
-		//std::cout << mp.x << ":" << mp.y << std::endl;
 		app->mouseX = mp.x;
 		app->mouseY = mp.y;
 
