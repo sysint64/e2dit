@@ -36,7 +36,7 @@ namespace fs = boost::filesystem;
 
 enum class ReadType { Text, Bin };
 class DataMap {
-private:
+public:
 
 	/* Data Value */
 
@@ -46,6 +46,7 @@ private:
 		std::string  str;
 		std::wstring wstr;
 		bool         isStr;
+		bool         boolean;
 
 	} typedef DataVal;
 
@@ -68,6 +69,8 @@ private:
 		std::vector <std::unique_ptr<DataNode>> childs;
 
 	} typedef DataNode;
+
+private:
 
 	/* In File */
 
@@ -117,20 +120,6 @@ private:
 	//
 	DataNode *parentNode = nullptr;
 	DataNode *lastNode   = nullptr;
-
-	/*  */
-
-	inline void pushNode() {
-		//parentNode = node;
-		//parentNode = lastNode;
-	}
-
-	inline void popNode() {
-
-		if (parentNode != nullptr)
-			parentNode = parentNode->parent;
-
-	}
 
 	/* Lexer */
 
@@ -212,6 +201,13 @@ public:
 	void saveToBin  (const char *fileName);
 
 	void update();
+
+	//
+
+	//bool readInt      (const std::string &key, DataNode *elementNode, int &res, int def);
+	//bool readIntArr   (const std::string &key, DataNode *elementNode, const int size, int   *res, int   def);
+	//bool readFloatArr (const std::string &key, DataNode *elementNode, const int size, float *res, float def);
+	//bool readString   (const std::string &key, DataNode *elementNode, std::string &res);
 
 };
 

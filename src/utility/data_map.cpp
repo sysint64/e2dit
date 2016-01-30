@@ -166,3 +166,22 @@ void DataMap::saveToBin  (const char *fileName) {
 void DataMap::update() {
 
 }
+
+
+/**/
+
+/*bool DataMap::readInt (const std::string &key, DataNode *elementNode, int &res) {
+
+}
+
+bool DataMap::readIntArr (const std::string &key, DataNode *elementNode, const int size, int   *res) {
+
+}
+
+bool DataMap::readFloatArr (const std::string &key, DataNode *elementNode, const int size, float *res) {
+
+}
+
+bool DataMap::readString (const std::string &key, DataNode *elementNode, std::string &res) {
+
+}*/

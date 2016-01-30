@@ -21,33 +21,130 @@
  */
 
 #include "ui/loader.h"
+#include "ui/all.h"
 
-void UILoader::placeElements() {
+/**
+ */
 
-	UIElement *parent = nullptr;
+void UILoader::placeElements (DataMap::DataNode *rootNode, UIElement *uiParent) {
 
-	
-	/*for (const auto &elPair : data->element) {
+	for (const auto &it : rootNode->childs) {
 
-		auto name   = elPair.first;
-		auto elData = elPair.second;
+		auto el = createElement (it.get());
 
-		std::unique_ptr<UIElement> element = nullptr;
+		if (el == nullptr)
+			continue;
 
-		if (elData.type == "panel") {
-			puts ("hello");
+		auto elPtr = el.get();
 
-		} else
+		uiParent->addElement (std::move(el));
+		placeElements (it.get(), elPtr);
 
-		if (elData.type == "button") {
-			puts ("hello 2");
-		} else
+	}
 
-		if (elData.type == "edit") {
-			puts ("hello 3");
-		}
-		//sl->name = name;
+}
 
-	}*/
+/**
+ */
+
+std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = nullptr;
+
+	if (elementNode->type == "panel" ) element = createPanel  (elementNode); else
+	if (elementNode->type == "button") element = createButton (elementNode);
+
+	if (element == nullptr)
+		return nullptr;
+
+	// Processe generic parameters
+
+	auto size     = elementNode->params.find ("size");
+	auto location = elementNode->params.find ("location");
+	auto align    = elementNode->params.find ("align");
+	auto end      = elementNode->params.end();
+
+	if (size != end) {
+		element->width  = floor(size->second[0].num);
+		element->height = floor(size->second[1].num);
+	}
+
+	if (location != end) {
+		element->left = floor(location->second[0].num);
+		element->top  = floor(location->second[1].num);
+	}
+
+	if (align != end) {
+
+		if (align->second[0].str == "none"  ) element->align = Align::None;
+		if (align->second[0].str == "left"  ) element->align = Align::Left;
+		if (align->second[0].str == "center") element->align = Align::Center;
+		if (align->second[0].str == "right" ) element->align = Align::Right;
+		if (align->second[0].str == "client") element->align = Align::Client;
+		if (align->second[0].str == "bottom") element->align = Align::Bottom;
+		if (align->second[0].str == "all"   ) element->align = Align::All;
+		if (align->second[0].str == "top"   ) element->align = Align::Top;
+
+	}
+
+	return element;
+
+}
+
+/**
+ */
+
+std::unique_ptr<UIElement> UILoader::createPanel (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIPanel> (manager);
+	auto panel = dynamic_cast<UIPanel*>(element.get());
+
+	auto allowResize = elementNode->params.find ("allowresize");
+	auto allowHide   = elementNode->params.find ("allowhide");
+	auto allowDrag   = elementNode->params.find ("allowdrag");
+	auto blackSplit  = elementNode->params.find ("blacksplit");
+	auto showSplit   = elementNode->params.find ("showsplit");
+	auto caption     = elementNode->params.find ("caption");
+	auto background  = elementNode->params.find ("background");
+	auto end         = elementNode->params.end();
+
+	if (allowResize != end) panel->allowResize = allowResize->second[0].boolean;
+	if (allowHide   != end) panel->allowHide   = allowHide  ->second[0].boolean;
+	if (allowDrag   != end) panel->allowDrag   = allowDrag  ->second[0].boolean;
+	if (blackSplit  != end) panel->blackSplit  = blackSplit ->second[0].boolean;
+	if (showSplit   != end) panel->showSplit   = showSplit  ->second[0].boolean;
+	if (caption     != end) panel->caption     = caption    ->second[0].wstr;
+
+	if (background != end) {
+
+		if (background->second[0].str == "light")
+			panel->background = UIPanel::Background::Light;
+
+		if (background->second[0].str == "dark")
+			panel->background = UIPanel::Background::Dark;
+
+		if (background->second[0].str == "action")
+			panel->background = UIPanel::Background::Action;
+
+	}
+
+	return element;
+
+}
+
+/**
+ */
+
+std::unique_ptr<UIElement> UILoader::createButton (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIButton> (manager, false);
+	auto button = dynamic_cast<UIButton*>(element.get());
+
+	auto caption = elementNode->params.find ("caption");
+	auto end     = elementNode->params.end();
+
+	if (caption != end) button->caption = caption->second[0].wstr;
+
+	return element;
 
 }

@@ -21,6 +21,7 @@
  */
 
 #include "utility/data_map.h"
+#include "utility/string.h"
 #include <iostream>
 
 /**
@@ -452,6 +453,7 @@ DataMap::DataVal DataMap::parseParam() {
 	if (curToken == tok_string || curToken == tok_id) {
 		val.isStr = true;
 		val.str = idStr;
+		val.wstr = str2wstr (idStr);
 		//
 		bytecode.push_back (op_str);
 		bytecode.push_back (idStr.size());
@@ -462,6 +464,7 @@ DataMap::DataVal DataMap::parseParam() {
 	} else {
 		val.isStr = false;
 		val.num = numVal;
+		val.boolean = floor(numVal) == 0 ? false : true;
 		//
 		numByte.num = numVal;
 		//

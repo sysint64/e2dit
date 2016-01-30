@@ -1,29 +1,27 @@
 
 /* Panel */
 
-TopPanel (Panel)
-	color: 0
+TopPanel (panel)
+	align: right
+	size: 400, 200
+	location: 100, 100
+	allowResize: true
+	allowHide: true
+	background: light
+	blackSplit: true
+	caption: "Тестовая панель"
 
-	OKButton (Button)
-		size: 100, auto
+	OKButton (button)
+		size: 100, 21
+		location: 10, 10
 		caption: "Hello Word!"
 
-		Edit2 (Edit)
-			size: 100, auto
-			text: "Test"
+	Lola (button)
+		size: 100, 21
+		location: 10, 40
+		caption: "Привет"
 
-	Edit3 (Edit)
-		size: 100, auto
-		text: "Test"
-
-	Edit4 (Checkbox)
-		size: 100, auto
-		text: "Test"
-
-		Edit5 (Test)
-			size: 100, auto
-			text: "Test"
-
-Edit5 (LALAL)
-	size: 100, auto
-	text: "Test"
+	OkButton2 (button)
+		size: 100, 21
+		location: 140, 30
+		caption: "OK"

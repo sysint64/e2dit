@@ -184,7 +184,9 @@ public:
 	int scrollX = 0; ///< Horizontal scroll inside element
 	int scrollY = 0; ///< Vertical scroll inside element
 
-	bool autoSize = false; ///< Size will calculate automatically if true
+	bool autoSize   = false; ///< Size will calculate automatically if true
+	bool autoWidth  = false;
+	bool autoHeight = false;
 
 	/* */
 

@@ -260,8 +260,8 @@ Button
 
 		left                    : 53, 105, 6, 25
 		center                  : 68, 105, 6, 25
-		right                   : 83, 105, 6, 25
-		offsets                 : -2, -2, 5
+		right                   : 82, 105, 6, 25
+		offsets                 : -2, -2, 4
 
 /**
  * FlatButton

@@ -27,7 +27,14 @@
 
 class UILoader {
 private:
-	void placeElements();
+	Application *app = Application::getInstance();
+
+	void placeElements (DataMap::DataNode *rootNode, UIElement *uiParent);
+
+	std::unique_ptr<UIElement> createElement (DataMap::DataNode *elementNode);
+
+	std::unique_ptr<UIElement> createPanel   (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createButton  (DataMap::DataNode *elementNode);
 
 public:
 	std::unique_ptr<DataMap> data = nullptr;
@@ -54,12 +61,12 @@ public:
 
 	inline void loadFromText (const std::string &fileName) {
 		data->loadFromText (fileName.c_str());
-		placeElements();
+		placeElements (data->root.get(), manager->root.get());
 	}
 
 	inline void loadFromBin (const std::string &fileName) {
 		data->loadFromBin (fileName.c_str());
-		placeElements();
+		placeElements (data->root.get(), manager->root.get());
 	}
 
 };
