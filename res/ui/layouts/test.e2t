@@ -1,29 +1,29 @@
 
 /* Panel */
 
-TopPanel
+TopPanel (Panel)
 	color: 0
 
-	OKButton
+	OKButton (Button)
 		size: 100, auto
 		caption: "Hello Word!"
 
-		Edit2
+		Edit2 (Edit)
 			size: 100, auto
 			text: "Test"
 
-	Edit3
+	Edit3 (Edit)
 		size: 100, auto
 		text: "Test"
 
-	Edit4
+	Edit4 (Checkbox)
 		size: 100, auto
 		text: "Test"
 
-		Edit5
+		Edit5 (Test)
 			size: 100, auto
 			text: "Test"
 
-Edit5
+Edit5 (LALAL)
 	size: 100, auto
 	text: "Test"

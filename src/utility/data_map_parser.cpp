@@ -97,7 +97,7 @@ void DataMap::parseElement() {
 
 		}
 
-		lexNextToken (false);
+		lexNextToken ();
 
 	}
 
@@ -133,7 +133,7 @@ void DataMap::parseElement() {
 		lastNode = node.get();
 		parentNode->childs.push_back(std::move(node));
 
-		puts("ok");
+		puts (type.c_str());
 
 	} else {
 
@@ -328,19 +328,26 @@ void DataMap::parseFunc (std::string name) {
 
 	// Fill
 	//tabSize = 0;
-	if (tabSize == 0) {
+	if (hierarchy) {
 
-		element[name].params[funcName] = params;
-		element[name].def = true;
+		lastNode->params[funcName] = params;
 
 	} else {
 
-		element[parents[tabSize-1]].params[funcName] = params;
-		element[parents[tabSize-1]].def = true;
+		if (tabSize == 0) {
+
+			element[name].params[funcName] = params;
+			element[name].def = true;
+
+		} else {
+
+			element[parents[tabSize-1]].params[funcName] = params;
+			element[parents[tabSize-1]].def = true;
+
+		}
 
 	}
 
-	std::cout << funcName << std::endl;
 }
 
 /**
