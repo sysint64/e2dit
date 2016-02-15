@@ -44,16 +44,18 @@ public:
 		data = std::make_unique<DataMap> ();
 	}
 
-	UILoader (UIManager *manager, const std::string &fileName, ReadType rt = ReadType::Text) : manager (manager) {
+	UILoader (UIManager *manager, const std::string &fileName,
+		DataMap::ReadType rt = DataMap::ReadType::Text) : manager (manager)
+	{
 
 		data = std::make_unique<DataMap> ();
 		data->hierarchy = true;
 
 		switch (rt) {
 
-			case ReadType::Bin  : loadFromBin  (fileName); break;
-			case ReadType::Text : loadFromText (fileName); break;
-			default             : return;
+			case DataMap::ReadType::Bin  : loadFromBin  (fileName); break;
+			case DataMap::ReadType::Text : loadFromText (fileName); break;
+			default : return;
 
 		}
 

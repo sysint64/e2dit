@@ -177,6 +177,9 @@ void DataMap::parseElement() {
 		//}
 
 		//Name += main;
+	} else {
+		if (lastTabs-1 >= 0)
+			Name = parents[lastTabs-1]+"."+Name;
 	}
 
 	parents[lastTabs] = Name;

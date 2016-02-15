@@ -34,10 +34,11 @@
 
 namespace fs = boost::filesystem;
 
-enum class ReadType { Text, Bin };
 class DataMap {
 public:
 
+	enum class ReadType { Text, Bin };
+	
 	/* Data Value */
 
 	struct DataVal {

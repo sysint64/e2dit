@@ -35,6 +35,8 @@
 #include "ui/dialog.h"
 #include "ui/loader.h"
 
+#include "utility/strings_res.h"
+
 Core::Core() {
 
 	app->screenCamera = std::make_unique<Camera>(app->screenWidth, app->screenHeight);
@@ -46,7 +48,7 @@ Core::Core() {
 	ftglSetFontCharMap  (font, ft_encoding_unicode);
 
 	skin    = std::make_unique<Texture> ("../res/ui/skins/light/controls.png");
-	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/light/controls.e2t", ReadType::Text, skin.get(), font);
+	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/light/controls.e2t", DataMap::ReadType::Text, skin.get(), font);
 	uiTheme->fontHeight = 12;
 
 	std::vector<std::string> atlasMaskLocations {"MVP", "Size", "Offset", "Texture", "Alpha", "Mask", "MaskOffset", "MaskSize"};
@@ -67,6 +69,12 @@ Core::Core() {
 	uiManager->toolIcons = std::make_unique<UIToolIcons> (uiManager.get(), std::move (iconsTex), 48.f, 1, 1);
 
 	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager.get(), "../res/ui/layouts/test.e2t");
+
+	StringRes testRes;
+	testRes.addResource ("../res/strings/eng/menu.e2t");
+	puts ("Parse resource:");
+	puts (testRes.parseResource("Hello \"@menu.test\" Test from Item1: \"@menu.item1.caption\"").c_str());
+	//puts (testRes.parseResource("test @menu.test teest").c_str());
 
 	//uiManager->icons.tex = std::make_unique<Texture> ("res/ui/icons.png");
 

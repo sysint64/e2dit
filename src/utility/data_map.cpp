@@ -64,12 +64,7 @@ void DataMap::loadFromText (const char *fileName) {
 
 	if (!fs::exists (fileName)) {
 
-		/* if not exist, then write error to log */
-
 		Application::getInstance()->log.ewrite ("Load data file error, file doesn't exist : %s", fileName);
-
-		/* And Exit */
-
 		return;
 
 	}

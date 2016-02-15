@@ -1,2 +1,7 @@
-button_ok="OK"
-button_cancel="Cancel"
+
+Menu
+	test : "Test string resource"
+	button_cancel : "Cancel"
+
+	Item1
+		caption : "Hello :)"
