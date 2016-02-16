@@ -15,7 +15,7 @@ RightPanel (Panel)
 		size: 0, 400
 		allowResize: true
 		allowHide: true
-		caption: "@strings.menu.test"
+		caption: "@menu.item1.caption"
 
 		OKButton (Button)
 			size: 100, 21

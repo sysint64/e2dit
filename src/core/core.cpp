@@ -68,12 +68,15 @@ Core::Core() {
 	iconsTex = std::make_unique<Texture> ("../res/ui/icons/main_toolbar_icons.png");
 	uiManager->toolIcons = std::make_unique<UIToolIcons> (uiManager.get(), std::move (iconsTex), 48.f, 1, 1);
 
-	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager.get(), "../res/ui/layouts/test.e2t");
+	stringsRes = std::make_unique<StringRes>();
+	stringsRes->addResource ("../res/strings/eng/menu.e2t");
 
-	StringRes testRes;
-	testRes.addResource ("../res/strings/eng/menu.e2t");
-	puts ("Parse resource:");
-	puts (testRes.parseResource("Hello \"@menu.test\" Test from Item1: \"@menu.item1.caption\"").c_str());
+	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager.get(), stringsRes.get(), "../res/ui/layouts/test.e2t");
+
+	//StringRes testRes;
+	//testRes.addResource ("../res/strings/eng/menu.e2t");
+	//puts ("Parse resource:");
+	//puts (testRes.parseResource("Hello \"@menu.test\" Test from Item1: \"@menu.item1.caption\"").c_str());
 	//puts (testRes.parseResource("test @menu.test teest").c_str());
 
 	//uiManager->icons.tex = std::make_unique<Texture> ("res/ui/icons.png");

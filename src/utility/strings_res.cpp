@@ -32,17 +32,14 @@
  * @return: Compiled string with string variables
  */
 
-std::string StringRes::parseResource (const std::string &text) {
+std::wstring StringRes::parseResource (const std::wstring &text) {
 
-	std::string result = "";
-	std::map<int, std::tuple<int,       std::string>> values;
-	//       ^^^             ^^^        ^^^^^^^^^^^
-	//       Pos in string   Skip size  replaced string
+	std::wstring result = L"";
 
 	for (int i = 0; i < text.size(); ++i) {
 
-		if (text[i] == '@') {
-			std::tuple<int, std::string> item = parseElement (text, i+1);
+		if (text[i] == L'@') {
+			std::tuple<int, std::wstring> item = parseElement (text, i+1);
 			i += std::get<0>(item);
 			result += std::get<1>(item);
 		} else {
@@ -67,11 +64,13 @@ std::string StringRes::parseResource (const std::string &text) {
  *          e.g. for "@main.item.go" has tuple (13, value of variable)
  */
 
-std::tuple<int, std::string> StringRes::parseElement (const std::string &text, int pos) {
+#include <iostream>
+std::tuple<int, std::wstring> StringRes::parseElement (const std::wstring &text, int pos) {
 
 	std::string part = "";
 	std::vector<std::string> parts;
 	int i = pos;
+	bool broke = false;
 
 	for (i; i < text.size(); ++i) {
 
@@ -79,10 +78,11 @@ std::tuple<int, std::string> StringRes::parseElement (const std::string &text, i
 			if (part.size() > 0)
 				parts.push_back (part);
 
+			broke = true;
 			break;
 		}
 
-		if (text[i] == '.') {
+		if (text[i] == L'.') {
 			parts.push_back(part);
 			part = "";
 		} else {
@@ -91,19 +91,27 @@ std::tuple<int, std::string> StringRes::parseElement (const std::string &text, i
 
 	}
 
+	if (!broke) {
+
+		if (!isIdentifier (text[i])) {
+			if (part.size() > 0)
+				parts.push_back (part);
+		}
+
+	}
+
 	if (parts.size() < 2)
-		return std::make_tuple (i-pos, "");
+		return std::make_tuple (i-pos, L"");
 
 	// Extract value from DataMap
 
 	std::string varName  = parts.back();
 	std::string pathName = "";
 
-	for (auto it = parts.begin(); it != parts.end()-1; ++it) {
+	for (auto it = parts.begin(); it != parts.end()-1; ++it)
 		pathName += *it+".";
-	}
 
 	pathName.pop_back(); // remove last '.'
-	return std::make_tuple (i-pos, data->element[pathName].params[varName][0].str);
+	return std::make_tuple (i-pos, data->element[pathName].params[varName][0].wstr);
 
 }

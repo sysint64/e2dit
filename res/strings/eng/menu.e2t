@@ -5,3 +5,9 @@ Menu
 
 	Item1
 		caption : "Hello :)"
+
+	Item2
+		caption : "Item 2"
+
+		Lol
+			loc : "rus"

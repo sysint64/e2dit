@@ -20,10 +20,10 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef E2DIT_CORE_H
-#define E2DIT_CORE_H
+#pragma once
 
 #include "utility/application.h"
+#include "utility/strings_res.h"
 #include <glm/glm.hpp>
 
 #include "ui/manager.h"
@@ -55,8 +55,12 @@ public:
 	std::unique_ptr<Shader>    atlasMaskShader;
 
 	std::unique_ptr<UIButton>  button;
-	std::unique_ptr<UIPanel>  panel;
+	std::unique_ptr<UIPanel>   panel;
 	std::unique_ptr<UIEdit>    edit;
+
+	/* Resources */
+
+	std::unique_ptr<StringRes> stringsRes;
 
 	/* Constructor */
 
@@ -81,5 +85,3 @@ public:
 	void step();
 
 };
-
-#endif

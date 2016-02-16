@@ -34,16 +34,16 @@
 class StringRes {
 private:
 	std::unique_ptr<DataMap> data = std::make_unique<DataMap>();
-	std::tuple<int, std::string> parseElement (const std::string &text, int pos);
+	std::tuple<int, std::wstring> parseElement (const std::wstring &text, int pos);
 
-	inline bool isIdentifier (const char ch) {
+	inline bool isIdentifier (const wchar_t ch) {
 
-		return isalpha(ch) || isdigit(ch) || ch == '_' || ch == '.';
+		return iswalpha(ch) || iswdigit(ch) || ch == L'_' || ch == L'.';
 
 	}
 
 public:
-	std::string parseResource (const std::string &text);
+	std::wstring parseResource (const std::wstring &text);
 	void addResource (const std::string &fileName,
 		DataMap::ReadType rt = DataMap::ReadType::Text)
 	{

@@ -24,6 +24,7 @@
 
 #include "ui/manager.h"
 #include "utility/data_map.h"
+#include "utility/strings_res.h"
 
 class UILoader {
 private:
@@ -38,14 +39,15 @@ private:
 
 public:
 	std::unique_ptr<DataMap> data = nullptr;
+	StringRes *stringsRes;
 	UIManager *manager = nullptr;
 
 	UILoader (UIManager *manager) : manager (manager) {
 		data = std::make_unique<DataMap> ();
 	}
 
-	UILoader (UIManager *manager, const std::string &fileName,
-		DataMap::ReadType rt = DataMap::ReadType::Text) : manager (manager)
+	UILoader (UIManager *manager, StringRes *stringsRes, const std::string &fileName,
+		DataMap::ReadType rt = DataMap::ReadType::Text) : manager(manager), stringsRes(stringsRes)
 	{
 
 		data = std::make_unique<DataMap> ();

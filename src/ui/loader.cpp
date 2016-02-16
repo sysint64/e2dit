@@ -113,7 +113,9 @@ std::unique_ptr<UIElement> UILoader::createPanel (DataMap::DataNode *elementNode
 	if (allowDrag   != end) panel->allowDrag   = allowDrag  ->second[0].boolean;
 	if (blackSplit  != end) panel->blackSplit  = blackSplit ->second[0].boolean;
 	if (showSplit   != end) panel->showSplit   = showSplit  ->second[0].boolean;
-	if (caption     != end) panel->caption     = caption    ->second[0].wstr;
+	
+	if (caption     != end)
+		panel->caption = stringsRes->parseResource(caption->second[0].wstr);
 
 	if (background != end) {
 
@@ -143,7 +145,8 @@ std::unique_ptr<UIElement> UILoader::createButton (DataMap::DataNode *elementNod
 	auto caption = elementNode->params.find ("caption");
 	auto end     = elementNode->params.end();
 
-	if (caption != end) button->caption = caption->second[0].wstr;
+	if (caption != end)
+		button->caption = stringsRes->parseResource(caption->second[0].wstr);//caption->second[0].wstr;
 
 	return element;
 

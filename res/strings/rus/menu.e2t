@@ -1,0 +1,7 @@
+
+Menu
+	test : "Тестовая надпись на Русском!"
+	button_cancel : "Cancel"
+
+	Item1
+		caption : "Привет :)"
