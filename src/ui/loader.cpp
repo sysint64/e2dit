@@ -59,10 +59,11 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 
 	// Processe generic parameters
 
-	auto size     = elementNode->params.find ("size");
-	auto location = elementNode->params.find ("location");
-	auto align    = elementNode->params.find ("align");
-	auto end      = elementNode->params.end();
+	auto size          = elementNode->params.find ("size");
+	auto location      = elementNode->params.find ("location");
+	auto align         = elementNode->params.find ("align");
+	auto verticalAlign = elementNode->params.find ("verticalalign");
+	auto end           = elementNode->params.end();
 
 	if (size != end) {
 		element->width  = floor(size->second[0].num);
@@ -84,6 +85,15 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 		if (align->second[0].str == "bottom") element->align = Align::Bottom;
 		if (align->second[0].str == "all"   ) element->align = Align::All;
 		if (align->second[0].str == "top"   ) element->align = Align::Top;
+		if (align->second[0].str == "middle") element->align = Align::Middle;
+
+	}
+
+	if (verticalAlign != end) {
+
+		if (verticalAlign->second[0].str == "bottom") element->verticalAlign = Align::Bottom;
+		if (verticalAlign->second[0].str == "top"   ) element->verticalAlign = Align::Top;
+		if (verticalAlign->second[0].str == "middle") element->verticalAlign = Align::Middle;
 
 	}
 
@@ -113,7 +123,7 @@ std::unique_ptr<UIElement> UILoader::createPanel (DataMap::DataNode *elementNode
 	if (allowDrag   != end) panel->allowDrag   = allowDrag  ->second[0].boolean;
 	if (blackSplit  != end) panel->blackSplit  = blackSplit ->second[0].boolean;
 	if (showSplit   != end) panel->showSplit   = showSplit  ->second[0].boolean;
-	
+
 	if (caption     != end)
 		panel->caption = stringsRes->parseResource(caption->second[0].wstr);
 

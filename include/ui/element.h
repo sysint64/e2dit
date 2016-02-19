@@ -39,7 +39,7 @@
 #undef None
 
 using namespace boost::assign;
-enum class Align {None, Left, Center, Right, Client, Bottom, Top, All};
+enum class Align {None, Left, Center, Right, Client, Bottom, Top, Middle, All};
 
 class UIManager;
 class UIPanel;
@@ -94,7 +94,7 @@ protected:
 
 	int  layer    = 0; ///< Work layer, if current layer not eq of this layer, then element will disabled
 
-	void updateAlign();
+	virtual void updateAlign();
 
 	/* Precompute */
 
@@ -170,10 +170,11 @@ public:
 
 	/* Mouse State */
 
-	bool enter  = false;
-	bool leave  = true;
-	bool click  = false;
-	bool over   = false; // true if mouse over element even if another element overlaps it
+	bool enter     = false;
+	bool leave     = true;
+	bool click     = false;
+	bool over      = false; ///< true if mouse over element even if another element overlaps it
+	bool alignSize = false; ///< used in updateAlign method. If true then element change size depenging on the alignment
 
 	std::string hint = "element";
 	std::string name = "";
@@ -187,6 +188,7 @@ public:
 	bool autoSize   = false; ///< Size will calculate automatically if true
 	bool autoWidth  = false;
 	bool autoHeight = false;
+	bool allowAlign = true;
 
 	/* */
 
@@ -198,6 +200,10 @@ public:
 	int absLeft = 0; int absTop = 0;
 	int left    = 0; int top    = 0;
 
+	// Margin
+	int marginLeft = 0; int marginRight  = 0;
+	int marginTop  = 0; int marginBottom = 0;
+
 	bool visible = true;
 	bool enabled = true;
 	bool checked = false;
@@ -208,9 +214,10 @@ public:
 	UIElement *parent  = nullptr; ///< Parent element
 	UIManager *manager = nullptr; ///< Elements manager
 
-	CursorIco cursor = CursorIco::Normal; ///< System cursor icon
-	Align drawAlign  = Align::All;        ///< Skin draw align: Left [-]; Center -; Right ->; All <->
-	Align align      = Align::None;
+	CursorIco cursor    = CursorIco::Normal; ///< System cursor icon
+	Align drawAlign     = Align::All;        ///< Skin draw align: Left [-]; Center -; Right ->; All <->
+	Align align         = Align::None;
+	Align verticalAlign = Align::None;
 
 	std::string style = "";
 

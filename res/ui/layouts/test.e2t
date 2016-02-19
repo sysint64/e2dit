@@ -21,11 +21,14 @@ RightPanel (Panel)
 			size: 100, 21
 			location: 10, 10
 			caption: "Hello Word!"
+			align: right
 
 		Lola (button)
 			size: 100, 21
 			location: 10, 40
 			caption: "Привет"
+			align: center
+			verticalAlign: bottom
 
 		OkButton2 (button)
 			size: 100, 21

@@ -124,6 +124,101 @@ void UIPanel::progress() {
 
 }
 
+void UIPanel::updateAlign() {
+
+	if (align == Align::None)
+		return;
+
+	int x0 = 0; int mWidth  = 0; int mLeft = 0;
+	int y0 = 0; int mHeight = 0; int mTop  = 0;
+
+	/* Find Border */
+
+	for (const auto &kvp : parent->elements) {
+
+		UIElement *el = kvp.second.get();
+
+		if (el == this)
+			break;
+
+		if (!el->visible || el->align == Align::None)
+			continue;
+
+		switch (el->align) {
+
+			case Align::Top    : y0 += el->height; mTop  += el->height; break;
+			case Align::Left   : x0 += el->width ; mLeft += el->width;  break;
+
+			case Align::Bottom : mHeight += el->height; break;
+			case Align::Right  : mWidth  += el->width;  break;
+
+			default: continue;
+
+		}
+
+	}
+
+	/* Update Position and Size depending on the align */
+
+	switch (align) {
+
+		case Align::Client:
+
+			width  = parent->width -mWidth -x0-parent->scrollElementWidth;
+			height = parent->height-mHeight-y0-parent->scrollElementHeight;
+
+			left   = x0;
+			top    = y0;
+
+			break;
+
+		case Align::Top:
+
+			width = parent->width-mWidth-x0-parent->scrollElementWidth;
+
+			left   = x0;
+			top    = y0;
+
+			break;
+
+		case Align::Center:
+
+			break;
+
+		case Align::Bottom:
+
+			width = parent->width-mWidth-x0-parent->scrollElementWidth;
+
+			left   = x0;
+			top    = y0+parent->height-height-mTop-mHeight;
+
+			break;
+
+		case Align::Left:
+
+			height = parent->height-mHeight-y0-parent->scrollElementHeight;
+
+			left   = x0;
+			top    = y0;
+
+			break;
+
+		case Align::Right:
+
+			height = parent->height-mHeight-y0;
+
+			left   = parent->width-mWidth-width;
+			top    = y0;
+
+			break;
+
+		default: return;
+
+	}
+
+}
+
+
 /* Render Panel */
 
 void UIPanel::render() {

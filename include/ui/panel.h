@@ -98,6 +98,7 @@ protected:
 	void updateScroll();
 	void pollScroll();
 	void calculateSplit();
+	virtual void updateAlign();
 
 public:
 
@@ -155,6 +156,8 @@ public:
 	UIPanel (UIManager *manager) : UIElement (manager) {
 
 		allowScroll = true;
+		alignSize   = true;
+		allowAlign  = false; // for call updateAlign manualy
 
 		for (int i = 0; i < 6; ++i) {
 

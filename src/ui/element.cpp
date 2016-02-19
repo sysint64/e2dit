@@ -355,6 +355,9 @@ void UIElement::updateAbsPos() {
 
 void UIElement::render() {
 
+	if (allowAlign)
+		updateAlign();
+
 	wrapperWidthClamped  = width;  wrapperWidth  = 0;
 	wrapperHeightClamped = height; wrapperHeight = 0;
 
@@ -406,86 +409,87 @@ void UIElement::updateAlign() {
 	if (align == Align::None)
 		return;
 
-	int x0 = 0; int mWidth  = 0; int mLeft = 0;
-	int y0 = 0; int mHeight = 0; int mTop  = 0;
-
-	/* Find Border */
-
-	for (const auto &kvp : parent->elements) {
-
-		UIElement *el = kvp.second.get();
-
-		if (el == this)
-			break;
-
-		if (!el->visible || el->align == Align::None)
-			continue;
-
-		switch (el->align) {
-
-			case Align::Top    : y0 += el->height; mTop  += el->height; break;
-			case Align::Left   : x0 += el->width ; mLeft += el->width;  break;
-
-			case Align::Bottom : mHeight += el->height; break;
-			case Align::Right  : mWidth  += el->width;  break;
-
-			default: continue;
-
-		}
-
-	}
-
-	/* Update Position and Size depending on the align */
+	// Update Position and Size depending on the align
+	// Horizontal
 
 	switch (align) {
 
-		case Align::Client :
+		case Align::Client:
 
-			width  = parent->width -mWidth -x0-parent->scrollElementWidth;
-			height = parent->height-mHeight-y0-parent->scrollElementHeight;
-
-			left   = x0;
-			top    = y0;
-
-			break;
-
-		case Align::Top :
-
-			width  = parent->width-mWidth-x0-parent->scrollElementWidth;
-
-			left   = x0;
-			top    = y0;
+			if (alignSize) {
+				width  = parent->width -parent->scrollElementWidth;
+				height = parent->height-parent->scrollElementHeight;
+				left = 0; top  = 0;
+			}
 
 			break;
 
-		case Align::Bottom :
+		case Align::Center:
 
-			width  = parent->width-mWidth-x0-parent->scrollElementWidth;
+			left = ((parent->width) >> 1) - (width >> 1) + 2; // TODO: Remove hardcode 2 - splitWidth on panel
+			break;
 
-			left   = x0;
-			top    = y0+parent->height-height-mTop-mHeight;
+		case Align::Left:
+
+			if (alignSize) {
+				height = parent->height-parent->scrollElementHeight;
+				top = 0;
+			}
+
+			left = 0;
+			break;
+
+		case Align::Right:
+
+			if (alignSize) {
+				height = parent->height;
+				top = 0;
+			}
+
+			left = parent->width-width;
+			break;
+
+		// if Allow Align Size
+		case Align::Bottom:
+
+			if (alignSize) {
+				width = parent->width-parent->scrollElementWidth;
+				left = 0;
+				top  = parent->height-height;
+			}
 
 			break;
 
-		case Align::Left :
+		case Align::Top:
 
-			height = parent->height-mHeight-y0-parent->scrollElementHeight;
-
-			left   = x0;
-			top    = y0;
-
-			break;
-
-		case Align::Right :
-
-			height = parent->height-mHeight-y0;
-
-			left   = parent->width-mWidth-width;
-			top    = y0;
+			if (alignSize) {
+				width = parent->width-parent->scrollElementWidth;
+				left = 0;
+				top = 0;
+			}
 
 			break;
 
-		default: return;
+	}
+
+	// Vertical
+
+	switch (verticalAlign) {
+
+		case Align::Bottom:
+
+			top = parent->height-height - parent->paddingTop;
+			break;
+
+		case Align::Top:
+
+			top = 0;
+			break;
+
+		case Align::Middle:
+
+			top = ((parent->height) >> 1) - (height >> 1);
+			break;
 
 	}
 
