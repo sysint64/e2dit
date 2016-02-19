@@ -218,7 +218,6 @@ void UIPanel::updateAlign() {
 
 }
 
-
 /* Render Panel */
 
 void UIPanel::render() {
@@ -230,12 +229,12 @@ void UIPanel::render() {
 
 	if (background != Background::Transparent) {
 
-		/* Switch Shaders */
+		/* Switch shaders */
 
 		manager->atlasShader->unbind();
 		manager->colorShader->bind();
 
-		/* Draw Quad */
+		/* Draw quad */
 
 		float *color;
 
@@ -250,14 +249,14 @@ void UIPanel::render() {
 
 		renderColorElement (absLeft, absTop, width, height, quadElement.get(), color);
 
-		/* Switch Shaders */
+		/* Switch shaders */
 
 		manager->colorShader->unbind();
 		manager->atlasShader->bind();
 
 	}
 
-	/* Render Header */
+	/* Render header */
 
 	if (allowResize || showSplit) calculateSplit();
 	if (allowHide) {
@@ -268,12 +267,12 @@ void UIPanel::render() {
 		headerEnter = pointInRect (app->mouseX, app->mouseY, absLeft, absTop, width, iHeights[n]);
 		renderElement (n, absLeft, absTop, width, iHeights[n], header.get());
 
-		/* Draw Arrow */
+		/* Draw arrow */
 
 		n = open ? 14 : 15;
 		renderElement (n, absLeft+6, absTop+(headerHeight >> 1)-(iHeights[n] >> 1), iWidths[n], iHeights[n], expandArrow.get());
 
-		/* Draw Text */
+		/* Draw text */
 
 		manager->atlasShader->unbind();
 		renderText (manager->theme->font, textColor, absLeft+12+iWidths[n], absTop+(headerHeight >> 1)+(manager->theme->fontHeight >> 1)-2, caption);
@@ -288,7 +287,7 @@ void UIPanel::render() {
 
 	}
 
-	/* Render Scroll */
+	/* Render scroll */
 
 	int swv = iHeights[4]-scrollElementHeight;
 	int swh = iHeights[4]-scrollElementWidth;
@@ -297,24 +296,10 @@ void UIPanel::render() {
 	int scrollWidth  = width -iHeights[4]+swh;
 	int scrollHeight = height-iHeights[4]+swv;
 
-	if (wrapperWidth > width && showScrollX) {
-
-		//int n = scrollHEnter || scrollHClick ? 9 : 6;
-		int n = 6;
-
-		if (scrollHEnter) n = 9;
-		if (scrollHClick) n = 18;
-
-		renderPartsElementH (0,   1,   2, scrollBg [0].get(), scrollBg [1].get(), scrollBg [2].get(), absLeft, bottom, scrollWidth, true);
-		renderPartsElementH (n, n+1, n+2, scrollBtn[0].get(), scrollBtn[1].get(), scrollBtn[2].get(), absLeft+hbOffset, bottom, hbSize, true);
-
-	}
-
-	/* Vertical */
+	/* Draw vertical scroll */
 
 	if (wrapperHeight > height && showScrollY) {
 
-		//int n = scrollVEnter || scrollVClick ? 9 : 6;
 		int n = 6;
 
 		if (scrollVEnter) n = 9;
@@ -331,7 +316,7 @@ void UIPanel::render() {
 
 	if (splitClick) {
 
-		/* Resize Panel */
+		/* Resize panel */
 
 		switch (align) {
 
@@ -349,12 +334,29 @@ void UIPanel::render() {
 
 	}
 
-	/* Render Childs */
+	/* Render childs */
 
 	UIElement::render();
 	manager->popScissor();
 
-	if (showScrollX || showScrollY) pollScroll();
+	/* Draw horizontal scroll */
+
+	if (wrapperWidth > width && showScrollX) {
+
+		int n = 6;
+
+		if (scrollHEnter) n = 9;
+		if (scrollHClick) n = 18;
+
+		renderPartsElementH (0,   1,   2, scrollBg [0].get(), scrollBg [1].get(), scrollBg [2].get(), absLeft, bottom, scrollWidth, true);
+		renderPartsElementH (n, n+1, n+2, scrollBtn[0].get(), scrollBtn[1].get(), scrollBtn[2].get(), absLeft+hbOffset, bottom, hbSize, true);
+
+	}
+
+	/* Poll scroll */
+
+	if (showScrollX || showScrollY)
+		pollScroll();
 
 	/* Render Split */
 

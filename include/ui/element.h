@@ -95,6 +95,7 @@ protected:
 	int  layer    = 0; ///< Work layer, if current layer not eq of this layer, then element will disabled
 
 	virtual void updateAlign();
+	virtual void updateVerticalAlign();
 
 	/* Precompute */
 

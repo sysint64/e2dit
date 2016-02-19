@@ -384,13 +384,16 @@ void UIElement::render() {
 
 		// #TODO:50 Move to UIPanel
 
+		el->render();
+
+		if (el->allowAlign)
+			el->updateVerticalAlign();
+
 		if (el->align != Align::Top && el->align != Align::Bottom)
 			wrapperWidth  = math::max (wrapperWidth , el->left+el->width+paddingLeft);
 
 		if (el->align != Align::Left && el->align != Align::Right)
 			wrapperHeight = math::max (wrapperHeight, el->top +el->height+paddingTop);
-
-		el->render();
 
 	}
 
@@ -410,7 +413,6 @@ void UIElement::updateAlign() {
 		return;
 
 	// Update Position and Size depending on the align
-	// Horizontal
 
 	switch (align) {
 
@@ -426,7 +428,7 @@ void UIElement::updateAlign() {
 
 		case Align::Center:
 
-			left = ((parent->width) >> 1) - (width >> 1) + 2; // TODO: Remove hardcode 2 - splitWidth on panel
+			left = ((parent->width) >> 1) - (width >> 1) + 1; // TODO: Remove hardcode 2 - splitWidth on panel
 			break;
 
 		case Align::Left:
@@ -472,7 +474,9 @@ void UIElement::updateAlign() {
 
 	}
 
-	// Vertical
+}
+
+void UIElement::updateVerticalAlign() {
 
 	switch (verticalAlign) {
 
