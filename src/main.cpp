@@ -83,7 +83,7 @@ int main (int argc,char** argv) {
 	/* Create Window */
 
 	sf::Window window (sf::VideoMode (app->windowWidth, app->windowHeight, 24), APP_NAME,
-					   sf::Style::Default | sf::Style::Maximize, settings);
+	                   sf::Style::Default | sf::Style::Maximize, settings);
 
 	app->windowHandle = window.getSystemHandle();
 	app->cursor = std::make_unique<UICursor> (window.getSystemHandle());
@@ -177,8 +177,8 @@ int main (int argc,char** argv) {
 				case sf::Event::MouseMoved: core->onMouseMove (ev.mouseMove.x, ev.mouseMove.y); break;
 				case sf::Event::MouseWheelScrolled:
 
-					     if (ev.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel  ) core->onMouseWheel (0, ev.mouseWheelScroll.delta);
-					else if (ev.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel) core->onMouseWheel (ev.mouseWheelScroll.delta, 0);
+					if (ev.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel  ) core->onMouseWheel (0, ev.mouseWheelScroll.delta); else
+					if (ev.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel) core->onMouseWheel (ev.mouseWheelScroll.delta, 0);
 
 					break;
 

@@ -32,10 +32,11 @@ private:
 
 	void placeElements (DataMap::DataNode *rootNode, UIElement *uiParent);
 
-	std::unique_ptr<UIElement> createElement (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createElement     (DataMap::DataNode *elementNode);
 
-	std::unique_ptr<UIElement> createPanel   (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createButton  (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createPanel       (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createButton      (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createStackLayout (DataMap::DataNode *elementNode);
 
 public:
 	std::unique_ptr<DataMap> data = nullptr;

@@ -51,8 +51,9 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 
 	std::unique_ptr<UIElement> element = nullptr;
 
-	if (elementNode->type == "panel" ) element = createPanel  (elementNode); else
-	if (elementNode->type == "button") element = createButton (elementNode);
+	if (elementNode->type == "panel" )      element = createPanel       (elementNode); else
+	if (elementNode->type == "stacklayout") element = createStackLayout (elementNode); else
+	if (elementNode->type == "button")      element = createButton      (elementNode);
 
 	if (element == nullptr)
 		return nullptr;
@@ -139,6 +140,18 @@ std::unique_ptr<UIElement> UILoader::createPanel (DataMap::DataNode *elementNode
 			panel->background = UIPanel::Background::Action;
 
 	}
+
+	return element;
+
+}
+
+/**
+ */
+
+std::unique_ptr<UIElement> UILoader::createStackLayout (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIStackLayout> (manager);
+	auto button = dynamic_cast<UIButton*>(element.get());
 
 	return element;
 

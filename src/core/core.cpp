@@ -34,6 +34,7 @@
 #include "ui/toolbar.h"
 #include "ui/dialog.h"
 #include "ui/loader.h"
+#include "ui/stack_layout.h"
 
 #include "utility/strings_res.h"
 

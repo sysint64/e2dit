@@ -572,7 +572,9 @@ void UIPanel::mouseWheel (int dx, int dy) {
 	bool underCanScrollY;
 	auto lastParent = el;
 
-	if (!over) return;
+	if (!over)
+		return;
+
 	while (true) {
 
 		if (lastParent->isRoot) break;

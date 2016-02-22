@@ -428,7 +428,7 @@ void UIElement::updateAlign() {
 
 		case Align::Center:
 
-			left = ((parent->width) >> 1) - (width >> 1) + 1; // TODO: Remove hardcode 2 - splitWidth on panel
+			left = ((parent->width) >> 1) - (width >> 1);
 			break;
 
 		case Align::Left:

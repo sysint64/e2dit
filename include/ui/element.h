@@ -64,9 +64,6 @@ protected:
 	float textColors [32];
 	float textOffsets[32];
 
-	int paddingTop  = 0;
-	int paddingLeft = 0;
-
 	int scrollElementWidth  = 0;
 	int scrollElementHeight = 0;
 
@@ -202,8 +199,12 @@ public:
 	int left    = 0; int top    = 0;
 
 	// Margin
-	int marginLeft = 0; int marginRight  = 0;
-	int marginTop  = 0; int marginBottom = 0;
+	int marginLeft  = 0; int marginRight   = 0;
+	int marginTop   = 0; int marginBottom  = 0;
+
+	// Padding
+	int paddingLeft = 0; int paddingRight  = 0;
+	int paddingTop  = 0; int paddingBottom = 0;
 
 	bool visible = true;
 	bool enabled = true;
@@ -274,9 +275,9 @@ public:
 
 	/* Manage Elements */
 
-	void addElement    (std::unique_ptr<UIElement> el);
-	void deleteElement (std::unique_ptr<UIElement> el);
-	void deleteElement (const int id);
+	virtual void addElement    (std::unique_ptr<UIElement> el);
+	virtual void deleteElement (std::unique_ptr<UIElement> el);
+	virtual void deleteElement (const int id);
 
 	UIElement *getElement (const int id);
 	std::unique_ptr<UIElement> takeElement (const int id);

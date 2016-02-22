@@ -17,20 +17,20 @@ RightPanel (Panel)
 		allowHide: true
 		caption: "@menu.item1.caption"
 
-		OKButton (Button)
-			size: 100, 21
-			location: 10, 10
-			caption: "Hello Word!"
-			align: right
+		Layout (StackLayout)
+			clientHeight: true
 
-		Lola (button)
-			size: 100, 21
-			location: 10, 40
-			caption: "Привет"
-			align: center
-			verticalAlign: bottom
+			OKButton (Button)
+				size: 100, 21
+				caption: "Hello Word!"
+				align: left
 
-		OkButton2 (button)
-			size: 100, 21
-			location: 140, 30
-			caption: "OK"
+			Lola (button)
+				size: 100, 21
+				caption: "Привет"
+				align: center
+
+			OkButton2 (button)
+				size: 100, 21
+				align: right
+				caption: "OK"

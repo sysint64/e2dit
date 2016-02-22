@@ -98,7 +98,7 @@ protected:
 	void updateScroll();
 	void pollScroll();
 	void calculateSplit();
-	virtual void updateAlign();
+	virtual void updateAlign() override;
 
 public:
 
