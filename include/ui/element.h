@@ -157,6 +157,14 @@ protected:
 		                         x, y, w, h);
 	}
 
+	inline int offsetSizeX() {
+		return marginLeft+marginRight+parent->paddingLeft+parent->paddingRight;
+	}
+
+	inline int offsetSizeY() {
+		return marginTop+marginBottom+parent->paddingTop+parent->paddingBottom;
+	}
+
 public:
 
 	friend UIManager;

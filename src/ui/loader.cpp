@@ -110,7 +110,7 @@ std::array<int, 4> UILoader::readRect (DataMap::DataNode *elementNode, const std
 
 Align UILoader::readAlign (DataMap::DataNode *elementNode, const std::string &paramName) {
 
-	auto end = elementNode->params.end();
+	auto end   = elementNode->params.end();
 	auto align = elementNode->params.find (paramName);
 
 	if (align != end) {
@@ -230,7 +230,15 @@ std::unique_ptr<UIElement> UILoader::createPanel (DataMap::DataNode *elementNode
 std::unique_ptr<UIElement> UILoader::createStackLayout (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIStackLayout> (manager);
-	auto button = dynamic_cast<UIButton*>(element.get());
+	auto layout = dynamic_cast<UIStackLayout*>(element.get());
+
+	auto orient = elementNode->params.find ("orientation");
+	auto end    = elementNode->params.end();
+
+	if (orient != end) {
+		if (orient->second[0].str == "horizontal") layout->orientation = Orientation::Horizontal; else
+		if (orient->second[0].str == "vertical"  ) layout->orientation = Orientation::Vertical;
+	}
 
 	return element;
 

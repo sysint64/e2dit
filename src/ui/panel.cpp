@@ -164,8 +164,8 @@ void UIPanel::updateAlign() {
 
 		case Align::Client:
 
-			width  = parent->width -mWidth -x0-parent->scrollElementWidth;
-			height = parent->height-mHeight-y0-parent->scrollElementHeight;
+			width  = parent->width -mWidth -x0-parent->scrollElementWidth -offsetSizeX();
+			height = parent->height-mHeight-y0-parent->scrollElementHeight-offsetSizeY();
 
 			left   = x0;
 			top    = y0;
@@ -174,7 +174,8 @@ void UIPanel::updateAlign() {
 
 		case Align::Top:
 
-			width = parent->width-mWidth-x0-parent->scrollElementWidth;
+			//width = parent->width-mWidth-x0-parent->scrollElementWidth-marginLeft-marginRight-parent->paddingLeft-parent->paddingRight;
+			width = parent->width-mWidth-x0-parent->scrollElementWidth-offsetSizeX();
 
 			left   = x0;
 			top    = y0;
@@ -187,16 +188,16 @@ void UIPanel::updateAlign() {
 
 		case Align::Bottom:
 
-			width = parent->width-mWidth-x0-parent->scrollElementWidth;
+			width = parent->width-mWidth-x0-parent->scrollElementWidth-offsetSizeX();
 
 			left   = x0;
-			top    = y0+parent->height-height-mTop-mHeight;
+			top    = y0+parent->height-height-mTop-mHeight-offsetSizeY();
 
 			break;
 
 		case Align::Left:
 
-			height = parent->height-mHeight-y0-parent->scrollElementHeight;
+			height = parent->height-mHeight-y0-parent->scrollElementHeight-offsetSizeY();
 
 			left   = x0;
 			top    = y0;
@@ -205,9 +206,9 @@ void UIPanel::updateAlign() {
 
 		case Align::Right:
 
-			height = parent->height-mHeight-y0;
+			height = parent->height-mHeight-y0-offsetSizeY();
 
-			left   = parent->width-mWidth-width;
+			left   = parent->width-mWidth-width-offsetSizeX();
 			top    = y0;
 
 			break;
@@ -223,6 +224,8 @@ void UIPanel::updateAlign() {
 void UIPanel::render() {
 
 	splitEnter = false;
+	int lastPaddingTop = paddingTop;
+	int scissorHeader = 0;
 
 	updateAbsPos();
 	updateScroll();
@@ -262,7 +265,9 @@ void UIPanel::render() {
 	if (allowHide) {
 
 		int n = headerEnter ? 17 : 16;
-		paddingTop = headerHeight;
+
+		paddingTop = paddingTop+headerHeight;
+		scissorHeader = headerHeight;
 
 		headerEnter = pointInRect (app->mouseX, app->mouseY, absLeft, absTop, width, iHeights[n]);
 		renderElement (n, absLeft, absTop, width, iHeights[n], header.get());
@@ -283,6 +288,7 @@ void UIPanel::render() {
 	if (!open) {
 
 		updateAlign();
+		paddingTop = lastPaddingTop;
 		return;
 
 	}
@@ -305,14 +311,14 @@ void UIPanel::render() {
 		if (scrollVEnter) n = 9;
 		if (scrollVClick) n = 18;
 
-		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width-scrollElementWidth, absTop+paddingTop, scrollHeight-paddingTop, true);
-		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width-scrollElementWidth, absTop+vbOffset+paddingTop, vbSize-paddingTop, true);
+		renderPartsElementV90 (  5,   4, 3, scrollBg [3].get(), scrollBg [4].get(), scrollBg [5].get(), absLeft+width-scrollElementWidth, absTop+scissorHeader, scrollHeight-scissorHeader, true);
+		renderPartsElementV90 (n+2, n+1, n, scrollBtn[3].get(), scrollBtn[4].get(), scrollBtn[5].get(), absLeft+width-scrollElementWidth, absTop+vbOffset+scissorHeader, vbSize-scissorHeader, true);
 
 	}
 
 	/* */
 
-	manager->pushScissor (absLeft, absTop+paddingTop, width-scrollElementWidth, height-scrollElementHeight-paddingTop);
+	manager->pushScissor (absLeft, absTop+scissorHeader, width-scrollElementWidth, height-scrollElementHeight-scissorHeader);
 
 	if (splitClick) {
 
@@ -337,6 +343,7 @@ void UIPanel::render() {
 	/* Render childs */
 
 	UIElement::render();
+	paddingTop = lastPaddingTop;
 	manager->popScissor();
 
 	/* Draw horizontal scroll */

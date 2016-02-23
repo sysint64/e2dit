@@ -35,7 +35,7 @@
  * @return decoded string
  */
 
-inline std::string decodeUTF8 (wchar_t uc) {
+inline std::string encodeUTF8 (wchar_t uc) {
 
 	std::string ret;
 	unsigned char b1, b2, b3, b4;//, b5, b6;
@@ -92,6 +92,7 @@ inline std::string decodeUTF8 (wchar_t uc) {
 	}*/
 
 	return ret;
+
 }
 
 /**
@@ -106,7 +107,7 @@ inline std::string wstr2str (std::wstring ws) {
 	std::string s;
 
 	for (auto ch : ws)
-		s += decodeUTF8 (ch);
+		s += encodeUTF8 (ch);
 
 	return s;
 
@@ -125,23 +126,6 @@ inline std::wstring str2wstr (const std::string &s) {
 	ws.resize (mbstowcs (&ws[0], s.c_str(), s.size()));
 
 	return ws;
-	//std::codecvt<wchar_t, char, std::mbstate_t> cvt;
-	//std::use_facet<std::codecvt<wchar_t, char, std::mbstate_t>>(std::locale("en_US.utf8")).encoding()
-
-	/*std::locale::global(std::locale("en_US.utf8"));
-	auto& f = std::use_facet<std::codecvt<wchar_t, char, std::mbstate_t>>(std::locale());
-	std::wstring internal = L"z\u00df\u6c34\U0001d10b"; // L"zß水𝄋"
-
-	std::mbstate_t mb = std::mbstate_t(); // initial shift state
-	std::string external(internal.size() * f.max_length(), '\0');
-	const wchar_t* from_next;
-	char* to_next;
-	f.out(mb, &internal[0], &internal[internal.size()], from_next,
-	          &external[0], &external[external.size()], to_next);
-	// error checking skipped for brevity
-	external.resize(to_next - &external[0]);
-
-	return internal;*/
 
 }
 

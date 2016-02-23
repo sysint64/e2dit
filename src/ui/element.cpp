@@ -339,15 +339,15 @@ void UIElement::updateAbsPos() {
 
 	while (lastParent != nullptr) {
 
-		res.x += lastParent->left-lastParent->scrollX+lastParent->paddingLeft;
-		res.y += lastParent->top -lastParent->scrollY+lastParent->paddingTop;
+		res.x += lastParent->left-lastParent->scrollX+lastParent->paddingLeft+lastParent->marginLeft;
+		res.y += lastParent->top -lastParent->scrollY+lastParent->paddingTop +lastParent->marginTop;
 
 		lastParent = lastParent->parent;
 
 	}
 
-	absLeft = left+res.x;
-	absTop  = top +res.y;
+	absLeft = left+res.x+marginLeft;
+	absTop  = top +res.y+marginTop;
 
 }
 
@@ -390,10 +390,10 @@ void UIElement::render() {
 			el->updateVerticalAlign();
 
 		if (el->align != Align::Top && el->align != Align::Bottom)
-			wrapperWidth  = math::max (wrapperWidth , el->left+el->width+paddingLeft);
+			wrapperWidth  = math::max (wrapperWidth , el->left+el->width+paddingLeft+paddingRight);
 
 		if (el->align != Align::Left && el->align != Align::Right)
-			wrapperHeight = math::max (wrapperHeight, el->top +el->height+paddingTop);
+			wrapperHeight = math::max (wrapperHeight, el->top +el->height+paddingTop+paddingBottom);
 
 	}
 
@@ -448,7 +448,7 @@ void UIElement::updateAlign() {
 				top = 0;
 			}
 
-			left = parent->width-width;
+			left = parent->width-width-marginRight;
 			break;
 
 		// if Allow Align Size
