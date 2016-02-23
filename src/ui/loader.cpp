@@ -133,14 +133,6 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	auto align         = elementNode->params.find ("align");
 	auto verticalAlign = elementNode->params.find ("verticalalign");
 
-	// Padding
-
-	auto padding       = elementNode->params.find ("padding");
-	auto paddingLeft   = elementNode->params.find ("paddingleft");
-	auto paddingRight  = elementNode->params.find ("paddingright");
-	auto paddingTop    = elementNode->params.find ("paddingtop");
-	auto paddingBottom = elementNode->params.find ("paddingbottom");
-
 	auto end           = elementNode->params.end();
 
 	if (size != end) {
