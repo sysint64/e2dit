@@ -54,7 +54,6 @@ void UIStackLayout::render() {
 
 	updateAbsPos();
 
-	//int lastLoc = orientation == Orientation::Vertical ? paddingTop : paddingLeft;
 	int lastLoc   = 0;
 	int maxWidth  = 0;
 	int maxHeight = 0;
@@ -74,7 +73,8 @@ void UIStackLayout::render() {
 			el->top    = lastLoc;
 			lastLoc   += h;
 
-			int cwidth = el->left+child->width;
+			int cwidth = child->align == Align::Right ? 0 :
+				child->left+child->width+offsetSizeX();
 
 			if (maxWidth < cwidth)
 				maxWidth = cwidth;
@@ -89,10 +89,12 @@ void UIStackLayout::render() {
 			el->left   = lastLoc+child->marginLeft;
 			lastLoc   += w;
 
-			int cheight = el->top+child->height;
+			int cheight = child->verticalAlign == Align::Bottom ? 0 :
+				child->top+child->height+offsetSizeY();
 
 			if (maxHeight < cheight)
 				maxHeight = cheight;
+
 		}
 
 		el->updateAbsPos();
@@ -106,9 +108,8 @@ void UIStackLayout::render() {
 		height  = lastLoc;
 	} else {
 		width   = lastLoc;
-		//height  = maxHeight > parent->height ? maxHeight : parent->height;
-		height  = maxHeight;
-		//height -= offsetSizeY();
+		height  = maxHeight > parent->height ? maxHeight : parent->height;
+		height -= offsetSizeY();
 	}
 
 

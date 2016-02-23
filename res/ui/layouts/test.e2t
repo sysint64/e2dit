@@ -20,22 +20,21 @@ RightPanel (Panel)
 		padding: 10
 
 		Layout (StackLayout)
-			orientation: horizontal
+			orientation: Horizontal
 
 			OKButton (Button)
 				size: 100, 21
 				caption: "Hello Word!"
-				align: left
 				marginRight: 10
+				location: 100, 0
 
 			Lola (button)
 				size: 100, 21
 				caption: "Привет"
 				align: right
-				location: 0, 200
 
 			OkButton2 (button)
 				size: 100, 21
-				align: left
+				align: right
 				verticalAlign: bottom
 				caption: "OK"

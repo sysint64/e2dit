@@ -346,6 +346,11 @@ void UIPanel::render() {
 	paddingTop = lastPaddingTop;
 	manager->popScissor();
 
+	/* Poll scroll */
+
+	if (showScrollX || showScrollY)
+		pollScroll();
+
 	/* Draw horizontal scroll */
 
 	if (wrapperWidth > width && showScrollX) {
@@ -359,11 +364,6 @@ void UIPanel::render() {
 		renderPartsElementH (n, n+1, n+2, scrollBtn[0].get(), scrollBtn[1].get(), scrollBtn[2].get(), absLeft+hbOffset, bottom, hbSize, true);
 
 	}
-
-	/* Poll scroll */
-
-	if (showScrollX || showScrollY)
-		pollScroll();
 
 	/* Render Split */
 

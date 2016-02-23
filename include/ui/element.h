@@ -46,6 +46,7 @@ class UIPanel;
 class UIButton;
 class UITreeListNode;
 class UITreeList;
+class UIStackLayout;
 
 /**
 	\brief Base user interface class
@@ -171,6 +172,7 @@ public:
 	friend UIPanel;
 	friend UITreeListNode;
 	friend UITreeList;
+	friend UIStackLayout;
 
 	std::vector<void*> metaData;  ///< Extended data
 
