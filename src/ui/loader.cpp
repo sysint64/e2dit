@@ -105,9 +105,29 @@ std::array<int, 4> UILoader::readRect (DataMap::DataNode *elementNode, const std
 
 }
 
+/**
+ */
+
 Align UILoader::readAlign (DataMap::DataNode *elementNode, const std::string &paramName) {
 
 	auto end = elementNode->params.end();
+	auto align = elementNode->params.find (paramName);
+
+	if (align != end) {
+
+		if (align->second[0].str == "none"  ) return Align::None;   else
+		if (align->second[0].str == "left"  ) return Align::Left;   else
+		if (align->second[0].str == "center") return Align::Center; else
+		if (align->second[0].str == "right" ) return Align::Right;  else
+		if (align->second[0].str == "client") return Align::Client; else
+		if (align->second[0].str == "bottom") return Align::Bottom; else
+		if (align->second[0].str == "all"   ) return Align::All;    else
+		if (align->second[0].str == "top"   ) return Align::Top;    else
+		if (align->second[0].str == "middle") return Align::Middle;
+
+	}
+
+	return Align::None;
 
 }
 
@@ -130,8 +150,6 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 
 	auto size          = elementNode->params.find ("size");
 	auto location      = elementNode->params.find ("location");
-	auto align         = elementNode->params.find ("align");
-	auto verticalAlign = elementNode->params.find ("verticalalign");
 
 	auto end           = elementNode->params.end();
 
@@ -145,27 +163,8 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 		element->top  = floor(location->second[1].num);
 	}
 
-	if (align != end) {
-
-		if (align->second[0].str == "none"  ) element->align = Align::None;
-		if (align->second[0].str == "left"  ) element->align = Align::Left;
-		if (align->second[0].str == "center") element->align = Align::Center;
-		if (align->second[0].str == "right" ) element->align = Align::Right;
-		if (align->second[0].str == "client") element->align = Align::Client;
-		if (align->second[0].str == "bottom") element->align = Align::Bottom;
-		if (align->second[0].str == "all"   ) element->align = Align::All;
-		if (align->second[0].str == "top"   ) element->align = Align::Top;
-		if (align->second[0].str == "middle") element->align = Align::Middle;
-
-	}
-
-	if (verticalAlign != end) {
-
-		if (verticalAlign->second[0].str == "bottom") element->verticalAlign = Align::Bottom;
-		if (verticalAlign->second[0].str == "top"   ) element->verticalAlign = Align::Top;
-		if (verticalAlign->second[0].str == "middle") element->verticalAlign = Align::Middle;
-
-	}
+	element->align         = readAlign (elementNode, "align");
+	element->verticalAlign = readAlign (elementNode, "verticalalign");
 
 	std::array<int, 4> marginRect  = readRect (elementNode, "margin");
 	std::array<int, 4> paddingRect = readRect (elementNode, "padding");
@@ -249,7 +248,7 @@ std::unique_ptr<UIElement> UILoader::createButton (DataMap::DataNode *elementNod
 	auto end     = elementNode->params.end();
 
 	if (caption != end)
-		button->caption = stringsRes->parseResource(caption->second[0].wstr);//caption->second[0].wstr;
+		button->caption = stringsRes->parseResource (caption->second[0].wstr);
 
 	return element;
 
