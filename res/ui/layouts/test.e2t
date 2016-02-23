@@ -23,14 +23,17 @@ RightPanel (Panel)
 			OKButton (Button)
 				size: 100, 21
 				caption: "Hello Word!"
-				align: left
+				align: center
+				marginTop: 10
 
 			Lola (button)
 				size: 100, 21
 				caption: "Привет"
 				align: center
+				marginTop: 10
 
 			OkButton2 (button)
 				size: 100, 21
-				align: right
+				align: center
 				caption: "OK"
+				marginTop: 10

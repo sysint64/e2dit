@@ -47,6 +47,74 @@ void UILoader::placeElements (DataMap::DataNode *rootNode, UIElement *uiParent) 
 /**
  */
 
+std::array<int, 4> UILoader::readRect (DataMap::DataNode *elementNode, const std::string &paramName) {
+
+	auto end = elementNode->params.end();
+
+	auto param       = elementNode->params.find (paramName);
+	auto paramLeft   = elementNode->params.find (paramName+"left");
+	auto paramRight  = elementNode->params.find (paramName+"right");
+	auto paramTop    = elementNode->params.find (paramName+"top");
+	auto paramBottom = elementNode->params.find (paramName+"bottom");
+
+	int v[4] = {0, 0, 0, 0};
+
+	if (param != end) {
+
+		int size = param->second.size();
+
+		if (size == 1) {
+
+			v[0] = param->second[0].intval;
+			return {v[0], v[0], v[0], v[0]};
+
+		} else if (size == 2) {
+
+			v[0] = param->second[0].intval;
+			v[1] = param->second[1].intval;
+
+			return {v[0], v[1], v[0], v[1]};
+
+		} else if (size == 3) {
+
+			v[0] = param->second[0].intval;
+			v[1] = param->second[1].intval;
+			v[2] = param->second[2].intval;
+
+			return {v[0], v[1], v[2], v[1]};
+
+		} else if (size == 4) {
+
+			v[0] = param->second[0].intval;
+			v[1] = param->second[1].intval;
+			v[2] = param->second[2].intval;
+			v[3] = param->second[3].intval;
+
+			return {v[0], v[1], v[2], v[3]};
+
+		}
+
+	}
+
+	if (paramTop    != end) v[0] = paramTop   ->second[0].intval;
+	if (paramRight  != end) v[1] = paramRight ->second[0].intval;
+	if (paramBottom != end) v[2] = paramBottom->second[0].intval;
+	if (paramLeft   != end) v[3] = paramLeft  ->second[0].intval;
+
+	return {v[0], v[1], v[2], v[3]};
+
+}
+
+Align UILoader::readAlign (DataMap::DataNode *elementNode, const std::string &paramName) {
+
+	auto end = elementNode->params.end();
+
+}
+
+
+/**
+ */
+
 std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = nullptr;
@@ -64,6 +132,15 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	auto location      = elementNode->params.find ("location");
 	auto align         = elementNode->params.find ("align");
 	auto verticalAlign = elementNode->params.find ("verticalalign");
+
+	// Padding
+
+	auto padding       = elementNode->params.find ("padding");
+	auto paddingLeft   = elementNode->params.find ("paddingleft");
+	auto paddingRight  = elementNode->params.find ("paddingright");
+	auto paddingTop    = elementNode->params.find ("paddingtop");
+	auto paddingBottom = elementNode->params.find ("paddingbottom");
+
 	auto end           = elementNode->params.end();
 
 	if (size != end) {
@@ -97,6 +174,17 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 		if (verticalAlign->second[0].str == "middle") element->verticalAlign = Align::Middle;
 
 	}
+
+	std::array<int, 4> marginRect  = readRect (elementNode, "margin");
+	std::array<int, 4> paddingRect = readRect (elementNode, "padding");
+
+	std::cout << marginRect[0] << std::endl;
+
+	element->marginTop     = marginRect [0]; element->marginRight  = marginRect [1];
+	element->marginBottom  = marginRect [2]; element->marginLeft   = marginRect [3];
+
+	element->paddingTop    = paddingRect[0]; element->paddingRight = paddingRect[1];
+	element->paddingBottom = paddingRect[2]; element->paddingLeft  = paddingRect[3];
 
 	return element;
 

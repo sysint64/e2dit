@@ -38,7 +38,7 @@ class DataMap {
 public:
 
 	enum class ReadType { Text, Bin };
-	
+
 	/* Data Value */
 
 	struct DataVal {
@@ -48,6 +48,7 @@ public:
 		std::wstring wstr;
 		bool         isStr;
 		bool         boolean;
+		int          intval;
 
 	} typedef DataVal;
 

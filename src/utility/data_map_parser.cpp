@@ -467,6 +467,7 @@ DataMap::DataVal DataMap::parseParam() {
 	} else {
 		val.isStr = false;
 		val.num = numVal;
+		val.intval  = floor(numVal);
 		val.boolean = floor(numVal) == 0 ? false : true;
 		//
 		numByte.num = numVal;

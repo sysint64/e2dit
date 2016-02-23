@@ -38,6 +38,9 @@ private:
 	std::unique_ptr<UIElement> createButton      (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createStackLayout (DataMap::DataNode *elementNode);
 
+	std::array<int, 4> readRect (DataMap::DataNode *elementNode, const std::string &paramName);
+	Align readAlign (DataMap::DataNode *elementNode, const std::string &paramName);
+
 public:
 	std::unique_ptr<DataMap> data = nullptr;
 	StringRes *stringsRes;
