@@ -131,6 +131,46 @@ Align UILoader::readAlign (DataMap::DataNode *elementNode, const std::string &pa
 
 }
 
+/**
+ */
+
+std::wstring UILoader::readCaption (DataMap::DataNode *elementNode, const std::string &paramName) {
+
+	auto caption = elementNode->params.find (paramName);
+	auto end     = elementNode->params.end();
+
+	if (caption != end)
+		return stringsRes->parseResource (caption->second[0].wstr);
+
+	return L"";
+
+}
+
+/**
+ */
+
+void UILoader::readIcon (UIButton *element, DataMap::DataNode *elementNode) {
+
+	auto showIcon    = elementNode->params.find ("showicon");
+	auto showIcon2   = elementNode->params.find ("showicon2");
+	auto iconOffset  = elementNode->params.find ("iconoffset");
+	auto icon2Offset = elementNode->params.find ("icon2offset");
+	auto end         = elementNode->params.end();
+
+	if (showIcon  != end) element->showIcon  = showIcon ->second[0].boolean;
+	if (showIcon2 != end) element->showIcon2 = showIcon2->second[0].boolean;
+
+	if (iconOffset != end) {
+		element->iconOffset[0] = iconOffset->second[0].intval;
+		element->iconOffset[1] = iconOffset->second[1].intval;
+	}
+
+	if (icon2Offset != end) {
+		element->icon2Offset[0] = icon2Offset->second[0].intval;
+		element->icon2Offset[1] = icon2Offset->second[1].intval;
+	}
+
+}
 
 /**
  */
@@ -139,29 +179,44 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 
 	std::unique_ptr<UIElement> element = nullptr;
 
-	if (elementNode->type == "panel" )      element = createPanel       (elementNode); else
-	if (elementNode->type == "stacklayout") element = createStackLayout (elementNode); else
-	if (elementNode->type == "button")      element = createButton      (elementNode);
+	if (elementNode->name == "panel" )      element = createPanel       (elementNode); else
+	if (elementNode->name == "stacklayout") element = createStackLayout (elementNode); else
+	if (elementNode->name == "button")      element = createButton      (elementNode); else
+	if (elementNode->name == "toolbar")     element = createToolbar     (elementNode); else
+	if (elementNode->name == "toolbartab")  element = createToolbarTab  (elementNode); else
+	if (elementNode->name == "toolbaritem") element = createToolbarItem (elementNode);
 
 	if (element == nullptr)
 		return nullptr;
 
 	// Processe generic parameters
 
-	auto size          = elementNode->params.find ("size");
-	auto location      = elementNode->params.find ("location");
-
-	auto end           = elementNode->params.end();
+	auto size     = elementNode->params.find ("size");
+	auto location = elementNode->params.find ("location");
+	auto name     = elementNode->params.find ("name");
+	auto left     = elementNode->params.find ("left");
+	auto top      = elementNode->params.find ("top");
+	auto width    = elementNode->params.find ("width");
+	auto height   = elementNode->params.find ("height");
+	auto end      = elementNode->params.end();
 
 	if (size != end) {
-		element->width  = floor(size->second[0].num);
-		element->height = floor(size->second[1].num);
+		element->width  = size->second[0].intval;
+		element->height = size->second[1].intval;
 	}
 
 	if (location != end) {
-		element->left = floor(location->second[0].num);
-		element->top  = floor(location->second[1].num);
+		element->left = location->second[0].intval;
+		element->top  = location->second[1].intval;
 	}
+
+	if (name   != end) element->name   = name  ->second[0].str;
+	if (left   != end) element->left   = left  ->second[0].intval;
+	if (top    != end) element->top    = top   ->second[0].intval;
+	if (width  != end) element->width  = width ->second[0].intval;
+	if (height != end) element->height = height->second[0].intval;
+
+	//
 
 	element->align         = readAlign (elementNode, "align");
 	element->verticalAlign = readAlign (elementNode, "verticalalign");
@@ -252,11 +307,55 @@ std::unique_ptr<UIElement> UILoader::createButton (DataMap::DataNode *elementNod
 	std::unique_ptr<UIElement> element = std::make_unique<UIButton> (manager, false);
 	auto button = dynamic_cast<UIButton*>(element.get());
 
-	auto caption = elementNode->params.find ("caption");
-	auto end     = elementNode->params.end();
+	button->caption = readCaption(elementNode, "caption");
+	readIcon (button, elementNode);
 
-	if (caption != end)
-		button->caption = stringsRes->parseResource (caption->second[0].wstr);
+	return element;
+
+}
+
+/**
+ */
+
+std::unique_ptr<UIElement> UILoader::createToolbar (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIToolbar> (manager);
+	return element;
+
+}
+
+/**
+ */
+
+std::unique_ptr<UIElement> UILoader::createToolbarTab (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIToolbarTab> (manager);
+	auto toolbarTab = dynamic_cast<UIToolbarTab*>(element.get());
+
+	toolbarTab->caption = readCaption(elementNode, "caption");
+	readIcon (toolbarTab, elementNode);
+
+	return element;
+
+}
+
+/**
+ */
+
+std::unique_ptr<UIElement> UILoader::createToolbarItem (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIToolbarItem> (manager);
+	auto toolbarItem = dynamic_cast<UIToolbarItem*>(element.get());
+
+	toolbarItem->caption = readCaption(elementNode, "caption");
+
+	auto iconOffset  = elementNode->params.find ("iconoffset");
+	auto end         = elementNode->params.end();
+
+	if (iconOffset != end) {
+		toolbarItem->iconOffset[0] = iconOffset->second[0].intval;
+		toolbarItem->iconOffset[1] = iconOffset->second[1].intval;
+	}
 
 	return element;
 

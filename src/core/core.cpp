@@ -70,7 +70,7 @@ Core::Core() {
 	uiManager->toolIcons = std::make_unique<UIToolIcons> (uiManager.get(), std::move (iconsTex), 48.f, 1, 1);
 
 	stringsRes = std::make_unique<StringRes>();
-	stringsRes->addResource ("../res/strings/eng/menu.e2t");
+	stringsRes->addResource ("../res/strings/en/menu.e2t");
 
 	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager.get(), stringsRes.get(), "../res/ui/layouts/test.e2t");
 

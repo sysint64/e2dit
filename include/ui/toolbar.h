@@ -100,6 +100,17 @@ public:
 
 	}
 
+	UIToolbarItem (UIManager *manager) : UIElement (manager) {
+
+		style  = "toolbaritem";
+		width  = manager->toolIcons->sizeIcon;
+		height = manager->toolIcons->sizeIcon+18+manager->theme->fontHeight+2;
+		this->manager = manager;
+
+		precompute();
+
+	}
+
 };
 
 class UIToolbar : public UICheckedElements {
@@ -109,6 +120,8 @@ protected:
 
 	int shadowHeight = 0;
 	int tabOffset    = 0;
+
+	virtual void updateAlign() override;
 
 public:
 

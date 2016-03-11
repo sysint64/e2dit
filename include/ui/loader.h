@@ -37,9 +37,14 @@ private:
 	std::unique_ptr<UIElement> createPanel       (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createButton      (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createStackLayout (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createToolbar     (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createToolbarTab  (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createToolbarItem (DataMap::DataNode *elementNode);
 
 	std::array<int, 4> readRect (DataMap::DataNode *elementNode, const std::string &paramName);
 	Align readAlign (DataMap::DataNode *elementNode, const std::string &paramName);
+	std::wstring readCaption (DataMap::DataNode *elementNode, const std::string &paramName);
+	void readIcon (UIButton *element, DataMap::DataNode *elementNode);
 
 public:
 	std::unique_ptr<DataMap> data = nullptr;

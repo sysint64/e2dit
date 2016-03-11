@@ -115,3 +115,57 @@ void UIToolbarSplit::render() {
 	renderElement (0, absLeft+5, absTop-1, iWidths[0], iHeights[0], splitElement.get());
 
 }
+
+void UIToolbar::updateAlign() {
+
+	if (align == Align::None)
+		return;
+
+	int x0 = 0; int mWidth  = 0; int mLeft = 0;
+	int y0 = 0; int mHeight = 0; int mTop  = 0;
+
+	/* TODO: Incapsulate find border */
+	/* Find Border */
+
+	for (const auto &kvp : parent->elements) {
+
+		UIElement *el = kvp.second.get();
+
+		if (el == this)
+			break;
+
+		if (!el->visible || el->align == Align::None)
+			continue;
+
+		switch (el->align) {
+
+			case Align::Top    : y0 += el->height; mTop  += el->height; break;
+			case Align::Left   : x0 += el->width ; mLeft += el->width;  break;
+
+			case Align::Bottom : mHeight += el->height; break;
+			case Align::Right  : mWidth  += el->width;  break;
+
+			default: continue;
+
+		}
+
+	}
+
+	/* Update Position and Size depending on the align */
+
+	switch (align) {
+
+		case Align::Top:
+
+			width = parent->width-mWidth-x0-offsetSizeX();
+
+			left = x0;
+			top  = y0;
+
+			break;
+
+		default: return;
+
+	}
+
+}

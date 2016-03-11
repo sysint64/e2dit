@@ -1,39 +1,54 @@
+Panel
+	height: 25
+	align: top
+	background: dark
 
-/* Panel */
+Toolbar
+	name: myToolbar
+	align: top
 
-RightPanel (Panel)
+	ToolbarTab
+		showIcon: true
+		iconOffset: 3, 4
+		caption: "Hello"
+		width: 150
+
+		ToolbarItem
+			iconOffset: 1, 1
+			caption: "Test"
+
+Panel
+	name: RightPanel
 	align: right
 	size: 400, 200
 	location: 100, 100
 	background: dark
 	blackSplit: true
 	allowResize: true
-	padding: 10
 
-	Hierarchy (Panel)
+	Panel
 		background: light
 		align: top
 		size: 0, 400
 		allowResize: true
 		allowHide: true
 		caption: "@menu.item1.caption"
-		padding: 10
 
-		Layout (StackLayout)
-			orientation: Horizontal
+		StackLayout
+			orientation: Vertical
 
-			OKButton (Button)
+			Button
 				size: 100, 21
 				caption: "Hello Word!"
 				marginRight: 10
 				location: 100, 0
 
-			Lola (button)
+			Button
 				size: 100, 21
 				caption: "Привет"
 				align: right
 
-			OkButton2 (button)
+			Button
 				size: 100, 21
 				align: right
 				verticalAlign: bottom
