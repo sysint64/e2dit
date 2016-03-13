@@ -83,7 +83,13 @@ endif()
 set(SOURCE_EXE src/main.cpp src/core/core.cpp src/core/events.cpp)
 
 add_executable(main ${SOURCE_EXE})
-include_directories(include /usr/include/freetype2/ /home/int64/dev/boost/ src/utility src/renderer src/ui)
+include_directories(include
+		/usr/include/freetype2/
+		/home/int64/dev/boost/
+		src/utility
+		src/renderer
+		src/ui)
+
 add_subdirectory(src/utility)
 add_subdirectory(src/renderer)
 add_subdirectory(src/ui)

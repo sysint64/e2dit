@@ -30,12 +30,14 @@
  * Render Button
  */
 
-void UIButton::render () {
+void UIButton::render() {
 
 	if (drawChilds)
 		UIElement::render();
 
 	updateAbsPos();
+
+	if (tooltip) tooltip->render();
 
 	//if (!enabled || (parent != nullptr && !parent->enabled))
 	//	glUniform1f (manager->atlasShader->locations["Alpha"], manager->disabledAlpha);

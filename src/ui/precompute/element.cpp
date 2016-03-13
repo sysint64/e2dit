@@ -52,8 +52,10 @@ void UIElement::precomputeElement (const int n, const std::string &element, cons
 	fWidths [n] = manager->theme->element[element].params[params][2].num / manager->theme->skin->width;
 	fHeights[n] = manager->theme->element[element].params[params][3].num / manager->theme->skin->height;
 
-	iWidths [n] = floor (manager->theme->element[element].params[params][2].num);
-	iHeights[n] = floor (manager->theme->element[element].params[params][3].num);
+	iOffsetsX[n] = floor (manager->theme->element[element].params[params][0].num);
+	iOffsetsY[n] = floor (manager->theme->element[element].params[params][1].num);
+	iWidths  [n] = floor (manager->theme->element[element].params[params][2].num);
+	iHeights [n] = floor (manager->theme->element[element].params[params][3].num);
 
 }
 

@@ -61,6 +61,7 @@ protected:
 	int   iWidths [32];    int   iHeights[32];
 	float fWidths [32];    float fHeights[32];
 	float offsetsX[32];    float offsetsY[32];
+	int  iOffsetsX[32];    int  iOffsetsY[32];
 
 	float textColors [32];
 	float textOffsets[32];
@@ -184,9 +185,9 @@ public:
 	bool over      = false; ///< true if mouse over element even if another element overlaps it
 	bool alignSize = false; ///< used in updateAlign method. If true then element change size depenging on the alignment
 
-	std::string hint = "element";
-	std::string name = "";
-	int         tag  = 0;
+	std::wstring hint = L"Elementasdasdasd saas ass";
+	std::string  name = "";
+	int          tag  = 0;
 
 	/* Scroll */
 

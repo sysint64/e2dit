@@ -27,6 +27,7 @@
 
 #include "ui/element.h"
 #include "ui/manager.h"
+#include "ui/tooltip.h"
 
 #include "renderer/base_object.h"
 
@@ -65,6 +66,8 @@ protected:
 
 public:
 
+	std::unique_ptr<UITooltip> tooltip = nullptr;
+
 	/* Icon */
 
 	int iconOffset     [2] = {-1, -1}; bool showIcon      = false;
@@ -84,6 +87,11 @@ public:
 
 	virtual void mouseDown (int x, int y, int button) override;
 
+	inline void setTooltip() {
+		tooltip = std::make_unique<UITooltip> (manager);
+		tooltip->target = this;
+	}
+
 	//using UIElement::UIElement;
 	UIButton (UIManager *manager, bool allowCheck = false) : UIElement (manager) {
 
@@ -91,16 +99,7 @@ public:
 		this->allowCheck = allowCheck;
 
 		style = allowCheck ? "checkbutton" : "button";
-
-		/*if (allowCheck) {
-
-			leaveElement = "checkbuttonleave";
-			enterElement = "checkbuttonenter";
-			clickElement = "checkbuttonclick";
-			focusElement = "checkbuttonfocus";
-
-		}*/
-
+		setTooltip();
 		precompute();
 
 	}

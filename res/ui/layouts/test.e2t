@@ -49,7 +49,7 @@ Panel
 				align: right
 
 			Button
-				size: 100, 21
+				size: 100, 100
 				align: right
 				verticalAlign: bottom
 				caption: "OK"

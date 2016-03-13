@@ -17,3 +17,4 @@
 #include "ui/toolbar.h"
 #include "ui/treelist.h"
 #include "ui/stack_layout.h"
+#include "ui/tooltip.h"

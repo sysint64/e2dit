@@ -118,6 +118,22 @@ Scroll
 			center              : 130, 3, 8, 10
 			right               : 150, 3, 8, 10
 
+Tooltip
+	textOffset                  : 10,  4
+	textColor                   : 255, 255, 255
+
+	&Left
+		aria                    : 87 , 342, 25, 25
+		left                    : 72 , 324, 29, 61
+		center                  : 99 , 324, 2 , 61
+		right                   : 102, 324, 37, 61
+
+	&Right
+		aria                    : 31, 342, 25, 25
+		left                    : 4 , 324, 37, 61
+		center                  : 42, 324, 2 , 61
+		right                   : 42, 324, 29, 61
+
 /**
  * Tab Button
  */
