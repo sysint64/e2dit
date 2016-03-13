@@ -73,6 +73,22 @@ inline void renderText (FTGLfont *font, float r, float g, float b, int x, int y,
 
 }
 
+inline void renderText (FTGLfont *font, float r, float g, float b, float a, int x, int y, std::wstring text) {
+
+	Application *app = Application::getInstance();
+	std::string decodedText = wstr2str (text);
+	glBegin2D();
+
+	glActiveTexture (GL_TEXTURE0);
+	glColor4f       (r, g, b, a);
+
+	glTranslatef    (x, app->windowHeight-y, 0);
+	ftglRenderFont  (font, decodedText.c_str(), RENDER_ALL);
+
+	glEnd2D();
+
+}
+
 inline void renderText (FTGLfont *font, float *color, int x, int y, std::wstring text) {
 
 	Application *app = Application::getInstance();
@@ -81,6 +97,22 @@ inline void renderText (FTGLfont *font, float *color, int x, int y, std::wstring
 
 	glActiveTexture (GL_TEXTURE0);
 	glColor3fv      (color);
+
+	glTranslatef    (x, app->windowHeight-y, 0);
+	ftglRenderFont  (font, decodedText.c_str(), RENDER_ALL);
+
+	glEnd2D();
+
+}
+
+inline void renderText (FTGLfont *font, float *color, float alpha, int x, int y, std::wstring text) {
+
+	Application *app = Application::getInstance();
+	std::string decodedText = wstr2str (text);
+	glBegin2D();
+
+	glActiveTexture (GL_TEXTURE0);
+	glColor4f       (color[0], color[1], color[2], alpha);
 
 	glTranslatef    (x, app->windowHeight-y, 0);
 	ftglRenderFont  (font, decodedText.c_str(), RENDER_ALL);

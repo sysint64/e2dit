@@ -90,6 +90,7 @@ public:
 	inline void setTooltip() {
 		tooltip = std::make_unique<UITooltip> (manager);
 		tooltip->target = this;
+		manager->overlayElements.push_back(tooltip.get());
 	}
 
 	//using UIElement::UIElement;

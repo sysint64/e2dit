@@ -37,7 +37,10 @@ void UIButton::render() {
 
 	updateAbsPos();
 
-	if (tooltip) tooltip->render();
+	if (tooltip)
+		tooltip->setHidden (!enter);
+
+	//if (tooltip) tooltip->render();
 
 	//if (!enabled || (parent != nullptr && !parent->enabled))
 	//	glUniform1f (manager->atlasShader->locations["Alpha"], manager->disabledAlpha);

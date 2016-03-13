@@ -39,6 +39,8 @@ protected:
 	int leftAria[4]; int rightAria  [4];
 	int topAria [4]; int bottomtAria[4];
 	int leftOffset[2]; int rightOffset[2];
+	float time = 0;
+	bool hidden = true;
 
 public:
 
@@ -46,8 +48,16 @@ public:
 
 	virtual void precompute() override;
 	virtual void render()     override;
-	void show();
-	void hide();
+
+	inline void setHidden (const bool value) {
+
+		if (hidden == value)
+			return;
+
+		time = 0.f;
+		hidden = value;
+		
+	}
 
 	UITooltip (UIManager *manager) : UIElement (manager) {
 

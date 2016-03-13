@@ -107,7 +107,7 @@ public:
 	/* */
 
 	std::vector<glm::vec4>  scissorStack;
-	std::vector<UIElement*> drawStack;
+	std::vector<UIElement*> overlayElements;
 	std::vector<UIElement*> unfocusedElements;
 	std::vector<UIElement*> elementsStack; // For poll elements
 	std::map<int, bool>     disablePollMap;

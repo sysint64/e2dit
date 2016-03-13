@@ -33,6 +33,21 @@ namespace math {
 	const float pi2 = pi/2.f;
 	const float pi4 = pi/4.f;
 
+	inline float interpTo (float current, float target, float deltaTime, float interpSpeed, float eps = 0.01f) {
+
+		if (interpSpeed == 0)
+			return target;
+
+		float dist = target - current;
+
+		if (dist*dist < eps)
+			return target;
+
+		float deltaMove = dist*deltaTime*interpSpeed;
+		return current+deltaMove;
+
+	}
+
 	/**
 	 * Min, Max
 	 */

@@ -21,8 +21,22 @@
  */
 
 #include "ui/tooltip.h"
+#include "utility/math.h"
 
 void UITooltip::render() {
+
+	if (hidden && math::feq<float>(alpha, 0.f, 0.01f))
+		return;
+
+	float targetAlpha = hidden ? 0.f : 1.f;
+
+	time += app->deltaTime;
+
+	if (time >= 1.f/2000.f && !hidden)
+		alpha = math::interpTo (alpha, targetAlpha, app->deltaTime, 15000.f);
+	else if (hidden) {
+		alpha = math::interpTo (alpha, targetAlpha, app->deltaTime, 15000.f);
+	}
 
 	height = leftAria[3];
 	over = false;
@@ -64,6 +78,8 @@ void UITooltip::render() {
 
 	}
 
+	glUniform1f (manager->atlasShader->locations["Alpha"], alpha);
+
 	int twidth = ftglGetTextWidth (manager->theme->font14, hint);
 	width = twidth+xOffset+outWidth+textOffsets[0]+10; // TODO: Remove hardcode - 10
 
@@ -73,7 +89,7 @@ void UITooltip::render() {
 	renderPartsElementH (n, n+1, n+2, leftElement.get(), middleElement.get(), rightElement.get(), x, y, width);
 
 	manager->atlasShader->unbind();
-	renderText (manager->theme->font14, &(textColors[0]), tx, ty, hint);
+	renderText (manager->theme->font14, &(textColors[0]), alpha, tx, ty, hint);
 	manager->atlasShader->bind();
 
 }

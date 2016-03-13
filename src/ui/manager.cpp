@@ -287,6 +287,12 @@ void UIManager::render() {
 	/* Render Root */
 
 	root->render();
+
+	for (const auto &element : overlayElements) {
+		if (element)
+			element->render();
+	}
+
 	poll();
 	root->progress();
 
