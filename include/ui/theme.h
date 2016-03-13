@@ -33,8 +33,16 @@ using namespace FTGL;
 class UITheme : public DataMap {
 public:
 	Texture  *skin;
-	FTGLfont *font;
+
+	FTGLfont *font; // Main font
+	FTGLfont *font12;
+	FTGLfont *font14;
+	FTGLfont *font16;
+
 	int fontHeight;
+	int font12Height;
+	int font14Height;
+	int font16Height;
 
 public:
 

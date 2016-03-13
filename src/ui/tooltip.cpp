@@ -25,23 +25,55 @@
 void UITooltip::render() {
 
 	height = leftAria[3];
+	over = false;
 
-	int xOffset = abs(leftAria[0]-iOffsetsX[1]);
-	int yOffset = abs(leftAria[1]-iOffsetsY[1]);
-	int outWidth = abs(iWidths[0]+iWidths[1]+iWidths[2])-(xOffset+leftAria[2]);
+	int xOffset, yOffset, outWidth;
 
-	int twidth = ftglGetTextWidth (manager->theme->font, hint);
-	width = twidth+xOffset+outWidth+textOffsets[0];
+	int x, y, n;
+	int txo = 0;
+	int tyo = 0;
 
-	int x = target->absLeft-width;
-	int y = target->absTop-yOffset-(height >> 1)+(target->height >> 1)-1;
+	switch (align) {
+
+		case Align::Left:
+
+			xOffset  = abs(leftAria[0]-iOffsetsX[1]);
+			yOffset  = abs(leftAria[1]-iOffsetsY[1]);
+			outWidth = abs(iWidths[0]+iWidths[1]+iWidths[2])-(xOffset+leftAria[2]);
+
+			x = target->absLeft-width+leftOffset[0];
+			y = target->absTop-yOffset-(height >> 1)+(target->height >> 1)+leftOffset[1];
+			n = 0;
+
+			break;
+
+		case Align::Right:
+
+			xOffset  = abs(rightAria[0]-iOffsetsX[3]);
+			yOffset  = abs(rightAria[1]-iOffsetsY[3]);
+			outWidth = abs(iWidths[3]+iWidths[4]+iWidths[5])-(xOffset+rightAria[2]);
+
+			x = target->absLeft+target->width+rightOffset[0];
+			y = target->absTop-yOffset-(height >> 1)+(target->height >> 1)+rightOffset[1];
+			n = 3;
+
+			break;
+
+		default:
+			return;
+
+	}
+
+	int twidth = ftglGetTextWidth (manager->theme->font14, hint);
+	width = twidth+xOffset+outWidth+textOffsets[0]+10; // TODO: Remove hardcode - 10
+
 	int tx = x+xOffset+textOffsets[0];
 	int ty = y+yOffset+(height >> 1)+textOffsets[1];
 
-	renderPartsElementH (0, 1, 2, leftElement.get(), middleElement.get(), rightElement.get(), x, y, width);
+	renderPartsElementH (n, n+1, n+2, leftElement.get(), middleElement.get(), rightElement.get(), x, y, width);
 
 	manager->atlasShader->unbind();
-	renderText (manager->theme->font, &(textColors[0]), tx, ty, hint);
+	renderText (manager->theme->font14, &(textColors[0]), tx, ty, hint);
 	manager->atlasShader->bind();
 
 }

@@ -6,7 +6,10 @@
 
 General
 
-	font                        : "res/fonts/ttf-dejavu/DejaVuSans.ttf", 12, true
+	font12                      : "res/fonts/ttf-dejavu/DejaVuSans.ttf", 12, true
+	font14                      : "res/fonts/ttf-dejavu/DejaVuSans.ttf", 14, true
+	font16                      : "res/fonts/ttf-dejavu/DejaVuSans.ttf", 16, true
+	mainFont                    : font12
 	hr                          : 10, 131, 2, 2
 	vertex                      : 226, 6, 6, 6
 	newVertex                   : 226, 16, 6, 6
@@ -119,7 +122,7 @@ Scroll
 			right               : 150, 3, 8, 10
 
 Tooltip
-	textOffset                  : 10,  4
+	textOffset                  : 10,  5
 	textColor                   : 255, 255, 255
 
 	&Left
@@ -127,12 +130,14 @@ Tooltip
 		left                    : 72 , 324, 29, 61
 		center                  : 99 , 324, 2 , 61
 		right                   : 102, 324, 37, 61
+		offset                  : 14, -1
 
 	&Right
 		aria                    : 31, 342, 25, 25
 		left                    : 4 , 324, 37, 61
 		center                  : 42, 324, 2 , 61
 		right                   : 42, 324, 29, 61
+		offset                  : -14, -1
 
 /**
  * Tab Button

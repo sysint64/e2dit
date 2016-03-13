@@ -27,17 +27,19 @@ void UITooltip::precompute() {
 	precomputeText    (0, style);
 
 	// Left align
-	precomputeElement  (0, style+leftParam, "left");
-	precomputeElement  (1, style+leftParam, "center");
-	precomputeElement  (2, style+leftParam, "right");
+	precomputeElement (0, style+leftParam, "left");
+	precomputeElement (1, style+leftParam, "center");
+	precomputeElement (2, style+leftParam, "right");
 
 	// Right align
 	precomputeElement (3, style+rightParam, "left");
 	precomputeElement (4, style+rightParam, "center");
 	precomputeElement (5, style+rightParam, "right");
 
-	precomputeIntArray (style+leftParam , "aria", leftAria , 4);
-	precomputeIntArray (style+rightParam, "aria", rightAria, 4);
+	precomputeIntArray (style+leftParam , "aria"  , leftAria   , 4);
+	precomputeIntArray (style+rightParam, "aria"  , rightAria  , 4);
+	precomputeIntArray (style+leftParam , "offset", leftOffset , 2);
+	precomputeIntArray (style+rightParam, "offset", rightOffset, 2);
 
 	// TODO: add up and bottom align
 

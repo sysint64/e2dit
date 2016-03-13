@@ -43,14 +43,28 @@ Core::Core() {
 	app->screenCamera = std::make_unique<Camera>(app->screenWidth, app->screenHeight);
 
 	//uiManager = std::make_shared<UIManager>();
-	auto font = ftglCreateTextureFont ("../res/fonts/ttf-dejavu/DejaVuSans.ttf");
+	auto font12 = ftglCreateTextureFont ("../res/fonts/ttf-dejavu/DejaVuSans.ttf");
+	auto font14 = ftglCreateTextureFont ("../res/fonts/ttf-dejavu/DejaVuSans.ttf");
+	auto font16 = ftglCreateTextureFont ("../res/fonts/ttf-dejavu/DejaVuSans.ttf");
 
-	ftglSetFontFaceSize (font, 12, 12);
-	ftglSetFontCharMap  (font, ft_encoding_unicode);
+	ftglSetFontFaceSize (font12, 12, 12);
+	ftglSetFontCharMap  (font12, ft_encoding_unicode);
+
+	ftglSetFontFaceSize (font14, 14, 14);
+	ftglSetFontCharMap  (font14, ft_encoding_unicode);
+
+	ftglSetFontFaceSize (font16, 16, 16);
+	ftglSetFontCharMap  (font16, ft_encoding_unicode);
 
 	skin    = std::make_unique<Texture> ("../res/ui/skins/light/controls.png");
-	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/light/controls.e2t", DataMap::ReadType::Text, skin.get(), font);
-	uiTheme->fontHeight = 12;
+	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/light/controls.e2t", DataMap::ReadType::Text, skin.get(), font12);
+	uiTheme->fontHeight   = 12;
+	uiTheme->font12Height = 12;
+	uiTheme->font14Height = 14;
+	uiTheme->font16Height = 16;
+	uiTheme->font12 = font12;
+	uiTheme->font14 = font14;
+	uiTheme->font16 = font16;
 
 	std::vector<std::string> atlasMaskLocations {"MVP", "Size", "Offset", "Texture", "Alpha", "Mask", "MaskOffset", "MaskSize"};
 	std::vector<std::string> atlasLocations     {"MVP", "Size", "Offset", "Texture", "Alpha"};

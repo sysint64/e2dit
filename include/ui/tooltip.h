@@ -38,10 +38,10 @@ protected:
 
 	int leftAria[4]; int rightAria  [4];
 	int topAria [4]; int bottomtAria[4];
+	int leftOffset[2]; int rightOffset[2];
 
 public:
 
-	Align align = Align::Right;
 	UIElement *target;
 
 	virtual void precompute() override;
@@ -51,6 +51,7 @@ public:
 
 	UITooltip (UIManager *manager) : UIElement (manager) {
 
+		align = Align::Left;
 		this->manager = manager;
 		style = "tooltip";
 		precompute();
