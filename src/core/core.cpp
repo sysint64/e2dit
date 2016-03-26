@@ -37,6 +37,7 @@
 #include "ui/stack_layout.h"
 
 #include "utility/strings_res.h"
+#include "resources.h"
 
 Core::Core() {
 
@@ -56,8 +57,10 @@ Core::Core() {
 	ftglSetFontFaceSize (font16, 16, 16);
 	ftglSetFontCharMap  (font16, ft_encoding_unicode);
 
-	skin    = std::make_unique<Texture> ("../res/ui/skins/light/controls.png");
-	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/light/controls.e2t", DataMap::ReadType::Text, skin.get(), font12);
+	R::init();
+
+	//skin    = std::make_unique<Texture> ("../res/ui/skins/light/controls.png");
+	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/light/controls.e2t", DataMap::ReadType::Text, R::Textures::skin.get(), font12);
 	uiTheme->fontHeight   = 12;
 	uiTheme->font12Height = 12;
 	uiTheme->font14Height = 14;
@@ -66,15 +69,11 @@ Core::Core() {
 	uiTheme->font14 = font14;
 	uiTheme->font16 = font16;
 
-	std::vector<std::string> atlasMaskLocations {"MVP", "Size", "Offset", "Texture", "Alpha", "Mask", "MaskOffset", "MaskSize"};
-	std::vector<std::string> atlasLocations     {"MVP", "Size", "Offset", "Texture", "Alpha"};
-	std::vector<std::string> colorLocations     {"MVP", "Color"};
+	uiManager   = std::make_unique<UIManager> (R::Shaders::atlasMaskShader.get(),
+	                                           R::Shaders::atlasShader    .get(),
+	                                           R::Shaders::colorShader    .get(),
+	                                           uiTheme.get());
 
-	atlasMaskShader = std::make_unique<Shader> ("../res/glsl/GL2/tex_atlas_mask.glsl", atlasMaskLocations);
-	atlasShader     = std::make_unique<Shader> ("../res/glsl/GL2/tex_atlas.glsl"     , atlasLocations);
-	colorShader     = std::make_unique<Shader> ("../res/glsl/GL2/colorize.glsl"      , colorLocations);
-
-	uiManager   = std::make_unique<UIManager> (atlasMaskShader.get(), atlasShader.get(), colorShader.get(), uiTheme.get());
 	uiManager->uiDataRender = new SpriteData (false, false, true);
 
 	std::unique_ptr<Texture> iconsTex = std::make_unique<Texture> ("../res/ui/icons/icons.png");
