@@ -23,6 +23,7 @@ set(SOURCES ${PRECOMPUTE} button.cpp
 		edit.cpp
 		element.cpp
 		image.cpp
+		colorpanel.cpp
 		label.cpp
 		manager.cpp
 		listmenu.cpp
