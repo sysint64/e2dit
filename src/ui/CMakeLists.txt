@@ -35,7 +35,8 @@ set(SOURCES ${PRECOMPUTE} button.cpp
 		dialog.cpp
 		loader.cpp
 		stack_layout.cpp
-		tooltip.cpp)
+		tooltip.cpp
+		colorpanel.cpp)
 
 if (APPLE)
 	set(SOURCES ${SOURCES} cursor.mm)
