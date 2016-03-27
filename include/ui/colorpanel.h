@@ -30,7 +30,7 @@
 
 class UIColorPanel : public UIElement {
 private:
-	std::unique_ptr<BaseObject> imageElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> quadElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	Texture *gridTexture = nullptr;
 
 public:
