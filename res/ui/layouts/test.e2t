@@ -53,3 +53,8 @@ Panel
 				align: right
 				verticalAlign: bottom
 				caption: "OK"
+
+			ColorPanel
+				size: 100, 50
+				color: 255, 0, 0, 0.5
+				marginLeft: 20

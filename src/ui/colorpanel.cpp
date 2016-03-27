@@ -23,5 +23,26 @@
 #include "ui/colorpanel.h"
 
 void UIColorPanel::render() {
+
 	updateAbsPos();
+
+	if (gridTexture) {
+
+		glActiveTexture (GL_TEXTURE4);
+		glBindTexture   (GL_TEXTURE_2D, gridTexture->handle);
+
+		glUniform1i   (manager->atlasShader->locations["Texture"], 4);
+		renderElement (0, absLeft, absTop, width, height, quadElement.get());
+		glUniform1i   (manager->atlasShader->locations["Texture"], manager->themeTexID);
+
+	}
+
+	manager->atlasShader->unbind();
+	manager->colorShader->bind();
+
+	renderColorElement (absLeft, absTop, width, height, quadElement.get(), color.data());
+
+	manager->colorShader->unbind();
+	manager->atlasShader->bind();
+
 }

@@ -30,15 +30,15 @@
 
 class UIColorPanel : public UIElement {
 private:
-	std::unique_ptr<BaseObject> imageElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> quadElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	Texture *gridTexture = nullptr;
 
 public:
-	float color[4];
+	std::array<float, 4> color;
 
 	virtual void render();
 
-	UIColorPanel (UIManager *manager, Texture *gridTexture) : UIElement(manager) {
+	UIColorPanel (UIManager *manager, Texture *gridTexture = nullptr) : UIElement(manager) {
 
 		this->manager     = manager;
 		this->gridTexture = gridTexture;
