@@ -211,7 +211,8 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	if (elementNode->name == "toolbar")     element = createToolbar     (elementNode); else
 	if (elementNode->name == "toolbartab")  element = createToolbarTab  (elementNode); else
 	if (elementNode->name == "toolbaritem") element = createToolbarItem (elementNode); else
-	if (elementNode->name == "colorpanel")  element = createColorPanel  (elementNode);
+	if (elementNode->name == "colorpanel")  element = createColorPanel  (elementNode); else
+	if (elementNode->name == "dialog")      element = createDialog      (elementNode);
 
 	if (element == nullptr)
 		return nullptr;
@@ -400,6 +401,18 @@ std::unique_ptr<UIElement> UILoader::createColorPanel (DataMap::DataNode *elemen
 	auto colorPanel = dynamic_cast<UIColorPanel*>(element.get());
 
 	colorPanel->color = readColor(elementNode, "color");
+
+	return element;
+
+}
+
+/**
+ */
+
+std::unique_ptr<UIElement> UILoader::createDialog (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIDialog> (manager);
+	auto dialog = dynamic_cast<UIDialog*>(element.get());
 
 	return element;
 
