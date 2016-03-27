@@ -34,11 +34,11 @@ private:
 	Texture *gridTexture = nullptr;
 
 public:
-	float color[4];
+	std::array<float, 4> color;
 
 	virtual void render();
 
-	UIColorPanel (UIManager *manager, Texture *gridTexture) : UIElement(manager) {
+	UIColorPanel (UIManager *manager, Texture *gridTexture = nullptr) : UIElement(manager) {
 
 		this->manager     = manager;
 		this->gridTexture = gridTexture;

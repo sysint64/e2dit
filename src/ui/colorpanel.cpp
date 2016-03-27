@@ -40,7 +40,7 @@ void UIColorPanel::render() {
 	manager->atlasShader->unbind();
 	manager->colorShader->bind();
 
-	renderColorElement (absLeft, absTop, width, height, quadElement.get(), color);
+	renderColorElement (absLeft, absTop, width, height, quadElement.get(), color.data());
 
 	manager->colorShader->unbind();
 	manager->atlasShader->bind();

@@ -22,6 +22,7 @@
 
 #include "ui/loader.h"
 #include "ui/all.h"
+#include "resources.h"
 
 /**
  */
@@ -175,6 +176,31 @@ void UILoader::readIcon (UIButton *element, DataMap::DataNode *elementNode) {
 /**
  */
 
+std::array<float, 4> UILoader::readColor (DataMap::DataNode *elementNode, const std::string &paramName) {
+
+	float c[4] = {0.f, 0.f, 0.f, 1.f};
+
+	auto color = elementNode->params.find (paramName);
+	auto end   = elementNode->params.end();
+
+	if (color != end && color->second.size() >= 3) {
+
+		c[0] = color->second[0].num / 255.f;
+		c[1] = color->second[1].num / 255.f;
+		c[2] = color->second[2].num / 255.f;
+
+		if (color->second.size() >= 4)
+			c[3] = color->second[3].num;
+
+	}
+
+	return { c[0], c[1], c[2], c[3] };
+
+}
+
+/**
+ */
+
 std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = nullptr;
@@ -184,7 +210,8 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	if (elementNode->name == "button")      element = createButton      (elementNode); else
 	if (elementNode->name == "toolbar")     element = createToolbar     (elementNode); else
 	if (elementNode->name == "toolbartab")  element = createToolbarTab  (elementNode); else
-	if (elementNode->name == "toolbaritem") element = createToolbarItem (elementNode);
+	if (elementNode->name == "toolbaritem") element = createToolbarItem (elementNode); else
+	if (elementNode->name == "colorpanel")  element = createColorPanel  (elementNode);
 
 	if (element == nullptr)
 		return nullptr;
@@ -231,6 +258,9 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 
 	element->paddingTop    = paddingRect[0]; element->paddingRight = paddingRect[1];
 	element->paddingBottom = paddingRect[2]; element->paddingLeft  = paddingRect[3];
+
+	if (elementNode->name == "colorpanel")
+		dynamic_cast<UIColorPanel*>(element.get())->update();
 
 	return element;
 
@@ -356,6 +386,20 @@ std::unique_ptr<UIElement> UILoader::createToolbarItem (DataMap::DataNode *eleme
 		toolbarItem->iconOffset[0] = iconOffset->second[0].intval;
 		toolbarItem->iconOffset[1] = iconOffset->second[1].intval;
 	}
+
+	return element;
+
+}
+
+/**
+ */
+
+std::unique_ptr<UIElement> UILoader::createColorPanel (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIColorPanel> (manager, R::Textures::grid.get());
+	auto colorPanel = dynamic_cast<UIColorPanel*>(element.get());
+
+	colorPanel->color = readColor(elementNode, "color");
 
 	return element;
 
