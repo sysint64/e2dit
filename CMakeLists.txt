@@ -80,7 +80,11 @@ else()
 	#add_definitions(-DSFML_STATIC)
 endif()
 
-set(SOURCE_EXE src/main.cpp src/core/core.cpp src/core/events.cpp)
+set(SOURCE_EXE
+		src/resources.cpp
+		src/main.cpp
+		src/core/core.cpp
+		src/core/events.cpp)
 
 add_executable(main ${SOURCE_EXE})
 include_directories(include
