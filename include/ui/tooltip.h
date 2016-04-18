@@ -36,8 +36,8 @@ protected:
 	std::string leftParam  = "left";
 	std::string rightParam = "right";
 
-	int leftAria[4]; int rightAria  [4];
-	int topAria [4]; int bottomtAria[4];
+	int leftArea  [4]; int rightArea  [4];
+	int topArea   [4]; int bottomtArea[4];
 	int leftOffset[2]; int rightOffset[2];
 	float time = 0;
 	bool hidden = true;
@@ -56,7 +56,7 @@ public:
 
 		time = 0.f;
 		hidden = value;
-		
+
 	}
 
 	UITooltip (UIManager *manager) : UIElement (manager) {

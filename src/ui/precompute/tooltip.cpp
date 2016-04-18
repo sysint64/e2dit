@@ -36,8 +36,8 @@ void UITooltip::precompute() {
 	precomputeElement (4, style+rightParam, "center");
 	precomputeElement (5, style+rightParam, "right");
 
-	precomputeIntArray (style+leftParam , "aria"  , leftAria   , 4);
-	precomputeIntArray (style+rightParam, "aria"  , rightAria  , 4);
+	precomputeIntArray (style+leftParam , "area"  , leftArea   , 4);
+	precomputeIntArray (style+rightParam, "area"  , rightArea  , 4);
 	precomputeIntArray (style+leftParam , "offset", leftOffset , 2);
 	precomputeIntArray (style+rightParam, "offset", rightOffset, 2);
 

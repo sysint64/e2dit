@@ -142,6 +142,12 @@ void UIElement::precomputeIntArray (const std::string &element, const std::strin
 
 int UIElement::precomputeInt (const std::string &element, const std::string &param) {
 
-	return floor (manager->theme->element[element].params[param][0].num);
+	return manager->theme->element[element].params[param][0].intval;
+
+}
+
+float UIElement::precomputeFloat (const std::string &element, const std::string &param) {
+
+	return manager->theme->element[element].params[param][0].num;
 
 }

@@ -49,9 +49,10 @@ Panel
 
 Dialog
 
-	textOffset                  : 0,  0
+	textOffset                  : 5, 5
 	textColor                   : 255, 255, 255
 	headerHeight                : 20
+	captionArea                 : 250, 23, 66, 18
 
 	&Top
 
@@ -70,6 +71,26 @@ Dialog
 		left                    : 235, 67, 19, 20
 		center                  : 273, 67, 19, 20
 		right                   : 312, 67, 19, 20
+
+	MaximizeButton
+
+		&Leave
+			area                : 373, 3, 12, 11
+			opacity             : 0.75
+
+		&Enter
+			area                : 373, 3, 12, 11
+			opacity             : 1
+
+	CloseButton
+
+		&Leave
+			area                : 386, 3, 11, 11
+			opacity             : 0.75
+
+		&Enter
+			area                : 386, 3, 11, 11
+			opacity             : 1
 
 Grouped
 	split                       : 45, 35, 1, 21
@@ -126,14 +147,14 @@ Tooltip
 	textColor                   : 255, 255, 255
 
 	&Left
-		aria                    : 87 , 342, 25, 25
+		area                    : 87 , 342, 25, 25
 		left                    : 72 , 324, 29, 61
 		center                  : 99 , 324, 2 , 61
 		right                   : 102, 324, 37, 61
 		offset                  : 14, -1
 
 	&Right
-		aria                    : 31, 342, 25, 25
+		area                    : 31, 342, 25, 25
 		left                    : 4 , 324, 37, 61
 		center                  : 42, 324, 2 , 61
 		right                   : 42, 324, 29, 61

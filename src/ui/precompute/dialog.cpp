@@ -43,5 +43,22 @@ void UIDialog::precompute() {
 	precomputeElement (8, style+"bottom", "right");
 
 	precomputeText    (0, style);
+	precomputeIntArray(style, "captionarea", captionArea, 4);
+
+	/* Buttons */
+
+	precomputeElement (9 , style+".maximizebuttonleave", "area");
+	precomputeElement (10, style+".maximizebuttonenter", "area");
+
+	precomputeElement (11, style+".closebuttonleave"   , "area");
+	precomputeElement (12, style+".closebuttonenter"   , "area");
+
+	opacity[0] = precomputeFloat (style+".maximizebuttonleave", "opacity");
+	opacity[1] = precomputeFloat (style+".maximizebuttonenter", "opacity");
+
+	opacity[2] = precomputeFloat (style+".closebuttonleave"   , "opacity");
+	opacity[3] = precomputeFloat (style+".closebuttonenter"   , "opacity");
+
+	precomputeText (0, style);
 
 }

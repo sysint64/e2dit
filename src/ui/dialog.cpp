@@ -30,8 +30,14 @@ void UIDialog::render() {
 
 	/* Draw Text */
 
+	int xOffset = abs(captionArea[0]-iOffsetsX[0]);
+	int yOffset = abs(captionArea[1]-iOffsetsY[1]);
+
+	int tx = absLeft+xOffset-iWidths [0]+textOffsets[0];
+	int ty = absTop+yOffset-iHeights[1]+textOffsets[1]+(captionArea[3] >> 1);
+
 	manager->atlasShader->unbind();
-	renderText (manager->theme->font, textColor, absLeft, absTop-10, caption);
+	renderText (manager->theme->font, &(textColors[0]), tx, ty, caption);
 	manager->atlasShader->bind();
 
 	if (headerClick) {
@@ -46,7 +52,11 @@ void UIDialog::render() {
 void UIDialog::mouseDown (int x, int y, int button) {
 
 	UIElement::mouseDown (x, y, button);
-	headerClick = pointInRect (x, y, absLeft, absTop-iHeights[1], width, iHeights[1]);
+
+	int yOffset = abs(captionArea[1]-iOffsetsY[1]);
+	int hy = absTop+yOffset-iHeights[1];
+
+	headerClick = pointInRect (x, y, absLeft, hy, width, captionArea[3]);
 
 	lastLeft = left;
 	lastTop  = top;

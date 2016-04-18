@@ -35,7 +35,9 @@ protected:
 	int lastLeft = 0;
 	int lastTop  = 0;
 
-	bool headerClick = false;
+	bool  headerClick = false;
+	int   captionArea[4];
+	float opacity[4];
 
 public:
 

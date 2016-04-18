@@ -38,7 +38,7 @@ void UITooltip::render() {
 		alpha = math::interpTo (alpha, targetAlpha, app->deltaTime, 15000.f);
 	}
 
-	height = leftAria[3];
+	height = leftArea[3];
 	over = false;
 
 	int xOffset, yOffset, outWidth;
@@ -51,9 +51,9 @@ void UITooltip::render() {
 
 		case Align::Left:
 
-			xOffset  = abs(leftAria[0]-iOffsetsX[1]);
-			yOffset  = abs(leftAria[1]-iOffsetsY[1]);
-			outWidth = abs(iWidths[0]+iWidths[1]+iWidths[2])-(xOffset+leftAria[2]);
+			xOffset  = abs(leftArea[0]-iOffsetsX[1]);
+			yOffset  = abs(leftArea[1]-iOffsetsY[1]);
+			outWidth = abs(iWidths[0]+iWidths[1]+iWidths[2])-(xOffset+leftArea[2]);
 
 			x = target->absLeft-width+leftOffset[0];
 			y = target->absTop-yOffset-(height >> 1)+(target->height >> 1)+leftOffset[1];
@@ -63,9 +63,9 @@ void UITooltip::render() {
 
 		case Align::Right:
 
-			xOffset  = abs(rightAria[0]-iOffsetsX[3]);
-			yOffset  = abs(rightAria[1]-iOffsetsY[3]);
-			outWidth = abs(iWidths[3]+iWidths[4]+iWidths[5])-(xOffset+rightAria[2]);
+			xOffset  = abs(rightArea[0]-iOffsetsX[3]);
+			yOffset  = abs(rightArea[1]-iOffsetsY[3]);
+			outWidth = abs(iWidths[3]+iWidths[4]+iWidths[5])-(xOffset+rightArea[2]);
 
 			x = target->absLeft+target->width+rightOffset[0];
 			y = target->absTop-yOffset-(height >> 1)+(target->height >> 1)+rightOffset[1];
