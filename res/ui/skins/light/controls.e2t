@@ -73,6 +73,8 @@ Dialog
 		right                   : 312, 67, 19, 20
 
 	MaximizeButton
+		top                     : 3
+		right                   : 14
 
 		&Leave
 			area                : 373, 3, 12, 11
@@ -83,6 +85,8 @@ Dialog
 			opacity             : 1
 
 	CloseButton
+		top                     : 3
+		right                   : 0
 
 		&Leave
 			area                : 386, 3, 11, 11

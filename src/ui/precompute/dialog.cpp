@@ -53,11 +53,17 @@ void UIDialog::precompute() {
 	precomputeElement (11, style+".closebuttonleave"   , "area");
 	precomputeElement (12, style+".closebuttonenter"   , "area");
 
-	opacity[0] = precomputeFloat (style+".maximizebuttonleave", "opacity");
-	opacity[1] = precomputeFloat (style+".maximizebuttonenter", "opacity");
+	opacity[0]      = precomputeFloat (style+".maximizebuttonleave", "opacity");
+	opacity[1]      = precomputeFloat (style+".maximizebuttonenter", "opacity");
 
-	opacity[2] = precomputeFloat (style+".closebuttonleave"   , "opacity");
-	opacity[3] = precomputeFloat (style+".closebuttonenter"   , "opacity");
+	opacity[2]      = precomputeFloat (style+".closebuttonleave"   , "opacity");
+	opacity[3]      = precomputeFloat (style+".closebuttonenter"   , "opacity");
+
+	buttonsTop[0]   = precomputeFloat (style+".maximizebutton"     , "top");
+	buttonsTop[1]   = precomputeFloat (style+".closebutton"        , "top");
+
+	buttonsRight[0] = precomputeFloat (style+".maximizebutton"     , "right");
+	buttonsRight[1] = precomputeFloat (style+".closebutton"        , "right");
 
 	precomputeText (0, style);
 

@@ -28,9 +28,9 @@
 
 class UIDialog : public UIPanel {
 protected:
-	std::unique_ptr<BaseObject> drawElements[9];
-	BaseObject *drawElementsPtr[9];
-	int indices[9];
+	std::unique_ptr<BaseObject> drawElements[13];
+	BaseObject *drawElementsPtr[13];
+	int indices[13];
 
 	int lastLeft = 0;
 	int lastTop  = 0;
@@ -38,6 +38,10 @@ protected:
 	bool  headerClick = false;
 	int   captionArea[4];
 	float opacity[4];
+	float buttonsTop[2];
+	float buttonsRight[2];
+	bool  maximizeEnter = false;
+	bool  closeEnter = false;
 
 public:
 
@@ -59,7 +63,7 @@ public:
 
 		//visible = false;
 
-		for (int i = 0; i < 9; ++i) {
+		for (int i = 0; i < 13; ++i) {
 
 			drawElements   [i] = std::make_unique<BaseObject>(manager->uiDataRender, app->screenCamera.get());
 			drawElementsPtr[i] = drawElements[i].get();
