@@ -24,17 +24,29 @@
 
 void UIDialog::render() {
 
+	align = Align::None;
 	updateAbsPos();
-	renderPartsElementBlock (indices, drawElementsPtr, absLeft-iWidths[0], absTop-iHeights[1], width+(iWidths[0] << 1), height+iHeights[1]+iHeights[7]);
-	UIPanel::render();
-
-	/* Draw Text */
 
 	int xOffset = abs(captionArea[0]-iOffsetsX[0]);
 	int yOffset = abs(captionArea[1]-iOffsetsY[1]);
 
-	int x  = absLeft+xOffset-iWidths [0];
-	int y  = absTop +yOffset-iHeights[1];
+	int x = absLeft+xOffset-iWidths [0];
+	int y = absTop +yOffset-iHeights[1];
+
+	if (maximized) {
+
+		align = Align::Client;
+		UIPanel::render();
+		renderButtons (x, y);
+
+		return;
+
+	}
+
+	renderPartsElementBlock (indices, drawElementsPtr, absLeft-iWidths[0], absTop-iHeights[1], width+(iWidths[0] << 1), height+iHeights[1]+iHeights[7]);
+	UIPanel::render();
+
+	/* Draw Text */
 
 	int tx = x+textOffsets[0];
 	int ty = y+textOffsets[1]+(captionArea[3] >> 1);
@@ -50,25 +62,33 @@ void UIDialog::render() {
 
 	}
 
+	renderButtons(x, y);
+}
+
+void UIDialog::renderButtons (int x, int y) {
+
 	/* Draw buttons */
-	// Maximize button
-
-	int n  = maximizeEnter ? 10 : 9;
-	int bx = absLeft+width-iWidths[n]-buttonsRight[0];
-	int by = y+buttonsTop[0];
-
-	maximizeEnter = pointInRect (app->mouseX, app->mouseY, bx, by, iWidths[n], iHeights[n]);
-	glUniform1f (manager->atlasShader->locations["Alpha"], opacity[n-9]);
-	renderElement (n, bx, by, iWidths[n], iHeights[n], drawElementsPtr[n]);
-
 	// Close button
 
-	n  = closeEnter ? 12 : 11;
-	bx = absLeft+width-iWidths[n]-buttonsRight[1];
-	by = y+buttonsTop[1];
+	int n  = closeEnter ? 12 : 11;
+	int bx = absLeft+width-iWidths[n]-buttonsRight[1];
+	int by = y+buttonsTop[1];
 
 	closeEnter = pointInRect (app->mouseX, app->mouseY, bx, by, iWidths[n], iHeights[n]);
 	glUniform1f (manager->atlasShader->locations["Alpha"], opacity[n-11]);
+	renderElement (n, bx, by, iWidths[n], iHeights[n], drawElementsPtr[n]);
+
+	// Maximize button
+
+	if (!showMaximizeButton)
+		return;
+
+	n  = maximizeEnter ? 10 : 9;
+	bx = absLeft+width-iWidths[n]-buttonsRight[0];
+	by = y+buttonsTop[0];
+
+	maximizeEnter = pointInRect (app->mouseX, app->mouseY, bx, by, iWidths[n], iHeights[n]);
+	glUniform1f (manager->atlasShader->locations["Alpha"], opacity[n-9]);
 	renderElement (n, bx, by, iWidths[n], iHeights[n], drawElementsPtr[n]);
 
 }
@@ -82,14 +102,32 @@ void UIDialog::mouseDown (int x, int y, int button) {
 
 	headerClick = pointInRect (x, y, absLeft, hy, width, captionArea[3]);
 
-	lastLeft = left;
-	lastTop  = top;
+	if (!maximized) {
+		lastLeft = left;
+		lastTop  = top;
+	}
 
 }
 
 void UIDialog::mouseUp (int x, int y, int button) {
 
 	headerClick = false;
+
+	if (showMaximizeButton && maximizeEnter) {
+		maximized = !maximized;
+
+		if (maximized) {
+			lastWidth = width; lastHeight = height;
+			lastLeft  = left;  lastTop    = top;
+		} else {
+			width = lastWidth; height = lastHeight;
+			left  = lastLeft;  top    = lastTop;
+		}
+	}
+
+	if (closeEnter) {
+		hide();
+	}
 
 }
 

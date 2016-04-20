@@ -32,8 +32,10 @@ protected:
 	BaseObject *drawElementsPtr[13];
 	int indices[13];
 
-	int lastLeft = 0;
-	int lastTop  = 0;
+	int lastLeft   = 0;
+	int lastTop    = 0;
+	int lastWidth  = 0;
+	int lastHeight = 0;
 
 	bool  headerClick = false;
 	int   captionArea[4];
@@ -43,9 +45,13 @@ protected:
 	bool  maximizeEnter = false;
 	bool  closeEnter = false;
 
+	void renderButtons (int x, int y);
+
 public:
 
 	std::wstring caption = L"Hello World!";
+	bool maximized = false;
+	bool showMaximizeButton = true;
 
 	virtual void render()     override;
 	virtual void precompute() override;
