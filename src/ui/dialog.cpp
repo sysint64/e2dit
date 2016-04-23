@@ -72,7 +72,7 @@ void UIDialog::render() {
 	renderText (manager->theme->font, &(textColors[0]), tx, ty, caption);
 	manager->atlasShader->bind();
 
-	if (headerClick && !edgeClick) {
+	if (headerClick && !edgeClick && !btnDown) {
 
 		left = lastLeft+app->mouseX-app->clickX;
 		top  = lastTop +app->mouseY-app->clickY;
@@ -222,12 +222,16 @@ void UIDialog::mouseDown (int x, int y, int button) {
 		lastHeight = height;
 	}
 
+	if (maximizeEnter || closeEnter)
+		btnDown = true;
+
 }
 
 void UIDialog::mouseUp (int x, int y, int button) {
 
 	headerClick = false;
 	edgeClick   = false;
+	btnDown     = false;
 
 	if (showMaximizeButton && maximizeEnter) {
 		maximized = !maximized;

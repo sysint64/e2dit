@@ -60,6 +60,7 @@ protected:
 	bool  maximizeEnter = false;
 	bool  closeEnter    = false;
 	bool  edgeClick     = false;
+	bool  btnDown       = false;
 	Edge  edgeEnter     = Edge::None;
 
 	void renderButtons (int x, int y);
