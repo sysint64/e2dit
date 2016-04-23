@@ -63,6 +63,8 @@ protected:
 	Edge  edgeEnter     = Edge::None;
 
 	void renderButtons (int x, int y);
+	void handleResize();
+	void handleEdgeEnter();
 
 public:
 
@@ -70,6 +72,11 @@ public:
 	bool maximized          = false;
 	bool allowResize        = false;
 	bool showMaximizeButton = true;
+
+	int minWidth  = 100;
+	int minHeight = 40;
+	int maxWidth  = 1000;
+	int maxHeight = 1000;
 
 	virtual void render()     override;
 	virtual void precompute() override;

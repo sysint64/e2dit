@@ -80,8 +80,73 @@ void UIDialog::render() {
 	}
 
 	renderButtons(x, y);
+	handleResize();
+	handleEdgeEnter();
 
-	// Check edges enter
+}
+
+void UIDialog::handleResize() {
+
+	if (!allowResize || !edgeClick)
+		return;
+
+	switch (edgeEnter) {
+
+		// Corners
+		case Edge::TopLeftCorner:
+			width  = lastWidth -app->mouseX+app->clickX;
+			height = lastHeight-app->mouseY+app->clickY;
+			break;
+
+		case Edge::TopRightCorner:
+			width  = lastWidth +app->mouseX-app->clickX;
+			height = lastHeight-app->mouseY+app->clickY;
+			break;
+
+		case Edge::BottomLeftCorner:
+			width  = lastWidth -app->mouseX+app->clickX;
+			height = lastHeight+app->mouseY-app->clickY;
+			break;
+
+		case Edge::BottomRightCorner:
+			width  = lastWidth +app->mouseX-app->clickX;
+			height = lastHeight+app->mouseY-app->clickY;
+			break;
+
+		// Sides
+		case Edge::TopSide:
+			height = lastHeight-app->mouseY+app->clickY;
+			break;
+
+		case Edge::BottomSide:
+			height = lastHeight+app->mouseY-app->clickY;
+			break;
+
+		case Edge::LeftSide:
+			width = lastWidth -app->mouseX+app->clickX;
+			break;
+
+		case Edge::RightSide:
+			width = lastWidth+app->mouseX-app->clickX;
+			break;
+
+	}
+
+	math::clamp (&width , minWidth , maxWidth );
+	math::clamp (&height, minHeight, maxHeight);
+
+	if (edgeEnter == Edge::TopLeftCorner || edgeEnter == Edge::BottomLeftCorner || edgeEnter == Edge::LeftSide)
+		left = lastLeft-(width -lastWidth);
+
+	if (edgeEnter == Edge::TopLeftCorner || edgeEnter == Edge::TopRightCorner || edgeEnter == Edge::TopSide)
+		top = lastTop -(height-lastHeight);
+
+}
+
+void UIDialog::handleEdgeEnter() {
+
+	if (!allowResize || edgeClick)
+		return;
 
 	const int uiEdgeWidth = 5;  const int ew = edgeWidth;
 	const int mx = app->mouseX; const int my = app->mouseY;
@@ -151,8 +216,10 @@ void UIDialog::mouseDown (int x, int y, int button) {
 	edgeClick   = edgeEnter != Edge::None;
 
 	if (!maximized) {
-		lastLeft = left;
-		lastTop  = top;
+		lastLeft   = left;
+		lastTop    = top;
+		lastWidth  = width;
+		lastHeight = height;
 	}
 
 }
