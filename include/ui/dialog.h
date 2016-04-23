@@ -28,6 +28,20 @@
 
 class UIDialog : public UIPanel {
 protected:
+
+	const int edgeWidth = 15;
+	enum class Edge {
+		None,
+		TopLeftCorner,
+		TopRightCorner,
+		BottomLeftCorner,
+		BottomRightCorner,
+		TopSide,
+		BottomSide,
+		LeftSide,
+		RightSide
+	};
+
 	std::unique_ptr<BaseObject> drawElements[13];
 	BaseObject *drawElementsPtr[13];
 	int indices[13];
@@ -37,24 +51,29 @@ protected:
 	int lastWidth  = 0;
 	int lastHeight = 0;
 
-	bool  headerClick = false;
-	int   captionArea[4];
-	float opacity[4];
-	float buttonsTop[2];
+	int   captionArea [4];
+	float buttonsTop  [2];
 	float buttonsRight[2];
+	float opacity     [4];
+
+	bool  headerClick   = false;
 	bool  maximizeEnter = false;
-	bool  closeEnter = false;
+	bool  closeEnter    = false;
+	bool  edgeClick     = false;
+	Edge  edgeEnter     = Edge::None;
 
 	void renderButtons (int x, int y);
 
 public:
 
-	std::wstring caption = L"Hello World!";
-	bool maximized = false;
+	std::wstring caption    = L"Hello World!";
+	bool maximized          = false;
+	bool allowResize        = false;
 	bool showMaximizeButton = true;
 
 	virtual void render()     override;
 	virtual void precompute() override;
+	virtual void setCursor()  override;
 
 	virtual void mouseDown (int x, int y, int button) override;
 	virtual void mouseUp   (int x, int y, int button) override;

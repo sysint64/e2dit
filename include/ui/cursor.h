@@ -33,61 +33,54 @@
 
 	enum class CursorIco {
 
-		None			= -1,
-		Hand			= XC_hand1,
-		Normal			= XC_left_ptr,
-		IBeam			= XC_xterm,
-		VDoubleArrow	= XC_sb_v_double_arrow,
-		HDoubleArrow	= XC_sb_h_double_arrow,
-		CrossHair		= XC_crosshair,
-		Drag			= XC_fleur
+		None              = -1,
+		Hand              = XC_hand1,
+		Normal            = XC_left_ptr,
+		IBeam             = XC_xterm,
+		VDoubleArrow      = XC_sb_v_double_arrow,
+		HDoubleArrow      = XC_sb_h_double_arrow,
+		CrossHair         = XC_crosshair,
+		Drag              = XC_fleur,
+		TopSide           = XC_top_side,
+		BottomSide        = XC_bottom_side,
+		LeftSide          = XC_left_side,
+		RightSide         = XC_right_side,
+		TopLeftCorner     = XC_top_left_corner,
+		TopRightCorner    = XC_top_right_corner,
+		BottomLeftCorner  = XC_bottom_left_corner,
+		BottomRightCorner = XC_bottom_right_corner
 
 	};
 
 #endif
 
-#ifdef _osx_
+#if defined(_osx_) || defined(_win_)
 
 	enum class CursorIco {
 
-		None			= -1,
-		Hand			= 0,
-		Normal			= 1,
-		IBeam			= 2,
-		VDoubleArrow	= 3,
-		HDoubleArrow	= 4,
-		CrossHair		= 5,
-		Drag			= 6
+		None              = -1,
+		Hand              = 0,
+		Normal            = 1,
+		IBeam             = 2,
+		VDoubleArrow      = 3,
+		HDoubleArrow      = 4,
+		CrossHair         = 5,
+		Drag              = 6,
+		TopSide           = 7,
+		BottomSide        = 8,
+		LeftSide          = 9,
+		RightSide         = 10,
+		TopLeftCorner     = 11,
+		TopRightCorner    = 12,
+		BottomLeftCorner  = 13,
+		BottomRightCorner = 14
 
 	};
 
 #endif
 
 #ifdef _win_
-
 	#include <windows.h>
-
-	enum class CursorIco {
-
-		/*None			= IDC_NONE,
-		Hand			= IDC_HAND,
-		Normal			= IDC_ARROW,
-		IBeam			= IDC_IBEAM,
-		VDoubleArrow	= IDC_SIZENS,
-		HDoubleArrow	= IDC_SIZEWE,
-		CrossHair		= IDC_CROSS,
-		Drag			= IDC_SIZEALL*/
-		None			= -1,
-		Hand			= 0,
-		Normal			= 1,
-		IBeam			= 2,
-		VDoubleArrow	= 3,
-		HDoubleArrow	= 4,
-		CrossHair		= 5,
-		Drag			= 6
-
-	};
-
 #endif
 
 class UICursor {

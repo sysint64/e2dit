@@ -22,6 +22,23 @@
 
 #include "ui/dialog.h"
 
+void UIDialog::setCursor() {
+	if (maximized || !visible)
+		return;
+
+	switch (edgeEnter) {
+		case Edge::TopLeftCorner     : manager->cursor = CursorIco::TopLeftCorner;     break;
+		case Edge::TopRightCorner    : manager->cursor = CursorIco::TopRightCorner;    break;
+		case Edge::BottomLeftCorner  : manager->cursor = CursorIco::BottomLeftCorner;  break;
+		case Edge::BottomRightCorner : manager->cursor = CursorIco::BottomRightCorner; break;
+		case Edge::TopSide           : manager->cursor = CursorIco::TopSide;           break;
+		case Edge::BottomSide        : manager->cursor = CursorIco::BottomSide;        break;
+		case Edge::LeftSide          : manager->cursor = CursorIco::LeftSide;          break;
+		case Edge::RightSide         : manager->cursor = CursorIco::RightSide;         break;
+	}
+
+}
+
 void UIDialog::render() {
 
 	align = Align::None;
@@ -55,7 +72,7 @@ void UIDialog::render() {
 	renderText (manager->theme->font, &(textColors[0]), tx, ty, caption);
 	manager->atlasShader->bind();
 
-	if (headerClick) {
+	if (headerClick && !edgeClick) {
 
 		left = lastLeft+app->mouseX-app->clickX;
 		top  = lastTop +app->mouseY-app->clickY;
@@ -63,6 +80,36 @@ void UIDialog::render() {
 	}
 
 	renderButtons(x, y);
+
+	// Check edges enter
+
+	const int uiEdgeWidth = 5;  const int ew = edgeWidth;
+	const int mx = app->mouseX; const int my = app->mouseY;
+	const int w  = width;       const int h  = height;
+
+	bool enter = false;
+	edgeEnter = Edge::None;
+
+	const int left   = absLeft-edgeWidth-uiEdgeWidth;
+	const int right  = absLeft+width+uiEdgeWidth;
+	const int top    = absTop-edgeWidth-captionArea[1];
+	const int bottom = absTop+uiEdgeWidth+height;
+
+	const int aleft  = absLeft;
+	const int atop   = absTop-captionArea[1];
+
+	// Corners
+	enter = pointInRect (mx, my, left , top   , ew, ew);  if (enter) { edgeEnter = Edge::TopLeftCorner;     return; }
+	enter = pointInRect (mx, my, left , bottom, ew, ew);  if (enter) { edgeEnter = Edge::BottomLeftCorner;  return; }
+	enter = pointInRect (mx, my, right, top   , ew, ew);  if (enter) { edgeEnter = Edge::TopRightCorner;    return; }
+	enter = pointInRect (mx, my, right, bottom, ew, ew);  if (enter) { edgeEnter = Edge::BottomRightCorner; return; }
+
+	// Sides
+	enter = pointInRect (mx, my, aleft, top   , w , ew);  if (enter) { edgeEnter = Edge::TopSide;           return; }
+	enter = pointInRect (mx, my, aleft, bottom, w , ew);  if (enter) { edgeEnter = Edge::BottomSide;        return; }
+	enter = pointInRect (mx, my, left , atop  , ew, h );  if (enter) { edgeEnter = Edge::LeftSide;          return; }
+	enter = pointInRect (mx, my, right, atop  , ew, h );  if (enter) { edgeEnter = Edge::RightSide;         return; }
+
 }
 
 void UIDialog::renderButtons (int x, int y) {
@@ -101,6 +148,7 @@ void UIDialog::mouseDown (int x, int y, int button) {
 	int hy = absTop+yOffset-iHeights[1];
 
 	headerClick = pointInRect (x, y, absLeft, hy, width, captionArea[3]);
+	edgeClick   = edgeEnter != Edge::None;
 
 	if (!maximized) {
 		lastLeft = left;
@@ -112,6 +160,7 @@ void UIDialog::mouseDown (int x, int y, int button) {
 void UIDialog::mouseUp (int x, int y, int button) {
 
 	headerClick = false;
+	edgeClick   = false;
 
 	if (showMaximizeButton && maximizeEnter) {
 		maximized = !maximized;
