@@ -98,15 +98,16 @@ protected:
 
 	/* Precompute */
 
-	void precomputeElement     (const int n, const std::string &element, const std::string &params);
-	void precomputeText        (const int n, const std::string &element);
-	void precomputeFloatArray  (const std::string &element, const std::string &params, float *arr, const int size, float normalize = 1.f);
-	void precomputeIntArray    (const std::string &element, const std::string &params, int   *arr, const int size);
-	void precomputeColor3f     (const std::string &element, const std::string &params, float *arr);
-	void precomputeColor4f     (const std::string &element, const std::string &params, float *arr);
-	int  precomputeInt         (const std::string &element, const std::string &params);
+	void  precomputeElement     (const int n, const std::string &element, const std::string &params);
+	void  precomputeText        (const int n, const std::string &element);
+	void  precomputeFloatArray  (const std::string &element, const std::string &params, float *arr, const int size, float normalize = 1.f);
+	void  precomputeIntArray    (const std::string &element, const std::string &params, int   *arr, const int size);
+	void  precomputeColor3f     (const std::string &element, const std::string &params, float *arr);
+	void  precomputeColor4f     (const std::string &element, const std::string &params, float *arr);
+	float precomputeFloat       (const std::string &element, const std::string &params);
+	int   precomputeInt         (const std::string &element, const std::string &params);
 
-	void precomputeException   (const std::string &element, const std::string &params, const int size) const;
+	void  precomputeException   (const std::string &element, const std::string &params, const int size) const;
 
 	/* Render */
 

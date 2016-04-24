@@ -41,6 +41,7 @@ private:
 	std::unique_ptr<UIElement> createToolbarTab  (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createToolbarItem (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createColorPanel  (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createDialog      (DataMap::DataNode *elementNode);
 
 	std::array<int  , 4> readRect    (DataMap::DataNode *elementNode, const std::string &paramName);
 	std::array<float, 4> readColor   (DataMap::DataNode *elementNode, const std::string &paramName);

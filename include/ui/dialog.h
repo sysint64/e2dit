@@ -28,21 +28,60 @@
 
 class UIDialog : public UIPanel {
 protected:
-	std::unique_ptr<BaseObject> drawElements[9];
-	BaseObject *drawElementsPtr[9];
-	int indices[9];
 
-	int lastLeft = 0;
-	int lastTop  = 0;
+	const int edgeWidth = 15;
+	enum class Edge {
+		None,
+		TopLeftCorner,
+		TopRightCorner,
+		BottomLeftCorner,
+		BottomRightCorner,
+		TopSide,
+		BottomSide,
+		LeftSide,
+		RightSide
+	};
 
-	bool headerClick = false;
+	std::unique_ptr<BaseObject> drawElements[13];
+	BaseObject *drawElementsPtr[13];
+	int indices[13];
+
+	int lastLeft   = 0;
+	int lastTop    = 0;
+	int lastWidth  = 0;
+	int lastHeight = 0;
+
+	int   captionArea [4];
+	float buttonsTop  [2];
+	float buttonsRight[2];
+	float opacity     [4];
+
+	bool  headerClick   = false;
+	bool  maximizeEnter = false;
+	bool  closeEnter    = false;
+	bool  edgeClick     = false;
+	bool  btnDown       = false;
+	Edge  edgeEnter     = Edge::None;
+
+	void renderButtons (int x, int y);
+	void handleResize();
+	void handleEdgeEnter();
 
 public:
 
-	std::wstring caption = L"Hello World!";
+	std::wstring caption    = L"Hello World!";
+	bool maximized          = false;
+	bool allowResize        = false;
+	bool showMaximizeButton = true;
+
+	int minWidth  = 100;
+	int minHeight = 40;
+	int maxWidth  = 1000;
+	int maxHeight = 1000;
 
 	virtual void render()     override;
 	virtual void precompute() override;
+	virtual void setCursor()  override;
 
 	virtual void mouseDown (int x, int y, int button) override;
 	virtual void mouseUp   (int x, int y, int button) override;
@@ -57,7 +96,7 @@ public:
 
 		//visible = false;
 
-		for (int i = 0; i < 9; ++i) {
+		for (int i = 0; i < 13; ++i) {
 
 			drawElements   [i] = std::make_unique<BaseObject>(manager->uiDataRender, app->screenCamera.get());
 			drawElementsPtr[i] = drawElements[i].get();
