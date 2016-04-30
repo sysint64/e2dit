@@ -23,6 +23,11 @@ find_package(SOIL REQUIRED)
 find_package(JPEG REQUIRED)
 find_package(GLM REQUIRED)
 
+if (UNIX)
+	find_package(X11 REQUIRED)
+	set(DEPENDENCY_LIBS ${X11_LIBRARIES})
+endif()
+
 if (APPLE)
 	find_library(CORE_FOUNDATION NAMES CoreFoundation)
 	find_library(APPLICATION_SERVICES NAMES ApplicationServices)
@@ -44,6 +49,7 @@ include_directories(${SOIL_INCLUDE_DIR})
 include_directories(${GLM_INCLUDE_DIR})
 include_directories(${FREETYPE_INCLUDE_DIRS})
 include_directories(${Boost_INCLUDE_DIRS})
+include_directories(${X11_INCLUDE_DIRS})
 
 #set(GLEW_LIBRARIES "F:/mingw64/lib/libglew32.dll.a")
 
