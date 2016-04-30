@@ -208,6 +208,7 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	if (elementNode->name == "panel" )      element = createPanel       (elementNode); else
 	if (elementNode->name == "stacklayout") element = createStackLayout (elementNode); else
 	if (elementNode->name == "button")      element = createButton      (elementNode); else
+	if (elementNode->name == "edit")        element = createEdit        (elementNode); else
 	if (elementNode->name == "toolbar")     element = createToolbar     (elementNode); else
 	if (elementNode->name == "toolbartab")  element = createToolbarTab  (elementNode); else
 	if (elementNode->name == "toolbaritem") element = createToolbarItem (elementNode); else
@@ -338,8 +339,24 @@ std::unique_ptr<UIElement> UILoader::createButton (DataMap::DataNode *elementNod
 	std::unique_ptr<UIElement> element = std::make_unique<UIButton> (manager, false);
 	auto button = dynamic_cast<UIButton*>(element.get());
 
-	button->caption = readCaption(elementNode, "caption");
+	button->caption = readCaption (elementNode, "caption");
 	readIcon (button, elementNode);
+
+	return element;
+
+}
+
+/**
+ */
+
+std::unique_ptr<UIElement> UILoader::createEdit (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIEdit> (manager);
+	auto edit = dynamic_cast<UIEdit*>(element.get());
+
+	edit->text   = readCaption (elementNode, "text");
+	edit->before = readCaption (elementNode, "before");
+	edit->after  = readCaption (elementNode, "after");
 
 	return element;
 

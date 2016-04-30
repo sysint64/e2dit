@@ -110,9 +110,9 @@ public:
 
 	/* Display Text */
 
-	std::wstring text   = L"640";
-	std::wstring before = L"X:";
-	std::wstring after  = L"px";
+	std::wstring text   = L"";
+	std::wstring before = L"";
+	std::wstring after  = L"";
 
 	/* Select */
 
