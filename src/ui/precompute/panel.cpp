@@ -74,6 +74,10 @@ void UIPanel::precompute() {
 	precomputeElement (16, "panel", "headerleave");
 	precomputeElement (17, "panel", "headerenter");
 
+	/* Drag icon */
+
+	precomputeElement (18, "panel", "dragbutton");
+
 	/* Calculate Sizes */
 
 	precomputeColor4f ("panel" , "backgroundlight" , backgroundLight);

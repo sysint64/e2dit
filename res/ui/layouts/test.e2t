@@ -60,6 +60,15 @@ Panel
 				color: 255, 0, 0, 0.5
 				marginLeft: 20
 
+	Panel
+		background: light
+		align: top
+		size: 0, 200
+		allowResize: true
+		allowHide: true
+		allowDrag: true
+		caption: "@menu.item1.caption"
+
 Dialog
 	name: testDialog
 	location: 200, 200

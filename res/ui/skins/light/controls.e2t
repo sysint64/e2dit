@@ -40,8 +40,9 @@ Panel
 	textOffset                  : 0,  0
 	textColor                   : 20, 20, 20
 
-	arrowOpen                   : 5 , 21, 10, 10
-	arrowClose                  : 22, 21, 10, 10
+	arrowOpen                   : 5  , 21, 10, 10
+	arrowClose                  : 22 , 21, 10, 10
+	dragbutton                  : 381, 19, 16, 16
 
 /**
  * Dialog

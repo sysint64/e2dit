@@ -49,6 +49,7 @@ protected:
 	std::unique_ptr<BaseObject> header      = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	std::unique_ptr<BaseObject> expandArrow = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	std::unique_ptr<BaseObject> quadElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> dragElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 	float backgroundLight [4];
 	float backgroundDark  [4];
@@ -79,8 +80,16 @@ protected:
 	bool scrollHEnter = false;
 	bool splitEnter   = false;
 	bool headerEnter  = false;
+	bool dragEnter    = false;
+	bool dragClick    = false;
 	bool drag         = false;
 	int  headerHeight = 0;
+
+	int  dragX = 0;
+	int  dragY = 0;
+
+	int  lastAbsTop  = 0;
+	int  lastAbsLeft = 0;
 
 	/* */
 
@@ -97,6 +106,7 @@ protected:
 
 	void updateScroll();
 	void pollScroll();
+	void pollDrag();
 	void calculateSplit();
 	virtual void updateAlign() override;
 

@@ -93,6 +93,19 @@ void UIPanel::scrollToElement (UIElement *el) {
 
 void UIPanel::setCursor() {
 
+	if (allowDrag) {
+
+		if (pointInRect(app->mouseX, app->mouseY, absLeft+width-iWidths[18]-6, absTop, iWidths[18]+6, headerHeight) || dragClick) {
+
+			//renderElement (18, -6, absTop+(headerHeight >> 1)-(iHeights[18] >> 1), iWidths[18], iHeights[18], dragElement.get());
+			manager->cursor = CursorIco::Drag;
+			dragEnter = true;
+			return;
+
+		}
+
+	}
+
 	if (!allowResize || !open || scrollHClick || scrollVClick) return;
 	if (align == Align::Top || align == Align::Bottom) {
 
@@ -217,6 +230,9 @@ void UIPanel::updateAlign() {
 
 	}
 
+	left += dragX;
+	top  += dragY;
+
 }
 
 /* Render Panel */
@@ -224,6 +240,8 @@ void UIPanel::updateAlign() {
 void UIPanel::render() {
 
 	splitEnter = false;
+	dragEnter  = false;
+
 	int lastPaddingTop = paddingTop;
 	int scissorHeader = 0;
 
@@ -285,8 +303,13 @@ void UIPanel::render() {
 
 	}
 
+	if (allowDrag) {
+		renderElement (18, absLeft+width-iWidths[18]-6, absTop+(headerHeight >> 1)-(iHeights[18] >> 1), iWidths[18], iHeights[18], dragElement.get());
+	}
+
 	if (!open) {
 
+		pollDrag();
 		updateAlign();
 		paddingTop = lastPaddingTop;
 		return;
@@ -374,7 +397,67 @@ void UIPanel::render() {
 
 	}
 
+	pollDrag();
 	updateAlign();
+
+}
+
+void UIPanel::pollDrag() {
+
+	if (!dragClick)
+		return;
+
+	dragY = app->mouseY-app->clickY;
+	int newID = -1;
+
+	for (const auto &kvp : parent->elements) {
+
+		auto element = kvp.second.get();
+
+		if (element == this)
+			continue;
+
+		if (lastAbsTop > element->absTop) {
+
+			if (absTop < element->absTop) {
+				newID = element->id;
+				app->clickY = app->mouseY;
+				break;
+			}
+
+		} else {
+
+			if (absTop > element->absTop) {
+				newID = element->id;
+				app->clickY = app->mouseY+element->height-height;
+				break;
+			}
+
+		}
+
+	}
+
+	if (newID >= 0) {
+
+		auto el1 = std::move(parent->elements[id]);
+		auto el2 = std::move(parent->elements[newID]);
+
+		lastAbsLeft = el1->absLeft;
+		lastAbsTop  = el1->absTop;
+
+		auto id1 = el1->id;
+		auto id2 = el2->id;
+
+		parent->elements[id2] = std::move(el1);
+		parent->elements[id1] = std::move(el2);
+
+		parent->elements[id2]->render();
+		parent->elements[id1]->render();
+
+		parent->elements[id1]->id = id1;
+		parent->elements[id2]->id = id2;
+
+	}
 
 }
 
@@ -533,7 +616,11 @@ void UIPanel::mouseDown (int x, int y, int button) {
 
 	}
 
-	if (!allowHide || !headerEnter)
+	dragClick   = dragEnter;
+	lastAbsTop  = absTop;
+	lastAbsLeft = absLeft;
+
+	if (!allowHide || !headerEnter || dragEnter)
 		return;
 
 	/* Open/Close Panel */
@@ -559,6 +646,8 @@ void UIPanel::mouseUp (int x, int y, int button) {
 
 	scrollHClick = false;
 	scrollVClick = false;
+	dragClick    = false;
+	dragX = 0; dragY = 0;
 
 	if (splitClick) {
 
