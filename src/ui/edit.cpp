@@ -45,6 +45,16 @@ void UIEdit::render() {
 	textPosY   = app->windowHeight-absTop-(iHeights[1] >> 1)-4;
 	textPosX  += textOffset;
 
+	if (trackMode) { /* Center text */
+		textPosX = absLeft;
+		int twidth;
+
+		if (!focused) twidth = ftglGetTextWidth (manager->theme->font, before+text+after);
+		else          twidth = ftglGetTextWidth (manager->theme->font, text);
+
+		textPosX += (cWidth-twidth) >> 1;
+	}
+
 	if (drawAlign == Align::Left)
 		textPosX += iWidths[12]+3;
 
@@ -75,9 +85,35 @@ void UIEdit::render() {
 
 	/* Render Stick */
 
-	if (showStick && focused) {
-
+	if (showStick && focused)
 		renderElement (12, textPosX+stickPxPos-1, absTop, iWidths[12], iHeights[12], stickElement.get());
+
+	/* Render track arrows */
+
+	if (trackMode) {
+		int n = enter ? 1 : 0;
+		int x;
+		int y = absTop +iHeights[13+n]-(iHeights[13+n] >> 1);
+
+		/* Left arrow */
+
+		if (drawAlign == Align::All || drawAlign == Align::Left)
+			x = absLeft+iWidths[13+n];
+
+		if (drawAlign == Align::Right || drawAlign == Align::Center)
+			x = absLeft+iWidths[13+n]+iWidths[0];
+
+		renderElement (13+n, x, y, iWidths[13+n], iHeights[13+n], leftArrowElement.get());
+
+		/* Right arrow */
+
+		if (drawAlign == Align::All || drawAlign == Align::Left)
+			x = absLeft+width-(iWidths[15+n] << 1)-1;
+
+		if (drawAlign == Align::Right || drawAlign == Align::Center)
+			x = absLeft+width-(iWidths[15+n] << 1)-iWidths[11]-1;
+
+		renderElement (15+n, x, y, iWidths[15+n], iHeights[15+n], rightArrowElement.get());
 
 	}
 

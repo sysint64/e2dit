@@ -56,6 +56,15 @@ void UIEdit::precompute() {
 
 	precomputeElement (12, style , "stick");
 
+	/* Arrows */
+
+	precomputeElement (13, style+leaveElement, "leftarrow");
+	precomputeElement (14, style+enterElement, "leftarrow");
+	precomputeElement (15, style+leaveElement, "rightarrow");
+	precomputeElement (16, style+enterElement, "rightarrow");
+
+	/* Slection rect */
+
 	precomputeFloatArray (style , "selrectcolor" , selectColor , 4, 255.f);
 	precomputeFloatArray (style , "selrectoffset", selectOffset, 2);
 
