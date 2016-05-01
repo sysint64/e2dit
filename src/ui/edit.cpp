@@ -274,6 +274,10 @@ void UIEdit::setStickPos (int x, int y) {
 
 }
 
+void UIEdit::setCursor() {
+
+}
+
 /* Events */
 
 void UIEdit::mouseDown (int x, int y, int button) {
@@ -286,25 +290,63 @@ void UIEdit::mouseDown (int x, int y, int button) {
 
 }
 
+void UIEdit::addVal(const int acc) {
+
+	int val = std::stoi(text);
+	val += acc;
+	math::clamp (&val, trackRange[0], trackRange[1]);
+	text = std::to_wstring(val);
+
+}
+
+void UIEdit::focus() {
+
+	UIElement::focus();
+
+	lastStickChPos = stickChPos;
+	stickChPos = text.size();
+
+	selStart = 0;
+	selEnd   = stickChPos;
+
+}
+
 void UIEdit::mouseUp (int x, int y, int button) {
 
-	if (enter) {
+	if (!enter)
+		return;
 
-		showStick = true;
-		stickTime = 0;
+	if (trackMode && pointInRect(x, y, absLeft, absTop, 14, 20)) {
 
-		if (focused)
-			return;
-
+		addVal(-1);
 		focus();
 
-		lastStickChPos = stickChPos;
-		stickChPos = text.size();
+		if (onChange)
+			onChange(this);
 
-		selStart = 0;
-		selEnd   = stickChPos;
+		return;
+
+	} else
+
+	if (trackMode && pointInRect(x, y, absLeft+width-14, absTop, 14, 20)) {
+
+		addVal(1);
+		focus();
+
+		if (onChange)
+			onChange(this);
+
+		return;
 
 	}
+
+	showStick = true;
+	stickTime = 0;
+
+	/*if (focused)
+		return;
+
+	focus();*/
 
 }
 

@@ -96,17 +96,19 @@ protected:
 	void  updateSelect();
 	void  setStickPos (int x, int y);
 
+	void  addVal (const int acc);
+
 	/* Draw methods */
 
 	void  renderSkin();
 
 public:
 
-	UITextFilter filter = UITextFilter::Text;
+	UITextFilter filter = UITextFilter::Int;
 
 	/* Track Mode */
 
-	glm::vec2 trackRange;
+	glm::vec2 trackRange { -999, 999 };
 	float     trackStep = 1.f;
 	bool      trackMode = true;
 
@@ -133,6 +135,8 @@ public:
 
 	virtual void precompute() override;
 	virtual void render()     override;
+	virtual void setCursor()  override;
+	virtual void focus()      override;
 
 	/* Events */
 

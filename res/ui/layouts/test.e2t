@@ -39,7 +39,7 @@ Panel
 
 			Edit
 				size: 100, 21
-				text: "Hello"
+				text: "100"
 				filter: int
 				before: "X:"
 				after: "px"

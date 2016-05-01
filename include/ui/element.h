@@ -276,8 +276,8 @@ public:
 
 	virtual ~UIElement() {}
 
-	void focus();
-	void unfocus();
+	virtual void focus();
+	virtual void unfocus();
 
 	virtual void precompute() {}
 	virtual void render ();
