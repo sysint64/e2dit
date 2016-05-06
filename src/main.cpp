@@ -127,7 +127,7 @@ int main (int argc,char** argv) {
 
 	/* Create Core */
 
-	std::unique_ptr<Core> core = std::make_unique<Core>();
+	std::unique_ptr<Core> core = std::make_unique<Core> (&window);
 
 	/* */
 
@@ -150,6 +150,8 @@ int main (int argc,char** argv) {
 	//glClearColor (144.f/255.f, 144.f/255.f, 144.f/255.f, 0);
 	glClearColor (150.f/255.f, 150.f/255.f, 150.f/255.f, 0);
 
+	bool lastCursorVisible = true;
+
 	/* Main loop */
 
 	while (running) {
@@ -160,6 +162,11 @@ int main (int argc,char** argv) {
 		sf::Vector2i mp = sf::Mouse::getPosition(window);
 		app->mouseX = mp.x;
 		app->mouseY = mp.y;
+
+		if (lastCursorVisible != app->cursorVisible) {
+			lastCursorVisible = app->cursorVisible;
+			window.setMouseCursorVisible (app->cursorVisible);
+		}
 
 		/* Poll Events */
 

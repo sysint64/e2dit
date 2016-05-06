@@ -43,6 +43,7 @@ class Core {
 public:
 
 	Application *app = Application::getInstance();
+	sf::Window  *window;
 
 	/* UI */
 
@@ -59,7 +60,7 @@ public:
 
 	/* Constructor */
 
-	 Core();
+	 Core(sf::Window *window);
 	~Core();
 
 	/* Events */

@@ -280,22 +280,15 @@ void UIEdit::setCursor() {
 
 /* Events */
 
-void UIEdit::mouseDown (int x, int y, int button) {
-
-	if (!enter || !focused)
-		return;
-
-	setStickPos (x, y);
-	selStart = selEnd = stickChPos;
-
-}
-
 void UIEdit::addVal(const int acc) {
 
 	int val = std::stoi(text);
 	val += acc;
 	math::clamp (&val, trackRange[0], trackRange[1]);
 	text = std::to_wstring(val);
+
+	if (onChange)
+		onChange(this);
 
 }
 
@@ -311,7 +304,26 @@ void UIEdit::focus() {
 
 }
 
+void UIEdit::mouseDown (int x, int y, int button) {
+
+	if (!enter || !focused)
+		return;
+
+	setStickPos (x, y);
+	selStart = selEnd = stickChPos;
+	trackWay = 0;
+
+}
+
 void UIEdit::mouseUp (int x, int y, int button) {
+
+	if (wholeTrackWay > 0) {
+		wholeTrackWay = 0;
+		manager->freezUI = false;
+		app->cursorVisible = true;
+		unfocus();
+		return;
+	}
 
 	if (!enter)
 		return;
@@ -321,9 +333,6 @@ void UIEdit::mouseUp (int x, int y, int button) {
 		addVal(-1);
 		focus();
 
-		if (onChange)
-			onChange(this);
-
 		return;
 
 	} else
@@ -332,9 +341,6 @@ void UIEdit::mouseUp (int x, int y, int button) {
 
 		addVal(1);
 		focus();
-
-		if (onChange)
-			onChange(this);
 
 		return;
 
@@ -354,6 +360,23 @@ void UIEdit::mouseMove (int x, int y, int button) {
 
 	if (!enter || button != mouseLeft)
 		return;
+
+	if (trackMode && !focused) {
+		int delta = x-app->clickX;
+		trackWay += delta;
+
+		if (trackWay >=  trackStep) { addVal( 1); trackWay = 0; wholeTrackWay++; manager->freezUI = true; } else
+		if (trackWay <= -trackStep) { addVal(-1); trackWay = 0; wholeTrackWay++; manager->freezUI = true; }
+
+		if (delta >= 2 || delta <= -2) {
+			app->cursorVisible = false;
+			sf::Mouse::setPosition (sf::Vector2i (app->clickX, app->clickY), *(manager->window));
+		}
+
+		return;
+	}
+	//if (TrackBar && Clicked && !Focused) {
+//	}
 
 	setStickPos (x, y);
 	selEnd = stickChPos;

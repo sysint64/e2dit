@@ -51,7 +51,9 @@ protected:
 
 	float selectColor[4];
 	float selectOffset[2]; // Offset top and bottom
-	int   trackWay = 0;
+	int   trackWay      = 0;
+	int   lastMouseX    = 0;
+	bool  wholeTrackWay = 0;
 
 	/* Params */
 
@@ -109,7 +111,7 @@ public:
 	/* Track Mode */
 
 	glm::vec2 trackRange { -999, 999 };
-	float     trackStep = 1.f;
+	int       trackStep = 2;
 	bool      trackMode = true;
 
 	/* Display Text */
