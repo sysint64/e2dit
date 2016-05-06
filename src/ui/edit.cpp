@@ -276,6 +276,11 @@ void UIEdit::setStickPos (int x, int y) {
 
 void UIEdit::setCursor() {
 
+	if (!trackMode || (pointInRect (app->mouseX, app->mouseY, absLeft+14, absTop, width-28, height) && enabled && trackMode)) {
+		UIElement::setCursor();
+		return;
+	}
+
 }
 
 /* Events */
