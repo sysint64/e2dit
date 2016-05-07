@@ -237,16 +237,13 @@ void UIPanel::updateAlign() {
 
 /* Render Panel */
 
-void UIPanel::render() {
+void UIPanel::mainRender() {
 
 	splitEnter = false;
 	dragEnter  = false;
 
 	int lastPaddingTop = paddingTop;
 	int scissorHeader = 0;
-
-	updateAbsPos();
-	updateScroll();
 
 	if (background != Background::Transparent) {
 
@@ -366,6 +363,10 @@ void UIPanel::render() {
 	/* Render childs */
 
 	UIElement::render();
+
+	if (overlayElement)
+		overlayElement->mainRender();
+
 	paddingTop = lastPaddingTop;
 	manager->popScissor();
 
@@ -402,11 +403,28 @@ void UIPanel::render() {
 
 }
 
+void UIPanel::render() {
+
+	updateAbsPos();
+	updateScroll();
+
+	auto parentPanel = dynamic_cast<UIPanel*>(parent);
+	if (parentPanel && parentPanel->overlayElement == this) {
+		pollDrag();
+		updateAlign();
+		return;
+	}
+
+	mainRender();
+
+}
+
 void UIPanel::pollDrag() {
 
 	if (!dragClick)
 		return;
 
+	dynamic_cast<UIPanel*>(parent)->overlayElement = this;
 	dragY = app->mouseY-app->clickY;
 	int newID = -1;
 
@@ -646,8 +664,12 @@ void UIPanel::mouseUp (int x, int y, int button) {
 
 	scrollHClick = false;
 	scrollVClick = false;
-	dragClick    = false;
 	dragX = 0; dragY = 0;
+
+	if (dragClick) {
+		dynamic_cast<UIPanel*>(parent)->overlayElement = nullptr;
+		dragClick = false;
+	}
 
 	if (splitClick) {
 

@@ -104,10 +104,13 @@ protected:
 	int hbMin = 0; int hbMax = 0;
 	int vbMin = 0; int vbMax = 0;
 
+	UIPanel *overlayElement = nullptr;
+
 	void updateScroll();
 	void pollScroll();
 	void pollDrag();
 	void calculateSplit();
+	void mainRender();
 	virtual void updateAlign() override;
 
 public:
