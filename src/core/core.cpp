@@ -35,6 +35,7 @@
 #include "ui/dialog.h"
 #include "ui/loader.h"
 #include "ui/stack_layout.h"
+#include "ui/dialogs/color_dialog.h"
 
 #include "utility/strings_res.h"
 #include "resources.h"
@@ -84,8 +85,10 @@ Core::Core() {
 
 	stringsRes = std::make_unique<StringRes>();
 	stringsRes->addResource ("../res/strings/en/menu.e2t");
+	stringsRes->addResource ("../res/strings/en/dialogs/color_dialog.e2t");
 
-	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager.get(), stringsRes.get(), "../res/ui/layouts/test.e2t");
+	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager.get(), stringsRes.get(), "test.e2t");
+	std::unique_ptr<UIColorDialog> colorDialog = std::make_unique<UIColorDialog> (uiManager.get(), stringsRes.get());
 
 	//StringRes testRes;
 	//testRes.addResource ("../res/strings/eng/menu.e2t");

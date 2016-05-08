@@ -67,8 +67,10 @@ public:
 
 		switch (rt) {
 
-			case DataMap::ReadType::Bin  : loadFromBin  (fileName); break;
-			case DataMap::ReadType::Text : loadFromText (fileName); break;
+			// TODO: calc absolute path
+			//
+			case DataMap::ReadType::Bin  : loadFromBin  ("../res/ui/layouts/"+fileName); break;
+			case DataMap::ReadType::Text : loadFromText ("../res/ui/layouts/"+fileName); break;
 			default : return;
 
 		}

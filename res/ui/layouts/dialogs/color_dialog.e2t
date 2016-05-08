@@ -1,0 +1,6 @@
+Dialog
+	name: colorDialog
+	size: 543, 290
+	location: 200, 200
+	#allowScroll: False;
+	caption: "Color Pallete"

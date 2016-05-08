@@ -16,7 +16,9 @@ set(PRECOMPUTE precompute/button.cpp
 		precompute/dialog.cpp
 		precompute/tooltip.cpp)
 
-set(SOURCES ${PRECOMPUTE} button.cpp
+set(DIALOGS dialogs/color_dialog.cpp)
+
+set(SOURCES ${PRECOMPUTE} ${DIALOGS} button.cpp
 		checkbox.cpp
 		grouped.cpp
 		treelist.cpp
