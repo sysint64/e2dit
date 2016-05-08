@@ -109,7 +109,7 @@ void Shader::unbind() const {
  * @param fileName
  */
 
-void Shader::load (const char *fileName) {
+void Shader::load (const std::string &fileName) {
 
 	/* Get Application Instance */
 
@@ -117,8 +117,8 @@ void Shader::load (const char *fileName) {
 
 	/* Open Shader File */
 
-	this->fileName = std::string (fileName);
-	FILE *in = fopen (fileName, "r");
+	this->fileName = fileName;
+	FILE *in = fopen (fileName.c_str(), "r");
 
 	/* Text Buffers */
 
@@ -263,7 +263,7 @@ void Shader::load (const char *fileName) {
  * @param fileName
  */
 
-Shader::Shader (const char *fileName) {
+Shader::Shader (const std::string &fileName) {
 
 	load (fileName);
 
@@ -277,7 +277,7 @@ Shader::Shader (const char *fileName) {
  */
 
 #include <iostream>
-Shader::Shader (const char *fileName, std::vector<std::string> vlocs) {
+Shader::Shader (const std::string &fileName, std::vector<std::string> vlocs) {
 
 	load (fileName);
 

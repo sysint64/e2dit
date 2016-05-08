@@ -24,9 +24,6 @@
 #include "utility/application.h"
 #include <string>
 #include "SOIL.h"
-#include <boost/filesystem.hpp>
-
-namespace fs = boost::filesystem;
 
 class Texture {
 public:
@@ -43,9 +40,9 @@ public:
 	unsigned char *data;
 	std::string    fileName;
 
-	Texture (const char *fileName, GLuint filter = GL_LINEAR,
-	                               GLuint wrapS  = GL_CLAMP_TO_EDGE,
-	                               GLuint wrapT  = GL_CLAMP_TO_EDGE);
+	Texture (const std::string &fileName, GLuint filter = GL_LINEAR,
+	                                      GLuint wrapS  = GL_CLAMP_TO_EDGE,
+	                                      GLuint wrapT  = GL_CLAMP_TO_EDGE);
 	~Texture ();
 
 	void bind  () const;

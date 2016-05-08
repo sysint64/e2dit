@@ -46,7 +46,7 @@ public:
 
 public:
 
-	UITheme (const char *fileName, ReadType rt, Texture *skin, FTGLfont *font);
+	UITheme (const std::string &fileName, ReadType rt, Texture *skin, FTGLfont *font);
 
 };
 

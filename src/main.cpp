@@ -31,6 +31,7 @@
 #include "utility/application.h"
 #include "utility/data_map.h"
 #include "utility/system.h"
+#include "utility/filesystem.h"
 #include "core/core.h"
 
 #include <SFML/System.hpp>
@@ -46,18 +47,17 @@
 #define _NET_WM_STATE_ADD      1l
 #define _NET_WM_STATE_TOGGLE   2l
 
-namespace fs = boost::filesystem;
-
 /* Main */
 
 int main (int argc,char** argv) {
 
-	fs::path full_path (fs::initial_path<fs::path>());
-	full_path = fs::system_complete (fs::path (argv[0]));
-
-	//puts (full_path.string().c_str());
-
 	Application *app = Application::getInstance();
+
+	app->binPath = fs::getExeDir();
+	app->resPath = fs::upFolder(fs::upFolder(app->binPath))+"/res";
+
+	puts(app->binPath.c_str());
+	puts(app->resPath.c_str());
 
 	setlocale (LC_CTYPE, "");
 	app->log.create ("log.txt");

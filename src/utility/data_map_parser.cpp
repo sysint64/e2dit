@@ -377,8 +377,9 @@ void DataMap::parseInclude() {
 
 	std::string FN = idStr;
 	//FN = fs::extractFileDir(fileName)+FN;
-	fs::path p (fileName);
-	this->fileName = p.parent_path().string()+FN;
+	//fs::path p (fileName);
+	//fileName = p.parent_path().string()+FN;
+	fileName = fs::extractFileDir(fileName);
 
 	lexNextToken();
 

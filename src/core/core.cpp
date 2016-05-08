@@ -46,9 +46,9 @@ Core::Core (sf::Window *window) {
 	app->screenCamera = std::make_unique<Camera>(app->screenWidth, app->screenHeight);
 
 	//uiManager = std::make_shared<UIManager>();
-	auto font12 = ftglCreateTextureFont ("../res/fonts/ttf-dejavu/DejaVuSans.ttf");
-	auto font14 = ftglCreateTextureFont ("../res/fonts/ttf-dejavu/DejaVuSans.ttf");
-	auto font16 = ftglCreateTextureFont ("../res/fonts/ttf-dejavu/DejaVuSans.ttf");
+	auto font12 = ftglCreateTextureFont ((app->resPath+"/fonts/ttf-dejavu/DejaVuSans.ttf").c_str());
+	auto font14 = ftglCreateTextureFont ((app->resPath+"/fonts/ttf-dejavu/DejaVuSans.ttf").c_str());
+	auto font16 = ftglCreateTextureFont ((app->resPath+"/fonts/ttf-dejavu/DejaVuSans.ttf").c_str());
 
 	ftglSetFontFaceSize (font12, 12, 12);
 	ftglSetFontCharMap  (font12, ft_encoding_unicode);
@@ -59,10 +59,10 @@ Core::Core (sf::Window *window) {
 	ftglSetFontFaceSize (font16, 16, 16);
 	ftglSetFontCharMap  (font16, ft_encoding_unicode);
 
-	R::init();
+	R::init (app);
 
-	//skin    = std::make_unique<Texture> ("../res/ui/skins/light/controls.png");
-	uiTheme = std::make_unique<UITheme> ("../res/ui/skins/light/controls.e2t", DataMap::ReadType::Text, R::Textures::skin.get(), font12);
+	//skin    = std::make_unique<Texture> (app->resPath+"/ui/skins/light/controls.png");
+	uiTheme = std::make_unique<UITheme> (app->resPath+"/ui/skins/light/controls.e2t", DataMap::ReadType::Text, R::Textures::skin.get(), font12);
 	uiTheme->fontHeight   = 12;
 	uiTheme->font12Height = 12;
 	uiTheme->font14Height = 14;
@@ -79,18 +79,18 @@ Core::Core (sf::Window *window) {
 
 	uiManager->uiDataRender = new SpriteData (false, false, true);
 
-	std::unique_ptr<Texture> iconsTex = std::make_unique<Texture> ("../res/ui/icons/icons.png");
+	std::unique_ptr<Texture> iconsTex = std::make_unique<Texture> (app->resPath+"/ui/icons/icons.png");
 	uiManager->icons = std::make_unique<UIMainIcons> (uiManager.get(), std::move (iconsTex), 18.f, 9, 3);
 
-	iconsTex = std::make_unique<Texture> ("../res/ui/icons/main_toolbar_icons.png");
+	iconsTex = std::make_unique<Texture> (app->resPath+"/ui/icons/main_toolbar_icons.png");
 	uiManager->toolIcons = std::make_unique<UIToolIcons> (uiManager.get(), std::move (iconsTex), 48.f, 1, 1);
 
 	stringsRes = std::make_unique<StringRes>();
-	stringsRes->addResource ("../res/strings/en/menu.e2t");
-	stringsRes->addResource ("../res/strings/en/dialogs/color_dialog.e2t");
+	stringsRes->addResource (app->resPath+"/strings/en/menu.e2t");
+	stringsRes->addResource (app->resPath+"/strings/en/dialogs/color_dialog.e2t");
 
 	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager.get(), stringsRes.get(), "test.e2t");
-	std::unique_ptr<UIColorDialog> colorDialog = std::make_unique<UIColorDialog> (uiManager.get(), stringsRes.get());
+	std::unique_ptr<UIColorDialog> colorDialog = std::make_unique<UIColorDialog> (uiManager.get(), stringsRes.get(), "dialogs/color_dialog.e2t");
 
 	//StringRes testRes;
 	//testRes.addResource ("../res/strings/eng/menu.e2t");

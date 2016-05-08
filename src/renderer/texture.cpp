@@ -19,6 +19,7 @@
  */
 
 #include "renderer/texture.h"
+#include "utility/filesystem.h"
 
 /**
  * Create Texture
@@ -29,7 +30,7 @@
  * @param wrapT
  */
 
-Texture::Texture (const char *fileName, GLuint filter, GLuint wrapS, GLuint wrapT)
+Texture::Texture (const std::string &fileName, GLuint filter, GLuint wrapS, GLuint wrapT)
 		: filter (filter), wrapS (wrapS), wrapT (wrapT)
 {
 
@@ -43,7 +44,7 @@ Texture::Texture (const char *fileName, GLuint filter, GLuint wrapS, GLuint wrap
 
 		/* if not exist, then write error to log */
 
-		Application::getInstance()->log.write ("Load texture error : %s", fileName);
+		Application::getInstance()->log.write ("Load texture error : %s", fileName.c_str());
 		loaded = false;
 
 		/* And Exit */
@@ -54,13 +55,11 @@ Texture::Texture (const char *fileName, GLuint filter, GLuint wrapS, GLuint wrap
 
 	/* Load texture */
 
-	data = SOIL_load_image (fileName, &width, &height, nullptr, SOIL_LOAD_RGBA);
+	data = SOIL_load_image (fileName.c_str(), &width, &height, nullptr, SOIL_LOAD_RGBA);
 	update();
 
 	/* Save Texture path */
-
-	fs::path p (fileName);
-	this->fileName = p.filename().string();
+	this->fileName = fileName;
 
 }
 

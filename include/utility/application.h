@@ -60,7 +60,9 @@ public:
 	int screenHeight = 0;
 	int windowWidth  = 0;
 	int windowHeight = 0;
-	std::string exeDir;
+
+	std::string binPath;
+	std::string resPath;
 
 	sf::WindowHandle windowHandle;
 

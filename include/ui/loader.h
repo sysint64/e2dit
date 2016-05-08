@@ -25,6 +25,7 @@
 #include "ui/manager.h"
 #include "utility/data_map.h"
 #include "utility/strings_res.h"
+#include "utility/filesystem.h"
 
 class UILoader {
 private:
@@ -71,10 +72,8 @@ public:
 
 		switch (rt) {
 
-			// TODO: calc absolute path
-			//
-			case DataMap::ReadType::Bin  : loadFromBin  ("../res/ui/layouts/"+fileName); break;
-			case DataMap::ReadType::Text : loadFromText ("../res/ui/layouts/"+fileName); break;
+			case DataMap::ReadType::Bin  : loadFromBin  (app->resPath+"/ui/layouts/"+fileName); break;
+			case DataMap::ReadType::Text : loadFromText (app->resPath+"/ui/layouts/"+fileName); break;
 			default : return;
 
 		}
@@ -82,13 +81,17 @@ public:
 	}
 
 	inline void loadFromText (const std::string &fileName) {
+
 		data->loadFromText (fileName.c_str());
 		placeElements (data->root.get(), manager->root.get());
+
 	}
 
 	inline void loadFromBin (const std::string &fileName) {
+
 		data->loadFromBin (fileName.c_str());
 		placeElements (data->root.get(), manager->root.get());
+
 	}
 
 };

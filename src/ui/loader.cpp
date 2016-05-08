@@ -327,7 +327,6 @@ std::unique_ptr<UIElement> UILoader::createImage (DataMap::DataNode *elementNode
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIImage> (manager);
 	auto image = dynamic_cast<UIImage*>(element.get());
-
 	auto src = wstr2str(readCaption(elementNode, "src"));
 	std::cout << "Element src: " << src << std::endl;
 
@@ -336,7 +335,8 @@ std::unique_ptr<UIElement> UILoader::createImage (DataMap::DataNode *elementNode
 
 	std::array<int, 4> cropRect = readRect (elementNode, "crop", false);
 
-	image->loadImage ("../res/"+src);
+	puts((app->resPath+"/"+src).c_str());
+	image->loadImage (app->resPath+"/"+src);
 	image->cropImage (cropRect);
 
 	return element;
