@@ -218,6 +218,7 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	if (elementNode->name == "colorpanel")  element = createColorPanel  (elementNode); else
 	if (elementNode->name == "image")       element = createImage       (elementNode); else
 	if (elementNode->name == "label")       element = createLabel       (elementNode); else
+	if (elementNode->name == "grouped")     element = createGrouped     (elementNode); else
 	if (elementNode->name == "dialog")      element = createDialog      (elementNode);
 
 	if (element == nullptr)
@@ -367,7 +368,8 @@ std::unique_ptr<UIElement> UILoader::createButton (DataMap::DataNode *elementNod
 	std::unique_ptr<UIElement> element = std::make_unique<UIButton> (manager, false);
 	auto button = dynamic_cast<UIButton*>(element.get());
 
-	button->caption = readCaption(elementNode, "caption");
+	button->caption   = readCaption (elementNode, "caption");
+	button->textAlign = readAlign   (elementNode, "textalign");
 	readIcon (button, elementNode);
 
 	return element;
@@ -385,6 +387,16 @@ std::unique_ptr<UIElement> UILoader::createLabel (DataMap::DataNode *elementNode
 	label->caption   = readCaption (elementNode, "caption");
 	label->textAlign = readAlign   (elementNode, "textalign");
 
+	return element;
+
+}
+
+/**
+ */
+
+std::unique_ptr<UIElement> UILoader::createGrouped (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIGrouped> (manager);
 	return element;
 
 }

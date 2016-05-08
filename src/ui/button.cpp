@@ -182,67 +182,33 @@ void UIButton::renderText (const Align align, const std::string &text, const int
 	if (enter) { n = 3; tn = 1; to = 2; }
 	if (click || checked) { n = 6; tn = 2; to = 4; }
 
-	// Draw Text
-	float bounds[6];
+	/* Render Text */
 
-	ftglGetFontBBox (manager->theme->font, text.c_str(), size, bounds);
-	int twidth = bounds[3]-bounds[0];
+	int textPosX;
+	int textPosY = absTop+(height >> 1)+(manager->theme->fontHeight >> 1)-2-textOffsets[to+1];
+	int twidth   = ftglGetTextWidth (manager->theme->font, caption);
 
-	/* Calculate Text Left Position */
+	switch (textAlign) {
 
-	int tx = absLeft;
+		case Align::Left:
+			textPosX = iWidths[n]+paddingLeft;
+			break;
 
-	/* Text align : Left */
+		case Align::Center:
+			textPosX = (width-twidth)/2;
+			break;
 
-	if (align == Align::Left) {
+		case Align::Right:
+			textPosX = width-twidth-iWidths[n+2]-paddingRight;
+			break;
 
-		tx += iWidths[n];
-
-		if (drawAlign != Align::Left && drawAlign != Align::All) tx += iWidths[n+2];
-		if (offset != 0) tx += offset;
-
-	} else
-
-	/* Text align : Right */
-
-	if (align == Align::Right) {
-
-		     if (drawAlign == Align::Center) tx += (width-twidth)-iWidths[n+2];
-		else if (drawAlign == Align::Right ) tx += (width-twidth)-iWidths[n+2]-iWidths[n];
-		else if (drawAlign == Align::Left  ) tx += (width-twidth)-iWidths[n+2]-iWidths[n]-iWidths[n];
-		else                                 tx += (width-twidth)-iWidths[n+2]-textOffsets[to]-textOffsets[to];
-
-		if (offset != 0) tx -= offset;
-
-	} else
-
-	/* Text align : Center */
-
-	if (align == Align::Center) {
-
-		     if (drawAlign == Align::Center) tx += (width+iWidths[n+2]+iWidths[n]-twidth) >> 1;
-		else if (drawAlign == Align::Right ) tx += (width+iWidths[n+2]-twidth) >> 1;
-		else if (drawAlign == Align::Left  ) tx += (width-iWidths[n+0]-twidth) >> 1;
-		else                                 tx += (width-twidth) >> 1;
-
-		if (offset != 0) tx += offset >> 1;
+		default:
+			textPosX = iWidths[n]+paddingLeft;
 
 	}
 
-	/* Render Text */
-
 	manager->atlasShader->unbind();
-
-	glBegin2D();
-
-	glActiveTexture (GL_TEXTURE0);
-	glColor3f       (textColors[n], textColors[n+1], textColors[n+2]);
-
-	glTranslatef    (tx+textOffsets[to], app->windowHeight-absTop-(height >> 1)-4+textOffsets[to+1], 0);
-	ftglRenderFont  (manager->theme->font, text.c_str(), RENDER_ALL);
-
-	glEnd2D();
-
+	::renderText (manager->theme->font, &textColors[n], absLeft+textPosX, textPosY, caption);
 	manager->atlasShader->bind();
 
 }

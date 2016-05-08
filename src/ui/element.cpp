@@ -186,7 +186,7 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 		case Align::Left :
 
 			renderElement (il, x, y, iWidths[il], iHeights[il], el);
-			renderElement (ic, x+iWidths[il], y, cw+iWidths[ir], iHeights[ic], ec);
+			renderElement (ic, x+iWidths[il], y, cw+iWidths[ir]+1, iHeights[ic], ec);
 
 			break;
 
@@ -198,7 +198,7 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 			break;
 
 		case Align::Center :
-			renderElement (ic, x, y, cw+iWidths[il]+iWidths[ir], iHeights[ic], ec);
+			renderElement (ic, x, y, cw+iWidths[il]+iWidths[ir]+1, iHeights[ic], ec);
 			break;
 
 	}

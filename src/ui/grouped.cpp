@@ -72,12 +72,12 @@ void UIGrouped::render() {
 
 		if (el->autoSize) {
 
-			offset += partWidth;
+			offset += partWidth+1;
 			el->width = partWidth;
 
 		} else {
 
-			offset += el->width;
+			offset += el->width+1;
 
 		}
 

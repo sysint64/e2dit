@@ -5,6 +5,8 @@ Dialog
 	allowScroll: False;
 	caption: "@colordialog.caption"
 
+	/* Colors regions */
+
 	Panel
 		location: 10, 20
 		size: 256, 256
@@ -12,6 +14,8 @@ Dialog
 	Panel
 		location: 283, 20
 		size: 18, 256
+
+	/* Cursors */
 
 	Image
 		src: "ui/skins/light/controls.png"
@@ -24,6 +28,8 @@ Dialog
 		location: 272, 16
 		crop: 128, 282, 40, 9
 		size: 40, 9
+
+	/* Borders */
 
 	ColorPanel
 		location: 281, 18
@@ -43,13 +49,42 @@ Dialog
 		color: 200, 200, 200, 0.3
 		grid: none
 
+	/* Colors */
+
 	ColorPanel
 		location: 318, 24
 		size: 80, 32
-		color: 255, 255, 25, 0.5
+
+	ColorPanel
+		location: 318, 56
+		size: 80, 32
+
+	/* Labels */
 
 	Label
 		caption: "New"
-		location: 316, 4;
+		location: 316, 4
 		size: 78, 0
 		textAlign: center
+
+	Label
+		caption: "Current"
+		location: 316, 94
+		size: 78, 0
+		textAlign: center
+
+	Grouped
+		name: "gHSB"
+		location: 412, 70
+
+		Button caption: "H" size: 19, 21 textAlign: left paddingLeft: 1
+		Button caption: "S" size: 19, 21 textAlign: left paddingLeft: 1
+		Button caption: "B" size: 19, 21 textAlign: left paddingLeft: 0
+
+	Grouped
+		name: "gRGB"
+		location: 475, 70
+
+		Button caption: "R" size: 19, 21 textAlign: left paddingLeft: 1
+		Button caption: "G" size: 19, 21 textAlign: left paddingLeft: 0
+		Button caption: "B" size: 19, 21 textAlign: left paddingLeft: 0
