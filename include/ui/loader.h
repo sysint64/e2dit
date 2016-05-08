@@ -43,6 +43,7 @@ private:
 	std::unique_ptr<UIElement> createColorPanel  (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createDialog      (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createImage       (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createLabel       (DataMap::DataNode *elementNode);
 
 	std::array<int  , 4> readRect    (DataMap::DataNode *elementNode, const std::string &paramName, const bool autoFill = true);
 	std::array<float, 4> readColor   (DataMap::DataNode *elementNode, const std::string &paramName);

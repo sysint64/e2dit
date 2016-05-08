@@ -25,9 +25,26 @@
 void UILabel::render() {
 
 	updateAbsPos();
-	
+	height = manager->theme->fontHeight;
+	int textPosX = absLeft+textOffsets[0];
+	int twidth;
+
+	switch (textAlign) {
+
+		case Align::Center:
+			twidth    = ftglGetTextWidth (manager->theme->font, caption);
+			textPosX += (width-twidth) >> 1;
+			break;
+
+		case Align::Right:
+			twidth    = ftglGetTextWidth (manager->theme->font, caption);
+			textPosX += width-twidth;
+			break;
+
+	}
+
 	manager->atlasShader->unbind();
-	renderText (manager->theme->font, textColors, absLeft+textOffsets[0], absTop+textOffsets[1], caption);
+	renderText (manager->theme->font, textColors, textPosX, absTop+textOffsets[1]+height, caption);
 	manager->atlasShader->bind();
 
 }

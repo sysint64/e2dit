@@ -29,6 +29,7 @@
 class UILabel : public UIElement {
 public:
 	std::wstring caption;
+	Align textAlign = Align::None;
 
 	UILabel (UIManager *manager) : UIElement(manager) {
 

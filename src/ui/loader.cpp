@@ -217,6 +217,7 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	if (elementNode->name == "toolbaritem") element = createToolbarItem (elementNode); else
 	if (elementNode->name == "colorpanel")  element = createColorPanel  (elementNode); else
 	if (elementNode->name == "image")       element = createImage       (elementNode); else
+	if (elementNode->name == "label")       element = createLabel       (elementNode); else
 	if (elementNode->name == "dialog")      element = createDialog      (elementNode);
 
 	if (element == nullptr)
@@ -376,6 +377,21 @@ std::unique_ptr<UIElement> UILoader::createButton (DataMap::DataNode *elementNod
 /**
  */
 
+std::unique_ptr<UIElement> UILoader::createLabel (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UILabel> (manager);
+	auto label = dynamic_cast<UILabel*>(element.get());
+
+	label->caption   = readCaption (elementNode, "caption");
+	label->textAlign = readAlign   (elementNode, "textalign");
+
+	return element;
+
+}
+
+/**
+ */
+
 std::unique_ptr<UIElement> UILoader::createToolbar (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIToolbar> (manager);
@@ -451,6 +467,7 @@ std::unique_ptr<UIElement> UILoader::createDialog (DataMap::DataNode *elementNod
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIDialog> (manager);
 	auto dialog = dynamic_cast<UIDialog*>(element.get());
+	//dialog->caption = readCaption(elementNode, "caption");
 
 	return element;
 
