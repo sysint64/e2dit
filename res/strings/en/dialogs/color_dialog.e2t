@@ -2,4 +2,4 @@ ColorDialog
 	lastColor: "Last colors"
 	new: "New"
 	current: "Current"
-	title: "Color Pallete"
+	caption: "Color Pallete"

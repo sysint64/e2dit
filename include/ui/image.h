@@ -30,13 +30,14 @@
 
 class UIImage : public UIElement {
 private:
-	std::unique_ptr<Texture>    texture;
 	std::unique_ptr<BaseObject> imageElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 public:
+	std::unique_ptr<Texture> texture;
 
 	void loadImage (const std::string &fileName);
 	void cropImage (int ox, int oy, int cw, int ch);
+	void cropImage (const std::array<int, 4> &cropRect);
 
 	UIImage (UIManager *manager) : UIElement(manager) {
 

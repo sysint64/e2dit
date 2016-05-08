@@ -48,7 +48,7 @@ void UILoader::placeElements (DataMap::DataNode *rootNode, UIElement *uiParent) 
 /**
  */
 
-std::array<int, 4> UILoader::readRect (DataMap::DataNode *elementNode, const std::string &paramName) {
+std::array<int, 4> UILoader::readRect (DataMap::DataNode *elementNode, const std::string &paramName, const bool autoFill) {
 
 	auto end = elementNode->params.end();
 
@@ -67,14 +67,17 @@ std::array<int, 4> UILoader::readRect (DataMap::DataNode *elementNode, const std
 		if (size == 1) {
 
 			v[0] = param->second[0].intval;
-			return {v[0], v[0], v[0], v[0]};
+
+			if (autoFill) return {v[0], v[0], v[0], v[0]};
+			else          return {v[0], v[1], v[2], v[3]};
 
 		} else if (size == 2) {
 
 			v[0] = param->second[0].intval;
 			v[1] = param->second[1].intval;
 
-			return {v[0], v[1], v[0], v[1]};
+			if (autoFill) return {v[0], v[1], v[0], v[1]};
+			else          return {v[0], v[1], v[2], v[3]};
 
 		} else if (size == 3) {
 
@@ -82,7 +85,8 @@ std::array<int, 4> UILoader::readRect (DataMap::DataNode *elementNode, const std
 			v[1] = param->second[1].intval;
 			v[2] = param->second[2].intval;
 
-			return {v[0], v[1], v[2], v[1]};
+			if (autoFill) return {v[0], v[1], v[2], v[1]};
+			else          return {v[0], v[1], v[2], v[3]};
 
 		} else if (size == 4) {
 
@@ -212,6 +216,7 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	if (elementNode->name == "toolbartab")  element = createToolbarTab  (elementNode); else
 	if (elementNode->name == "toolbaritem") element = createToolbarItem (elementNode); else
 	if (elementNode->name == "colorpanel")  element = createColorPanel  (elementNode); else
+	if (elementNode->name == "image")       element = createImage       (elementNode); else
 	if (elementNode->name == "dialog")      element = createDialog      (elementNode);
 
 	if (element == nullptr)
@@ -305,6 +310,29 @@ std::unique_ptr<UIElement> UILoader::createPanel (DataMap::DataNode *elementNode
 			panel->background = UIPanel::Background::Action;
 
 	}
+
+	return element;
+
+}
+
+/**
+ */
+
+std::unique_ptr<UIElement> UILoader::createImage (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIImage> (manager);
+	auto image = dynamic_cast<UIImage*>(element.get());
+
+	auto src = wstr2str(readCaption(elementNode, "src"));
+	std::cout << "Element src: " << src << std::endl;
+
+	if (src == "")
+		return element;
+
+	std::array<int, 4> cropRect = readRect (elementNode, "crop", false);
+
+	image->loadImage ("../res/"+src);
+	image->cropImage (cropRect);
 
 	return element;
 

@@ -2,5 +2,21 @@ Dialog
 	name: colorDialog
 	size: 543, 290
 	location: 200, 200
-	#allowScroll: False;
-	caption: "Color Pallete"
+	allowScroll: False;
+	caption: "@colordialog.caption"
+
+	Panel
+		location: 10, 20
+		size: 256, 256
+		background: dark
+
+	Panel
+		location: 283, 20
+		size: 18, 256
+		background: dark
+
+	Image
+		src: "ui/skins/light/controls.png"
+		location: -7, -7
+		crop: 201, 258, 15, 15
+		size: 15, 15

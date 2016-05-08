@@ -36,12 +36,21 @@ void UIImage::cropImage (int ox, int oy, int cw, int ch) {
 	float tfw = static_cast<float>(texture->width );
 	float tfh = static_cast<float>(texture->height);
 
+	std::cout << texture->width << std::endl;
+
+	if (cw == 0) cw = texture->width;
+	if (ch == 0) ch = texture->height;
+
 	offsetsX[0] = static_cast<float>(ox) / tfw;  fWidths [0] = static_cast<float>(cw) / tfw;
 	offsetsY[0] = static_cast<float>(oy) / tfh;  fHeights[0] = static_cast<float>(ch) / tfh;
 
 	width  = cw;
 	height = ch;
 
+}
+
+void UIImage::cropImage (const std::array<int, 4> &cropRect) {
+	UIImage::cropImage (cropRect[0], cropRect[1], cropRect[2], cropRect[3]);
 }
 
 void UIImage::render() {
