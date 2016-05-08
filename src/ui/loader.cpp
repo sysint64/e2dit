@@ -425,11 +425,21 @@ std::unique_ptr<UIElement> UILoader::createToolbarItem (DataMap::DataNode *eleme
 
 std::unique_ptr<UIElement> UILoader::createColorPanel (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIColorPanel> (manager, R::Textures::grid.get());
+	Texture *gridTexture = R::Textures::gridLight.get();
+
+	auto grid = elementNode->params.find ("grid");
+	auto end  = elementNode->params.end();
+
+	if (grid != end) {
+		if (grid->second[0].str == "light") gridTexture = R::Textures::gridLight.get(); else
+		if (grid->second[0].str == "dark" ) gridTexture = R::Textures::gridDark .get(); else
+		if (grid->second[0].str == "none" ) gridTexture = nullptr;
+	}
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIColorPanel> (manager, gridTexture);
 	auto colorPanel = dynamic_cast<UIColorPanel*>(element.get());
 
-	colorPanel->color = readColor(elementNode, "color");
-
+	colorPanel->color = readColor (elementNode, "color");
 	return element;
 
 }

@@ -8,15 +8,42 @@ Dialog
 	Panel
 		location: 10, 20
 		size: 256, 256
-		background: dark
 
 	Panel
 		location: 283, 20
 		size: 18, 256
-		background: dark
 
 	Image
 		src: "ui/skins/light/controls.png"
 		location: -7, -7
 		crop: 201, 258, 15, 15
 		size: 15, 15
+
+	Image
+		src: "ui/skins/light/controls.png";
+		location: 272, 16
+		crop: 128, 282, 40, 9
+		size: 40, 9
+
+	ColorPanel
+		location: 281, 18
+		size: 22, 260
+		color: 200, 200, 200, 0.3
+		grid: none
+
+	ColorPanel
+		location: 8, 18
+		size: 260, 260
+		color: 200, 200, 200, 0.3
+		grid: none
+
+	ColorPanel
+		location: 316, 22
+		size: 84, 68
+		color: 200, 200, 200, 0.3
+		grid: none
+
+	ColorPanel
+		location: 318, 24
+		size: 80, 32
+		color: 255, 255, 25, 0.5

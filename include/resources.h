@@ -13,12 +13,14 @@ public:
 	public:
 
 		static std::unique_ptr<Texture> skin;
-		static std::unique_ptr<Texture> grid;
+		static std::unique_ptr<Texture> gridLight;
+		static std::unique_ptr<Texture> gridDark;
 
 		static void init() {
 
-			skin = std::make_unique<Texture> ("../res/ui/skins/light/controls.png");
-			grid = std::make_unique<Texture> ("../res/ui/icons/transparent_grid_white.png");
+			skin      = std::make_unique<Texture> ("../res/ui/skins/light/controls.png");
+			gridLight = std::make_unique<Texture> ("../res/ui/icons/transparent_grid_light.png", GL_LINEAR, GL_REPEAT, GL_REPEAT);
+			gridDark  = std::make_unique<Texture> ("../res/ui/icons/transparent_grid_dark.png" , GL_LINEAR, GL_REPEAT, GL_REPEAT);
 
 		}
 
