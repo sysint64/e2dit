@@ -40,8 +40,9 @@
 #include "utility/strings_res.h"
 #include "resources.h"
 
-Core::Core() {
+Core::Core (sf::Window *window) {
 
+	this->window = window;
 	app->screenCamera = std::make_unique<Camera>(app->screenWidth, app->screenHeight);
 
 	//uiManager = std::make_shared<UIManager>();
@@ -70,7 +71,8 @@ Core::Core() {
 	uiTheme->font14 = font14;
 	uiTheme->font16 = font16;
 
-	uiManager   = std::make_unique<UIManager> (R::Shaders::atlasMaskShader.get(),
+	uiManager   = std::make_unique<UIManager> (window,
+	                                           R::Shaders::atlasMaskShader.get(),
 	                                           R::Shaders::atlasShader    .get(),
 	                                           R::Shaders::colorShader    .get(),
 	                                           uiTheme.get());

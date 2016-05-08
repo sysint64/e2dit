@@ -666,8 +666,8 @@ Edit
 		center                  : 16, 35, 5, 21
 		right                   : 30, 35, 5, 21
 
-		arrowLeft               : 40, 82, 5, 10
-		arrowRight              : 45, 82, 5, 10
+		leftArrow               : 40, 82, 5, 10
+		rightArrow              : 45, 82, 5, 10
 
 		textOffset              : 0, 0
 		textColor               : 20, 20, 20
@@ -678,8 +678,8 @@ Edit
 		center                  : 16, 59, 5, 21
 		right                   : 30, 59, 5, 21
 
-		arrowLeft               : 40, 94, 5, 10
-		arrowRight              : 45, 94, 5, 10
+		leftArrow               : 40, 94, 5, 10
+		rightArrow              : 45, 94, 5, 10
 
 		textOffset              : 0, 0
 		textColor               : 40, 40, 40
@@ -690,8 +690,8 @@ Edit
 		center                  : 16, 59, 5, 21
 		right                   : 30, 59, 5, 21
 
-		arrowLeft               : 40, 94, 5, 10
-		arrowRight              : 45, 94, 5, 10
+		leftArrow               : 40, 94, 5, 10
+		rightArrow              : 45, 94, 5, 10
 
 		textOffset              : 0, 0
 		textColor               : 40, 40, 40

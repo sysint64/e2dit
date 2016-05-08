@@ -93,6 +93,8 @@ public:
 	bool freezUI      = false;
 	int  currentLayer = 0;
 
+	sf::Window *window;
+
 	/* Icons */
 
 	std::unique_ptr<UIMainIcons> icons;
@@ -124,7 +126,7 @@ public:
 	UITheme   *theme;
 
 	CursorIco cursor = CursorIco::Normal;
-	UIManager (Shader *atlasMaskShader, Shader *atlasShader, Shader *colorShader, UITheme *theme);
+	UIManager (sf::Window *window, Shader *atlasMaskShader, Shader *atlasShader, Shader *colorShader, UITheme *theme);
 
 	void render();
 

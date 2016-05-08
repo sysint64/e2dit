@@ -37,6 +37,15 @@ Panel
 		StackLayout
 			orientation: Vertical
 
+			Edit
+				size: 100, 21
+				text: "100"
+				filter: int
+				before: "X:"
+				after: "px"
+				marginRight: 10
+				location: 100, 0
+
 			Button
 				size: 100, 21
 				caption: "Hello Word!"

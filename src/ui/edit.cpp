@@ -45,6 +45,16 @@ void UIEdit::render() {
 	textPosY   = app->windowHeight-absTop-(iHeights[1] >> 1)-4;
 	textPosX  += textOffset;
 
+	if (trackMode) { /* Center text */
+		textPosX = absLeft;
+		int twidth;
+
+		if (!focused) twidth = ftglGetTextWidth (manager->theme->font, before+text+after);
+		else          twidth = ftglGetTextWidth (manager->theme->font, text);
+
+		textPosX += (cWidth-twidth) >> 1;
+	}
+
 	if (drawAlign == Align::Left)
 		textPosX += iWidths[12]+3;
 
@@ -75,9 +85,35 @@ void UIEdit::render() {
 
 	/* Render Stick */
 
-	if (showStick && focused) {
-
+	if (showStick && focused)
 		renderElement (12, textPosX+stickPxPos-1, absTop, iWidths[12], iHeights[12], stickElement.get());
+
+	/* Render track arrows */
+
+	if (trackMode) {
+		int n = enter ? 1 : 0;
+		int x;
+		int y = absTop +iHeights[13+n]-(iHeights[13+n] >> 1);
+
+		/* Left arrow */
+
+		if (drawAlign == Align::All || drawAlign == Align::Left)
+			x = absLeft+iWidths[13+n];
+
+		if (drawAlign == Align::Right || drawAlign == Align::Center)
+			x = absLeft+iWidths[13+n]+iWidths[0];
+
+		renderElement (13+n, x, y, iWidths[13+n], iHeights[13+n], leftArrowElement.get());
+
+		/* Right arrow */
+
+		if (drawAlign == Align::All || drawAlign == Align::Left)
+			x = absLeft+width-(iWidths[15+n] << 1)-1;
+
+		if (drawAlign == Align::Right || drawAlign == Align::Center)
+			x = absLeft+width-(iWidths[15+n] << 1)-iWidths[11]-1;
+
+		renderElement (15+n, x, y, iWidths[15+n], iHeights[15+n], rightArrowElement.get());
 
 	}
 
@@ -238,7 +274,40 @@ void UIEdit::setStickPos (int x, int y) {
 
 }
 
+void UIEdit::setCursor() {
+
+	if (!trackMode || (pointInRect (app->mouseX, app->mouseY, absLeft+14, absTop, width-28, height) && enabled && trackMode)) {
+		UIElement::setCursor();
+		return;
+	}
+
+}
+
 /* Events */
+
+void UIEdit::addVal(const int acc) {
+
+	int val = std::stoi(text);
+	val += acc;
+	math::clamp (&val, trackRange[0], trackRange[1]);
+	text = std::to_wstring(val);
+
+	if (onChange)
+		onChange(this);
+
+}
+
+void UIEdit::focus() {
+
+	UIElement::focus();
+
+	lastStickChPos = stickChPos;
+	stickChPos = text.size();
+
+	selStart = 0;
+	selEnd   = stickChPos;
+
+}
 
 void UIEdit::mouseDown (int x, int y, int button) {
 
@@ -247,28 +316,48 @@ void UIEdit::mouseDown (int x, int y, int button) {
 
 	setStickPos (x, y);
 	selStart = selEnd = stickChPos;
+	trackWay = 0;
 
 }
 
 void UIEdit::mouseUp (int x, int y, int button) {
 
-	if (enter) {
+	if (wholeTrackWay > 0) {
+		wholeTrackWay = 0;
+		manager->freezUI = false;
+		app->cursorVisible = true;
+		unfocus();
+		return;
+	}
 
-		showStick = true;
-		stickTime = 0;
+	if (!enter)
+		return;
 
-		if (focused)
-			return;
+	if (trackMode && pointInRect(x, y, absLeft, absTop, 14, 20)) {
 
+		addVal(-1);
 		focus();
 
-		lastStickChPos = stickChPos;
-		stickChPos = text.size();
+		return;
 
-		selStart = 0;
-		selEnd   = stickChPos;
+	} else
+
+	if (trackMode && pointInRect(x, y, absLeft+width-14, absTop, 14, 20)) {
+
+		addVal(1);
+		focus();
+
+		return;
 
 	}
+
+	showStick = true;
+	stickTime = 0;
+
+	/*if (focused)
+		return;
+
+	focus();*/
 
 }
 
@@ -276,6 +365,23 @@ void UIEdit::mouseMove (int x, int y, int button) {
 
 	if (!enter || button != mouseLeft)
 		return;
+
+	if (trackMode && !focused) {
+		int delta = x-app->clickX;
+		trackWay += delta;
+
+		if (trackWay >=  trackStep) { addVal( 1); trackWay = 0; wholeTrackWay++; manager->freezUI = true; } else
+		if (trackWay <= -trackStep) { addVal(-1); trackWay = 0; wholeTrackWay++; manager->freezUI = true; }
+
+		if (delta >= 2 || delta <= -2) {
+			app->cursorVisible = false;
+			sf::Mouse::setPosition (sf::Vector2i (app->clickX, app->clickY), *(manager->window));
+		}
+
+		return;
+	}
+	//if (TrackBar && Clicked && !Focused) {
+//	}
 
 	setStickPos (x, y);
 	selEnd = stickChPos;

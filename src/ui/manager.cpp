@@ -85,8 +85,8 @@ template class UIIcons<TOOL_ICONS_COUNT>;
  * Constructor, Create Root Element and
  */
 
-UIManager::UIManager (Shader *atlasMaskShader, Shader *atlasShader, Shader *colorShader, UITheme *theme) :
-	atlasMaskShader (atlasMaskShader), atlasShader (atlasShader), colorShader (colorShader), theme (theme)
+UIManager::UIManager (sf::Window *window, Shader *atlasMaskShader, Shader *atlasShader, Shader *colorShader, UITheme *theme) :
+	window (window), atlasMaskShader (atlasMaskShader), atlasShader (atlasShader), colorShader (colorShader), theme (theme)
 
 {
 
@@ -190,6 +190,9 @@ void UIManager::setScissor() {
  */
 
 void UIManager::poll() {
+
+	//if (freezUI)
+	//	return;
 
 	/* Reset states */
 
@@ -321,8 +324,6 @@ void UIManager::mouseDown (int x, int y, int button) {
 		if (el->enter) {
 
 			el->click = true;
-			el->focus();
-
 			break;
 		}
 
@@ -346,7 +347,7 @@ void UIManager::dblClick (int x, int y, int button) {
 
 void UIManager::mouseUp (int x, int y, int button) {
 
-	/*for (int i = elementsStack.size()-1; i >= 0; --i) {
+	for (int i = elementsStack.size()-1; i >= 0; --i) {
 
 		auto el = elementsStack[i];
 
@@ -357,9 +358,10 @@ void UIManager::mouseUp (int x, int y, int button) {
 
 			el->focus();
 			break;
+
 		}
 
-	}*/
+	}
 
 	root->mouseUp (x, y, button);
 	int length = root->elements.size();

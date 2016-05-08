@@ -73,7 +73,7 @@ public:
 	/* Timers */
 
 	// TODO: Rewrite!!!!!
-	
+
 	Timer *timers[timersCount];
 	std::unordered_map<int, bool> timersMap;
 	std::vector<int> activeTimers;
@@ -87,7 +87,8 @@ public:
 
 	int  mouseX, mouseY;
 	int  clickX, clickY;
-	int  mouseButton = mouseNone;
+	int  mouseButton   = mouseNone;
+	bool cursorVisible = true;
 
 	/* Time */
 

@@ -51,7 +51,9 @@ protected:
 
 	float selectColor[4];
 	float selectOffset[2]; // Offset top and bottom
-	int   trackWay = 0;
+	int   trackWay      = 0;
+	int   lastMouseX    = 0;
+	bool  wholeTrackWay = 0;
 
 	/* Params */
 
@@ -62,11 +64,13 @@ protected:
 
 	/* Render Objects */
 
-	std::unique_ptr<BaseObject> leftElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> rightElement  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> middleElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> stickElement  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> selectElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> leftElement       = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> rightElement      = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> middleElement     = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> stickElement      = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> selectElement     = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> leftArrowElement  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> rightArrowElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 	/* Stick */
 
@@ -94,25 +98,27 @@ protected:
 	void  updateSelect();
 	void  setStickPos (int x, int y);
 
+	void  addVal (const int acc);
+
 	/* Draw methods */
 
 	void  renderSkin();
 
 public:
 
-	UITextFilter filter = UITextFilter::Text;
+	UITextFilter filter = UITextFilter::Int;
 
 	/* Track Mode */
 
-	glm::vec2 trackRange;
-	float     trackStep = 1.f;
-	bool      trackMode = false;
+	glm::vec2 trackRange { -999, 999 };
+	int       trackStep = 2;
+	bool      trackMode = true;
 
 	/* Display Text */
 
-	std::wstring text   = L"640";
-	std::wstring before = L"X:";
-	std::wstring after  = L"px";
+	std::wstring text   = L"";
+	std::wstring before = L"";
+	std::wstring after  = L"";
 
 	/* Select */
 
@@ -131,6 +137,8 @@ public:
 
 	virtual void precompute() override;
 	virtual void render()     override;
+	virtual void setCursor()  override;
+	virtual void focus()      override;
 
 	/* Events */
 

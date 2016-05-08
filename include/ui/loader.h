@@ -36,6 +36,7 @@ private:
 
 	std::unique_ptr<UIElement> createPanel       (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createButton      (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createEdit        (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createStackLayout (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createToolbar     (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createToolbarTab  (DataMap::DataNode *elementNode);
