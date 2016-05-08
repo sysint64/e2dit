@@ -7,13 +7,8 @@ Dialog
 
 	/* Colors regions */
 
-	Panel
-		location: 10, 20
-		size: 256, 256
-
-	Panel
-		location: 283, 20
-		size: 18, 256
+	Panel location: 10, 20  size: 256, 256
+	Panel location: 283, 20 size: 18 , 256
 
 	/* Cursors */
 
@@ -51,27 +46,15 @@ Dialog
 
 	/* Colors */
 
-	ColorPanel
-		location: 318, 24
-		size: 80, 32
-
-	ColorPanel
-		location: 318, 56
-		size: 80, 32
+	ColorPanel location: 318, 24 size: 80, 32
+	ColorPanel location: 318, 56 size: 80, 32
 
 	/* Labels */
 
-	Label
-		caption: "New"
-		location: 316, 4
-		size: 78, 0
-		textAlign: center
+	Label caption: "New"     location: 316, 4  size: 78, 0 textAlign: center
+	Label caption: "Current" location: 316, 94 size: 78, 0 textAlign: center
 
-	Label
-		caption: "Current"
-		location: 316, 94
-		size: 78, 0
-		textAlign: center
+	/* Modes */
 
 	Grouped
 		name: "gHSB"
@@ -88,3 +71,34 @@ Dialog
 		Button caption: "R" size: 19, 21 textAlign: left paddingLeft: 1
 		Button caption: "G" size: 19, 21 textAlign: left paddingLeft: 0
 		Button caption: "B" size: 19, 21 textAlign: left paddingLeft: 0
+
+	/* HSB Text fields */
+
+	Edit text: "360" before: "H:" after: "°" size: 105, 21 location: 316, 115 filter: int range: 0, 360 trackMode: true
+	Edit text: "100" before: "S:" after: "%" size: 105, 21 location: 316, 145 filter: int range: 0, 100 trackMode: true
+	Edit text: "100" before: "B:" after: "%" size: 105, 21 location: 316, 175 filter: int range: 0, 100 trackMode: true
+
+	/* RGB Text fields */
+
+	Edit text: "255"    before: "R:" size: 105, 21 location: 430, 115 filter: int range: 0, 255 trackMode: true
+	Edit text: "255"    before: "G:" size: 105, 21 location: 430, 145 filter: int range: 0, 255 trackMode: true
+	Edit text: "255"    before: "B:" size: 105, 21 location: 430, 175 filter: int range: 0, 255 trackMode: true
+
+	Edit text: "100"    before: "A:" size: 105, 21 location: 430, 205 filter: int range: 0, 100 trackMode: true after: "%"
+	Edit text: "ffffff" before: "#"  size: 105, 21 location: 316, 205 filter: hex
+
+	/* Action buttons */
+
+	Button caption: "OK";     icon: 3, 0 location: 412, 20 size: 123, 21
+	Button caption: "Cancel"; icon: 0, 8 location: 412, 45 size: 123, 21
+
+	/* Last colors */
+
+	Panel
+		location: 315, 250
+		size: 220, 28
+		allowScroll: false
+
+	Label
+		caption: "Last colors"
+		location: 316, 232

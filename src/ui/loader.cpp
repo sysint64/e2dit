@@ -158,22 +158,24 @@ void UILoader::readIcon (UIButton *element, DataMap::DataNode *elementNode) {
 
 	auto showIcon    = elementNode->params.find ("showicon");
 	auto showIcon2   = elementNode->params.find ("showicon2");
-	auto iconOffset  = elementNode->params.find ("iconoffset");
-	auto icon2Offset = elementNode->params.find ("icon2offset");
+	auto iconOffset  = elementNode->params.find ("icon");
+	auto icon2Offset = elementNode->params.find ("icon2");
 	auto end         = elementNode->params.end();
 
-	if (showIcon  != end) element->showIcon  = showIcon ->second[0].boolean;
-	if (showIcon2 != end) element->showIcon2 = showIcon2->second[0].boolean;
-
 	if (iconOffset != end) {
+		element->showIcon      = true;
 		element->iconOffset[0] = iconOffset->second[0].intval;
 		element->iconOffset[1] = iconOffset->second[1].intval;
 	}
 
 	if (icon2Offset != end) {
+		element->showIcon2      = true;
 		element->icon2Offset[0] = icon2Offset->second[0].intval;
 		element->icon2Offset[1] = icon2Offset->second[1].intval;
 	}
+
+	if (showIcon  != end) element->showIcon  = showIcon ->second[0].boolean;
+	if (showIcon2 != end) element->showIcon2 = showIcon2->second[0].boolean;
 
 }
 
@@ -371,8 +373,11 @@ std::unique_ptr<UIElement> UILoader::createButton (DataMap::DataNode *elementNod
 
 	button->caption   = readCaption (elementNode, "caption");
 	button->textAlign = readAlign   (elementNode, "textalign");
-	readIcon (button, elementNode);
 
+	if (button->textAlign == Align::None)
+		button->textAlign = Align::Center;
+
+	readIcon (button, elementNode);
 	return element;
 
 }
