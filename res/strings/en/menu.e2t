@@ -1,13 +1,13 @@
 
 Menu
-	test : "Test string resource"
-	button_cancel : "Cancel"
+	test: "Test string resource"
+	button_cancel: "Cancel"
 
 	Item1
-		caption : "Hello :)"
+		caption: "Hello :)"
 
 	Item2
-		caption : "Item 2"
+		caption: "Item 2"
 
 		Lol
-			loc : "rus"
+			loc: "rus"

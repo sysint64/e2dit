@@ -31,6 +31,7 @@ void UIEdit::render() {
 	UIElement::render();
 	updateAbsPos();
 
+	test = 2;
 	cWidth = width-iWidths[3]-1;
 
 	if (firstRender) {

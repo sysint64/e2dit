@@ -42,8 +42,8 @@ private:
 	Application *app = Application::getInstance();
 	UIManager   *manager;
 
-	//std::unique_ptr<BaseObject> quadElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	//std::unique_ptr<BaseObject> lineElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<BaseObject> quadElement;
+	std::unique_ptr<BaseObject> lineElement;
 	std::unique_ptr<UILoader>   loader;
 
 	char ColorPallete;
@@ -52,6 +52,9 @@ public:
 	UIColorDialog (UIManager *manager, StringRes *stringsRes, const std::string &layout) {
 
 		loader = std::make_unique<UILoader> (manager, stringsRes, layout);
+
+		quadElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		lineElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 	}
 

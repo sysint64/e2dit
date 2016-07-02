@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 2.8)
-
 project(e2dit)
 set(PRECOMPUTE precompute/button.cpp
 		precompute/checkbox.cpp

@@ -3,3 +3,6 @@ doc/html
 .DS_Store
 .gdbinit
 .atom-gdb.json
+.vscode
+tags
+log.txt

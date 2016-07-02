@@ -501,7 +501,7 @@ std::unique_ptr<UIElement> UILoader::createDialog (DataMap::DataNode *elementNod
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIDialog> (manager);
 	auto dialog = dynamic_cast<UIDialog*>(element.get());
-	//dialog->caption = readCaption(elementNode, "caption");
+	dialog->caption = readCaption(elementNode, "caption");
 
 	return element;
 

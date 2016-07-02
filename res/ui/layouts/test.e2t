@@ -32,7 +32,7 @@ Panel
 		size: 0, 400
 		allowResize: true
 		allowHide: true
-		caption: "@menu.item1.caption"
+		caption: "menu.item1.caption"
 
 		StackLayout
 			orientation: Vertical

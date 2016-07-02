@@ -1,5 +1,6 @@
+
 ColorDialog
-	lastColor: "Last colors"
+	lastColors: "Last colors"
 	new: "New"
 	current: "Current"
 	caption: "Color Pallete"

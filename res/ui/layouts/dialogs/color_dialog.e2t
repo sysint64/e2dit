@@ -51,8 +51,8 @@ Dialog
 
 	/* Labels */
 
-	Label caption: "New"     location: 316, 4  size: 78, 0 textAlign: center
-	Label caption: "Current" location: 316, 94 size: 78, 0 textAlign: center
+	Label caption: "@colordialog.new"     location: 316, 4  size: 78, 0 textAlign: center
+	Label caption: "@colordialog.current" location: 316, 94 size: 78, 0 textAlign: center
 
 	/* Modes */
 
@@ -89,8 +89,8 @@ Dialog
 
 	/* Action buttons */
 
-	Button caption: "OK";     icon: 3, 0 location: 412, 20 size: 123, 21
-	Button caption: "Cancel"; icon: 0, 8 location: 412, 45 size: 123, 21
+	Button caption: "@main.ok";     icon: 3, 0 location: 412, 20 size: 123, 21
+	Button caption: "@main.cancel"; icon: 0, 8 location: 412, 45 size: 123, 21
 
 	/* Last colors */
 
@@ -100,5 +100,5 @@ Dialog
 		allowScroll: false
 
 	Label
-		caption: "Last colors"
+		caption: "@colordialog.lastcolors"
 		location: 316, 232

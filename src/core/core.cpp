@@ -86,11 +86,17 @@ Core::Core (sf::Window *window) {
 	uiManager->toolIcons = std::make_unique<UIToolIcons> (uiManager.get(), std::move (iconsTex), 48.f, 1, 1);
 
 	stringsRes = std::make_unique<StringRes>();
+
+	stringsRes->addResource (app->resPath+"/strings/en/main.e2t");
 	stringsRes->addResource (app->resPath+"/strings/en/menu.e2t");
 	stringsRes->addResource (app->resPath+"/strings/en/dialogs/color_dialog.e2t");
 
 	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager.get(), stringsRes.get(), "test.e2t");
 	std::unique_ptr<UIColorDialog> colorDialog = std::make_unique<UIColorDialog> (uiManager.get(), stringsRes.get(), "dialogs/color_dialog.e2t");
+
+	int a = 10;
+	a++;
+	
 
 	//StringRes testRes;
 	//testRes.addResource ("../res/strings/eng/menu.e2t");

@@ -54,6 +54,7 @@ protected:
 	int   trackWay      = 0;
 	int   lastMouseX    = 0;
 	bool  wholeTrackWay = 0;
+	int   test          = 0;
 
 	/* Params */
 
