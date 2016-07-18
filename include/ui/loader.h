@@ -67,7 +67,7 @@ public:
 		DataMap::ReadType rt = DataMap::ReadType::Text) : manager(manager), stringsRes(stringsRes)
 	{
 
-		data = std::make_unique<DataMap> ();
+		data = std::make_unique<DataMap>();
 		data->hierarchy = true;
 
 		switch (rt) {

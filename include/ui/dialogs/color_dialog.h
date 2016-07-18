@@ -27,35 +27,56 @@
 #include "ui/element.h"
 #include "ui/manager.h"
 #include "ui/loader.h"
+#include "ui/dialog.h"
 
 #include "renderer/shader.h"
 #include "renderer/data_render.h"
 #include "renderer/base_object.h"
+#include "renderer/color.h"
+
+#include "resources.h"
 
 // Color Pallete Code
 // HSV 0: H; 1: S; 2: B;
 // RGB 3: R; 4: G; 5: B;
 // Lab 6: L; 7: a; 8: b;
 
-class UIColorDialog {
-private:
-	Application *app = Application::getInstance();
-	UIManager   *manager;
+namespace ui {
+	class ColorDialog : UIElement {
+	private:
+		Application *app = Application::getInstance();
+		UIManager   *manager;
 
-	std::unique_ptr<BaseObject> quadElement;
-	std::unique_ptr<BaseObject> lineElement;
-	std::unique_ptr<UILoader>   loader;
+		std::unique_ptr<BaseObject> quadElement;
+		std::unique_ptr<BaseObject> lineElement;
+		std::unique_ptr<UILoader>   loader;
 
-	char ColorPallete;
+		char ColorPallete;
+		Shader *colorPickerShader;
+		Shader *colorLineShader;
 
-public:
-	UIColorDialog (UIManager *manager, StringRes *stringsRes, const std::string &layout) {
+		// UI Elements in dialog
 
-		loader = std::make_unique<UILoader> (manager, stringsRes, layout);
+		UIDialog  *dialog;
+		UIElement *colorPicker;
+		UIElement *colorLine;
 
-		quadElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-		lineElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	public:
+		gapi::Color color;
 
-	}
+		ColorDialog (UIManager *manager, StringRes *stringsRes, const std::string &layout)  : UIElement (manager) {
 
-};
+			loader = std::make_unique<UILoader> (manager, stringsRes, layout);
+
+			quadElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+			lineElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+
+			colorPickerShader = R::Shaders::colorPickerShader.get();
+			colorLineShader   = R::Shaders::colorLineShader  .get();
+
+		}
+
+		virtual void render() override;
+
+	};
+}

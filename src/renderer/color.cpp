@@ -20,7 +20,7 @@
 #include "renderer/color.h"
 #include "utility/math.h"
 
-void Color::RGB2HSB() {
+void gapi::Color::RGB2HSB() {
 	float rgb_max = math::max (RGB.R, RGB.G, RGB.B);
 	float rgb_min = math::min (RGB.R, RGB.G, RGB.B);
 
@@ -42,10 +42,10 @@ void Color::RGB2HSB() {
 	HSB.B = rgb_max*100.f;
 }
 
-void Color::HSB2RGB() {
+void gapi::Color::HSB2RGB() {
 	float Hi = HSB.H/60.f;
 	float Bmin = ((100.f-HSB.S)*HSB.B)/100.f;
-	float a = (HSB.B-Bmin)*((int(HSB.H) % 60)/60.f);
+	float a = (HSB.B-Bmin)*((static_cast<int>(HSB.H) % 60)/60.f);
 	float Binc = Bmin+a;
 	float Bdec = HSB.B-a;
 

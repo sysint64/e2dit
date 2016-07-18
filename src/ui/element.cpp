@@ -139,6 +139,14 @@ void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *
 
 }
 
+void UIElement::transformElement (int x, int y, int w, int h, BaseObject *el) const {
+
+	el->setPosition (glm::vec2(x, app->windowHeight-h-y));
+	el->setScale    (glm::vec2(w, h));
+	el->updateModelMatrix();
+
+}
+
 void UIElement::renderMaskElement (int maskidx, int idx, int x, int y, int w, int h, BaseObject *el) const {
 
 	el->setPosition (glm::vec2(x, app->windowHeight-h-y));

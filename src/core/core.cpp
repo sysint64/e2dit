@@ -92,11 +92,11 @@ Core::Core (sf::Window *window) {
 	stringsRes->addResource (app->resPath+"/strings/en/dialogs/color_dialog.e2t");
 
 	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager.get(), stringsRes.get(), "test.e2t");
-	std::unique_ptr<UIColorDialog> colorDialog = std::make_unique<UIColorDialog> (uiManager.get(), stringsRes.get(), "dialogs/color_dialog.e2t");
+	colorDialog = std::make_unique<ui::ColorDialog> (uiManager.get(), stringsRes.get(), "dialogs/color_dialog.e2t");
 
 	int a = 10;
 	a++;
-	
+
 
 	//StringRes testRes;
 	//testRes.addResource ("../res/strings/eng/menu.e2t");
@@ -571,6 +571,7 @@ void Core::render() {
 
 	app->screenCamera->update();
 	uiManager->render();
+	colorDialog->render();
 	app->screenCamera->update();
 
 }

@@ -31,6 +31,7 @@
 #include "ui/edit.h"
 #include "ui/panel.h"
 #include "ui/theme.h"
+#include "ui/dialogs/color_dialog.h"
 
 #include "renderer/sprite.h"
 #include "renderer/shader.h"
@@ -53,6 +54,9 @@ public:
 	std::unique_ptr<UIButton>  button;
 	std::unique_ptr<UIPanel>   panel;
 	std::unique_ptr<UIEdit>    edit;
+
+	/* Dialogs */
+	std::unique_ptr<ui::ColorDialog> colorDialog;
 
 	/* Resources */
 

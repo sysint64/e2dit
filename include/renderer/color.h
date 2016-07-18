@@ -19,19 +19,20 @@
 
 #pragma once
 
-class Color {
-public:
+namespace gapi {
 
-	struct { float R, G, B; } RGB;
-	struct { float H, S, B; } HSB;
-	struct { float X, Y, Z; } XYZ;
-	struct { float L, a, b; } Lab;
+	class Color {
+	public:
+		struct { float R, G, B; } RGB;
+		struct { float H, S, B; } HSB;
+		struct { float X, Y, Z; } XYZ;
+		struct { float L, a, b; } Lab;
 
-	float alpha = 1.f;
-	int hex;
+		float alpha = 1.f;
+		int hex;
 
-	void RGB2HSB();
-	void HSB2RGB();
+		void RGB2HSB();
+		void HSB2RGB();
+	};
 
-	// inline void HSB
-};
+}

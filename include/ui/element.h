@@ -112,6 +112,7 @@ protected:
 	/* Render */
 
 	void renderElement         (int idx, int x, int y, int w, int h, BaseObject *el) const;
+	void transformElement      (int x, int y, int w, int h, BaseObject *el) const;
 	void renderMaskElement     (int maskidx, int idx, int x, int y, int w, int h, BaseObject *el) const;
 	void renderColorElement    (int x, int y, int w, int h, BaseObject *el, float *color) const;
 

@@ -21,3 +21,26 @@
  */
 
 #include "ui/dialogs/color_dialog.h"
+
+/**
+ * \brief
+ */
+
+void ui::ColorDialog::render() {
+
+	int x = dialog->left + colorPicker->left;
+	int y = dialog->top  + colorPicker->top;
+
+	int w = colorPicker->width;
+	int h = colorPicker->height;
+
+	transformElement (x, y, w, h, quadElement.get());
+	glUniformMatrix4fv (colorPickerShader->locations["MVP"], 1,
+	                    GL_FALSE, &(quadElement->MVPMatrix[0][0]));
+
+	colorPickerShader->bind();
+	manager->atlasShader->bind();
+
+	quadElement->render();
+
+}

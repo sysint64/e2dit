@@ -49,7 +49,7 @@
 
 /* Main */
 
-int main (int argc,char** argv) {
+int main (int argc, char** argv) {
 
 	Application *app = Application::getInstance();
 
@@ -138,7 +138,7 @@ int main (int argc,char** argv) {
 
 	sf::Clock clock;
 
-	glDisable(GL_CULL_FACE);
+	glDisable   (GL_CULL_FACE);
 
 	glDisable   (GL_MULTISAMPLE);
 	glDisable   (GL_DEPTH_TEST);
@@ -181,15 +181,24 @@ int main (int argc,char** argv) {
 
 				/* Mouse */
 
-				case sf::Event::MouseMoved: core->onMouseMove (ev.mouseMove.x, ev.mouseMove.y); break;
+				case sf::Event::MouseMoved:
+					core->onMouseMove (ev.mouseMove.x, ev.mouseMove.y);
+					break;
+
 				case sf::Event::MouseWheelScrolled:
 
-					if (ev.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel  ) core->onMouseWheel (0, ev.mouseWheelScroll.delta); else
-					if (ev.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel) core->onMouseWheel (ev.mouseWheelScroll.delta, 0);
+					if (ev.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel  )
+						core->onMouseWheel (0, ev.mouseWheelScroll.delta);
+
+					else if (ev.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel)
+						core->onMouseWheel (ev.mouseWheelScroll.delta, 0);
 
 					break;
 
-				case sf::Event::MouseButtonPressed  : core->onMouseDown  (ev.mouseButton.x   , ev.mouseButton.y, ev.mouseButton.button); break;
+				case sf::Event::MouseButtonPressed  :
+				  core->onMouseDown (ev.mouseButton.x, ev.mouseButton.y, ev.mouseButton.button);
+					break;
+
 				case sf::Event::MouseButtonReleased :
 
 					core->onMouseUp (ev.mouseButton.x, ev.mouseButton.y, ev.mouseButton.button);
