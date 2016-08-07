@@ -49,10 +49,9 @@ class UITreeList;
 class UIStackLayout;
 
 /**
-	\brief Base user interface class
-
-	Such class have base parameters for rendering, events...
-*/
+ * \brief Base user interface class
+ * Such class have base parameters for rendering, events...
+ */
 
 class UIElement {
 protected:
@@ -292,7 +291,8 @@ public:
 	virtual void deleteElement (std::unique_ptr<UIElement> el);
 	virtual void deleteElement (const int id);
 
-	UIElement *getElement (const int id);
+	UIElement *findElement (const std::string &name);
+	UIElement *getElement  (const int id);
 	std::unique_ptr<UIElement> takeElement (const int id);
 
 	/* Manager Elements Events */

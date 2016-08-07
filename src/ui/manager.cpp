@@ -98,14 +98,26 @@ UIManager::UIManager (sf::Window *window, Shader *atlasMaskShader, Shader *atlas
 }
 
 /**
+ * Find element with name
+ * @param name
+ */
+
+UIElement *UIManager::findElement (const std::string &name) {
+	auto element = root->findElement (name);
+
+	if (!element)
+		app->log.ewrite ("Error: can't find symbol with name %s\n", name.c_str());
+
+	return element;
+}
+
+/**
  * Insert new UI Element in Root
  * @param el: new UI Element
  */
 
 void UIManager::addElement (std::unique_ptr<UIElement> el) {
-
 	root->addElement (std::move(el));
-
 }
 
 /**
@@ -318,7 +330,7 @@ void UIManager::mouseDown (int x, int y, int button) {
 
 		auto el = elementsStack[i];
 
-		if (el == nullptr) // #TODO:60 Remove empty element from stack
+		if (el == nullptr) // #TODO: Remove empty element from stack
 			continue;
 
 		if (el->enter) {
@@ -351,7 +363,7 @@ void UIManager::mouseUp (int x, int y, int button) {
 
 		auto el = elementsStack[i];
 
-		if (el == nullptr) // #TODO:70 Remove empty element from stack
+		if (el == nullptr) // #TODO: Remove empty element from stack
 			continue;
 
 		if (el->enter) {

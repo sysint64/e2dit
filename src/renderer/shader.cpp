@@ -18,6 +18,7 @@
  * along with E2DIT-GAPI. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <utility/filesystem.h>
 #include "renderer/shader.h"
 
 /**
@@ -118,6 +119,14 @@ void Shader::load (const std::string &fileName) {
 	/* Open Shader File */
 
 	this->fileName = fileName;
+
+	if (!fs::exists (fileName)) {
+
+		Application::getInstance()->log.ewrite ("Load shader error, file doesn't exist : %s", fileName.c_str());
+		return;
+
+	}
+
 	FILE *in = fopen (fileName.c_str(), "r");
 
 	/* Text Buffers */

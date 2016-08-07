@@ -507,7 +507,7 @@ void UIElement::updateVerticalAlign() {
 
 }
 
-/* Manage Elements ***********************************************************/
+/* Manage Elements */
 
 void UIElement::addElement (std::unique_ptr<UIElement> el) {
 
@@ -567,8 +567,30 @@ void UIElement::deleteElement (const int  id) {
 }
 
 UIElement *UIElement::getElement (const int id) {
-
 	return elements[id].get();
+}
+
+UIElement *UIElement::findElement (const std::string &name) {
+
+	for (auto const &kvp : elements) {
+		UIElement *element = kvp.second.get();
+
+		if (!element)
+			continue;
+
+		if (element->name == name)
+			return element;
+
+		if (element->elements.size() > 0) {
+			UIElement *findElement = element->findElement (name);
+
+			if (findElement)
+				return findElement;
+		}
+
+	}
+
+	return nullptr;
 
 }
 

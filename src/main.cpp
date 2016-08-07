@@ -54,13 +54,14 @@ int main (int argc, char** argv) {
 	Application *app = Application::getInstance();
 
 	app->binPath = fs::getExeDir();
-	app->resPath = fs::upFolder(fs::upFolder(app->binPath))+"/res";
+	// app->resPath = fs::upFolder(fs::upFolder(app->binPath))+"/res"; TODO: Uncomment in production
+	app->resPath = "/home/dev/dev/e2dit/res";
 
 	puts(app->binPath.c_str());
 	puts(app->resPath.c_str());
 
 	setlocale (LC_CTYPE, "");
-	app->log.create ("log.txt");
+	app->log.create ("/home/dev/dev/e2dit/build/log.txt");
 
 	/* Initialize OpenGL */
 
@@ -195,11 +196,11 @@ int main (int argc, char** argv) {
 
 					break;
 
-				case sf::Event::MouseButtonPressed  :
-				  core->onMouseDown (ev.mouseButton.x, ev.mouseButton.y, ev.mouseButton.button);
+				case sf::Event::MouseButtonPressed:
+					core->onMouseDown (ev.mouseButton.x, ev.mouseButton.y, ev.mouseButton.button);
 					break;
 
-				case sf::Event::MouseButtonReleased :
+				case sf::Event::MouseButtonReleased:
 
 					core->onMouseUp (ev.mouseButton.x, ev.mouseButton.y, ev.mouseButton.button);
 

@@ -138,6 +138,8 @@ public:
 	void unfocus();
 	void poll();
 
+	UIElement *findElement (const std::string &name);
+
 	/* Scissor */
 
 	void pushScissor (int sx, int sy, int sw, int sh);

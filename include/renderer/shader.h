@@ -17,8 +17,7 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef H_E2DIT_RENDERER_SHADER
-#define H_E2DIT_RENDERER_SHADER
+#pragma once
 
 #include <string>
 #include <map>
@@ -49,5 +48,3 @@ public:
 	Shader (const std::string &fileName);
 	Shader (const std::string &fileName, std::vector<std::string> vlocs);
 };
-
-#endif

@@ -26,6 +26,18 @@
  * \brief
  */
 
+void ui::ColorDialog::onCreate() {
+
+	dialog = dynamic_cast<UIDialog*>(manager->findElement("colorDialog"));
+	colorPicker = manager->findElement ("colorPicker");
+	colorLine   = manager->findElement ("colorLine");
+
+}
+
+/**
+ * \brief
+ */
+
 void ui::ColorDialog::render() {
 
 	int x = dialog->left + colorPicker->left;
@@ -34,13 +46,31 @@ void ui::ColorDialog::render() {
 	int w = colorPicker->width;
 	int h = colorPicker->height;
 
-	transformElement (x, y, w, h, quadElement.get());
+	// Picker render
+	colorPickerShader->bind();
+
 	glUniformMatrix4fv (colorPickerShader->locations["MVP"], 1,
 	                    GL_FALSE, &(quadElement->MVPMatrix[0][0]));
 
-	colorPickerShader->bind();
-	manager->atlasShader->bind();
-
+	transformElement (x, y, w, h, quadElement.get());
 	quadElement->render();
+
+	// Line render
+
+	x = dialog->left + colorLine->left;
+	y = dialog->top  + colorLine->top;
+
+	w = colorLine->width;
+	h = colorLine->height;
+
+	colorLineShader->bind();
+
+	glUniformMatrix4fv (colorLineShader->locations["MVP"], 1, GL_FALSE,
+	                    &(lineElement->MVPMatrix[0][0]));
+
+	transformElement (x, y, w, h, lineElement.get());
+	lineElement->render();
+
+	manager->atlasShader->bind();
 
 }

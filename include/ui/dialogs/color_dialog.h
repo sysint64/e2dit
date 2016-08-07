@@ -36,7 +36,7 @@
 
 #include "resources.h"
 
-// Color Pallete Code
+// Color Palette Code
 // HSV 0: H; 1: S; 2: B;
 // RGB 3: R; 4: G; 5: B;
 // Lab 6: L; 7: a; 8: b;
@@ -45,7 +45,6 @@ namespace ui {
 	class ColorDialog : UIElement {
 	private:
 		Application *app = Application::getInstance();
-		UIManager   *manager;
 
 		std::unique_ptr<BaseObject> quadElement;
 		std::unique_ptr<BaseObject> lineElement;
@@ -64,7 +63,7 @@ namespace ui {
 	public:
 		gapi::Color color;
 
-		ColorDialog (UIManager *manager, StringRes *stringsRes, const std::string &layout)  : UIElement (manager) {
+		ColorDialog (UIManager *manager, StringRes *stringsRes, const std::string &layout) : UIElement (manager) {
 
 			loader = std::make_unique<UILoader> (manager, stringsRes, layout);
 
@@ -74,8 +73,11 @@ namespace ui {
 			colorPickerShader = R::Shaders::colorPickerShader.get();
 			colorLineShader   = R::Shaders::colorLineShader  .get();
 
+			onCreate();
+
 		}
 
+		void onCreate();
 		virtual void render() override;
 
 	};

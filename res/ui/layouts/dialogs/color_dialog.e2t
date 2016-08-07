@@ -1,5 +1,5 @@
 Dialog
-	name: colorDialog
+	name: "colorDialog"
 	size: 543, 290
 	location: 200, 200
 	allowScroll: False;
@@ -7,8 +7,8 @@ Dialog
 
 	/* Colors regions */
 
-	Panel location: 10, 20  size: 256, 256
-	Panel location: 283, 20 size: 18 , 256
+	Panel name: "colorPicker" location: 10 , 20 size: 256, 256
+	Panel name: "colorLine"   location: 283, 20 size: 18 , 256
 
 	/* Cursors */
 

@@ -16,7 +16,7 @@ uniform vec3 HSB;
 uniform vec3 RGB;
 uniform vec3 Lab;
 uniform int  Pallete;
-//
+
 void HSB2RGB (vec3 iHSB, inout vec3 ioRGB) {
 	float H  = iHSB[0];
 	float S  = iHSB[1];
@@ -26,9 +26,9 @@ void HSB2RGB (vec3 iHSB, inout vec3 ioRGB) {
 	float a = (B-Bmin)*(mod(H, 60.f)/60.f);
 	float Binc = Bmin+a;
 	float Bdec = B-a;
-	//
+
 	B /= 100.f; Binc /= 100.f; Bmin /= 100.f; Bdec /= 100.f;
-	//
+
 	switch (int(Hi)) {
 		case 0 : ioRGB = vec3 (B   , Binc, Bmin); break;
 		case 1 : ioRGB = vec3 (Bdec, B   , Bmin); break;
@@ -38,51 +38,42 @@ void HSB2RGB (vec3 iHSB, inout vec3 ioRGB) {
 		case 5 : ioRGB = vec3 (B   , Bmin, Bdec); break;
 	}
 }
-//
-// HSB -------------------------------------------->
+
+// HSB
 void HSB_HParam() {
 	vec3 c;
 	HSB2RGB(vec3(HSB[0], Pos.x*100.f, Pos.y*100.f), c);
 	gl_FragColor = vec4 (c, 1);
 }
-//
+
 void HSB_SParam() {
 	vec3 c;
 	HSB2RGB(vec3(Pos.x*360.f, HSB[1], Pos.y*100.f), c);
 	gl_FragColor = vec4 (c, 1);
 }
-//
+
 void HSB_BParam() {
 	vec3 c;
 	HSB2RGB(vec3(Pos.x*360.f, Pos.y*100.f, HSB[2]), c);
 	gl_FragColor = vec4 (c, 1);
 }
-// <-------------------------------------------- HSB
-//
-// RGB -------------------------------------------->
+
+// RGB
 void RGB_RParam() { gl_FragColor = vec4 (vec3(RGB[0], Pos.y , Pos.x ), 1); }
 void RGB_GParam() { gl_FragColor = vec4 (vec3(Pos.y , RGB[1], Pos.x ), 1); }
 void RGB_BParam() { gl_FragColor = vec4 (vec3(Pos.x , Pos.y , RGB[2]), 1); }
-// <-------------------------------------------- RGB
-//
-// Lab -------------------------------------------->
-void Lab_LParam() {
-	
-}
-//
-void Lab_aParam() {
-	
-}
-//
-void Lab_bParam() {
-	
-}
-// <-------------------------------------------- RGB
-//
-void main() {
-	//HSB = vec3(100, 100, 100);
-	//RGB = vec3(0.4, 0.4, 0.4);
 
+// Lab
+void Lab_LParam() {
+}
+
+void Lab_aParam() {
+}
+
+void Lab_bParam() {
+}
+
+void main() {
 	switch (Pallete) {
 		// HSB
 		case 0 : HSB_HParam(); break;

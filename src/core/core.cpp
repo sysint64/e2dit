@@ -94,10 +94,6 @@ Core::Core (sf::Window *window) {
 	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager.get(), stringsRes.get(), "test.e2t");
 	colorDialog = std::make_unique<ui::ColorDialog> (uiManager.get(), stringsRes.get(), "dialogs/color_dialog.e2t");
 
-	int a = 10;
-	a++;
-
-
 	//StringRes testRes;
 	//testRes.addResource ("../res/strings/eng/menu.e2t");
 	//puts ("Parse resource:");
