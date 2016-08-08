@@ -42,7 +42,7 @@
 // Lab 6: L; 7: a; 8: b;
 
 namespace ui {
-	class ColorDialog : UIElement {
+	class ColorDialog {
 	private:
 		Application *app = Application::getInstance();
 
@@ -50,7 +50,8 @@ namespace ui {
 		std::unique_ptr<BaseObject> lineElement;
 		std::unique_ptr<UILoader>   loader;
 
-		char ColorPallete;
+		UIManager *manager;
+		char colorPalette = 0;
 		Shader *colorPickerShader;
 		Shader *colorLineShader;
 
@@ -59,12 +60,22 @@ namespace ui {
 		UIDialog  *dialog;
 		UIElement *colorPicker;
 		UIElement *colorLine;
+		UIElement *cursorPicker;
+		UIElement *cursorLine;
+
+		bool colorPickerClick = false;
+		bool colorPickerEnter = false;
+		bool colorLineClick   = false;
+		bool colorLineEnter   = false;
+
+		bool insidePicker = false;
 
 	public:
 		gapi::Color color;
 
-		ColorDialog (UIManager *manager, StringRes *stringsRes, const std::string &layout) : UIElement (manager) {
+		ColorDialog (UIManager *manager, StringRes *stringsRes, const std::string &layout) {
 
+			this->manager = manager;
 			loader = std::make_unique<UILoader> (manager, stringsRes, layout);
 
 			quadElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
@@ -77,8 +88,19 @@ namespace ui {
 
 		}
 
-		void onCreate();
-		virtual void render() override;
+		inline void transformElement (int x, int y, int w, int h, BaseObject *el) const {
 
+			el->setPosition (glm::vec2(x, app->windowHeight-h-y));
+			el->setScale    (glm::vec2(w, h));
+			el->updateModelMatrix();
+
+		}
+
+		void onCreate();
+		void render();
+		void poll();
+
+		void mouseDown (int x, int y, int button);
+		void mouseUp   (int x, int y, int button);
 	};
 }

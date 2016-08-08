@@ -21,6 +21,7 @@
  */
 
 #include "ui/dialogs/color_dialog.h"
+#include "utility/ui.h"
 
 /**
  * \brief
@@ -29,8 +30,14 @@
 void ui::ColorDialog::onCreate() {
 
 	dialog = dynamic_cast<UIDialog*>(manager->findElement("colorDialog"));
-	colorPicker = manager->findElement ("colorPicker");
-	colorLine   = manager->findElement ("colorLine");
+
+	colorPicker  = manager->findElement ("colorPicker");
+	colorLine    = manager->findElement ("colorLine");
+	cursorPicker = manager->findElement ("cursorPicker");
+	cursorLine   = manager->findElement ("cursorLine");
+
+	cursorPicker->visible = false;
+	cursorLine  ->visible = false;
 
 }
 
@@ -40,13 +47,13 @@ void ui::ColorDialog::onCreate() {
 
 void ui::ColorDialog::render() {
 
-	int x = dialog->left + colorPicker->left;
-	int y = dialog->top  + colorPicker->top;
-
-	int w = colorPicker->width;
-	int h = colorPicker->height;
+	int x, y, w, h;
 
 	// Picker render
+
+	x = colorPicker->absLeft; y = colorPicker->absTop;
+	w = colorPicker->width;   h = colorPicker->height;
+
 	colorPickerShader->bind();
 
 	glUniformMatrix4fv (colorPickerShader->locations["MVP"], 1,
@@ -57,11 +64,8 @@ void ui::ColorDialog::render() {
 
 	// Line render
 
-	x = dialog->left + colorLine->left;
-	y = dialog->top  + colorLine->top;
-
-	w = colorLine->width;
-	h = colorLine->height;
+	x = colorLine->absLeft; y = colorLine->absTop;
+	w = colorLine->width;   h = colorLine->height;
 
 	colorLineShader->bind();
 
@@ -72,5 +76,67 @@ void ui::ColorDialog::render() {
 	lineElement->render();
 
 	manager->atlasShader->bind();
+	poll();
 
+}
+
+/**
+ * \brief
+ */
+
+void ui::ColorDialog::poll() {
+
+	auto pickerBound = colorPicker->getScreenBound();
+
+	colorPickerEnter = pointInElement (app->mouseX, app->mouseY, colorPicker);
+	colorLineClick   = pointInElement (app->mouseX, app->mouseY, colorLine);
+
+	if (colorPickerClick) {
+
+		app->cursorVisible = false;
+		insidePicker = true;
+
+		int halfWidth  = (cursorPicker->width  >> 1);
+		int halfHeight = (cursorPicker->height >> 1);
+
+		cursorPicker->left = app->mouseX - halfWidth  - dialog->left;
+		cursorPicker->top  = app->mouseY - halfHeight - dialog->top;
+
+		math::clamp (&cursorPicker->left,  colorPicker->left  - halfWidth,
+		              colorPicker ->left + colorPicker->width - halfWidth);
+
+		math::clamp (&cursorPicker->top,  colorPicker->top    - halfHeight,
+		              colorPicker ->top + colorPicker->height - halfHeight);
+
+		cursorPicker->updateAbsPos();
+		sf::Mouse::setPosition (sf::Vector2i (cursorPicker->absLeft + halfWidth,
+		                                      cursorPicker->absTop  + halfHeight),
+		                        *(manager->window));
+
+		cursorPicker->render();
+
+	} else if (insidePicker) {
+
+		insidePicker = false;
+		app->cursorVisible = true;
+
+	}
+
+	if (!colorPickerClick) {
+		glEnable  (GL_SCISSOR_TEST);
+		glScissor (pickerBound[0], pickerBound[1], pickerBound[2], pickerBound[3]);
+		cursorPicker->render();
+		glDisable (GL_SCISSOR_TEST);
+	}
+
+}
+
+void ui::ColorDialog::mouseDown (int x, int y, int button) {
+	colorPickerClick = colorPickerEnter;
+	colorLineClick   = colorLineEnter;
+}
+
+void ui::ColorDialog::mouseUp (int x, int y, int button) {
+	colorPickerClick = false;
+	colorLineClick   = false;
 }

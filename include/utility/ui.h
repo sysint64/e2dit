@@ -20,12 +20,12 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef E2DIT_UTILITY_UI_H
-#define E2DIT_UTILITY_UI_H
+#pragma once
 
 #include "renderer/shader.h"
 #include "utility/string.h"
 #include "FTGL/ftgl.h"
+#include "ui/element.h"
 
 using namespace FTGL;
 
@@ -38,6 +38,10 @@ inline bool pointInRect (int X, int Y, int Xe, int Ye, int W, int H) {
 	return ((X <= Xe+W) && (X >= Xe) &&
 	        (Y <= Ye+H) && (Y >= Ye));
 
+}
+
+inline bool pointInElement (int X, int Y, UIElement *element) {
+	return pointInRect (X, Y, element->absLeft, element->absTop, element->width, element->height);
 }
 
 /**
@@ -70,5 +74,3 @@ inline int ftglGetCharWidth (FTGLfont *font, wchar_t ch) {
 	return twidth;
 
 }
-
-#endif

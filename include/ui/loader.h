@@ -58,17 +58,22 @@ public:
 	std::unique_ptr<DataMap> data = nullptr;
 	StringRes *stringsRes;
 	UIManager *manager = nullptr;
+	UIElement *root = nullptr;
 
 	UILoader (UIManager *manager) : manager (manager) {
 		data = std::make_unique<DataMap> ();
 	}
 
 	UILoader (UIManager *manager, StringRes *stringsRes, const std::string &fileName,
-		DataMap::ReadType rt = DataMap::ReadType::Text) : manager(manager), stringsRes(stringsRes)
+		UIElement *root = nullptr, DataMap::ReadType rt = DataMap::ReadType::Text)
+			: manager(manager), stringsRes(stringsRes), root(root)
 	{
 
 		data = std::make_unique<DataMap>();
 		data->hierarchy = true;
+
+		if (root == nullptr)
+			this->root = manager->root.get();
 
 		switch (rt) {
 
@@ -83,14 +88,14 @@ public:
 	inline void loadFromText (const std::string &fileName) {
 
 		data->loadFromText (fileName.c_str());
-		placeElements (data->root.get(), manager->root.get());
+		placeElements (data->root.get(), root);
 
 	}
 
 	inline void loadFromBin (const std::string &fileName) {
 
 		data->loadFromBin (fileName.c_str());
-		placeElements (data->root.get(), manager->root.get());
+		placeElements (data->root.get(), root);
 
 	}
 

@@ -285,6 +285,14 @@ public:
 	void updateAbsPos();
 	void checkFocus();
 
+	inline std::array<int, 4> getBound() {
+		return { absLeft, absTop, width, height };
+	}
+
+	inline std::array<int, 4> getScreenBound() {
+		return { absLeft, app->windowHeight-height-absTop, width, height };
+	}
+
 	/* Manage Elements */
 
 	virtual void addElement    (std::unique_ptr<UIElement> el);

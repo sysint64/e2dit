@@ -13,12 +13,14 @@ Dialog
 	/* Cursors */
 
 	Image
+		name: "cursorPicker"
 		src: "ui/skins/light/controls.png"
 		location: -7, -7
 		crop: 201, 258, 15, 15
 		size: 15, 15
 
 	Image
+		name: "cursorLine"
 		src: "ui/skins/light/controls.png";
 		location: 272, 16
 		crop: 128, 282, 40, 9
