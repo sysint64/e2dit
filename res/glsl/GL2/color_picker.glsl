@@ -1,21 +1,20 @@
 #vertex shader
 
 uniform mat4 MVP;
-varying vec3 Pos;
+varying vec3 pos;
 
 void main() {
 	gl_Position = MVP*gl_Vertex;
-	Pos = gl_Vertex;
+	pos = gl_Vertex;
 }
 
 #fragment shader
 
-varying vec3 Pos;
-uniform vec3 Color;
+varying vec3 pos;
 uniform vec3 HSB;
 uniform vec3 RGB;
 uniform vec3 Lab;
-uniform int  Pallete;
+uniform int  palette;
 
 void HSB2RGB (vec3 iHSB, inout vec3 ioRGB) {
 	float H  = iHSB[0];
@@ -42,26 +41,26 @@ void HSB2RGB (vec3 iHSB, inout vec3 ioRGB) {
 // HSB
 void HSB_HParam() {
 	vec3 c;
-	HSB2RGB(vec3(HSB[0], Pos.x*100.f, Pos.y*100.f), c);
+	HSB2RGB(vec3(HSB[0], pos.x*100.f, pos.y*100.f), c);
 	gl_FragColor = vec4 (c, 1);
 }
 
 void HSB_SParam() {
 	vec3 c;
-	HSB2RGB(vec3(Pos.x*360.f, HSB[1], Pos.y*100.f), c);
+	HSB2RGB(vec3(pos.x*360.f, HSB[1], pos.y*100.f), c);
 	gl_FragColor = vec4 (c, 1);
 }
 
 void HSB_BParam() {
 	vec3 c;
-	HSB2RGB(vec3(Pos.x*360.f, Pos.y*100.f, HSB[2]), c);
+	HSB2RGB(vec3(pos.x*360.f, pos.y*100.f, HSB[2]), c);
 	gl_FragColor = vec4 (c, 1);
 }
 
 // RGB
-void RGB_RParam() { gl_FragColor = vec4 (vec3(RGB[0], Pos.y , Pos.x ), 1); }
-void RGB_GParam() { gl_FragColor = vec4 (vec3(Pos.y , RGB[1], Pos.x ), 1); }
-void RGB_BParam() { gl_FragColor = vec4 (vec3(Pos.x , Pos.y , RGB[2]), 1); }
+void RGB_RParam() { gl_FragColor = vec4 (vec3(RGB[0], pos.y , pos.x ), 1); }
+void RGB_GParam() { gl_FragColor = vec4 (vec3(pos.y , RGB[1], pos.x ), 1); }
+void RGB_BParam() { gl_FragColor = vec4 (vec3(pos.x , pos.y , RGB[2]), 1); }
 
 // Lab
 void Lab_LParam() {
@@ -74,7 +73,7 @@ void Lab_bParam() {
 }
 
 void main() {
-	switch (Pallete) {
+	switch (palette) {
 		// HSB
 		case 0 : HSB_HParam(); break;
 		case 1 : HSB_SParam(); break;

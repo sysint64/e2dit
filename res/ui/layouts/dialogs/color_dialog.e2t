@@ -76,18 +76,18 @@ Dialog
 
 	/* HSB Text fields */
 
-	Edit text: "360" before: "H:" after: "°" size: 105, 21 location: 316, 115 filter: int range: 0, 360 trackMode: true
-	Edit text: "100" before: "S:" after: "%" size: 105, 21 location: 316, 145 filter: int range: 0, 100 trackMode: true
-	Edit text: "100" before: "B:" after: "%" size: 105, 21 location: 316, 175 filter: int range: 0, 100 trackMode: true
+	Edit name: "HSB_H" text: "360" before: "H:" after: "°" size: 105, 21 location: 316, 115 filter: int range: 0, 360 trackMode: true
+	Edit name: "HSB_S" text: "100" before: "S:" after: "%" size: 105, 21 location: 316, 145 filter: int range: 0, 100 trackMode: true
+	Edit name: "HSB_B" text: "100" before: "B:" after: "%" size: 105, 21 location: 316, 175 filter: int range: 0, 100 trackMode: true
 
 	/* RGB Text fields */
 
-	Edit text: "255"    before: "R:" size: 105, 21 location: 430, 115 filter: int range: 0, 255 trackMode: true
-	Edit text: "255"    before: "G:" size: 105, 21 location: 430, 145 filter: int range: 0, 255 trackMode: true
-	Edit text: "255"    before: "B:" size: 105, 21 location: 430, 175 filter: int range: 0, 255 trackMode: true
+	Edit name: "RGB_R" text: "255" before: "R:" size: 105, 21 location: 430, 115 filter: int range: 0, 255 trackMode: true
+	Edit name: "RGB_G" text: "255" before: "G:" size: 105, 21 location: 430, 145 filter: int range: 0, 255 trackMode: true
+	Edit name: "RGB_B" text: "255" before: "B:" size: 105, 21 location: 430, 175 filter: int range: 0, 255 trackMode: true
 
-	Edit text: "100"    before: "A:" size: 105, 21 location: 430, 205 filter: int range: 0, 100 trackMode: true after: "%"
-	Edit text: "ffffff" before: "#"  size: 105, 21 location: 316, 205 filter: hex
+	Edit name: "alpha" text: "100"    before: "A:" size: 105, 21 location: 430, 205 filter: int range: 0, 100 trackMode: true after: "%"
+	Edit name: "HEX"   text: "ffffff" before: "#"  size: 105, 21 location: 316, 205 filter: hex
 
 	/* Action buttons */
 

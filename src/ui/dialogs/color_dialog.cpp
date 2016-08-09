@@ -36,6 +36,17 @@ void ui::ColorDialog::onCreate() {
 	cursorPicker = manager->findElement ("cursorPicker");
 	cursorLine   = manager->findElement ("cursorLine");
 
+	fieldHSB_RGB[HSB_H] = (UIEdit*) manager->findElement ("HSB_H");
+	fieldHSB_RGB[HSB_S] = (UIEdit*) manager->findElement ("HSB_S");
+	fieldHSB_RGB[HSB_B] = (UIEdit*) manager->findElement ("HSB_B");
+
+	fieldHSB_RGB[RGB_R] = (UIEdit*) manager->findElement ("RGB_R");
+	fieldHSB_RGB[RGB_G] = (UIEdit*) manager->findElement ("RGB_G");
+	fieldHSB_RGB[RGB_B] = (UIEdit*) manager->findElement ("RGB_B");
+
+	fieldAlpha          = (UIEdit*) manager->findElement ("alpha");
+	fieldHEX            = (UIEdit*) manager->findElement ("HEX");
+
 	cursorPicker->visible = false;
 	cursorLine  ->visible = false;
 
@@ -52,34 +63,45 @@ void ui::ColorDialog::render() {
 
 	int x, y, w, h;
 
+	auto HSB = &color.HSB;
+	auto RGB = &color.RGB;
+
 	// Picker render
 
-	x = colorPicker->absLeft; y = colorPicker->absTop;
-	w = colorPicker->width;   h = colorPicker->height;
+	x = colorPicker->absLeft;  y = colorPicker->absTop;
+	w = colorPicker->width;    h = colorPicker->height;
 
 	colorPickerShader->bind();
 
 	transformElement (x, y, w, h, quadElement.get());
-	glUniformMatrix4fv (colorPickerShader->locations["MVP"], 1,
+
+	glUniform1i        (colorPickerShader->locations["palette"], colorPalette);
+	glUniform3f        (colorPickerShader->locations["HSB"]    , HSB->H, HSB->S, HSB->B);
+	glUniform3f        (colorPickerShader->locations["RGB"]    , RGB->R, RGB->G, RGB->B);
+	glUniformMatrix4fv (colorPickerShader->locations["MVP"]    , 1,
 	                    GL_FALSE, &(quadElement->MVPMatrix[0][0]));
 
 	quadElement->render();
 
 	// Line render
 
-	x = colorLine->absLeft; y = colorLine->absTop;
-	w = colorLine->width;   h = colorLine->height;
+	x = colorLine->absLeft;  y = colorLine->absTop;
+	w = colorLine->width;    h = colorLine->height;
 
 	colorLineShader->bind();
 
 	transformElement (x, y, w, h, lineElement.get());
-	glUniformMatrix4fv (colorLineShader->locations["MVP"], 1, GL_FALSE,
+
+	glUniform1i        (colorLineShader->locations["palette"], colorPalette);
+	glUniform3f        (colorLineShader->locations["HSB"]    , HSB->H, HSB->S, HSB->B);
+	glUniform3f        (colorLineShader->locations["RGB"]    , RGB->R, RGB->G, RGB->B);
+	glUniformMatrix4fv (colorLineShader->locations["MVP"]    , 1, GL_FALSE,
 	                    &(lineElement->MVPMatrix[0][0]));
 
 	lineElement->render();
 
 	manager->atlasShader->bind();
-	poll();
+	handleCursors();
 
 }
 
@@ -87,7 +109,7 @@ void ui::ColorDialog::render() {
  * \brief
  */
 
-void ui::ColorDialog::poll() {
+void ui::ColorDialog::handleCursors() {
 
 	auto pickerBound = colorPicker->getScreenBound();
 
@@ -127,6 +149,14 @@ void ui::ColorDialog::poll() {
 			lastCursorPickerTop  = cursorPicker->top;
 
 			cursorPicker->updateAbsPos();
+
+			scroll.x = static_cast<float>(cursorPicker->left - colorPicker->left + halfWidth) /
+			           static_cast<float>(colorPicker ->width);
+
+			scroll.y = static_cast<float>(cursorPicker->top  - colorPicker->top  + halfHeight) /
+			           static_cast<float>(colorPicker ->height);
+
+			cursor2ColorXY();
 			sf::Mouse::setPosition(sf::Vector2i(cursorPicker->absLeft + halfWidth,
 			                                    cursorPicker->absTop  + halfHeight),
 			                       *(manager->window));
@@ -150,6 +180,11 @@ void ui::ColorDialog::poll() {
 		cursorLine->top = app->mouseY - halfHeight - dialog->top;
 		math::clamp (&cursorLine->top,  colorLine->top    - halfHeight,
 		              colorLine ->top + colorLine->height - halfHeight);
+
+		scroll.z = static_cast<float>(cursorLine->top - colorLine->top  + halfHeight) /
+		           static_cast<float>(colorLine ->height);
+
+		cursor2ColorZ();
 	}
 
 	cursorLine->render();
@@ -163,4 +198,62 @@ void ui::ColorDialog::mouseDown (int x, int y, int button) {
 void ui::ColorDialog::mouseUp (int x, int y, int button) {
 	colorPickerClick = false;
 	colorLineClick   = false;
+}
+
+// Convert cursor position to color
+
+void ui::ColorDialog::cursor2ColorXY() {
+
+	auto HSB = &color.HSB;
+	auto RGB = &color.RGB;
+
+	switch (colorPalette) {
+		case HSB_H: HSB->S = scroll.x * norm.x;  HSB->B = scroll.y * norm.y; break;
+		case HSB_S: HSB->H = scroll.x * norm.x;  HSB->B = scroll.y * norm.y; break;
+		case HSB_B: HSB->H = scroll.x * norm.x;  HSB->S = scroll.y * norm.y; break;
+
+		case RGB_R: RGB->G = scroll.y * norm.y;  RGB->B = scroll.x * norm.x; break;
+		case RGB_G: RGB->R = scroll.y * norm.y;  RGB->B = scroll.x * norm.x; break;
+		case RGB_B: RGB->R = scroll.x * norm.x;  RGB->G = scroll.y * norm.y; break;
+	}
+
+	updateUI();
+
+}
+
+void ui::ColorDialog::cursor2ColorZ() {
+
+	auto HSB = &color.HSB;
+	auto RGB = &color.RGB;
+
+	switch (colorPalette) {
+		case HSB_H: HSB->H = scroll.z * norm.z; break;
+		case HSB_S: HSB->S = scroll.z * norm.z; break;
+		case HSB_B: HSB->B = scroll.z * norm.z; break;
+
+		case RGB_R: RGB->R = scroll.z * norm.z; break;
+		case RGB_G: RGB->G = scroll.z * norm.z; break;
+		case RGB_B: RGB->B = scroll.z * norm.z; break;
+	}
+
+	updateUI();
+
+}
+
+void ui::ColorDialog::updateUI() {
+
+	auto HSB = &color.HSB;
+	auto RGB = &color.RGB;
+
+	if (HSB->H >= 360.f-std::numeric_limits<float>::epsilon())
+		HSB->H = 0;
+
+	fieldHSB_RGB[HSB_H]->text = std::to_wstring (static_cast<int>(std::round(HSB->H)));
+	fieldHSB_RGB[HSB_S]->text = std::to_wstring (static_cast<int>(std::round(HSB->S)));
+	fieldHSB_RGB[HSB_B]->text = std::to_wstring (static_cast<int>(std::round(HSB->B)));
+
+	fieldHSB_RGB[RGB_R]->text = std::to_wstring (static_cast<int>(std::round(RGB->R)));
+	fieldHSB_RGB[RGB_G]->text = std::to_wstring (static_cast<int>(std::round(RGB->G)));
+	fieldHSB_RGB[RGB_B]->text = std::to_wstring (static_cast<int>(std::round(RGB->B)));
+
 }

@@ -25,6 +25,7 @@
 #include "utility/renderer.h"
 
 #include "ui/element.h"
+#include "ui/edit.h"
 #include "ui/manager.h"
 #include "ui/loader.h"
 #include "ui/dialog.h"
@@ -36,11 +37,6 @@
 
 #include "resources.h"
 
-// Color Palette Code
-// HSV 0: H; 1: S; 2: B;
-// RGB 3: R; 4: G; 5: B;
-// Lab 6: L; 7: a; 8: b;
-
 namespace ui {
 	class ColorDialog {
 	private:
@@ -51,17 +47,31 @@ namespace ui {
 		std::unique_ptr<UILoader>   loader;
 
 		UIManager *manager;
-		char colorPalette = 0;
+
+		enum {
+			HSB_H = 0, HSB_S = 1, HSB_B = 2,
+			RGB_R = 3, RGB_G = 4, RGB_B = 5
+		} typedef Palette;
+
+		Palette colorPalette = HSB_H;
+
 		Shader *colorPickerShader;
 		Shader *colorLineShader;
 
 		// UI Elements in dialog
 
 		UIDialog  *dialog;
+
 		UIElement *colorPicker;
 		UIElement *colorLine;
 		UIElement *cursorPicker;
 		UIElement *cursorLine;
+
+		UIEdit    *fieldHSB_RGB[6];
+		UIEdit    *fieldAlpha;
+		UIEdit    *fieldHEX;
+
+		// States
 
 		bool colorPickerClick = false;
 		bool colorPickerEnter = false;
@@ -72,6 +82,16 @@ namespace ui {
 
 		int lastCursorPickerLeft;
 		int lastCursorPickerTop;
+
+		// Cursor scrolls
+
+		glm::vec3 scroll;
+		glm::vec3 norm = glm::vec3(100.f, 100.f, 360.f);
+
+		void handleCursors();
+		void cursor2ColorXY();
+		void cursor2ColorZ();
+		void updateUI();
 
 	public:
 		gapi::Color color;
@@ -101,7 +121,6 @@ namespace ui {
 
 		void onCreate();
 		void render();
-		void poll();
 
 		void mouseDown (int x, int y, int button);
 		void mouseUp   (int x, int y, int button);
