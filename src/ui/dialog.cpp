@@ -41,6 +41,13 @@ void UIDialog::setCursor() {
 
 void UIDialog::render() {
 
+	if (headerClick && !edgeClick && !btnDown) {
+
+		left = lastLeft+app->mouseX-app->clickX;
+		top  = lastTop +app->mouseY-app->clickY;
+
+	}
+
 	align = Align::None;
 	updateAbsPos();
 
@@ -71,13 +78,6 @@ void UIDialog::render() {
 	manager->atlasShader->unbind();
 	renderText (manager->theme->font, &(textColors[0]), tx, ty, caption);
 	manager->atlasShader->bind();
-
-	if (headerClick && !edgeClick && !btnDown) {
-
-		left = lastLeft+app->mouseX-app->clickX;
-		top  = lastTop +app->mouseY-app->clickY;
-
-	}
 
 	renderButtons(x, y);
 	handleResize();

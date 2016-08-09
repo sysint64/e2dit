@@ -59,10 +59,10 @@ void ui::ColorDialog::render() {
 
 	colorPickerShader->bind();
 
+	transformElement (x, y, w, h, quadElement.get());
 	glUniformMatrix4fv (colorPickerShader->locations["MVP"], 1,
 	                    GL_FALSE, &(quadElement->MVPMatrix[0][0]));
 
-	transformElement (x, y, w, h, quadElement.get());
 	quadElement->render();
 
 	// Line render
@@ -72,10 +72,10 @@ void ui::ColorDialog::render() {
 
 	colorLineShader->bind();
 
+	transformElement (x, y, w, h, lineElement.get());
 	glUniformMatrix4fv (colorLineShader->locations["MVP"], 1, GL_FALSE,
 	                    &(lineElement->MVPMatrix[0][0]));
 
-	transformElement (x, y, w, h, lineElement.get());
 	lineElement->render();
 
 	manager->atlasShader->bind();
@@ -92,7 +92,7 @@ void ui::ColorDialog::poll() {
 	auto pickerBound = colorPicker->getScreenBound();
 
 	colorPickerEnter = pointInElement (app->mouseX, app->mouseY, colorPicker);
-	colorLineClick   = pointInElement (app->mouseX, app->mouseY, colorLine);
+	colorLineEnter   = pointInElement (app->mouseX, app->mouseY, colorLine);
 
 	if (!colorPickerClick) {
 		glEnable  (GL_SCISSOR_TEST);
@@ -105,7 +105,7 @@ void ui::ColorDialog::poll() {
 		glDisable (GL_SCISSOR_TEST);
 	}
 
-	if (colorPickerEnter || colorPickerClick) {
+	if ((colorPickerEnter || colorPickerClick) && !colorLineClick) {
 
 		app->cursorVisible = false;
 		insidePicker = true;
@@ -128,7 +128,7 @@ void ui::ColorDialog::poll() {
 
 			cursorPicker->updateAbsPos();
 			sf::Mouse::setPosition(sf::Vector2i(cursorPicker->absLeft + halfWidth,
-			                                    cursorPicker->absTop + halfHeight),
+			                                    cursorPicker->absTop  + halfHeight),
 			                       *(manager->window));
 		}
 
@@ -141,6 +141,18 @@ void ui::ColorDialog::poll() {
 
 	}
 
+	// Color Line
+
+	cursorLine->render();
+
+	if (colorLineClick) {
+		int halfHeight = (cursorLine->height >> 1);
+		cursorLine->top = app->mouseY - halfHeight - dialog->top;
+		math::clamp (&cursorLine->top,  colorLine->top    - halfHeight,
+		              colorLine ->top + colorLine->height - halfHeight);
+	}
+
+	cursorLine->render();
 }
 
 void ui::ColorDialog::mouseDown (int x, int y, int button) {
