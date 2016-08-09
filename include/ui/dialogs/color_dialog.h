@@ -70,6 +70,9 @@ namespace ui {
 
 		bool insidePicker = false;
 
+		int lastCursorPickerLeft;
+		int lastCursorPickerTop;
+
 	public:
 		gapi::Color color;
 

@@ -39,6 +39,9 @@ void ui::ColorDialog::onCreate() {
 	cursorPicker->visible = false;
 	cursorLine  ->visible = false;
 
+	lastCursorPickerLeft = cursorPicker->left;
+	lastCursorPickerTop  = cursorPicker->top;
+
 }
 
 /**
@@ -91,7 +94,18 @@ void ui::ColorDialog::poll() {
 	colorPickerEnter = pointInElement (app->mouseX, app->mouseY, colorPicker);
 	colorLineClick   = pointInElement (app->mouseX, app->mouseY, colorLine);
 
-	if (colorPickerClick) {
+	if (!colorPickerClick) {
+		glEnable  (GL_SCISSOR_TEST);
+		glScissor (pickerBound[0], pickerBound[1], pickerBound[2], pickerBound[3]);
+
+		cursorPicker->left = lastCursorPickerLeft;
+		cursorPicker->top  = lastCursorPickerTop;
+		cursorPicker->render();
+
+		glDisable (GL_SCISSOR_TEST);
+	}
+
+	if (colorPickerEnter || colorPickerClick) {
 
 		app->cursorVisible = false;
 		insidePicker = true;
@@ -108,10 +122,15 @@ void ui::ColorDialog::poll() {
 		math::clamp (&cursorPicker->top,  colorPicker->top    - halfHeight,
 		              colorPicker ->top + colorPicker->height - halfHeight);
 
-		cursorPicker->updateAbsPos();
-		sf::Mouse::setPosition (sf::Vector2i (cursorPicker->absLeft + halfWidth,
-		                                      cursorPicker->absTop  + halfHeight),
-		                        *(manager->window));
+		if (colorPickerClick) {
+			lastCursorPickerLeft = cursorPicker->left;
+			lastCursorPickerTop  = cursorPicker->top;
+
+			cursorPicker->updateAbsPos();
+			sf::Mouse::setPosition(sf::Vector2i(cursorPicker->absLeft + halfWidth,
+			                                    cursorPicker->absTop + halfHeight),
+			                       *(manager->window));
+		}
 
 		cursorPicker->render();
 
@@ -120,13 +139,6 @@ void ui::ColorDialog::poll() {
 		insidePicker = false;
 		app->cursorVisible = true;
 
-	}
-
-	if (!colorPickerClick) {
-		glEnable  (GL_SCISSOR_TEST);
-		glScissor (pickerBound[0], pickerBound[1], pickerBound[2], pickerBound[3]);
-		cursorPicker->render();
-		glDisable (GL_SCISSOR_TEST);
 	}
 
 }
