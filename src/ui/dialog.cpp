@@ -48,6 +48,9 @@ void UIDialog::render() {
 
 	}
 
+	handleResize();
+	handleEdgeEnter();
+
 	align = Align::None;
 	updateAbsPos();
 
@@ -80,8 +83,6 @@ void UIDialog::render() {
 	manager->atlasShader->bind();
 
 	renderButtons(x, y);
-	handleResize();
-	handleEdgeEnter();
 
 }
 
