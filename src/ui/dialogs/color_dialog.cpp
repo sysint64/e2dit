@@ -36,16 +36,19 @@ void ui::ColorDialog::onCreate() {
 	cursorPicker = manager->findElement ("cursorPicker");
 	cursorLine   = manager->findElement ("cursorLine");
 
-	fieldHSB_RGB[HSB_H] = (UIEdit*) manager->findElement ("HSB_H");
-	fieldHSB_RGB[HSB_S] = (UIEdit*) manager->findElement ("HSB_S");
-	fieldHSB_RGB[HSB_B] = (UIEdit*) manager->findElement ("HSB_B");
+	fieldHSB_RGB[HSB_H] =       (UIEdit*) manager->findElement ("HSB_H");
+	fieldHSB_RGB[HSB_S] =       (UIEdit*) manager->findElement ("HSB_S");
+	fieldHSB_RGB[HSB_B] =       (UIEdit*) manager->findElement ("HSB_B");
 
-	fieldHSB_RGB[RGB_R] = (UIEdit*) manager->findElement ("RGB_R");
-	fieldHSB_RGB[RGB_G] = (UIEdit*) manager->findElement ("RGB_G");
-	fieldHSB_RGB[RGB_B] = (UIEdit*) manager->findElement ("RGB_B");
+	fieldHSB_RGB[RGB_R] =       (UIEdit*) manager->findElement ("RGB_R");
+	fieldHSB_RGB[RGB_G] =       (UIEdit*) manager->findElement ("RGB_G");
+	fieldHSB_RGB[RGB_B] =       (UIEdit*) manager->findElement ("RGB_B");
 
-	fieldAlpha          = (UIEdit*) manager->findElement ("alpha");
-	fieldHEX            = (UIEdit*) manager->findElement ("HEX");
+	fieldAlpha          =       (UIEdit*) manager->findElement ("alpha");
+	fieldHEX            =       (UIEdit*) manager->findElement ("HEX");
+
+	newColor            = (UIColorPanel*) manager->findElement ("newColor");
+	oldColor            = (UIColorPanel*) manager->findElement ("oldColor");
 
 	cursorPicker->visible = false;
 	cursorLine  ->visible = false;
@@ -156,6 +159,7 @@ void ui::ColorDialog::handleCursors() {
 			scroll.y = static_cast<float>(cursorPicker->top  - colorPicker->top  + halfHeight) /
 			           static_cast<float>(colorPicker ->height);
 
+			scroll.y = 1.f - scroll.y;
 			cursor2ColorXY();
 			sf::Mouse::setPosition(sf::Vector2i(cursorPicker->absLeft + halfWidth,
 			                                    cursorPicker->absTop  + halfHeight),
@@ -245,8 +249,8 @@ void ui::ColorDialog::updateUI() {
 	auto HSB = &color.HSB;
 	auto RGB = &color.RGB;
 
-	if (HSB->H >= 360.f-std::numeric_limits<float>::epsilon())
-		HSB->H = 0;
+	color.HSB2RGB();
+	newColor->color = color;
 
 	fieldHSB_RGB[HSB_H]->text = std::to_wstring (static_cast<int>(std::round(HSB->H)));
 	fieldHSB_RGB[HSB_S]->text = std::to_wstring (static_cast<int>(std::round(HSB->S)));

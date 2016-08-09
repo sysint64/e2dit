@@ -48,8 +48,8 @@ Dialog
 
 	/* Colors */
 
-	ColorPanel location: 318, 24 size: 80, 32
-	ColorPanel location: 318, 56 size: 80, 32
+	ColorPanel name: "newColor" location: 318, 24 size: 80, 32
+	ColorPanel name: "oldColor" location: 318, 56 size: 80, 32
 
 	/* Labels */
 

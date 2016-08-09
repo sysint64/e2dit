@@ -26,6 +26,7 @@
 
 #include "ui/element.h"
 #include "ui/edit.h"
+#include "ui/colorpanel.h"
 #include "ui/manager.h"
 #include "ui/loader.h"
 #include "ui/dialog.h"
@@ -70,6 +71,9 @@ namespace ui {
 		UIEdit    *fieldHSB_RGB[6];
 		UIEdit    *fieldAlpha;
 		UIEdit    *fieldHEX;
+
+		UIColorPanel *newColor;
+		UIColorPanel *oldColor;
 
 		// States
 
