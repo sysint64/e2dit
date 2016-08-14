@@ -224,10 +224,10 @@ void ui::ColorDialog::cursor2ColorXY() {
 		case RGB_B: RGB->R = scroll.x * norm.x;  RGB->G = scroll.y * norm.y; break;
 	}
 
-	updateUI();
+	if (colorPalette >= RGB_R) color.RGB2HSB();
+	else                       color.HSB2RGB();
 
-	if (colorPalette >= RGB_R) color.HSB2RGB();
-	else                       color.RGB2HSB();
+	updateUI();
 
 }
 
@@ -246,10 +246,10 @@ void ui::ColorDialog::cursor2ColorZ() {
 		case RGB_B: RGB->B = scroll.z * norm.z; break;
 	}
 
-	updateUI();
+	if (colorPalette >= RGB_R) color.RGB2HSB();
+	else                       color.HSB2RGB();
 
-	if (colorPalette >= RGB_R) color.HSB2RGB();
-	else                       color.RGB2HSB();
+	updateUI();
 
 }
 

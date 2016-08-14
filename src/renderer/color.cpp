@@ -39,6 +39,9 @@ void gapi::Color::RGB2HSB() {
 	else if (math::feq<float>(rgb_max, RGB.B))
 		HSB.H = 60.f * (RGB.R - RGB.G) / (rgb_max - rgb_min) + 240.f;
 
+	if (math::feq<float>(rgb_max, 0.f)) HSB.S = 0.f;
+	else HSB.S = (1.f - rgb_min / rgb_max) * 100.f;
+
 	HSB.B = rgb_max*100.f;
 }
 

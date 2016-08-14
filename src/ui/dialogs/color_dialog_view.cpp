@@ -27,16 +27,16 @@ void ui::ColorDialog::updateUI() {
 	auto HSB = &color.HSB;
 	auto RGB = &color.RGB;
 
-	color.HSB2RGB();
+	// color.HSB2RGB();
 	newColor->color = color;
 
 	fieldHSB_RGB[HSB_H]->text = std::to_wstring (static_cast<int>(std::round(HSB->H)));
 	fieldHSB_RGB[HSB_S]->text = std::to_wstring (static_cast<int>(std::round(HSB->S)));
 	fieldHSB_RGB[HSB_B]->text = std::to_wstring (static_cast<int>(std::round(HSB->B)));
 
-	fieldHSB_RGB[RGB_R]->text = std::to_wstring (static_cast<int>(std::round(RGB->R)));
-	fieldHSB_RGB[RGB_G]->text = std::to_wstring (static_cast<int>(std::round(RGB->G)));
-	fieldHSB_RGB[RGB_B]->text = std::to_wstring (static_cast<int>(std::round(RGB->B)));
+	fieldHSB_RGB[RGB_R]->text = std::to_wstring (static_cast<int>(std::round(RGB->R*255.f)));
+	fieldHSB_RGB[RGB_G]->text = std::to_wstring (static_cast<int>(std::round(RGB->G*255.f)));
+	fieldHSB_RGB[RGB_B]->text = std::to_wstring (static_cast<int>(std::round(RGB->B*255.f)));
 
 }
 
@@ -69,21 +69,21 @@ void ui::ColorDialog::bindEvents() {
 	// RGB
 
 	fieldHSB_RGB[RGB_R]->onChange = [this](UIElement* el) {
-		color.RGB.R = std::stoi(fieldHSB_RGB[RGB_R]->text);
+		color.RGB.R = std::stoi(fieldHSB_RGB[RGB_R]->text) / 255.f;
 		color.RGB2HSB();
 
 		updateUI(); fieldsToCursor();
 	};
 
 	fieldHSB_RGB[RGB_G]->onChange = [this](UIElement* el) {
-		color.RGB.G = std::stoi(fieldHSB_RGB[RGB_G]->text);
+		color.RGB.G = std::stoi(fieldHSB_RGB[RGB_G]->text) / 255.f;
 		color.RGB2HSB();
 
 		updateUI(); fieldsToCursor();
 	};
 
 	fieldHSB_RGB[RGB_B]->onChange = [this](UIElement* el) {
-		color.RGB.B = std::stoi(fieldHSB_RGB[RGB_B]->text);
+		color.RGB.B = std::stoi(fieldHSB_RGB[RGB_B]->text) / 255.f;
 		color.RGB2HSB();
 
 		updateUI(); fieldsToCursor();
