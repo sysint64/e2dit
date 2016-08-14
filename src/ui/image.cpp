@@ -61,6 +61,7 @@ void UIImage::render() {
 	glBindTexture   (GL_TEXTURE_2D, texture->handle);
 
 	glUniform1i   (manager->atlasShader->locations["Texture"], 4);
+	glUniform1f   (manager->atlasShader->locations["Alpha"], 1.f);
 	renderElement (0, absLeft, absTop, width, height, imageElement.get());
 	glUniform1i   (manager->atlasShader->locations["Texture"], manager->themeTexID);
 

@@ -15,7 +15,8 @@ set(PRECOMPUTE precompute/button.cpp
 		precompute/dialog.cpp
 		precompute/tooltip.cpp)
 
-set(DIALOGS dialogs/color_dialog.cpp)
+set(DIALOGS dialogs/color_dialog.cpp
+		dialogs/color_dialog_view.cpp)
 
 set(SOURCES ${PRECOMPUTE} ${DIALOGS} button.cpp
 		checkbox.cpp

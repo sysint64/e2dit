@@ -153,8 +153,8 @@ void UIEdit::render() {
 		manager->colorShader->bind();
 
 		renderColorElement (selx1-2, absTop+selectOffset[0], // x, y
-							selx2-selx1+1, iHeights[9]-selectOffset[1]-selectOffset[0], // w, h
-							selectElement.get(), selectColor);
+		                    selx2-selx1+1, iHeights[9]-selectOffset[1]-selectOffset[0], // w, h
+		                    selectElement.get(), selectColor);
 
 		manager->colorShader->unbind();
 

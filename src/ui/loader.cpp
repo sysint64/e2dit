@@ -182,7 +182,7 @@ void UILoader::readIcon (UIButton *element, DataMap::DataNode *elementNode) {
 /**
  */
 
-std::array<float, 4> UILoader::readColor (DataMap::DataNode *elementNode, const std::string &paramName) {
+gapi::Color UILoader::readColor (DataMap::DataNode *elementNode, const std::string &paramName) {
 
 	float c[4] = {0.f, 0.f, 0.f, 1.f};
 
@@ -200,7 +200,7 @@ std::array<float, 4> UILoader::readColor (DataMap::DataNode *elementNode, const 
 
 	}
 
-	return { c[0], c[1], c[2], c[3] };
+	return gapi::Color::createFromRGBA (c[0], c[1], c[2], c[3]);
 
 }
 

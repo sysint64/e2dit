@@ -27,6 +27,7 @@
 
 #include "renderer/base_object.h"
 #include "renderer/texture.h"
+#include "renderer/color.h"
 
 class UIColorPanel : public UIElement {
 private:
@@ -34,7 +35,7 @@ private:
 	Texture *gridTexture = nullptr;
 
 public:
-	std::array<float, 4> color;
+	gapi::Color color;
 
 	virtual void render();
 

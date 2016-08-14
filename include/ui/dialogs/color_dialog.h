@@ -96,6 +96,11 @@ namespace ui {
 		void cursor2ColorXY();
 		void cursor2ColorZ();
 		void updateUI();
+		void fieldsToCursor();
+		void bindEvents();
+
+		void setCursorZ  (const float z);
+		void setCursorXY (const float x, const float y);
 
 	public:
 		gapi::Color color;

@@ -26,6 +26,7 @@
 #include "utility/data_map.h"
 #include "utility/strings_res.h"
 #include "utility/filesystem.h"
+#include "renderer/color.h"
 
 class UILoader {
 private:
@@ -48,11 +49,11 @@ private:
 	std::unique_ptr<UIElement> createLabel       (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createGrouped     (DataMap::DataNode *elementNode);
 
-	std::array<int  , 4> readRect    (DataMap::DataNode *elementNode, const std::string &paramName, const bool autoFill = true);
-	std::array<float, 4> readColor   (DataMap::DataNode *elementNode, const std::string &paramName);
-	std::wstring         readCaption (DataMap::DataNode *elementNode, const std::string &paramName);
-	Align                readAlign   (DataMap::DataNode *elementNode, const std::string &paramName);
-	void                 readIcon    (UIButton *element, DataMap::DataNode *elementNode);
+	std::array<int, 4> readRect    (DataMap::DataNode *elementNode, const std::string &paramName, const bool autoFill = true);
+	gapi::Color        readColor   (DataMap::DataNode *elementNode, const std::string &paramName);
+	std::wstring       readCaption (DataMap::DataNode *elementNode, const std::string &paramName);
+	Align              readAlign   (DataMap::DataNode *elementNode, const std::string &paramName);
+	void               readIcon    (UIButton *element, DataMap::DataNode *elementNode);
 
 public:
 	std::unique_ptr<DataMap> data = nullptr;

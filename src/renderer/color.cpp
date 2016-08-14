@@ -43,6 +43,10 @@ void gapi::Color::RGB2HSB() {
 }
 
 void gapi::Color::HSB2RGB() {
+
+	if (HSB.H >= 360.f-std::numeric_limits<float>::epsilon())
+		HSB.H = 0;
+
 	float Hi = HSB.H/60.f;
 	float Bmin = ((100.f-HSB.S)*HSB.B)/100.f;
 	float a = (HSB.B-Bmin)*((static_cast<int>(HSB.H) % 60)/60.f);
@@ -53,12 +57,12 @@ void gapi::Color::HSB2RGB() {
 	Binc /= 100.f; Bmin /= 100.f; Bdec /= 100.f;
 
 	switch (int(Hi)) {
-		case 0 : HSB = { B   , Binc, Bmin }; break;
-		case 1 : HSB = { Bdec, B   , Bmin }; break;
-		case 2 : HSB = { Bmin, B   , Binc }; break;
-		case 3 : HSB = { Bmin, Bdec, B    }; break;
-		case 4 : HSB = { Binc, Bmin, B    }; break;
-		case 5 : HSB = { B   , Bmin, Bdec }; break;
-		default: HSB = { 0.f , 0.f , 0.f  };
+		case 0 : RGB = { B   , Binc, Bmin }; break;
+		case 1 : RGB = { Bdec, B   , Bmin }; break;
+		case 2 : RGB = { Bmin, B   , Binc }; break;
+		case 3 : RGB = { Bmin, Bdec, B    }; break;
+		case 4 : RGB = { Binc, Bmin, B    }; break;
+		case 5 : RGB = { B   , Bmin, Bdec }; break;
+		default: RGB = { 0.f , 0.f , 0.f  };
 	}
 }

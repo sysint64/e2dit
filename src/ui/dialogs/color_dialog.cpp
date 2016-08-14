@@ -56,6 +56,8 @@ void ui::ColorDialog::onCreate() {
 	lastCursorPickerLeft = cursorPicker->left;
 	lastCursorPickerTop  = cursorPicker->top;
 
+	bindEvents();
+
 }
 
 /**
@@ -188,6 +190,7 @@ void ui::ColorDialog::handleCursors() {
 		scroll.z = static_cast<float>(cursorLine->top - colorLine->top  + halfHeight) /
 		           static_cast<float>(colorLine ->height);
 
+		scroll.z = 1.f - scroll.z;
 		cursor2ColorZ();
 	}
 
@@ -223,6 +226,9 @@ void ui::ColorDialog::cursor2ColorXY() {
 
 	updateUI();
 
+	if (colorPalette >= RGB_R) color.HSB2RGB();
+	else                       color.RGB2HSB();
+
 }
 
 void ui::ColorDialog::cursor2ColorZ() {
@@ -242,22 +248,45 @@ void ui::ColorDialog::cursor2ColorZ() {
 
 	updateUI();
 
+	if (colorPalette >= RGB_R) color.HSB2RGB();
+	else                       color.RGB2HSB();
+
 }
 
-void ui::ColorDialog::updateUI() {
+void ui::ColorDialog::setCursorZ (const float z) {
 
-	auto HSB = &color.HSB;
-	auto RGB = &color.RGB;
+	scroll.z = 1.f - z / norm.z;
+	cursorLine->top = colorLine->top + static_cast<int> (scroll.z*colorLine->height);
+	cursorLine->top -= cursorLine->height >> 1;
 
-	color.HSB2RGB();
-	newColor->color = color;
+}
 
-	fieldHSB_RGB[HSB_H]->text = std::to_wstring (static_cast<int>(std::round(HSB->H)));
-	fieldHSB_RGB[HSB_S]->text = std::to_wstring (static_cast<int>(std::round(HSB->S)));
-	fieldHSB_RGB[HSB_B]->text = std::to_wstring (static_cast<int>(std::round(HSB->B)));
+void ui::ColorDialog::setCursorXY (const float x, const float y) {
 
-	fieldHSB_RGB[RGB_R]->text = std::to_wstring (static_cast<int>(std::round(RGB->R)));
-	fieldHSB_RGB[RGB_G]->text = std::to_wstring (static_cast<int>(std::round(RGB->G)));
-	fieldHSB_RGB[RGB_B]->text = std::to_wstring (static_cast<int>(std::round(RGB->B)));
+	scroll.x = x / norm.x;
+	scroll.y = 1.f - y / norm.y;
+
+	lastCursorPickerLeft = colorPicker->left + static_cast<int> (scroll.x*colorPicker->width );
+	lastCursorPickerTop  = colorPicker->top  + static_cast<int> (scroll.y*colorPicker->height);
+
+	lastCursorPickerLeft -= cursorPicker->width  >> 1;
+	lastCursorPickerTop  -= cursorPicker->height >> 1;
+
+}
+
+void ui::ColorDialog::fieldsToCursor() {
+
+	const auto HSB = &color.HSB;
+	const auto RGB = &color.RGB;
+
+	switch (colorPalette) {
+		case HSB_H: setCursorZ (HSB->H);  setCursorXY (HSB->S, HSB->B); break;
+		case HSB_S: setCursorZ (HSB->S);  setCursorXY (HSB->H, HSB->B); break;
+		case HSB_B: setCursorZ (HSB->B);  setCursorXY (HSB->H, HSB->S); break;
+
+		case RGB_R: setCursorZ (RGB->R);  setCursorXY (RGB->B, RGB->G); break;
+		case RGB_G: setCursorZ (RGB->G);  setCursorXY (RGB->B, RGB->R); break;
+		case RGB_B: setCursorZ (RGB->B);  setCursorXY (RGB->R, RGB->G); break;
+	}
 
 }
