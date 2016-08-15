@@ -37,10 +37,10 @@ public:
 
 		static void init (Application *app) {
 
-			std::vector<std::string> atlasMaskLocations   {"MVP", "Size" , "Offset" , "Texture", "Alpha", "Mask", "MaskOffset", "MaskSize"};
-			std::vector<std::string> atlasLocations       {"MVP", "Size" , "Offset" , "Texture", "Alpha"};
-			std::vector<std::string> colorLineLocations   {"MVP", "Color", "Pallete", "RGB"    , "HSB"};
-			std::vector<std::string> colorPickerLocations {"MVP", "Color", "Pallete", "RGB"    , "HSB"};
+			std::vector<std::string> atlasMaskLocations   {"MVP", "Size"   , "Offset" , "Texture", "Alpha", "Mask", "MaskOffset", "MaskSize"};
+			std::vector<std::string> atlasLocations       {"MVP", "Size"   , "Offset" , "Texture", "Alpha"};
+			std::vector<std::string> colorLineLocations   {"MVP", "palette", "RGB"    , "HSB"};
+			std::vector<std::string> colorPickerLocations {"MVP", "palette", "RGB"    , "HSB"};
 			std::vector<std::string> colorLocations       {"MVP", "Color"};
 
 			std::string GL = "GL"+std::to_string(app->OGLMajor);

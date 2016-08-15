@@ -23,47 +23,6 @@
 #include "ui/dialogs/color_dialog.h"
 #include "utility/ui.h"
 
-/**
- * \brief
- */
-
-void ui::ColorDialog::onCreate() {
-
-	dialog = dynamic_cast<UIDialog*>(manager->findElement("colorDialog"));
-
-	colorPicker  = manager->findElement ("colorPicker");
-	colorLine    = manager->findElement ("colorLine");
-	cursorPicker = manager->findElement ("cursorPicker");
-	cursorLine   = manager->findElement ("cursorLine");
-
-	fieldHSB_RGB[HSB_H] =       (UIEdit*) manager->findElement ("HSB_H");
-	fieldHSB_RGB[HSB_S] =       (UIEdit*) manager->findElement ("HSB_S");
-	fieldHSB_RGB[HSB_B] =       (UIEdit*) manager->findElement ("HSB_B");
-
-	fieldHSB_RGB[RGB_R] =       (UIEdit*) manager->findElement ("RGB_R");
-	fieldHSB_RGB[RGB_G] =       (UIEdit*) manager->findElement ("RGB_G");
-	fieldHSB_RGB[RGB_B] =       (UIEdit*) manager->findElement ("RGB_B");
-
-	fieldAlpha          =       (UIEdit*) manager->findElement ("alpha");
-	fieldHEX            =       (UIEdit*) manager->findElement ("HEX");
-
-	newColor            = (UIColorPanel*) manager->findElement ("newColor");
-	oldColor            = (UIColorPanel*) manager->findElement ("oldColor");
-
-	cursorPicker->visible = false;
-	cursorLine  ->visible = false;
-
-	lastCursorPickerLeft = cursorPicker->left;
-	lastCursorPickerTop  = cursorPicker->top;
-
-	bindEvents();
-
-}
-
-/**
- * \brief
- */
-
 void ui::ColorDialog::render() {
 
 	int x, y, w, h;
@@ -109,10 +68,6 @@ void ui::ColorDialog::render() {
 	handleCursors();
 
 }
-
-/**
- * \brief
- */
 
 void ui::ColorDialog::handleCursors() {
 

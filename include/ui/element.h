@@ -186,7 +186,7 @@ public:
 	bool over      = false; ///< true if mouse over element even if another element overlaps it
 	bool alignSize = false; ///< used in updateAlign method. If true then element change size depenging on the alignment
 
-	std::wstring hint = L"Elementasdasdasd saas ass";
+	std::wstring hint = L"";
 	std::string  name = "";
 	int          tag  = 0;
 

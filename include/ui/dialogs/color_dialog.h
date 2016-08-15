@@ -26,6 +26,7 @@
 
 #include "ui/element.h"
 #include "ui/edit.h"
+#include "ui/grouped.h"
 #include "ui/colorpanel.h"
 #include "ui/manager.h"
 #include "ui/loader.h"
@@ -68,6 +69,10 @@ namespace ui {
 		UIElement *cursorPicker;
 		UIElement *cursorLine;
 
+		UIGrouped *groupedHSB;
+		UIGrouped *groupedRGB;
+
+		UIButton  *buttonHSB_RGB[6];
 		UIEdit    *fieldHSB_RGB[6];
 		UIEdit    *fieldAlpha;
 		UIEdit    *fieldHEX;

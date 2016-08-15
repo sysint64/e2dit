@@ -217,7 +217,8 @@ void UIButton::mouseDown (int x, int y, int button) {
 
 	UIElement::mouseDown (x, y, button);
 
-	if (!allowCheck) return;
+	if (!allowCheck)
+		return;
 
 	UICheckedElements *grouped = dynamic_cast<UICheckedElements*>(parent);
 
@@ -226,12 +227,23 @@ void UIButton::mouseDown (int x, int y, int button) {
 		if (!enter)
 			return;
 
-		if (grouped->lastSelected != nullptr)
-			grouped->lastSelected->checked = false;
+		grouped->checkElement (this);
 
-		checked = true;
-		grouped->lastSelected = this;
+		if (this->onClick != nullptr)
+			this->onClick (this);
 
 	} else if (enter) checked = !checked;
+
+}
+
+void UIButton::mouseUp (int x, int y, int button) {
+
+	UIElement::mouseUp (x, y, button);
+
+	if (allowCheck || !enter)
+		return;
+
+	if (this->onClick != nullptr)
+		this->onClick (this);
 
 }

@@ -86,6 +86,7 @@ public:
 	virtual void render()     override;
 
 	virtual void mouseDown (int x, int y, int button) override;
+	virtual void mouseUp   (int x, int y, int button) override;
 
 	inline void setTooltip() {
 		tooltip = std::make_unique<UITooltip> (manager);
@@ -100,7 +101,6 @@ public:
 		this->allowCheck = allowCheck;
 
 		style = allowCheck ? "checkbutton" : "button";
-		setTooltip();
 		precompute();
 
 	}

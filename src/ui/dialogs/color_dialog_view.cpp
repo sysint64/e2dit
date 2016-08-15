@@ -20,7 +20,62 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
+#include <ui/all.h>
 #include "ui/dialogs/color_dialog.h"
+
+void ui::ColorDialog::onCreate() {
+
+	dialog = dynamic_cast<UIDialog*>(manager->findElement("colorDialog"));
+
+	colorPicker  = manager->findElement ("colorPicker");
+	colorLine    = manager->findElement ("colorLine");
+	cursorPicker = manager->findElement ("cursorPicker");
+	cursorLine   = manager->findElement ("cursorLine");
+
+	// Text fields
+
+	fieldHSB_RGB[HSB_H]  =       (UIEdit*) manager->findElement ("eHSB_H");
+	fieldHSB_RGB[HSB_S]  =       (UIEdit*) manager->findElement ("eHSB_S");
+	fieldHSB_RGB[HSB_B]  =       (UIEdit*) manager->findElement ("eHSB_B");
+
+	fieldHSB_RGB[RGB_R]  =       (UIEdit*) manager->findElement ("eRGB_R");
+	fieldHSB_RGB[RGB_G]  =       (UIEdit*) manager->findElement ("eRGB_G");
+	fieldHSB_RGB[RGB_B]  =       (UIEdit*) manager->findElement ("eRGB_B");
+
+	// Buttons
+
+	buttonHSB_RGB[HSB_H] =     (UIButton*) manager->findElement ("bHSB_H");
+	buttonHSB_RGB[HSB_S] =     (UIButton*) manager->findElement ("bHSB_S");
+	buttonHSB_RGB[HSB_B] =     (UIButton*) manager->findElement ("bHSB_B");
+
+	buttonHSB_RGB[RGB_R] =     (UIButton*) manager->findElement ("bRGB_R");
+	buttonHSB_RGB[RGB_G] =     (UIButton*) manager->findElement ("bRGB_G");
+	buttonHSB_RGB[RGB_B] =     (UIButton*) manager->findElement ("bRGB_B");
+
+	fieldAlpha           =       (UIEdit*) manager->findElement ("alpha");
+	fieldHEX             =       (UIEdit*) manager->findElement ("HEX");
+
+	// Grouped
+
+	groupedHSB           =    (UIGrouped*) manager->findElement ("gHSB");
+	groupedRGB           =    (UIGrouped*) manager->findElement ("gRGB");
+
+	// Color
+
+	newColor             = (UIColorPanel*) manager->findElement ("newColor");
+	oldColor             = (UIColorPanel*) manager->findElement ("oldColor");
+
+	// Settings
+
+	cursorPicker->visible = false;
+	cursorLine  ->visible = false;
+
+	lastCursorPickerLeft = cursorPicker->left;
+	lastCursorPickerTop  = cursorPicker->top;
+
+	bindEvents();
+
+}
 
 void ui::ColorDialog::updateUI() {
 
@@ -86,5 +141,52 @@ void ui::ColorDialog::bindEvents() {
 		color.RGB2HSB();
 
 		updateUI(); fieldsToCursor();
+	};
+
+	// Buttons
+	// HSB
+
+	buttonHSB_RGB[HSB_H]->onClick = [this](UIElement* el) {
+		colorPalette = HSB_H;
+		groupedRGB->uncheck();
+		norm = glm::vec3(100.f, 100.f, 360.f);
+		fieldsToCursor();
+	};
+
+	buttonHSB_RGB[HSB_S]->onClick = [this](UIElement* el) {
+		colorPalette = HSB_S;
+		groupedRGB->uncheck();
+		norm = glm::vec3(360.f, 100.f, 100.f);
+		fieldsToCursor();
+	};
+
+	buttonHSB_RGB[HSB_B]->onClick = [this](UIElement* el) {
+		colorPalette = HSB_B;
+		groupedRGB->uncheck();
+		norm = glm::vec3(360.f, 100.f, 100.f);
+		fieldsToCursor();
+	};
+
+	// RGB
+
+	buttonHSB_RGB[RGB_R]->onClick = [this](UIElement* el) {
+		colorPalette = RGB_R;
+		groupedHSB->uncheck();
+		norm = glm::vec3(1.f, 1.f, 1.f);
+		fieldsToCursor();
+	};
+
+	buttonHSB_RGB[RGB_G]->onClick = [this](UIElement* el) {
+		colorPalette = RGB_G;
+		groupedHSB->uncheck();
+		norm = glm::vec3(1.f, 1.f, 1.f);
+		fieldsToCursor();
+	};
+
+	buttonHSB_RGB[RGB_B]->onClick = [this](UIElement* el) {
+		colorPalette = RGB_B;
+		groupedHSB->uncheck();
+		norm = glm::vec3(1.f, 1.f, 1.f);
+		fieldsToCursor();
 	};
 }
