@@ -62,17 +62,17 @@ Dialog
 		name: "gHSB"
 		location: 412, 70
 
-		Button caption: "H" size: 19, 21 textAlign: left paddingLeft: 1
-		Button caption: "S" size: 19, 21 textAlign: left paddingLeft: 1
-		Button caption: "B" size: 19, 21 textAlign: left paddingLeft: 0
+		Button caption: "H" size: 19, 21 textAlign: left paddingLeft: 1 allowCheck: true checked: true
+		Button caption: "S" size: 19, 21 textAlign: left paddingLeft: 1 allowCheck: true
+		Button caption: "B" size: 19, 21 textAlign: left paddingLeft: 0 allowCheck: true
 
 	Grouped
 		name: "gRGB"
 		location: 475, 70
 
-		Button caption: "R" size: 19, 21 textAlign: left paddingLeft: 1
-		Button caption: "G" size: 19, 21 textAlign: left paddingLeft: 0
-		Button caption: "B" size: 19, 21 textAlign: left paddingLeft: 0
+		Button caption: "R" size: 19, 21 textAlign: left paddingLeft: 1 allowCheck: true
+		Button caption: "G" size: 19, 21 textAlign: left paddingLeft: 0 allowCheck: true
+		Button caption: "B" size: 19, 21 textAlign: left paddingLeft: 0 allowCheck: true
 
 	/* HSB Text fields */
 

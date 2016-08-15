@@ -91,4 +91,7 @@ void UIGrouped::render() {
 
 	}
 
+	if (autoSize)
+		width = offset;
+
 }

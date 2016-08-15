@@ -38,6 +38,11 @@ void UILoader::placeElements (DataMap::DataNode *rootNode, UIElement *uiParent) 
 
 		auto elPtr = el.get();
 
+		auto grouped = dynamic_cast<UIGrouped*> (uiParent);
+
+		if (grouped)
+			grouped->autoCheck();
+
 		uiParent->addElement (std::move(el));
 		placeElements (it.get(), elPtr);
 
@@ -241,6 +246,8 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	if (size != end) {
 		element->width  = size->second[0].intval;
 		element->height = size->second[1].intval;
+	} else {
+		element->autoSize = true;
 	}
 
 	if (location != end) {
@@ -253,8 +260,6 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	if (top    != end) element->top    = top   ->second[0].intval;
 	if (width  != end) element->width  = width ->second[0].intval;
 	if (height != end) element->height = height->second[0].intval;
-
-	//
 
 	element->align         = readAlign (elementNode, "align");
 	element->verticalAlign = readAlign (elementNode, "verticalalign");
@@ -368,11 +373,23 @@ std::unique_ptr<UIElement> UILoader::createStackLayout (DataMap::DataNode *eleme
 
 std::unique_ptr<UIElement> UILoader::createButton (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIButton> (manager, false);
+	auto check   = elementNode->params.find ("allowcheck");
+	auto checked = elementNode->params.find ("checked");
+	auto end     = elementNode->params.end();
+
+	bool allowCheck = false;
+
+	if (check != end)
+		allowCheck = check->second[0].boolean;
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIButton> (manager, allowCheck);
 	auto button = dynamic_cast<UIButton*>(element.get());
 
 	button->caption   = readCaption (elementNode, "caption");
 	button->textAlign = readAlign   (elementNode, "textalign");
+
+	if (checked != end)
+		button->checked = checked->second[0].boolean;
 
 	if (button->textAlign == Align::None)
 		button->textAlign = Align::Center;

@@ -346,6 +346,33 @@ public:
 
 	}
 
+	inline void uncheck() {
+
+		if (!multiSelect && lastSelected != nullptr)
+			lastSelected->checked = false;
+
+	}
+
+	inline void uncheckAll() {
+
+		for (const auto &kvp : elements)
+			kvp.second->checked = false;
+
+	}
+
+	inline void autoCheck() {
+
+		for (const auto &kvp : elements) {
+
+			if (kvp.second->checked) {
+				lastSelected = kvp.second.get();
+				break;
+			}
+
+		}
+
+	}
+
 	UICheckedElements (UIManager *manager) : UIElement (manager) {
 
 		this->manager = manager;

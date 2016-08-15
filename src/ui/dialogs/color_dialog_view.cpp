@@ -27,7 +27,6 @@ void ui::ColorDialog::updateUI() {
 	auto HSB = &color.HSB;
 	auto RGB = &color.RGB;
 
-	// color.HSB2RGB();
 	newColor->color = color;
 
 	fieldHSB_RGB[HSB_H]->text = std::to_wstring (static_cast<int>(std::round(HSB->H)));
