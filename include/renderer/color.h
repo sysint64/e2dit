@@ -29,7 +29,16 @@ namespace gapi {
 		float _data[4];
 
 	public:
-		struct { float R, G, B; } RGB;
+		struct {
+			float R, G, B;
+
+			inline void set (float vR, float vG, float vB) { R = vR; G = vG; B = vB; }
+			inline void set (float *values) {
+				R = values[0];
+				G = values[1];
+				B = values[2];
+			}
+		} RGB;
 		struct { float H, S, B; } HSB;
 		struct { float X, Y, Z; } XYZ;
 		struct { float L, a, b; } Lab;

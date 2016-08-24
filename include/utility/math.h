@@ -25,6 +25,7 @@
 
 #include <math.h>
 #include <glm/glm.hpp>
+#include <string>
 
 #define countof(a) ((sizeof(a) / sizeof(*(a))) / static_cast<size_t>(!(sizeof(a) % sizeof(*(a)))))
 namespace math {
@@ -46,6 +47,24 @@ namespace math {
 		float deltaMove = dist*deltaTime*interpSpeed;
 		return current+deltaMove;
 
+	}
+
+	inline int hexstr2int (std::wstring val) {
+		int res = 0;
+
+		for (int i = 0; i < val.size(); i++) {
+			int add = 0;
+			wchar_t C = val[i];
+
+			if (C >= L'0' && C <= L'9') add = C-L'0';
+			if (C >= L'A' && C <= L'F') add = C-L'A'+10;
+			if (C >= L'a' && C <= L'f') add = C-L'a'+10;
+
+			add <<= 4*i;
+			res += add;
+		}
+
+		return res;
 	}
 
 	/**

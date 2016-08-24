@@ -80,6 +80,9 @@ namespace ui {
 		UIColorPanel *newColor;
 		UIColorPanel *oldColor;
 
+		std::wstring lastHEX = L"";
+		bool validHEX = false;
+
 		// States
 
 		bool colorPickerClick = false;

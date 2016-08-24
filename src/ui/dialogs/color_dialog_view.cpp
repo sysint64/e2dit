@@ -103,21 +103,24 @@ void ui::ColorDialog::bindEvents() {
 		color.HSB.H = std::stoi(fieldHSB_RGB[HSB_H]->text);
 		color.HSB2RGB();
 
-		updateUI(); fieldsToCursor();
+		updateUI();
+		fieldsToCursor();
 	};
 
 	fieldHSB_RGB[HSB_S]->onChange = [this](UIElement* el) {
 		color.HSB.S = std::stoi(fieldHSB_RGB[HSB_S]->text);
 		color.HSB2RGB();
 
-		updateUI(); fieldsToCursor();
+		updateUI();
+		fieldsToCursor();
 	};
 
 	fieldHSB_RGB[HSB_B]->onChange = [this](UIElement* el) {
 		color.HSB.B = std::stoi(fieldHSB_RGB[HSB_B]->text);
 		color.HSB2RGB();
 
-		updateUI(); fieldsToCursor();
+		updateUI();
+		fieldsToCursor();
 	};
 
 	// RGB
@@ -126,21 +129,66 @@ void ui::ColorDialog::bindEvents() {
 		color.RGB.R = std::stoi(fieldHSB_RGB[RGB_R]->text) / 255.f;
 		color.RGB2HSB();
 
-		updateUI(); fieldsToCursor();
+		updateUI();
+		fieldsToCursor();
 	};
 
 	fieldHSB_RGB[RGB_G]->onChange = [this](UIElement* el) {
 		color.RGB.G = std::stoi(fieldHSB_RGB[RGB_G]->text) / 255.f;
 		color.RGB2HSB();
 
-		updateUI(); fieldsToCursor();
+		updateUI();
+		fieldsToCursor();
 	};
 
 	fieldHSB_RGB[RGB_B]->onChange = [this](UIElement* el) {
 		color.RGB.B = std::stoi(fieldHSB_RGB[RGB_B]->text) / 255.f;
 		color.RGB2HSB();
 
-		updateUI(); fieldsToCursor();
+		updateUI();
+		fieldsToCursor();
+	};
+
+	// HEX
+
+	fieldHEX->onChange = [this](UIElement* el) {
+		bool updated = false;
+		float RGB[3];
+
+		if (fieldHEX->text.size() == 3)
+			fieldHEX->text = fieldHEX->text+fieldHEX->text;
+
+		if (fieldHEX->text.size() != 6) {
+			fieldHEX->text = lastHEX;
+			return;
+		}
+
+		for (int i = 0; i < 6; i += 2) {
+			auto wc1 = fieldHEX->text[i];
+			auto wc2 = fieldHEX->text[i+1];
+			std::wstring hex;
+			hex += wc2; hex += wc1;
+			RGB[i/2] = static_cast<float>(math::hexstr2int(hex)) / 255.f;
+
+			updated = true;
+		}
+
+		if (updated) {
+			color.RGB.set(RGB);
+			color.RGB2HSB();
+
+			updateUI();
+			fieldsToCursor();
+		} else {
+			fieldHEX->text = lastHEX;
+		}
+	};
+
+	// Alpha
+
+	fieldAlpha->onChange = [this](UIElement* el) {
+		color.alpha = std::stoi(fieldAlpha->text) / 100.f;
+		newColor->color = color;
 	};
 
 	// Buttons
