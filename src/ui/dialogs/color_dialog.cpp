@@ -229,6 +229,35 @@ void ui::ColorDialog::setCursorXY (const float x, const float y) {
 
 }
 
+bool ui::ColorDialog::HEX2RGB (const std::wstring &hex) {
+
+	float RGB[3] {0, 0, 0};
+	const std::wstring alphabet = L"0123456789abcdefABCDEF";
+
+	if (hex.length() != 6)
+		return false;
+
+	for (int i = 0; i < 6; i += 2) {
+
+		auto wc1 = hex[i];
+		auto wc2 = hex[i+1];
+
+		if (alphabet.find(wc1) == std::wstring::npos || alphabet.find(wc2) == std::wstring::npos)
+			return false;
+
+		std::wstring byte;
+		byte += wc2; byte += wc1;
+		RGB[i/2] = static_cast<float>(math::hexstr2int(byte)) / 255.f;
+
+	}
+
+	color.RGB.set(RGB);
+	color.RGB2HSB();
+
+	return true;
+
+}
+
 void ui::ColorDialog::fieldsToCursor() {
 
 	const auto HSB = &color.HSB;

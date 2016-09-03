@@ -110,6 +110,8 @@ namespace ui {
 		void setCursorZ  (const float z);
 		void setCursorXY (const float x, const float y);
 
+		bool HEX2RGB (const std::wstring &hex);
+
 	public:
 		gapi::Color color;
 

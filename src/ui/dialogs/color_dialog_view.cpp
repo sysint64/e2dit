@@ -152,35 +152,11 @@ void ui::ColorDialog::bindEvents() {
 	// HEX
 
 	fieldHEX->onChange = [this](UIElement* el) {
-		bool updated = false;
-		float RGB[3];
-
-		if (fieldHEX->text.size() == 3)
-			fieldHEX->text = fieldHEX->text+fieldHEX->text;
-
-		if (fieldHEX->text.size() != 6) {
-			fieldHEX->text = lastHEX;
-			return;
-		}
-
-		for (int i = 0; i < 6; i += 2) {
-			auto wc1 = fieldHEX->text[i];
-			auto wc2 = fieldHEX->text[i+1];
-			std::wstring hex;
-			hex += wc2; hex += wc1;
-			RGB[i/2] = static_cast<float>(math::hexstr2int(hex)) / 255.f;
-
-			updated = true;
-		}
-
-		if (updated) {
-			color.RGB.set(RGB);
-			color.RGB2HSB();
-
+		if (HEX2RGB (fieldHEX->text)) {
 			updateUI();
 			fieldsToCursor();
 		} else {
-			fieldHEX->text = lastHEX;
+			//fieldHEX->text = lastHEX;
 		}
 	};
 
