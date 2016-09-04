@@ -135,7 +135,7 @@ public:
 	void addElement    (std::unique_ptr<UIElement> el);
 	void deleteElement (std::unique_ptr<UIElement> el);
 	void deleteElement (const int  id);
-	void unfocus();
+	void blur();
 	void poll();
 
 	UIElement *findElement (const std::string &name);

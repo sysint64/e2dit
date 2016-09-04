@@ -90,7 +90,7 @@ void UIStackLayout::render() {
 			lastLoc   += w;
 
 			int cheight = child->verticalAlign == Align::Bottom ? 0 :
-				child->top+child->height+offsetSizeY();
+			              child->top+child->height+offsetSizeY();
 
 			if (maxHeight < cheight)
 				maxHeight = cheight;

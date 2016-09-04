@@ -153,11 +153,26 @@ void ui::ColorDialog::bindEvents() {
 
 	fieldHEX->onChange = [this](UIElement* el) {
 		if (HEX2RGB (fieldHEX->text)) {
+			lastHEX = fieldHEX->text;
 			updateUI();
 			fieldsToCursor();
-		} else {
-			//fieldHEX->text = lastHEX;
 		}
+	};
+
+	fieldHEX->onBlur = [this](UIElement* el) {
+		if (fieldHEX->text.length() == 3) {
+			std::wstring newText = L"";
+
+			for (int i = 0; i < 3; ++i) {
+				newText += fieldHEX->text[i];
+				newText += fieldHEX->text[i];
+			}
+
+			fieldHEX->text = newText;
+		}
+
+		fieldHEX->onChange (fieldHEX);
+		fieldHEX->text = lastHEX;
 	};
 
 	// Alpha

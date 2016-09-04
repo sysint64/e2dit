@@ -377,7 +377,7 @@ void UIManager::mouseUp (int x, int y, int button) {
 
 	root->mouseUp (x, y, button);
 	int length = root->elements.size();
-	unfocus();
+	blur();
 
 }
 
@@ -385,7 +385,7 @@ void UIManager::mouseUp (int x, int y, int button) {
  * Unfocus Elements in unfocusedElements
  */
 
-void UIManager::unfocus() {
+void UIManager::blur() {
 
 	for (auto el : unfocusedElements) {
 
@@ -394,8 +394,8 @@ void UIManager::unfocus() {
 
 		el->focused = false;
 
-		if (el->onUnfocused != nullptr)
-			el->onUnfocused (el);
+		if (el->onBlur != nullptr)
+			el->onBlur (el);
 	}
 
 	unfocusedElements.clear();
@@ -414,14 +414,14 @@ void UIManager::keyPressed (int key) {
 		if (pressed (keyShift) && pressed (keyTab) && focusedElement->prev != nullptr) {
 
 			focusedElement->prev->focus();
-			unfocus();
+			blur();
 
 		} else
 
 		if (pressed (keyTab) && focusedElement->next != nullptr) {
 
 			focusedElement->next->focus();
-			unfocus();
+			blur();
 
 		}
 

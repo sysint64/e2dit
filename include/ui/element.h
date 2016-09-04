@@ -239,7 +239,8 @@ public:
 
 	std::function<void(UIElement*)>                onClick      = nullptr;
 	std::function<void(UIElement*)>                onProgress   = nullptr;
-	std::function<void(UIElement*)>                onUnfocused  = nullptr;
+	std::function<void(UIElement*)>                onFocus      = nullptr;
+	std::function<void(UIElement*)>                onBlur       = nullptr;
 	std::function<void(UIElement*, int)>           onKeyPressed = nullptr;
 	std::function<void(UIElement*, int, int, int)> onMouseDown  = nullptr;
 	std::function<void(UIElement*, int, int, int)> onDblClick   = nullptr;
