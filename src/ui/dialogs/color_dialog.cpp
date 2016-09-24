@@ -182,6 +182,7 @@ void ui::ColorDialog::cursor2ColorXY() {
 	if (colorPalette >= RGB_R) color.RGB2HSB();
 	else                       color.HSB2RGB();
 
+	RGB2HEX();
 	updateUI();
 
 }
@@ -204,6 +205,7 @@ void ui::ColorDialog::cursor2ColorZ() {
 	if (colorPalette >= RGB_R) color.RGB2HSB();
 	else                       color.HSB2RGB();
 
+	RGB2HEX();
 	updateUI();
 
 }
@@ -256,6 +258,21 @@ bool ui::ColorDialog::HEX2RGB (const std::wstring &hex) {
 
 	return true;
 
+}
+
+void ui::ColorDialog::RGB2HEX() {
+	std::wostringstream stringStream;
+
+	auto addColorComponent = [&stringStream](float val) {
+		stringStream << std::hex << std::setw(2) << std::setfill(L'0')
+		             << static_cast<int>(round(val*255.f));
+	};
+
+	addColorComponent (color.RGB.R);
+	addColorComponent (color.RGB.G);
+	addColorComponent (color.RGB.B);
+
+	fieldHEX->text = stringStream.str();
 }
 
 void ui::ColorDialog::fieldsToCursor() {

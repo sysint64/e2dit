@@ -111,6 +111,7 @@ namespace ui {
 		void setCursorXY (const float x, const float y);
 
 		bool HEX2RGB (const std::wstring &hex);
+		void RGB2HEX ();
 
 	public:
 		gapi::Color color;

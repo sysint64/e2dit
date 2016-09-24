@@ -103,6 +103,7 @@ void ui::ColorDialog::bindEvents() {
 		color.HSB.H = std::stoi(fieldHSB_RGB[HSB_H]->text);
 		color.HSB2RGB();
 
+		RGB2HEX();
 		updateUI();
 		fieldsToCursor();
 	};
@@ -111,6 +112,7 @@ void ui::ColorDialog::bindEvents() {
 		color.HSB.S = std::stoi(fieldHSB_RGB[HSB_S]->text);
 		color.HSB2RGB();
 
+		RGB2HEX();
 		updateUI();
 		fieldsToCursor();
 	};
@@ -119,6 +121,7 @@ void ui::ColorDialog::bindEvents() {
 		color.HSB.B = std::stoi(fieldHSB_RGB[HSB_B]->text);
 		color.HSB2RGB();
 
+		RGB2HEX();
 		updateUI();
 		fieldsToCursor();
 	};
@@ -129,6 +132,7 @@ void ui::ColorDialog::bindEvents() {
 		color.RGB.R = std::stoi(fieldHSB_RGB[RGB_R]->text) / 255.f;
 		color.RGB2HSB();
 
+		RGB2HEX();
 		updateUI();
 		fieldsToCursor();
 	};
@@ -137,6 +141,7 @@ void ui::ColorDialog::bindEvents() {
 		color.RGB.G = std::stoi(fieldHSB_RGB[RGB_G]->text) / 255.f;
 		color.RGB2HSB();
 
+		RGB2HEX();
 		updateUI();
 		fieldsToCursor();
 	};
@@ -145,6 +150,7 @@ void ui::ColorDialog::bindEvents() {
 		color.RGB.B = std::stoi(fieldHSB_RGB[RGB_B]->text) / 255.f;
 		color.RGB2HSB();
 
+		RGB2HEX();
 		updateUI();
 		fieldsToCursor();
 	};

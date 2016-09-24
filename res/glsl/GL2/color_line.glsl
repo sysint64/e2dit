@@ -57,9 +57,9 @@ void HSB_BParam() {
 }
 
 // RGB
-void RGB_RParam() { gl_FragColor = vec4 (vec3(pos.y, RGB[1], RGB[2]), 1); }
-void RGB_GParam() { gl_FragColor = vec4 (vec3(RGB[0], pos.y, RGB[2]), 1); }
-void RGB_BParam() { gl_FragColor = vec4 (vec3(RGB[0], RGB[1], pos.y), 1); }
+void RGB_RParam() { gl_FragColor = vec4 (vec3(pos.y , RGB[1], RGB[2]), 1); }
+void RGB_GParam() { gl_FragColor = vec4 (vec3(RGB[0], pos.y , RGB[2]), 1); }
+void RGB_BParam() { gl_FragColor = vec4 (vec3(RGB[0], RGB[1], pos.y ), 1); }
 
 void main() {
 	switch (palette) {
