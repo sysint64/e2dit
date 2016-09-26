@@ -2,8 +2,9 @@ Dialog
 	name: "colorDialog"
 	size: 543, 290
 	location: 200, 200
-	allowScroll: False;
+	allowScroll: false
 	caption: "@colordialog.caption"
+	visible: false
 
 	/* Colors regions */
 
@@ -97,6 +98,7 @@ Dialog
 	/* Last colors */
 
 	Panel
+		name: "lastColorsPanel"
 		location: 315, 250
 		size: 220, 28
 		allowScroll: false

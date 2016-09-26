@@ -46,3 +46,8 @@ void UIColorPanel::render() {
 	manager->atlasShader->bind();
 
 }
+
+void UIColorPanel::mouseUp (int x, int y, int button) {
+	if (onClick != nullptr)
+		onClick (this);
+}

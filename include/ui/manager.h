@@ -75,7 +75,7 @@ typedef UIIcons<TOOL_ICONS_COUNT> UIToolIcons;
  * Manager of UI Elements
  */
 
-class UIPanel;
+class Panel;
 class UIDialog;
 class UIManager {
 private:

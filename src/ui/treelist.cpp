@@ -156,6 +156,10 @@ void UITreeList::render() {
 
 	height = 0;
 	over = parent->over;
+
+	if (autoSize)
+		width = parent->width-parent->paddingLeft-parent->paddingRight;
+
 	UIElement::render();
 	overHeight = height;
 

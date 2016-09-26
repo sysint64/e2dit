@@ -207,6 +207,9 @@ void UIButton::renderText (const Align align, const std::string &text, const int
 
 	}
 
+	if (showIcon)  textPosX += 24;
+	if (showIcon2) textPosX += 24;
+
 	manager->atlasShader->unbind();
 	::renderText (manager->theme->font, &textColors[n], absLeft+textPosX, textPosY, caption);
 	manager->atlasShader->bind();
@@ -229,8 +232,8 @@ void UIButton::mouseDown (int x, int y, int button) {
 
 		grouped->checkElement (this);
 
-		if (this->onClick != nullptr)
-			this->onClick (this);
+		if (onClick != nullptr)
+			onClick (this);
 
 	} else if (enter) checked = !checked;
 
@@ -243,7 +246,7 @@ void UIButton::mouseUp (int x, int y, int button) {
 	if (allowCheck || !enter)
 		return;
 
-	if (this->onClick != nullptr)
-		this->onClick (this);
+	if (onClick != nullptr)
+		onClick (this);
 
 }

@@ -21,9 +21,11 @@
  */
 
 #include "ui/dialogs/color_dialog.h"
-#include "utility/ui.h"
 
 void ui::ColorDialog::render() {
+
+	if (!dialog->visible)
+		return;
 
 	int x, y, w, h;
 

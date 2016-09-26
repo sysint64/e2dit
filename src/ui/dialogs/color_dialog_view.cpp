@@ -73,6 +73,32 @@ void ui::ColorDialog::onCreate() {
 	lastCursorPickerLeft = cursorPicker->left;
 	lastCursorPickerTop  = cursorPicker->top;
 
+	UIElement *lastColorsPanel = manager->findElement ("lastColorsPanel");
+
+	// create lastColors
+	for (int i = 0; i < 7; ++i) {
+		std::unique_ptr<UIColorPanel> borderBlack;
+		std::unique_ptr<UIColorPanel> borderWhite;
+		std::unique_ptr<UIColorPanel> colorPanel;
+
+		borderBlack = UIColorPanel::createInstance (this->manager, 28, 28, 32*i, 0, 0, 0, 0, 1.f);
+		borderWhite = UIColorPanel::createInstance (this->manager, 26, 26, 1+32*i, 1, 1.f, 1.f, 1.f, 1.f);
+		colorPanel  = UIColorPanel::createInstance (this->manager, 24, 24, 2+32*i, 2, 0.f, 0.5f, 0.9f, 1.f);
+
+		colorPanel->onClick = [this](UIElement* el) {
+			color = dynamic_cast<UIColorPanel*>(el)->color;
+			RGB2HEX();
+			updateUI();
+			fieldsToCursor();
+		};
+
+		lastColors.push_back(colorPanel.get());
+
+		lastColorsPanel->addElement (std::move(borderBlack));
+		lastColorsPanel->addElement (std::move(borderWhite));
+		lastColorsPanel->addElement (std::move(colorPanel));
+	}
+
 	bindEvents();
 
 }

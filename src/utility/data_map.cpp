@@ -177,6 +177,6 @@ bool DataMap::readFloatArr (const std::string &key, DataNode *elementNode, const
 
 }
 
-bool DataMap::readString (const std::string &key, DataNode *elementNode, std::string &res) {
+bool DataMap::readUString (const std::string &key, DataNode *elementNode, std::string &res) {
 
 }*/

@@ -38,6 +38,7 @@ public:
 	gapi::Color color;
 
 	virtual void render();
+	virtual void mouseUp (int x, int y, int button) override;
 
 	UIColorPanel (UIManager *manager, Texture *gridTexture = nullptr) : UIElement(manager) {
 
@@ -47,6 +48,22 @@ public:
 		offsetsX[0] = 0.f; offsetsY[0] = 0.f;
 		fWidths [0] = 1.f; fHeights[0] = 1.f;
 
+	}
+
+	static std::unique_ptr<UIColorPanel> createInstance(UIManager *manager,
+	                                                    int w, int h, int x, int y,
+	                                                    float R, float G, float B, float A)
+	{
+		std::unique_ptr<UIColorPanel> instance = std::make_unique<UIColorPanel> (manager);
+
+		instance->width  = w;
+		instance->height = h;
+		instance->left   = x;
+		instance->top    = y;
+		instance->color.RGB.set(R, G, B);
+		instance->color.alpha = A;
+
+		return instance;
 	}
 
 	inline  void update() {

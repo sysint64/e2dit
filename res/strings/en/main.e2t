@@ -2,3 +2,4 @@
 Main
 	ok: "OK"
 	cancel: "Cancel"
+	toolbar_icons: "ui/icons/left_toolbar_icons_light.png"

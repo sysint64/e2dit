@@ -39,7 +39,7 @@ void UIPanel::addScrollXByPct (int pctVal) {
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
 
 	float px = (static_cast<float>(hbOffset)*100.f)/static_cast<float>(hbMax);
-	scrollX  =  round((static_cast<float>(wrapperWidth)*px)/100.f);
+	scrollX  =  static_cast<int>(round((static_cast<float>(wrapperWidth)*px)/100.f));
 
 }
 
@@ -49,27 +49,27 @@ void UIPanel::addScrollYByPct (int pctVal) {
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
 
 	float py = (static_cast<float>(vbOffset)*100.f)/static_cast<float>(vbMax);
-	scrollY  = round((static_cast<float>(wrapperHeight)*py)/100.f);
+	scrollY  = static_cast<int>(round((static_cast<float>(wrapperHeight)*py)/100.f));
 
 }
 
 void UIPanel::setScrollYByPct (int pctVal) {
 
-	vbOffset = round(static_cast<float>(vbMax-vbSize)*static_cast<float>(pctVal)/100.f);
+	vbOffset = static_cast<int>(round(static_cast<float>(vbMax-vbSize)*static_cast<float>(pctVal)/100.f));
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
 
 	float py = (static_cast<float>(vbOffset)*100.f)/static_cast<float>(vbMax);
-	scrollY  = round((static_cast<float>(wrapperHeight)*py)/100.f);
+	scrollY  = static_cast<int>(round((static_cast<float>(wrapperHeight)*py)/100.f));
 
 }
 
 void UIPanel::setScrollXByPct (int pctVal) {
 
-	hbOffset = round(static_cast<float>(hbMax-hbSize)*static_cast<float>(pctVal)/100.f);;
+	hbOffset = static_cast<int>(round(static_cast<float>(hbMax-hbSize)*static_cast<float>(pctVal)/100.f));
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
 
 	float px = (static_cast<float>(hbOffset)*100.f)/static_cast<float>(hbMax);
-	scrollX  = round((static_cast<float>(wrapperWidth)*px)/100.f);
+	scrollX  = static_cast<int>(round((static_cast<float>(wrapperWidth)*px)/100.f));
 
 }
 
@@ -304,7 +304,7 @@ void UIPanel::render() {
 
 	/* Draw vertical scroll */
 
-	if (wrapperHeight > height && showScrollY) {
+	if (allowScroll && wrapperHeight > height && showScrollY) {
 
 		int n = 6;
 
@@ -353,7 +353,7 @@ void UIPanel::render() {
 
 	/* Draw horizontal scroll */
 
-	if (wrapperWidth > width && showScrollX) {
+	if (allowScroll && wrapperWidth > width && showScrollX) {
 
 		int n = 6;
 
@@ -425,7 +425,8 @@ void UIPanel::calculateSplit() {
 
 void UIPanel::pollScroll() {
 
-	if (!open) return;
+	if (!allowScroll || !open)
+		return;
 
 	int swv = iHeights[4];
 	int swh = iHeights[4];
@@ -446,7 +447,7 @@ void UIPanel::pollScroll() {
 			hbMax = width-iHeights[4]+swh;
 
 			float x = (static_cast<float>(hbMax)*100.f)/(float)wrapperWidth;
-			hbSize  = ceil((static_cast<float>(hbMax)*x)/100.f);
+			hbSize  = static_cast<int>(ceil((static_cast<float>(hbMax)*x)/100.f));
 			math::clamp (&hbSize, hbMin, hbMax);
 
 			scrollHEnter = pointInRect (app->mouseX, app->mouseY, hbOffset+absLeft, absTop+height-iHeights[6], hbSize, iHeights[6]);
@@ -457,7 +458,7 @@ void UIPanel::pollScroll() {
 				math::clamp (&hbOffset, 0, hbMax-hbSize);
 
 				float py  = (static_cast<float>(hbOffset)*100.f)/static_cast<float>(hbMax);
-				scrollX = ceil((static_cast<float>(wrapperWidth)*py)/100.f);
+				scrollX = static_cast<int>(ceil((static_cast<float>(wrapperWidth)*py)/100.f));
 
 			}
 
@@ -477,7 +478,7 @@ void UIPanel::pollScroll() {
 			vbMax = height-iHeights[4]+swv;
 
 			float x  = (static_cast<float>(vbMax)*100.f)/static_cast<float>(wrapperHeight);
-			vbSize = ceil((static_cast<float>(vbMax)*x)/100.f);
+			vbSize = static_cast<int>(ceil((static_cast<float>(vbMax)*x)/100.f));
 			math::clamp (&vbSize, vbMin, vbMax);
 
 			scrollVEnter = pointInRect (app->mouseX, app->mouseY, absLeft+width-iHeights[6], absTop+vbOffset, iHeights[6], vbSize);
@@ -490,7 +491,7 @@ void UIPanel::pollScroll() {
 				math::clamp (&vbOffset, 0, vbMax-vbSize);
 
 				float py = (static_cast<float>(vbOffset)*100.f)/static_cast<float>(vbMax);
-				scrollY  = ceil((static_cast<float>(wrapperHeight)*py)/100.f);
+				scrollY  = static_cast<int>(ceil((static_cast<float>(wrapperHeight)*py)/100.f));
 
 			}
 
@@ -570,13 +571,14 @@ void UIPanel::mouseUp (int x, int y, int button) {
 
 void UIPanel::mouseWheel (int dx, int dy) {
 
-	if (!open) return;
+	if (!allowScroll || !open)
+		return;
 
 	UIElement::mouseWheel (dx, dy);
 	UIElement *el = manager->underMouse;
 
-	bool underCanScrollX;
-	bool underCanScrollY;
+	bool underCanScrollX = false;
+	bool underCanScrollY = false;
 	auto lastParent = el;
 
 	if (!over)
@@ -584,6 +586,7 @@ void UIPanel::mouseWheel (int dx, int dy) {
 
 	while (true) {
 
+		if (lastParent == nullptr) break;
 		if (lastParent->isRoot) break;
 		if (lastParent == this) break;
 
@@ -611,6 +614,8 @@ void UIPanel::mouseWheel (int dx, int dy) {
 /* Update scroll buttons positions */
 
 void UIPanel::updateScroll() {
+	if (!allowScroll)
+		return;
 
 	/* Update Scroll Sizes */
 
@@ -628,7 +633,7 @@ void UIPanel::updateScroll() {
 		hbMax = width-iHeights[4]+swh;
 
 		float px = (100.f*static_cast<float>(scrollX))/static_cast<float>(wrapperWidth);
-		hbOffset = ceil((px*hbMax)/100.f);
+		hbOffset = static_cast<int>(ceil((px*hbMax)/100.f));
 
 		math::clamp (&hbOffset, 0, hbMax-hbSize);
 		math::clamp (&scrollX , 0, maxScrollX());
@@ -647,7 +652,7 @@ void UIPanel::updateScroll() {
 		vbMax = height-iHeights[4]+swv;
 
 		float py = (100.f*static_cast<float>(scrollY))/static_cast<float>(wrapperHeight);
-		vbOffset = round((py*static_cast<float>(vbMax))/100.f);
+		vbOffset = static_cast<int>(round((py*static_cast<float>(vbMax))/100.f));
 
 		math::clamp (&vbOffset, 0, vbMax-vbSize);
 		math::clamp (&scrollY , 0, maxScrollY());

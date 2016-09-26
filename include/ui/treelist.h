@@ -88,6 +88,8 @@ public:
 		this->manager = manager;
 		precompute();
 
+		autoSize = true;
+
 	}
 
 	inline void checkElement (UITreeListNode *el) {

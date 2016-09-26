@@ -99,6 +99,7 @@ namespace ui {
 
 		glm::vec3 scroll;
 		glm::vec3 norm = glm::vec3(100.f, 100.f, 360.f);
+		std::vector<UIColorPanel*> lastColors;
 
 		void handleCursors();
 		void cursor2ColorXY();

@@ -24,8 +24,6 @@
 #include "ui/all.h"
 #include "resources.h"
 
-/**
- */
 
 void UILoader::placeElements (DataMap::DataNode *rootNode, UIElement *uiParent) {
 
@@ -50,8 +48,6 @@ void UILoader::placeElements (DataMap::DataNode *rootNode, UIElement *uiParent) 
 
 }
 
-/**
- */
 
 std::array<int, 4> UILoader::readRect (DataMap::DataNode *elementNode, const std::string &paramName, const bool autoFill) {
 
@@ -115,8 +111,6 @@ std::array<int, 4> UILoader::readRect (DataMap::DataNode *elementNode, const std
 
 }
 
-/**
- */
 
 Align UILoader::readAlign (DataMap::DataNode *elementNode, const std::string &paramName) {
 
@@ -141,23 +135,61 @@ Align UILoader::readAlign (DataMap::DataNode *elementNode, const std::string &pa
 
 }
 
-/**
- */
 
-std::wstring UILoader::readCaption (DataMap::DataNode *elementNode, const std::string &paramName) {
-
-	auto caption = elementNode->params.find (paramName);
+std::wstring UILoader::readUString (DataMap::DataNode *elementNode, const std::string &paramName, const std::wstring &defaultVal) {
+	auto ustring = elementNode->params.find (paramName);
 	auto end     = elementNode->params.end();
 
-	if (caption != end)
-		return stringsRes->parseResource (caption->second[0].wstr);
+	if (ustring != end)
+		return stringsRes->parseResource (ustring->second[0].wstr);
 
-	return L"";
-
+	return defaultVal;
 }
 
-/**
- */
+
+std::string UILoader::readString (DataMap::DataNode *elementNode, const std::string &paramName, const std::string &defaultVal) {
+	auto val = elementNode->params.find (paramName);
+	auto end = elementNode->params.end();
+
+	if (val != end)
+		return wstr2str(stringsRes->parseResource (val->second[0].wstr));
+
+	return defaultVal;
+}
+
+
+int UILoader::readInt (DataMap::DataNode *elementNode, const std::string &paramName, const int defaultVal) {
+	auto val = elementNode->params.find (paramName);
+	auto end = elementNode->params.end();
+
+	if (val != end)
+		return val->second[0].intval;
+
+	return defaultVal;
+}
+
+
+float UILoader::readFloat (DataMap::DataNode *elementNode, const std::string &paramName, const float defaultVal) {
+	auto val = elementNode->params.find (paramName);
+	auto end = elementNode->params.end();
+
+	if (val != end)
+		return val->second[0].num;
+
+	return defaultVal;
+}
+
+
+bool UILoader::readBool (DataMap::DataNode *elementNode, const std::string &paramName, const bool defaultVal) {
+	auto val = elementNode->params.find (paramName);
+	auto end = elementNode->params.end();
+
+	if (val != end)
+		return val->second[0].boolean;
+
+	return defaultVal;
+}
+
 
 void UILoader::readIcon (UIButton *element, DataMap::DataNode *elementNode) {
 
@@ -169,14 +201,14 @@ void UILoader::readIcon (UIButton *element, DataMap::DataNode *elementNode) {
 
 	if (iconOffset != end) {
 		element->showIcon      = true;
-		element->iconOffset[0] = iconOffset->second[0].intval;
-		element->iconOffset[1] = iconOffset->second[1].intval;
+		element->iconOffset[0] = iconOffset->second[0].intval-1;
+		element->iconOffset[1] = iconOffset->second[1].intval-1;
 	}
 
 	if (icon2Offset != end) {
 		element->showIcon2      = true;
-		element->icon2Offset[0] = icon2Offset->second[0].intval;
-		element->icon2Offset[1] = icon2Offset->second[1].intval;
+		element->icon2Offset[0] = icon2Offset->second[0].intval-1;
+		element->icon2Offset[1] = icon2Offset->second[1].intval-1;
 	}
 
 	if (showIcon  != end) element->showIcon  = showIcon ->second[0].boolean;
@@ -184,8 +216,6 @@ void UILoader::readIcon (UIButton *element, DataMap::DataNode *elementNode) {
 
 }
 
-/**
- */
 
 gapi::Color UILoader::readColor (DataMap::DataNode *elementNode, const std::string &paramName) {
 
@@ -209,25 +239,25 @@ gapi::Color UILoader::readColor (DataMap::DataNode *elementNode, const std::stri
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = nullptr;
 
-	if (elementNode->name == "panel" )      element = createPanel       (elementNode); else
-	if (elementNode->name == "stacklayout") element = createStackLayout (elementNode); else
-	if (elementNode->name == "button")      element = createButton      (elementNode); else
-	if (elementNode->name == "edit")        element = createEdit        (elementNode); else
-	if (elementNode->name == "toolbar")     element = createToolbar     (elementNode); else
-	if (elementNode->name == "toolbartab")  element = createToolbarTab  (elementNode); else
-	if (elementNode->name == "toolbaritem") element = createToolbarItem (elementNode); else
-	if (elementNode->name == "colorpanel")  element = createColorPanel  (elementNode); else
-	if (elementNode->name == "image")       element = createImage       (elementNode); else
-	if (elementNode->name == "label")       element = createLabel       (elementNode); else
-	if (elementNode->name == "grouped")     element = createGrouped     (elementNode); else
-	if (elementNode->name == "dialog")      element = createDialog      (elementNode);
+	if (elementNode->name == "panel" )       element = createPanel        (elementNode); else
+	if (elementNode->name == "stacklayout")  element = createStackLayout  (elementNode); else
+	if (elementNode->name == "button")       element = createButton       (elementNode); else
+	if (elementNode->name == "edit")         element = createEdit         (elementNode); else
+	if (elementNode->name == "toolbar")      element = createToolbar      (elementNode); else
+	if (elementNode->name == "toolbartab")   element = createToolbarTab   (elementNode); else
+	if (elementNode->name == "toolbaritem")  element = createToolbarItem  (elementNode); else
+	if (elementNode->name == "colorpanel")   element = createColorPanel   (elementNode); else
+	if (elementNode->name == "image")        element = createImage        (elementNode); else
+	if (elementNode->name == "label")        element = createLabel        (elementNode); else
+	if (elementNode->name == "grouped")      element = createGrouped      (elementNode); else
+	if (elementNode->name == "dialog")       element = createDialog       (elementNode); else
+	if (elementNode->name == "treelist")     element = createTreeList     (elementNode); else
+	if (elementNode->name == "treelistnode") element = createTreeListNode (elementNode);
 
 	if (element == nullptr)
 		return nullptr;
@@ -241,6 +271,7 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	auto top      = elementNode->params.find ("top");
 	auto width    = elementNode->params.find ("width");
 	auto height   = elementNode->params.find ("height");
+	auto visible  = elementNode->params.find ("visible");
 	auto end      = elementNode->params.end();
 
 	if (size != end) {
@@ -255,11 +286,12 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 		element->top  = location->second[1].intval;
 	}
 
-	if (name   != end) element->name   = name  ->second[0].str;
-	if (left   != end) element->left   = left  ->second[0].intval;
-	if (top    != end) element->top    = top   ->second[0].intval;
-	if (width  != end) element->width  = width ->second[0].intval;
-	if (height != end) element->height = height->second[0].intval;
+	if (name    != end) element->name    = name   ->second[0].str;
+	if (left    != end) element->left    = left   ->second[0].intval;
+	if (top     != end) element->top     = top    ->second[0].intval;
+	if (width   != end) element->width   = width  ->second[0].intval;
+	if (height  != end) element->height  = height ->second[0].intval;
+	if (visible != end) element->visible = visible->second[0].boolean;
 
 	element->align         = readAlign (elementNode, "align");
 	element->verticalAlign = readAlign (elementNode, "verticalalign");
@@ -282,31 +314,22 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createPanel (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIPanel> (manager);
 	auto panel = dynamic_cast<UIPanel*>(element.get());
 
-	auto allowResize = elementNode->params.find ("allowresize");
-	auto allowHide   = elementNode->params.find ("allowhide");
-	auto allowDrag   = elementNode->params.find ("allowdrag");
-	auto blackSplit  = elementNode->params.find ("blacksplit");
-	auto showSplit   = elementNode->params.find ("showsplit");
-	auto caption     = elementNode->params.find ("caption");
 	auto background  = elementNode->params.find ("background");
 	auto end         = elementNode->params.end();
 
-	if (allowResize != end) panel->allowResize = allowResize->second[0].boolean;
-	if (allowHide   != end) panel->allowHide   = allowHide  ->second[0].boolean;
-	if (allowDrag   != end) panel->allowDrag   = allowDrag  ->second[0].boolean;
-	if (blackSplit  != end) panel->blackSplit  = blackSplit ->second[0].boolean;
-	if (showSplit   != end) panel->showSplit   = showSplit  ->second[0].boolean;
-
-	if (caption     != end)
-		panel->caption = stringsRes->parseResource(caption->second[0].wstr);
+	panel->allowResize = readBool    (elementNode, "allowresize");
+	panel->allowHide   = readBool    (elementNode, "allowhide");
+	panel->allowDrag   = readBool    (elementNode, "allowdrag");
+	panel->blackSplit  = readBool    (elementNode, "blacksplit");
+	panel->showSplit   = readBool    (elementNode, "showsplit");
+	panel->allowScroll = readBool    (elementNode, "allowscroll", true);
+	panel->caption     = readUString (elementNode, "caption");
 
 	if (background != end) {
 
@@ -325,14 +348,12 @@ std::unique_ptr<UIElement> UILoader::createPanel (DataMap::DataNode *elementNode
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createImage (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIImage> (manager);
 	auto image = dynamic_cast<UIImage*>(element.get());
-	auto src = wstr2str(readCaption(elementNode, "src"));
+	auto src = readString(elementNode, "src");
 	std::cout << "Element src: " << src << std::endl;
 
 	if (src == "")
@@ -348,8 +369,6 @@ std::unique_ptr<UIElement> UILoader::createImage (DataMap::DataNode *elementNode
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createStackLayout (DataMap::DataNode *elementNode) {
 
@@ -368,28 +387,17 @@ std::unique_ptr<UIElement> UILoader::createStackLayout (DataMap::DataNode *eleme
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createButton (DataMap::DataNode *elementNode) {
 
-	auto check   = elementNode->params.find ("allowcheck");
-	auto checked = elementNode->params.find ("checked");
-	auto end     = elementNode->params.end();
-
-	bool allowCheck = false;
-
-	if (check != end)
-		allowCheck = check->second[0].boolean;
+	bool allowCheck = readBool (elementNode, "allowcheck");
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIButton> (manager, allowCheck);
 	auto button = dynamic_cast<UIButton*>(element.get());
 
-	button->caption   = readCaption (elementNode, "caption");
+	button->caption   = readUString (elementNode, "caption");
 	button->textAlign = readAlign   (elementNode, "textalign");
-
-	if (checked != end)
-		button->checked = checked->second[0].boolean;
+	button->checked   = readBool    (elementNode, "checked");
 
 	if (button->textAlign == Align::None)
 		button->textAlign = Align::Center;
@@ -399,39 +407,33 @@ std::unique_ptr<UIElement> UILoader::createButton (DataMap::DataNode *elementNod
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createLabel (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = std::make_unique<UILabel> (manager);
 	auto label = dynamic_cast<UILabel*>(element.get());
 
-	label->caption   = readCaption (elementNode, "caption");
+	label->caption   = readUString (elementNode, "caption");
 	label->textAlign = readAlign   (elementNode, "textalign");
 
 	return element;
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createEdit (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIEdit> (manager);
 	auto edit = dynamic_cast<UIEdit*>(element.get());
 
-	edit->text   = readCaption (elementNode, "text");
-	edit->before = readCaption (elementNode, "before");
-	edit->after  = readCaption (elementNode, "after");
+	edit->text   = readUString (elementNode, "text");
+	edit->before = readUString (elementNode, "before");
+	edit->after  = readUString (elementNode, "after");
 
 	return element;
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createGrouped (DataMap::DataNode *elementNode) {
 
@@ -440,8 +442,6 @@ std::unique_ptr<UIElement> UILoader::createGrouped (DataMap::DataNode *elementNo
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createToolbar (DataMap::DataNode *elementNode) {
 
@@ -450,30 +450,26 @@ std::unique_ptr<UIElement> UILoader::createToolbar (DataMap::DataNode *elementNo
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createToolbarTab (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIToolbarTab> (manager);
 	auto toolbarTab = dynamic_cast<UIToolbarTab*>(element.get());
 
-	toolbarTab->caption = readCaption(elementNode, "caption");
+	toolbarTab->caption = readUString (elementNode, "caption");
 	readIcon (toolbarTab, elementNode);
 
 	return element;
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createToolbarItem (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIToolbarItem> (manager);
 	auto toolbarItem = dynamic_cast<UIToolbarItem*>(element.get());
 
-	toolbarItem->caption = readCaption(elementNode, "caption");
+	toolbarItem->caption = readUString (elementNode, "caption");
 
 	auto iconOffset  = elementNode->params.find ("iconoffset");
 	auto end         = elementNode->params.end();
@@ -487,8 +483,6 @@ std::unique_ptr<UIElement> UILoader::createToolbarItem (DataMap::DataNode *eleme
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createColorPanel (DataMap::DataNode *elementNode) {
 
@@ -511,15 +505,73 @@ std::unique_ptr<UIElement> UILoader::createColorPanel (DataMap::DataNode *elemen
 
 }
 
-/**
- */
 
 std::unique_ptr<UIElement> UILoader::createDialog (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIDialog> (manager);
 	auto dialog = dynamic_cast<UIDialog*>(element.get());
-	dialog->caption = readCaption(elementNode, "caption");
+	dialog->caption = readUString (elementNode, "caption");
 
 	return element;
+
+}
+
+
+std::unique_ptr<UIElement> UILoader::createTreeList (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UITreeList> (manager);
+	auto treeList = dynamic_cast<UITreeList*>(element.get());
+	this->treeList = treeList;
+
+	return element;
+
+}
+
+
+std::unique_ptr<UIElement> UILoader::createTreeListNode (DataMap::DataNode *elementNode) {
+
+	if (treeList == nullptr)
+		return nullptr;
+
+	std::unique_ptr<UIElement> element = std::make_unique<UITreeListNode> (manager, treeList);
+	auto listNode = dynamic_cast<UITreeListNode*>(element.get());
+
+	listNode->caption   = readUString (elementNode, "caption");
+	listNode->allowHide = readBool    (elementNode, "allowhide", true);
+
+	readIcon (listNode, elementNode);
+	return element;
+
+}
+
+
+std::unique_ptr<UIElement> UILoader::createListMenu (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UIListMenu> (manager);
+	auto listMenu = dynamic_cast<UIListMenu*>(element.get());
+
+	return element;
+
+}
+
+
+std::unique_ptr<UIElement> UILoader::createMenuItem (DataMap::DataNode *elementNode) {
+	std::unique_ptr<UIElement> element = std::make_unique<UIMenuItem> (manager);
+	auto menuItem = dynamic_cast<UIMenuItem*>(element.get());
+
+	menuItem->caption   = readUString (elementNode, "caption");
+	menuItem->shortKey  = readUString (elementNode, "shortkey");
+	menuItem->textAlign = readAlign   (elementNode, "textalign");
+
+	if (menuItem->textAlign == Align::None)
+		menuItem->textAlign = Align::Center;
+
+	readIcon (menuItem, elementNode);
+	return element;
+
+}
+
+
+std::unique_ptr<UIElement> UILoader::createTallMenuItem (DataMap::DataNode *elementNode) {
 
 }

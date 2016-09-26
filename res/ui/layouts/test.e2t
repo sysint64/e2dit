@@ -18,9 +18,30 @@ Toolbar
 			caption: "Test"
 
 Panel
+	align: left
+	size: 28, 0
+	background: dark
+	blackSplit: true
+	allowResize: true
+	allowScroll: false
+
+	StackLayout
+		orientation: Vertical
+		padding: 2
+
+		Image src: "@main.toolbar_icons" crop: 0, 0, 24, 24
+		Image src: "@main.toolbar_icons" crop: 24, 0, 24, 24
+		Image src: "@main.toolbar_icons" crop: 48, 0, 24, 24
+		Hr stub: 0
+		Image src: "@main.toolbar_icons" crop: 0, 24, 24, 24
+		Image src: "@main.toolbar_icons" crop: 72, 0, 24, 24
+
+	Image src: "@main.toolbar_icons" crop: 24, 48, 48, 72 location: 2, 2
+
+Panel
 	name: RightPanel
 	align: right
-	size: 400, 200
+	size: 260, 0
 	location: 100, 100
 	background: dark
 	blackSplit: true
@@ -29,41 +50,109 @@ Panel
 	Panel
 		background: light
 		align: top
-		size: 0, 400
+		size: 0, 200
 		allowResize: true
 		allowHide: true
-		caption: "menu.item1.caption"
+		caption: "Tree"
+		padding: 10
+		allowDrag: true
 
-		StackLayout
-			orientation: Vertical
+		TreeList
+			location: 0, 0
+			size: 0, 0
 
-			Edit
-				size: 100, 21
-				text: "100"
-				filter: int
-				before: "X:"
-				after: "px"
-				marginRight: 10
-				location: 100, 0
+			TreeListNode
+				caption: "Root"
+				icon: 3, 3
 
-			Button
-				size: 100, 21
-				caption: "Hello Word!"
-				marginRight: 10
-				location: 100, 0
+				TreeListNode
+					caption: "Node 1"
+					icon: 7, 5
 
-			Button
-				size: 100, 21
-				caption: "Привет"
-				align: right
+				TreeListNode
+					caption: "Node 2"
+					icon: 1, 4
 
-			Button
-				size: 100, 100
-				align: right
-				verticalAlign: bottom
-				caption: "OK"
+				TreeListNode
+					caption: "Group 1"
+					icon: 2, 1
 
-			ColorPanel
-				size: 100, 50
-				color: 255, 0, 0, 0.5
-				marginLeft: 20
+					TreeListNode
+						caption: "Node 3"
+						icon: 7, 5
+
+					TreeListNode
+						caption: "Node 4"
+						icon: 7, 5
+
+						TreeListNode
+							caption: "Material 1"
+							icon: 4, 4
+
+						TreeListNode
+							caption: "Texture 1"
+							icon: 4, 7
+
+					TreeListNode
+						caption: "Node 5"
+						icon: 7, 5
+
+
+	Panel
+		background: light
+		align: top
+		size: 0, 200
+		allowResize: true
+		allowHide: true
+		caption: "Sprites"
+		padding: 10
+		allowDrag: true
+
+		ListMenu
+			location: 0, 0
+			size: 0, 0
+
+			MenuItem caption: "Hello world"
+			MenuItem caption: "Hello world"
+			MenuItem caption: "Hello world"
+			MenuItem caption: "Hello world"
+
+	Panel
+		background: light
+		align: top
+		size: 0, 200
+		allowResize: true
+		allowHide: true
+		caption: "Transforms"
+		padding: 10
+		allowDrag: true
+
+	Panel
+		background: light
+		align: top
+		size: 0, 200
+		allowResize: true
+		allowHide: true
+		caption: "Light"
+		padding: 10
+		allowDrag: true
+
+	Panel
+		background: light
+		align: top
+		size: 0, 200
+		allowResize: true
+		allowHide: true
+		caption: "Physics"
+		padding: 10
+		allowDrag: true
+
+	Panel
+		background: light
+		align: top
+		size: 0, 200
+		allowResize: true
+		allowHide: true
+		caption: "Boundings"
+		padding: 10
+		allowDrag: true
