@@ -111,11 +111,9 @@ Panel
 		ListMenu
 			location: 0, 0
 			size: 0, 0
+			width: 200
 
-			MenuItem caption: "Hello world"
-			MenuItem caption: "Hello world"
-			MenuItem caption: "Hello world"
-			MenuItem caption: "Hello world"
+			TallMenuItem src: "ui/icons/transparent_grid_dark.png" caption: "Hello world" desc: "Ctrl C"
 
 	Panel
 		background: light

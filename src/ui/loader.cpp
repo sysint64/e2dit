@@ -256,6 +256,9 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	if (elementNode->name == "label")        element = createLabel        (elementNode); else
 	if (elementNode->name == "grouped")      element = createGrouped      (elementNode); else
 	if (elementNode->name == "dialog")       element = createDialog       (elementNode); else
+	if (elementNode->name == "listmenu")     element = createListMenu     (elementNode); else
+	if (elementNode->name == "menuitem")     element = createMenuItem     (elementNode); else
+	if (elementNode->name == "tallmenuitem") element = createTallMenuItem (elementNode); else
 	if (elementNode->name == "treelist")     element = createTreeList     (elementNode); else
 	if (elementNode->name == "treelistnode") element = createTreeListNode (elementNode);
 
@@ -295,6 +298,7 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 
 	element->align         = readAlign (elementNode, "align");
 	element->verticalAlign = readAlign (elementNode, "verticalalign");
+	element->withoutSkin   = readBool  (elementNode, "withoutskin");
 
 	std::array<int, 4> marginRect  = readRect (elementNode, "margin");
 	std::array<int, 4> paddingRect = readRect (elementNode, "padding");
@@ -550,12 +554,16 @@ std::unique_ptr<UIElement> UILoader::createListMenu (DataMap::DataNode *elementN
 	std::unique_ptr<UIElement> element = std::make_unique<UIListMenu> (manager);
 	auto listMenu = dynamic_cast<UIListMenu*>(element.get());
 
+	listMenu->transparent = readBool (elementNode, "transparent");
+	listMenu->popup       = readBool (elementNode, "popup");
+
 	return element;
 
 }
 
 
 std::unique_ptr<UIElement> UILoader::createMenuItem (DataMap::DataNode *elementNode) {
+
 	std::unique_ptr<UIElement> element = std::make_unique<UIMenuItem> (manager);
 	auto menuItem = dynamic_cast<UIMenuItem*>(element.get());
 
@@ -573,5 +581,19 @@ std::unique_ptr<UIElement> UILoader::createMenuItem (DataMap::DataNode *elementN
 
 
 std::unique_ptr<UIElement> UILoader::createTallMenuItem (DataMap::DataNode *elementNode) {
+
+	std::unique_ptr<UIElement> element = std::make_unique<UITallMenuItem> (manager);
+	auto menuItem = dynamic_cast<UITallMenuItem*>(element.get());
+
+	menuItem->caption   = readUString (elementNode, "caption");
+	menuItem->desc      = readUString (elementNode, "desc");
+	menuItem->textAlign = readAlign   (elementNode, "textalign");
+	menuItem->loadImage (app->resPath+"/"+readString(elementNode, "src"));
+
+	if (menuItem->textAlign == Align::None)
+		menuItem->textAlign = Align::Center;
+
+	readIcon (menuItem, elementNode);
+	return element;
 
 }
