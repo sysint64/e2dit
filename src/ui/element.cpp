@@ -424,11 +424,37 @@ void UIElement::updateAlign() {
 
 	switch (align) {
 
+		case Align::ParentWidth:
+
+			if (alignSize) {
+				width  = parent->width-parent->scrollElementWidth;
+				width -= parent->paddingLeft+parent->paddingRight;
+
+				left = 0;
+			}
+
+			break;
+
+		case Align::ParentHeight:
+
+			if (alignSize) {
+				height  = parent->height-parent->scrollElementHeight;
+				height -= parent->paddingTop+parent->paddingBottom;
+
+				top = 0;
+			}
+
+			break;
+
 		case Align::Client:
 
 			if (alignSize) {
-				width  = parent->width -parent->scrollElementWidth;
-				height = parent->height-parent->scrollElementHeight;
+				width   = parent->width -parent->scrollElementWidth;
+				height  = parent->height-parent->scrollElementHeight;
+
+				width  -= parent->paddingLeft+parent->paddingRight;
+				height -= parent->paddingTop+parent->paddingBottom;
+
 				left = 0; top  = 0;
 			}
 
@@ -456,7 +482,9 @@ void UIElement::updateAlign() {
 				top = 0;
 			}
 
-			left = parent->width-width-marginRight;
+			left  = parent->width-width-marginRight;
+			left -= parent->paddingLeft+parent->paddingRight;
+
 			break;
 
 		// if Allow Align Size

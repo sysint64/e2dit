@@ -22,7 +22,7 @@ Panel
 	size: 28, 0
 	background: dark
 	blackSplit: true
-	allowResize: true
+	showSplit: true
 	allowScroll: false
 
 	StackLayout
@@ -54,12 +54,13 @@ Panel
 		allowResize: true
 		allowHide: true
 		caption: "Tree"
-		padding: 10
+		padding: 4, 10, 10, 10
 		allowDrag: true
 
 		TreeList
 			location: 0, 0
-			size: 0, 0
+			alignSize: true
+			align: parentWidth
 
 			TreeListNode
 				caption: "Root"
@@ -101,19 +102,49 @@ Panel
 	Panel
 		background: light
 		align: top
-		size: 0, 200
+		height: 200
 		allowResize: true
 		allowHide: true
 		caption: "Sprites"
-		padding: 10
+		padding: 5
 		allowDrag: true
 
 		ListMenu
-			location: 0, 0
-			size: 0, 0
-			width: 200
+			checkList: true
+			alignSize: true
+			align: parentWidth
 
 			TallMenuItem src: "ui/icons/transparent_grid_dark.png" caption: "Hello world" desc: "Ctrl C"
+			TallMenuItem src: "ui/icons/transparent_grid_dark.png" caption: "Hello world" desc: "Ctrl C"
+			TallMenuItem src: "ui/icons/transparent_grid_dark.png" caption: "Hello world" desc: "Ctrl C"
+
+	Panel
+		align: top
+		height: 32
+		padding: 5
+		allowScroll: false
+
+		Grouped
+			align: parentWidth
+			alignSize: true
+
+			Button autoSize: true icon: 1, 5 caption: "Delete"
+			Button autoSize: true icon: 3, 5 caption: "Add"
+
+	Panel
+		align: top
+		height: 32
+		padding: 5
+		allowScroll: false
+
+		Grouped
+			align: right
+			autoSize: true
+
+			Button icon: 5, 8 size: 21, 21
+			Button icon: 4, 8 size: 21, 21
+			Button icon: 1, 5 size: 21, 21
+			Button icon: 3, 5 size: 21, 21
 
 	Panel
 		background: light
@@ -122,7 +153,7 @@ Panel
 		allowResize: true
 		allowHide: true
 		caption: "Transforms"
-		padding: 10
+		padding: 0
 		allowDrag: true
 
 	Panel

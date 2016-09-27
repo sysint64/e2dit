@@ -119,15 +119,19 @@ Align UILoader::readAlign (DataMap::DataNode *elementNode, const std::string &pa
 
 	if (align != end) {
 
-		if (align->second[0].str == "none"  ) return Align::None;   else
-		if (align->second[0].str == "left"  ) return Align::Left;   else
-		if (align->second[0].str == "center") return Align::Center; else
-		if (align->second[0].str == "right" ) return Align::Right;  else
-		if (align->second[0].str == "client") return Align::Client; else
-		if (align->second[0].str == "bottom") return Align::Bottom; else
-		if (align->second[0].str == "all"   ) return Align::All;    else
-		if (align->second[0].str == "top"   ) return Align::Top;    else
-		if (align->second[0].str == "middle") return Align::Middle;
+		const auto param = align->second[0].str;
+
+		if (param == "none"        ) return Align::None;         else
+		if (param == "left"        ) return Align::Left;         else
+		if (param == "center"      ) return Align::Center;       else
+		if (param == "right"       ) return Align::Right;        else
+		if (param == "client"      ) return Align::Client;       else
+		if (param == "bottom"      ) return Align::Bottom;       else
+		if (param == "all"         ) return Align::All;          else
+		if (param == "top"         ) return Align::Top;          else
+		if (param == "middle"      ) return Align::Middle;       else
+		if (param == "parentwidth" ) return Align::ParentWidth;  else
+		if (param == "parentheight") return Align::ParentHeight;
 
 	}
 
@@ -298,7 +302,9 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 
 	element->align         = readAlign (elementNode, "align");
 	element->verticalAlign = readAlign (elementNode, "verticalalign");
+	element->alignSize     = readBool  (elementNode, "alignsize");
 	element->withoutSkin   = readBool  (elementNode, "withoutskin");
+	element->autoSize      = readBool  (elementNode, "autosize");
 
 	std::array<int, 4> marginRect  = readRect (elementNode, "margin");
 	std::array<int, 4> paddingRect = readRect (elementNode, "padding");
@@ -331,7 +337,7 @@ std::unique_ptr<UIElement> UILoader::createPanel (DataMap::DataNode *elementNode
 	panel->allowHide   = readBool    (elementNode, "allowhide");
 	panel->allowDrag   = readBool    (elementNode, "allowdrag");
 	panel->blackSplit  = readBool    (elementNode, "blacksplit");
-	panel->showSplit   = readBool    (elementNode, "showsplit");
+	panel->showSplit   = readBool    (elementNode, "showsplit", true);
 	panel->allowScroll = readBool    (elementNode, "allowscroll", true);
 	panel->caption     = readUString (elementNode, "caption");
 
@@ -556,6 +562,7 @@ std::unique_ptr<UIElement> UILoader::createListMenu (DataMap::DataNode *elementN
 
 	listMenu->transparent = readBool (elementNode, "transparent");
 	listMenu->popup       = readBool (elementNode, "popup");
+	listMenu->checkList   = readBool (elementNode, "checklist");
 
 	return element;
 

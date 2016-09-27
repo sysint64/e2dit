@@ -98,6 +98,7 @@ protected:
 	void updateScroll();
 	void pollScroll();
 	void calculateSplit();
+	void renderSplit();
 	virtual void updateAlign() override;
 
 public:
@@ -117,7 +118,7 @@ public:
 	bool allowDrag   = false;
 	bool open        = true;
 	bool blackSplit  = false;
-	bool showSplit   = false;
+	bool showSplit   = true;
 
 	UIElement *test;
 

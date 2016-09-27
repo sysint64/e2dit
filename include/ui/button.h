@@ -77,7 +77,7 @@ public:
 	//
 
 	bool allowCheck;
-	std::wstring caption = L"Test Button";
+	std::wstring caption = L"";
 	int  icoOffset = 0;
 	bool noRenderText = false;
 	Align textAlign = Align::Center;

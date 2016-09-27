@@ -29,6 +29,9 @@
 
 void UIListMenu::render() {
 
+	if (allowAlign)
+		updateAlign();
+
 	updateAbsPos();
 
 	if (popup)

@@ -289,6 +289,7 @@ void UIPanel::render() {
 
 		updateAlign();
 		paddingTop = lastPaddingTop;
+		renderSplit();
 		return;
 
 	}
@@ -365,17 +366,18 @@ void UIPanel::render() {
 
 	}
 
-	/* Render Split */
+	renderSplit();
+	updateAlign();
 
+}
+
+void UIPanel::renderSplit() {
 	if (allowResize || showSplit) {
 
 		int n = blackSplit ? 12 : 13;
 		renderElement (n, splitX, splitY, splitW, splitH, split.get());
 
 	}
-
-	updateAlign();
-
 }
 
 void UIPanel::calculateSplit() {

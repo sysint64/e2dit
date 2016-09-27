@@ -39,7 +39,7 @@
 #undef None
 
 using namespace boost::assign;
-enum class Align {None, Left, Center, Right, Client, Bottom, Top, Middle, All};
+enum class Align {None, Left, Center, Right, Client, Bottom, Top, Middle, All, ParentWidth, ParentHeight};
 
 class UIManager;
 class UIPanel;
