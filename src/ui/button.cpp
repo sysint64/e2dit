@@ -59,7 +59,6 @@ void UIButton::render() {
 
 	/* Convert UTF String to bytes sequence */
 
-	std::string text = wstr2str (caption);
 	int toffset = 0;
 
 	/* Show First Icon */
@@ -96,8 +95,8 @@ void UIButton::render() {
 
 			int iOffset = icoOffset;
 
-			if (drawAlign == Align::Center) iOffset += iWidths[n]; else
-			if (drawAlign == Align::Right ) iOffset += iWidths[n];
+//			if (drawAlign == Align::Center) iOffset += iWidths[n]; else
+//			if (drawAlign == Align::Right ) iOffset += iWidths[n];
 
 			manager->icons->render (absLeft+iconLeft+iOffset, app->windowHeight-height-iconTop+2-absTop,
 			                        iconOffset[0], iconOffset[1], iconElement.get());
@@ -131,7 +130,7 @@ void UIButton::render() {
 	}
 
 	if (!noRenderText)
-		renderText (textAlign, text, caption.size(), toffset);
+		renderText (textAlign, caption, toffset);
 
 	/* Reset Alpha */
 
@@ -173,7 +172,7 @@ void UIButton::renderSkin() {
  * @param offset: Offset Render
  */
 
-void UIButton::renderText (const Align align, const std::string &text, const int size, const int offset) {
+void UIButton::renderText (const Align align, const std::wstring &text, const int offset) {
 
 	/* Tables Indices */
 
@@ -186,20 +185,25 @@ void UIButton::renderText (const Align align, const std::string &text, const int
 
 	int textPosX;
 	int textPosY = absTop+(height >> 1)+(manager->theme->fontHeight >> 1)-2-textOffsets[to+1];
-	int twidth   = ftglGetTextWidth (manager->theme->font, caption);
+	int twidth   = ftglGetTextWidth (manager->theme->font, text);
 
-	switch (textAlign) {
+	int additionalOffset = 0;
+
+	if (showIcon)  additionalOffset += 9; // TODO: remove hardcode
+	if (showIcon2) additionalOffset += 9; //:
+
+	switch (align) {
 
 		case Align::Left:
-			textPosX = iWidths[n]+paddingLeft;
+			textPosX = iWidths[n]+paddingLeft+offset;
 			break;
 
 		case Align::Center:
-			textPosX = (width-twidth)/2;
+			textPosX = (width-twidth)/2+additionalOffset;
 			break;
 
 		case Align::Right:
-			textPosX = width-twidth-iWidths[n+2]-paddingRight;
+			textPosX = width-twidth-iWidths[n+2]-paddingRight-offset;
 			break;
 
 		default:
@@ -207,11 +211,8 @@ void UIButton::renderText (const Align align, const std::string &text, const int
 
 	}
 
-	if (showIcon)  textPosX += 24;
-	if (showIcon2) textPosX += 24;
-
 	manager->atlasShader->unbind();
-	::renderText (manager->theme->font, &textColors[n], absLeft+textPosX, textPosY, caption);
+	::renderText (manager->theme->font, &textColors[n], absLeft+textPosX, textPosY, text);
 	manager->atlasShader->bind();
 
 }

@@ -23,6 +23,7 @@
 #pragma once
 
 #include "ui/manager.h"
+#include "ui/toolbar.h"
 #include "utility/data_map.h"
 #include "utility/strings_res.h"
 #include "utility/filesystem.h"
@@ -32,6 +33,7 @@ class UILoader {
 private:
 	Application *app      = Application::getInstance();
 	UITreeList  *treeList = nullptr;
+	UIToolbar   *toolbar  = nullptr;
 
 	void placeElements (DataMap::DataNode *rootNode, UIElement *uiParent);
 

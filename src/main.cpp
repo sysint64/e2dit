@@ -78,13 +78,13 @@ int main (int argc, char** argv) {
 
 	/* #TODO:0 */
 
-	app->windowWidth  = app->screenWidth -200;
-	app->windowHeight = app->screenHeight-200;
+	app->windowWidth  = app->screenWidth -360;
+	app->windowHeight = app->screenHeight-100;
 
 	/* Create Window */
 
 	sf::Window window (sf::VideoMode (app->windowWidth, app->windowHeight, 24), APP_NAME,
-	                   sf::Style::Default | sf::Style::Maximize, settings);
+	                   sf::Style::Default, settings);
 
 	app->windowHandle = window.getSystemHandle();
 	app->cursor = std::make_unique<UICursor> (window.getSystemHandle());

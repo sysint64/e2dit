@@ -456,6 +456,9 @@ std::unique_ptr<UIElement> UILoader::createGrouped (DataMap::DataNode *elementNo
 std::unique_ptr<UIElement> UILoader::createToolbar (DataMap::DataNode *elementNode) {
 
 	std::unique_ptr<UIElement> element = std::make_unique<UIToolbar> (manager);
+	UIToolbar *toolbar = dynamic_cast<UIToolbar*>(element.get());
+	toolbar->tabsOffset = readInt(elementNode, "tabsoffset", 20);
+	this->toolbar = toolbar;
 	return element;
 
 }
@@ -467,7 +470,13 @@ std::unique_ptr<UIElement> UILoader::createToolbarTab (DataMap::DataNode *elemen
 	auto toolbarTab = dynamic_cast<UIToolbarTab*>(element.get());
 
 	toolbarTab->caption = readUString (elementNode, "caption");
+	toolbarTab->parent = toolbar;
 	readIcon (toolbarTab, elementNode);
+
+	bool checked = readBool(elementNode, "checked");
+
+	if (checked)
+		toolbar->checkElement(toolbarTab);
 
 	return element;
 
@@ -579,7 +588,7 @@ std::unique_ptr<UIElement> UILoader::createMenuItem (DataMap::DataNode *elementN
 	menuItem->textAlign = readAlign   (elementNode, "textalign");
 
 	if (menuItem->textAlign == Align::None)
-		menuItem->textAlign = Align::Center;
+		menuItem->textAlign = Align::Left;
 
 	readIcon (menuItem, elementNode);
 	return element;
@@ -598,7 +607,7 @@ std::unique_ptr<UIElement> UILoader::createTallMenuItem (DataMap::DataNode *elem
 	menuItem->loadImage (app->resPath+"/"+readString(elementNode, "src"));
 
 	if (menuItem->textAlign == Align::None)
-		menuItem->textAlign = Align::Center;
+		menuItem->textAlign = Align::Left;
 
 	readIcon (menuItem, elementNode);
 	return element;

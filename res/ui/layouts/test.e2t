@@ -4,18 +4,24 @@ Panel
 	background: dark
 
 Toolbar
-	name: myToolbar
 	align: top
+	tabsOffset: 300
 
 	ToolbarTab
-		showIcon: true
-		iconOffset: 3, 4
-		caption: "Hello"
-		width: 150
+		icon: 7, 5
+		caption: "Elements"
+		width: 130
+		checked: true
 
-		ToolbarItem
-			iconOffset: 1, 1
-			caption: "Test"
+	ToolbarTab
+		icon: 10, 9
+		caption: "Modifiers"
+		width: 130
+
+	ToolbarTab
+		icon: 10, 7
+		caption: "Transforms"
+		width: 130
 
 Panel
 	align: left
@@ -113,10 +119,12 @@ Panel
 			checkList: true
 			alignSize: true
 			align: parentWidth
+			popup: true
 
 			TallMenuItem src: "ui/icons/transparent_grid_dark.png" caption: "Hello world" desc: "Ctrl C"
 			TallMenuItem src: "ui/icons/transparent_grid_dark.png" caption: "Hello world" desc: "Ctrl C"
 			TallMenuItem src: "ui/icons/transparent_grid_dark.png" caption: "Hello world" desc: "Ctrl C"
+			MenuItem caption: "test" shortKey: "Ctrl C" icon: 6, 3
 
 	Panel
 		align: top

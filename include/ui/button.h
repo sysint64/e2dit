@@ -61,7 +61,7 @@ protected:
 
 	/* Draw Text */
 
-	void renderText (const Align align, const std::string &text, const int size, const int offset = 0);
+	void renderText (const Align align, const std::wstring &text, const int offset = 0);
 	void renderSkin();
 
 public:
