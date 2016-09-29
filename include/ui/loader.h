@@ -51,8 +51,10 @@ private:
 	std::unique_ptr<UIElement> createImage        (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createLabel        (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createGrouped      (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createDropMenu     (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createListMenu     (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createMenuItem     (DataMap::DataNode *elementNode);
+	std::unique_ptr<UIElement> createMenuHr       (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createTallMenuItem (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createTreeList     (DataMap::DataNode *elementNode);
 	std::unique_ptr<UIElement> createTreeListNode (DataMap::DataNode *elementNode);

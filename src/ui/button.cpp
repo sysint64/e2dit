@@ -187,6 +187,11 @@ void UIButton::renderText (const Align align, const std::wstring &text, const in
 	int textPosY = absTop+(height >> 1)+(manager->theme->fontHeight >> 1)-2-textOffsets[to+1];
 	int twidth   = ftglGetTextWidth (manager->theme->font, text);
 
+	if (autoWidth) {
+		width = twidth+iWidths[n]+iWidths[n+2];
+		width += paddingLeft+paddingRight;
+	}
+
 	int additionalOffset = 0;
 
 	if (showIcon)  additionalOffset += 9; // TODO: remove hardcode

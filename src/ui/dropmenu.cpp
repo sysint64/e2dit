@@ -41,7 +41,7 @@ void UIDropMenu::updateMenu() {
 	menu->top  = height+menuOffsets[2];
 	menu->left = menuOffsets[0];
 
-	if (autoSizeMenu)
+	if (menu->autoWidth)
 		menu->width = width+menuOffsets[1]-menuOffsets[0];
 
 }

@@ -87,7 +87,7 @@ void UIGrouped::render() {
 		}
 
 		if (el == lastElement) {
-			if (width % partWidth != 0)
+			if (partWidth != 0 && width % partWidth != 0)
 				el->width -= 1;
 		}
 

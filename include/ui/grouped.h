@@ -35,14 +35,14 @@ class UIGrouped : public UICheckedElements {
 protected:
 
 	std::unique_ptr<BaseObject> splitElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	int  spacing     = 0;
+	int spacing = 0;
 
 public:
 
 	virtual void precompute() override;
 	virtual void render()     override;
 
-	UIGrouped (UIManager *manager, bool multiSelect = false, bool spacing = 0) : UICheckedElements (manager) {
+	UIGrouped (UIManager *manager, bool multiSelect = false, int spacing = 0) : UICheckedElements (manager) {
 
 		this->manager     = manager;
 		this->multiSelect = multiSelect;

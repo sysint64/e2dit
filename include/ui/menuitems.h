@@ -41,6 +41,18 @@ public:
 
 	}
 
+	virtual void addElement (std::unique_ptr<UIElement> el) override {
+		menu = dynamic_cast<UIListMenu*>(el.get());
+
+		if (menu) {
+			menu->visible = false;
+			UIElement::addElement (std::move(el));
+		} else {
+			UIElement::addElement (std::move(el));
+		}
+
+	}
+
 	UIMenuItem (UIManager *manager) : UIButton (manager) {
 
 		this->manager = manager;

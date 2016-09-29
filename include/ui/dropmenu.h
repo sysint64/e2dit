@@ -44,22 +44,6 @@ public:
 		this->isMenu  = isMenu;
 
 		style = isMenu ? "flatbutton" : "droplist";
-
-		/*if (isMenu) {
-
-			leaveElement = "flatbuttonleave";
-			enterElement = "flatbuttonenter";
-			clickElement = "flatbuttonenter";
-			focusElement = "flatbuttonleave";
-
-		} else {
-
-			leaveElement = "droplistleave";
-			enterElement = "droplistenter";
-			clickElement = "droplistclick";
-
-		}*/
-
 		precompute();
 
 	}
@@ -69,6 +53,18 @@ public:
 		menu = m.get();
 		menu->visible = false;
 		addElement (std::move(m));
+
+	}
+
+	virtual void addElement (std::unique_ptr<UIElement> el) override {
+		menu = dynamic_cast<UIListMenu*>(el.get());
+
+		if (menu) {
+			menu->visible = false;
+			UIElement::addElement (std::move(el));
+		} else {
+			UIElement::addElement (std::move(el));
+		}
 
 	}
 

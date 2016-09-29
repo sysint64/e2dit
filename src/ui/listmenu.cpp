@@ -86,7 +86,7 @@ void UIListMenu::render() {
 		int n = 9;
 		if (item->isEnter()) n = 10;
 
-		int x = absLeft+width-iWidths[5]-iWidths[3]-4;
+		int x = absLeft+width-iWidths[5]-iWidths[3];
 		int y = absTop+ey-item->height-1;
 
 		renderElement (n, x, y, iWidths[n], iHeights[n], drawElementsPtr[9]);

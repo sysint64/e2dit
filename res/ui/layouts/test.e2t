@@ -2,26 +2,146 @@ Panel
 	height: 25
 	align: top
 	background: dark
+	padding: 3
+
+	Grouped
+		autoSize: true
+		spacing: 100
+
+		DropDown
+			flat: true
+			autoWidth: true
+			caption: "File"
+
+			ListMenu
+				popup: true
+				width: 230
+
+				MenuItem caption: "New" shortKey: "Ctrl N" icon: 1, 1
+				MenuItem caption: "Open..." shortKey: "Ctrl O" icon: 2, 1
+				MenuItem
+					caption: "Open Recent..."
+					shortKey: "Shift Ctrl O"
+					icon: 3, 1
+
+					ListMenu
+						popup: true
+						width: 150
+
+						MenuItem caption: "New"
+
+				MenuHr pass: true
+
+				MenuItem caption: "Save" shortKey: "Ctrl S" icon: 4, 1
+				MenuItem caption: "Save As..." shortKey: "Shift Ctrl S" icon: 5, 1
+				MenuHr pass: true
+				MenuItem caption: "User Preferences" shortKey: "Ctrl Alt U" icon: 6, 1
+				MenuHr pass: true
+				MenuItem caption: "Quit" shortKey: "Ctrl X" icon: 7, 1
+
+
+		DropDown
+			flat: true
+			autoWidth: true
+			caption: "Edit"
+
+			ListMenu
+				popup: true
+				width: 200
+
+				MenuItem caption: "Undo" shortKey: "Ctrl Z" icon: 8, 1
+				MenuItem caption: "Redo" shortKey: "Shift Ctrl Z" icon: 9, 1
+				MenuHr pass: true
+				MenuItem caption: "Cut" shortKey: "Ctrl X" icon: 10, 1
+				MenuItem caption: "Copy" shortKey: "Ctrl C" icon: 1, 2
+				MenuItem caption: "Paste" shortKey: "Ctrl V" icon: 2, 2
+				MenuHr pass: true
+				MenuItem caption: "Delete" shortKey: "Del" icon: 3, 5
+				MenuHr pass: true
+				MenuItem caption: "Select All" shortKey: "Ctrl A"
+				MenuItem caption: "Deselect All" shortKey: "Shift Ctrl A"
+				MenuHr pass: true
+				MenuItem caption: "Duplicate" shortKey: "Ctrl D" icon: 3, 2
+
+		DropDown
+			flat: true
+			autoWidth: true
+			caption: "Add"
+
+		DropDown
+			flat: true
+			autoWidth: true
+			caption: "Modify"
+
+			ListMenu
+				popup: true
+				width: 200
+
+				MenuItem caption: "Retopology" icon: 4, 10
+				MenuItem caption: "Boolean"
+				MenuHr pass: true
+				MenuItem caption: "Center Pivot" icon: 8, 3
+				MenuItem caption: "Set Pivot" shortKey: "Ins" icon: 9, 3
+				MenuHr pass: true
+				MenuItem caption: "Joint To Vertex"
+
+		DropDown
+			flat: true
+			autoWidth: true
+			caption: "Transforms"
+
+		DropDown
+			flat: true
+			autoWidth: true
+			caption: "View"
+
+			ListMenu
+				popup: true
+				width: 150
+
+				MenuItem caption: "Panel Tool" icon: 3, 8
+				MenuItem caption: "Toolbar" icon: 3, 8
+				MenuHr pass: true
+				MenuItem caption: "Grid" icon: 3, 8
+
+		DropDown
+			flat: true
+			autoWidth: true
+			caption: "Help"
+
+			ListMenu
+				popup: true
+				width: 150
+
+				MenuItem caption: "Manual" shortKey: "F1" icon: 4, 2
+				MenuHr pass: true
+				MenuItem caption: "Website" icon: 5, 2
+				MenuItem caption: "Community" icon: 5, 2
+				MenuHr pass: true
+				MenuItem caption: "Splash Screen" icon: 6, 2
 
 Toolbar
 	align: top
-	tabsOffset: 300
+	tabsOffset: 330
 
 	ToolbarTab
 		icon: 7, 5
 		caption: "Elements"
-		width: 130
 		checked: true
+		autoWidth: true
+		padding: 18
 
 	ToolbarTab
 		icon: 10, 9
 		caption: "Modifiers"
-		width: 130
+		autoWidth: true
+		padding: 18
 
 	ToolbarTab
 		icon: 10, 7
 		caption: "Transforms"
-		width: 130
+		autoWidth: true
+		padding: 18
 
 Panel
 	align: left

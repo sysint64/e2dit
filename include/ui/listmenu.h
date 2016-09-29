@@ -20,8 +20,7 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru
  */
 
-#ifndef E2DIT_UI_LISTMENU_H
-#define E2DIT_UI_LISTMENU_H
+#pragma once
 
 #include "ui/element.h"
 #include "ui/manager.h"
@@ -96,5 +95,3 @@ public:
 	}
 
 };
-
-#endif
