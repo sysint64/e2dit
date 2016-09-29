@@ -41,6 +41,13 @@ protected:
 	UIListMenu *openedMenu = nullptr;
 	bool setedTime = false;
 
+public:
+	bool checkList   = false;
+	bool transparent = false;
+	bool popup       = true;
+
+	std::string listitemstyle;
+
 	inline void closeSubMenus() const {
 
 		if (!openedMenu) return;
@@ -49,13 +56,6 @@ protected:
 		openedMenu->closeSubMenus();
 
 	}
-
-public:
-	bool checkList   = false;
-	bool transparent = false;
-	bool popup       = true;
-
-	std::string listitemstyle;
 
 	virtual void precompute() override;
 	virtual void render()     override;

@@ -43,6 +43,7 @@ public:
 		this->manager = manager;
 		this->isMenu  = isMenu;
 
+		drawChilds = false;
 		style = isMenu ? "flatbutton" : "droplist";
 		precompute();
 
@@ -61,6 +62,8 @@ public:
 
 		if (menu) {
 			menu->visible = false;
+			menu->overlay = true;
+			manager->overlayElements.push_back(menu);
 			UIElement::addElement (std::move(el));
 		} else {
 			UIElement::addElement (std::move(el));
@@ -71,7 +74,7 @@ public:
 	virtual void precompute() override;
 	virtual void render()     override;
 
-	virtual void mouseDown (int x, int y, int button) override;
+	virtual void mouseUp (int x, int y, int button) override;
 
 };
 

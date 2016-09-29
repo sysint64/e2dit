@@ -239,25 +239,34 @@ void UIManager::poll() {
 
 	}
 
+	UIElement *found = nullptr;
+
 	for (int i = elementsStack.size()-1; i >= 0; --i) {
 
 		auto el = elementsStack[i];
 
-		if (el == nullptr || !el->over)
+		if (found != nullptr && !el->overlay)
 			continue;
 
-		if (!el->visible) continue;
-		if (pointInRect (app->mouseX, app->mouseY, el->absLeft, el->absTop, el->width, el->height) && el->enabled) {
+		if (el == nullptr || !el->over || !el->visible)
+			continue;
 
+		if (found != nullptr) {
+			found->enter = false;
+			found->click = false;
+		}
+
+		if (pointInRect (app->mouseX, app->mouseY, el->absLeft, el->absTop,
+		                 el->width, el->height) && el->enabled)
+		{
 			el->enter = true;
 			underMouse = el;
-
 		}
 
 		el->click = (el->click || el->focused) && el->enter && app->mouseButton == mouseLeft;
 
 		if (el->enter)
-			break;
+			found = el;
 
 	}
 
@@ -302,10 +311,13 @@ void UIManager::render() {
 	/* Render Root */
 
 	root->render();
+	bool overlayPoll = false;
 
 	for (const auto &element : overlayElements) {
-		if (element)
+		if (element && element->visible) {
+			element->over = true;
 			element->render();
+		}
 	}
 
 	poll();

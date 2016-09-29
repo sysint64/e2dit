@@ -24,6 +24,7 @@
 
 void UIDropMenu::render() {
 
+	overHeight = 1000;
 	UIButton::render();
 
 	if (!menu || isMenu)
@@ -46,19 +47,28 @@ void UIDropMenu::updateMenu() {
 
 }
 
-void UIDropMenu::mouseDown (int x, int y, int button) {
+void UIDropMenu::mouseUp (int x, int y, int button) {
 
 	if (!menu)
 		return;
 
 	if (enter) {
 
-		checked = true;
+		checked = !checked;
+
+		if (!checked)
+			menu->closeSubMenus();
+
+		for (const auto &el : elements) {
+			el.second->enter = false;
+		}
+
 		updateMenu();
 
 	} else {
 
 		checked = false;
+		menu->closeSubMenus();
 
 	}
 

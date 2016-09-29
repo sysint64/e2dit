@@ -185,6 +185,7 @@ public:
 	bool click     = false;
 	bool over      = false; ///< true if mouse over element even if another element overlaps it
 	bool alignSize = false; ///< used in updateAlign method. If true then element change size depenging on the alignment
+	bool overlay   = false;
 
 	std::wstring hint = L"";
 	std::string  name = "";

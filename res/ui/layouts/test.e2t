@@ -3,6 +3,7 @@ Panel
 	align: top
 	background: dark
 	padding: 3
+	allowScroll: false
 
 	Grouped
 		autoSize: true
@@ -122,7 +123,7 @@ Panel
 
 Toolbar
 	align: top
-	tabsOffset: 330
+	tabsOffset: 315
 
 	ToolbarTab
 		icon: 7, 5

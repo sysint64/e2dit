@@ -46,6 +46,7 @@ public:
 
 		if (menu) {
 			menu->visible = false;
+			manager->overlayElements.push_back(menu);
 			UIElement::addElement (std::move(el));
 		} else {
 			UIElement::addElement (std::move(el));
@@ -60,8 +61,9 @@ public:
 		clickElement = "enter";
 		style = "listitem";
 
-		textAlign = Align::Left;
-		showIcon  = true;
+		textAlign  = Align::Left;
+		showIcon   = true;
+		drawChilds = false;
 
 		precompute();
 

@@ -573,6 +573,9 @@ void UIElement::addElement (std::unique_ptr<UIElement> el) {
 
 	/* Add Element to map */
 
+	if (overlay)
+		el->overlay = true;
+
 	manager->elementsStack.push_back (el.get());
 	elements[manager->lastId] = std::move (el);
 	manager->lastId++;
