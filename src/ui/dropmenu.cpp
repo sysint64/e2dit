@@ -58,11 +58,6 @@ void UIDropMenu::mouseUp (int x, int y, int button) {
 
 		if (!checked)
 			menu->closeSubMenus();
-
-		for (const auto &el : elements) {
-			el.second->enter = false;
-		}
-
 		updateMenu();
 
 	} else {

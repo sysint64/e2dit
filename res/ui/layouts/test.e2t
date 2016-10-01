@@ -170,7 +170,7 @@ Panel
 	align: right
 	size: 260, 0
 	location: 100, 100
-	background: dark
+	background: light
 	blackSplit: true
 	allowResize: true
 
