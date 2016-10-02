@@ -20,6 +20,8 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru
  */
 
+#pragma once
+
 #include "ui/button.h"
 #include "ui/listmenu.h"
 #include "ui/manager.h"

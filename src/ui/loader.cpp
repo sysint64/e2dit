@@ -313,8 +313,6 @@ std::unique_ptr<UIElement> UILoader::createElement (DataMap::DataNode *elementNo
 	std::array<int, 4> marginRect  = readRect (elementNode, "margin");
 	std::array<int, 4> paddingRect = readRect (elementNode, "padding");
 
-	std::cout << marginRect[0] << std::endl;
-
 	element->marginTop     = marginRect [0]; element->marginRight  = marginRect [1];
 	element->marginBottom  = marginRect [2]; element->marginLeft   = marginRect [3];
 
@@ -347,6 +345,9 @@ std::unique_ptr<UIElement> UILoader::createPanel (DataMap::DataNode *elementNode
 
 	if (background != end) {
 
+		if (background->second[0].str == "transparent")
+			panel->background = UIPanel::Background::Transparent;
+
 		if (background->second[0].str == "light")
 			panel->background = UIPanel::Background::Light;
 
@@ -368,7 +369,6 @@ std::unique_ptr<UIElement> UILoader::createImage (DataMap::DataNode *elementNode
 	std::unique_ptr<UIElement> element = std::make_unique<UIImage> (manager);
 	auto image = dynamic_cast<UIImage*>(element.get());
 	auto src = readString(elementNode, "src");
-	std::cout << "Element src: " << src << std::endl;
 
 	if (src == "")
 		return element;

@@ -104,6 +104,19 @@ Panel
 				MenuItem caption: "Toolbar" icon: 3, 8
 				MenuHr pass: true
 				MenuItem caption: "Grid" icon: 3, 8
+				MenuItem
+					caption: "Pane"
+
+					ListMenu
+						popup: true
+						width: 220
+
+						MenuItem caption: "Single" shortKey: "Ctrl 1"
+						MenuItem caption: "Close" shortKey: "Ctrl W"
+						MenuItem caption: "Last" shortKey: "Ctrl E"
+						MenuHr pass: true
+						MenuItem caption: "Split Horizontal" shortKey: "Shift Ctrl Up"
+						MenuItem caption: "Split Vertical" shortKey: "Shift Ctrl Left"
 
 		DropDown
 			flat: true
@@ -314,3 +327,9 @@ Panel
 		caption: "Boundings"
 		padding: 10
 		allowDrag: true
+
+Panel
+	align: client
+	background: transparent
+	name: "rootPane"
+	

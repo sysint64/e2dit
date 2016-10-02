@@ -332,6 +332,9 @@ void UIElement::focus() {
 	manager->focusedElement = this;
 	focused = true;
 
+	if (onFocus != nullptr)
+		onFocus(this);
+
 }
 
 void UIElement::unfocus() {

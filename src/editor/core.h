@@ -49,8 +49,8 @@ public:
 
 	/* UI */
 
-	std::unique_ptr<UIManager> uiManager;
-	std::unique_ptr<UITheme>   uiTheme;
+	UIManager *uiManager = UIManager::getInstance();
+	std::unique_ptr<UITheme> uiTheme;
 
 	/* Dialogs */
 	std::unique_ptr<ui::ColorDialog> colorDialog;
@@ -61,7 +61,7 @@ public:
 
 	/* Constructor */
 
-	 Core(sf::Window *window);
+	Core(sf::Window *window);
 
 	/* Events */
 

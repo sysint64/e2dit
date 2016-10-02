@@ -98,6 +98,20 @@ UIManager::UIManager (sf::Window *window, Shader *atlasMaskShader, Shader *atlas
 }
 
 /**
+ *
+ */
+
+UIManager *UIManager::getInstance() {
+	static UIManager *manager = nullptr;
+
+	if (manager != nullptr)
+		return manager;
+
+	manager = new UIManager();
+	return manager;
+}
+
+/**
  * Find element with name
  * @param name
  */

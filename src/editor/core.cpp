@@ -71,19 +71,25 @@ Core::Core (sf::Window *window) {
 	uiTheme->font14 = font14;
 	uiTheme->font16 = font16;
 
-	uiManager   = std::make_unique<UIManager> (window,
-	                                           R::Shaders::atlasMaskShader.get(),
-	                                           R::Shaders::atlasShader    .get(),
-	                                           R::Shaders::colorShader    .get(),
-	                                           uiTheme.get());
+	uiManager->window = window;
+	uiManager->theme  = uiTheme.get();
+
+	uiManager->atlasShader     = R::Shaders::atlasShader    .get();
+	uiManager->atlasMaskShader = R::Shaders::atlasMaskShader.get();
+	uiManager->colorShader     = R::Shaders::colorShader    .get();
+//	uiManager   = std::make_unique<UIManager> (window,
+//	                                           R::Shaders::atlasMaskShader.get(),
+//	                                           R::Shaders::atlasShader    .get(),
+//	                                           R::Shaders::colorShader    .get(),
+//	                                           uiTheme.get());
 
 	uiManager->uiDataRender = new SpriteData (false, false, true);
 
 	std::unique_ptr<Texture> iconsTex = std::make_unique<Texture> (app->resPath+"/ui/icons/icons.png");
-	uiManager->icons = std::make_unique<UIMainIcons> (uiManager.get(), std::move (iconsTex), 18.f, 9, 3);
+	uiManager->icons = std::make_unique<UIMainIcons> (uiManager, std::move (iconsTex), 18.f, 9, 3);
 
 	iconsTex = std::make_unique<Texture> (app->resPath+"/ui/icons/main_toolbar_icons.png");
-	uiManager->toolIcons = std::make_unique<UIToolIcons> (uiManager.get(), std::move (iconsTex), 48.f, 1, 1);
+	uiManager->toolIcons = std::make_unique<UIToolIcons> (uiManager, std::move (iconsTex), 48.f, 1, 1);
 
 	stringsRes = std::make_unique<StringRes>();
 
@@ -91,8 +97,20 @@ Core::Core (sf::Window *window) {
 	stringsRes->addResource (app->resPath+"/strings/en/menu.e2t");
 	stringsRes->addResource (app->resPath+"/strings/en/dialogs/color_dialog.e2t");
 
-	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager.get(), stringsRes.get(), "test.e2t");
-	colorDialog = std::make_unique<ui::ColorDialog> (uiManager.get(), stringsRes.get(), "dialogs/color_dialog.e2t");
+	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager, stringsRes.get(), "test.e2t");
+	colorDialog = std::make_unique<ui::ColorDialog> (uiManager, stringsRes.get(), "dialogs/color_dialog.e2t");
+
+	//
+
+	editor->initUI();
+
+	setTimeout(1.f, [this]() {
+		editor->splitView(Orientation::Horizontal);
+	});
+
+	setTimeout(2.f, [this]() {
+		editor->splitView(Orientation::Vertical);
+	});
 
 	//StringRes testRes;
 	//testRes.addResource ("../res/strings/eng/menu.e2t");

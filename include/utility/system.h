@@ -20,11 +20,46 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef E2DIT_UTILITY_SYSTEM_H
-#define E2DIT_UTILITY_SYSTEM_H
+#pragma once
 
 #include "utility/application.h"
 #include "utility/config.h"
+
+class TimerT {
+private:
+	float time = 0.f;
+	float timeout;
+	bool  loop = false;
+	std::function<void()> callback;
+	Application *app = Application::getInstance();
+
+	void tick() {
+		while (1) {
+			time += app->deltaTime*1000.f;
+			if (time >= timeout) {
+				if (loop) {
+					cycle++;
+					time = 0.f;
+				} else {
+					break;
+				}
+			}
+		}
+
+		delete this;
+	}
+public:
+	int cycle = 0;
+	TimerT (float timeout, bool loop, std::function<void()> callback)
+			: timeout(timeout), loop(loop), callback(callback)
+	{
+		tick();
+	}
+
+	static TimerT *setTimeout(float timeout, std::function<void()> callback) {
+		return new TimerT(timeout, false, callback);
+	}
+};
 
 static void setTimeout (float timeout, std::function<void()> callback) {
 
@@ -73,5 +108,3 @@ static int setInterval (float timeout, std::function<void()> callback) {
 	return -1;
 
 }
-
-#endif

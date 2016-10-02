@@ -41,17 +41,14 @@
 #include <memory>
 
 struct Timer {
-
 	float time;
 	float timeout;
 	bool  loop = false;
 	std::function<void()> callback = nullptr;
-
 };
 
 class Application {
 public:
-
 	static const int timersCount = 128;
 
 	/* Window */
@@ -65,6 +62,7 @@ public:
 	std::string resPath;
 
 	sf::WindowHandle windowHandle;
+	sf::Window *window;
 
 	/* OpenGL */
 
@@ -101,10 +99,7 @@ public:
 
 	Logger log;
 
-	/* */
-
 	static Application *getInstance();
-
 };
 
 //#endif

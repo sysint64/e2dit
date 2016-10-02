@@ -77,7 +77,6 @@ void DataMap::parseElement() {
 		bytecode.push_back(Name[i]);
 
 	lexNextToken (false);
-	puts (Name.c_str());
 
 	if (curToken == '(') {
 
@@ -134,8 +133,6 @@ void DataMap::parseElement() {
 		lastNode = node.get();
 		parentNode->childs.push_back(std::move(node));
 
-		puts (type.c_str());
-
 	} else {
 
 		if (lastTabs == 0) {
@@ -159,8 +156,8 @@ void DataMap::parseElement() {
 	printf("%d, %d\n", lastTabs, lastHierarchyTabs);
 	lastHierarchyTabs = lastTabs;
 
-	if (hierarchy && parentNode != nullptr)
-		puts (("parent: "+parentNode->name).c_str());
+//	if (hierarchy && parentNode != nullptr)
+//		puts (("parent: "+parentNode->name).c_str());
 
 	if (merge) {
 
@@ -294,7 +291,6 @@ void DataMap::parseFunc (std::string name) {
 		if (tabSize == 0) tabSize = 1;
 		merge = true;
 		lexNextToken();
-		std::cout << tabSize << std::endl;
 
 	}
 

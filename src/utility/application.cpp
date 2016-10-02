@@ -27,7 +27,6 @@
 #include "utility/application.h"
 
 Application *Application::getInstance() {
-
 	static Application *app = 0;
 
 	if (!app) {
@@ -44,5 +43,4 @@ Application *Application::getInstance() {
 	}
 
 	return app;
-
 }

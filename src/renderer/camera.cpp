@@ -28,12 +28,8 @@
  */
 
 Camera::Camera (int width, int height) : viewWidth (width), viewHeight (height) {
-
-	/* Set Base params */
-
 	setPosition (glm::vec2(0, 0));
 	zoom = 1.f;
-
 }
 
 /**
@@ -42,10 +38,8 @@ Camera::Camera (int width, int height) : viewWidth (width), viewHeight (height) 
  */
 
 void Camera::setPosition (glm::vec2 vec) {
-
 	position   = vec;
 	needUpdate = true;
-
 }
 
 /**
@@ -54,10 +48,8 @@ void Camera::setPosition (glm::vec2 vec) {
  */
 
 void Camera::setZoom (float zoom) {
-
 	this->zoom = zoom;
 	needUpdate = true;
-
 }
 
 /**
@@ -65,29 +57,15 @@ void Camera::setZoom (float zoom) {
  */
 
 void Camera::updateMatrices() {
-
-	/* Create base Matrices */
-
 	viewMatrix       = glm::lookAt (glm::vec3 (position, 1), glm::vec3 (position, 0), glm::vec3(0, 1, 0));
 	projectionMatrix = glm::ortho  (0.0f, (float) viewWidth, 0.0f, (float) viewHeight/*, -1.0f, 10.0f*/);
 
-	/* If Zoom greater then normal */
-
 	if (zoom > 1.f) {
-
-		/* Added scale matrix ti MVP */
-
 		glm::mat4 sm = glm::scale  (glm::mat4 (1.0f), glm::vec3 (zoom, zoom, 1.0f));
-		MVPMatrix    = projectionMatrix*sm*viewMatrix; // Result Matrix
-
+		MVPMatrix    = projectionMatrix*sm*viewMatrix;
 	} else {
-
-		/* Else only projectionMatrix & viewMatrix */
-
-		MVPMatrix    = projectionMatrix*viewMatrix;    // Result Matrix
-
+		MVPMatrix    = projectionMatrix*viewMatrix;
 	}
-
 }
 
 /**
@@ -95,10 +73,6 @@ void Camera::updateMatrices() {
  */
 
 void Camera::update() {
-
-	/* If matrices was changes, then update it */
-
 	//if (needUpdate)
 		updateMatrices();
-
 }

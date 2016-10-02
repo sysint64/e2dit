@@ -228,8 +228,6 @@ void Shader::load (const std::string &fileName) {
 	fp[fi-1] = '\0'; vp[vi-1] = '\0';
 	fclose (in);
 
-	puts (vp);
-
 	/* Create Shader */
 
 	const char *ff = fp;

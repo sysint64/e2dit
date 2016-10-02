@@ -20,8 +20,7 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef H_E2DIT_UI_MANAGER
-#define H_E2DIT_UI_MANAGER
+#pragma once
 
 #include <vector>
 #include <glm/glm.hpp>
@@ -126,8 +125,15 @@ public:
 	UITheme   *theme;
 
 	CursorIco cursor = CursorIco::Normal;
-	UIManager (sf::Window *window, Shader *atlasMaskShader, Shader *atlasShader, Shader *colorShader, UITheme *theme);
 
+	UIManager (sf::Window *window, Shader *atlasMaskShader, Shader *atlasShader, Shader *colorShader, UITheme *theme);
+	UIManager() {
+		root = std::make_unique<UIElement> (this);
+		root->isRoot = true;
+		puts("!!!!!!!!!!!!!!");
+	}
+
+	static UIManager *getInstance();
 	void render();
 
 	/* Manage */
@@ -163,8 +169,5 @@ public:
 	void step();
 
 	/* Debug */
-
 	void putString (const std::wstring &str, float r = 1.f, float g = 1.f, float b = 1.f);
 };
-
-#endif

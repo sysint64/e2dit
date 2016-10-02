@@ -162,7 +162,7 @@ set(SOURCE_EXE
 		src/editor/physic/body.cpp
 		src/editor/physic/body.h
 		src/editor/mapeditor.cpp
-		src/editor/mapeditor.h)
+		src/editor/mapeditor.h src/editor/pane.cpp src/editor/pane.h)
 
 add_executable(main ${SOURCE_EXE})
 include_directories(include

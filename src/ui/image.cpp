@@ -36,8 +36,6 @@ void UIImage::cropImage (int ox, int oy, int cw, int ch) {
 	float tfw = static_cast<float>(texture->width );
 	float tfh = static_cast<float>(texture->height);
 
-	std::cout << texture->width << std::endl;
-
 	if (cw == 0) cw = texture->width;
 	if (ch == 0) ch = texture->height;
 
