@@ -32,10 +32,18 @@ public:
 		switch (orientation) {
 			case Orientation::Horizontal:
 				width = static_cast<int>(static_cast<float>(parent->width)*(percent/100.f));
+
+				if (width < minSize)
+					width = minSize;
+
 				break;
 
 			case Orientation::Vertical:
 				height = static_cast<int>(static_cast<float>(parent->height)*(percent/100.f));
+
+				if (height < minSize)
+					height = minSize;
+
 				break;
 		}
 	}
