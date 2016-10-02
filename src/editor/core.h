@@ -38,22 +38,19 @@
 #include "renderer/texture.h"
 
 #include "boost/assign/std/vector.hpp"
+#include "mapeditor.h"
 
 class Application;
 class Core {
 public:
-
-	Application *app = Application::getInstance();
+	Application *app    = Application::getInstance();
+	MapEditor   *editor = MapEditor  ::getInstance();
 	sf::Window  *window;
 
 	/* UI */
 
 	std::unique_ptr<UIManager> uiManager;
 	std::unique_ptr<UITheme>   uiTheme;
-
-	std::unique_ptr<UIButton>  button;
-	std::unique_ptr<UIPanel>   panel;
-	std::unique_ptr<UIEdit>    edit;
 
 	/* Dialogs */
 	std::unique_ptr<ui::ColorDialog> colorDialog;
@@ -65,7 +62,6 @@ public:
 	/* Constructor */
 
 	 Core(sf::Window *window);
-	~Core();
 
 	/* Events */
 

@@ -32,7 +32,7 @@
 #include "utility/data_map.h"
 #include "utility/system.h"
 #include "utility/filesystem.h"
-#include "core/core.h"
+#include "editor/core.h"
 
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>

@@ -24,18 +24,15 @@
     @brief main params for program
 */
 
-#ifndef E2DIT_UTILITY_CONFIG_H
-#define E2DIT_UTILITY_CONFIG_H
-
+#pragma once
 #define APP_NAME  "E2DIT"
+
+#include <string.h>
+#include <iostream>
+#include <memory>
 
 typedef int Uint16;
 
 #ifndef _win_
 	typedef char BYTE;
-#endif
-
-#include <iostream>
-#include <memory>
-
 #endif
