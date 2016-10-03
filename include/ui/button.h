@@ -20,8 +20,7 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru
  */
 
-#ifndef E2DIT_UI_BUTTON_H
-#define E2DIT_UI_BUTTON_H
+#pragma once
 
 #include <string>
 
@@ -31,80 +30,75 @@
 
 #include "renderer/base_object.h"
 
-/**
- * \brief UI Button element
- */
 
-class UIButton : public UIElement {
-protected:
+namespace ui {
+	class UIButton : public UIElement {
+	protected:
+		bool drawChilds = true;
+		int  iconLeft   = 2;
+		int  iconTop    = 0;
 
-	bool drawChilds = true;
-	int  iconLeft   = 2;
-	int  iconTop    = 0;
+		/* Param Names for load from Layout file */
 
-	/* Param Names for load from Layout file */
+		std::string leaveElement = "leave";
+		std::string enterElement = "enter";
+		std::string clickElement = "click";
+		std::string focusElement = "focus";
 
-	std::string leaveElement = "leave";
-	std::string enterElement = "enter";
-	std::string clickElement = "click";
-	std::string focusElement = "focus";
+		/* Render Objects */
 
-	/* Render Objects */
+		std::unique_ptr<gapi::BaseObject> leftElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> rightElement  = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> middleElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> iconElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> iconElement2  = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
-	std::unique_ptr<gapi::BaseObject> leftElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> rightElement  = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> middleElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> iconElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> iconElement2  = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		int focusOffsets[3]; // Left, Top, Width
 
-	int focusOffsets[3]; // Left, Top, Width
+		/* Draw Text */
 
-	/* Draw Text */
+		void renderText (const Align align, const std::wstring &text, const int offset = 0);
+		void renderSkin();
 
-	void renderText (const Align align, const std::wstring &text, const int offset = 0);
-	void renderSkin();
+	public:
+		std::unique_ptr<UITooltip> tooltip = nullptr;
 
-public:
+		/* Icon */
 
-	std::unique_ptr<UITooltip> tooltip = nullptr;
+		int iconOffset     [2] = {-1, -1}; bool showIcon      = false;
+		int icon2Offset    [2] = {-1, -1}; bool showIcon2     = false;
+		int clickIconOffset[2] = {-1, -1}; bool showClickIcon = false;
 
-	/* Icon */
+		//
 
-	int iconOffset     [2] = {-1, -1}; bool showIcon      = false;
-	int icon2Offset    [2] = {-1, -1}; bool showIcon2     = false;
-	int clickIconOffset[2] = {-1, -1}; bool showClickIcon = false;
+		bool allowCheck;
+		std::wstring caption = L"";
+		int  icoOffset = 0;
+		bool noRenderText = false;
+		Align textAlign = Align::Center;
 
-	//
+		virtual void precompute() override;
+		virtual void render()     override;
 
-	bool allowCheck;
-	std::wstring caption = L"";
-	int  icoOffset = 0;
-	bool noRenderText = false;
-	Align textAlign = Align::Center;
+		virtual void mouseDown (int x, int y, int button) override;
+		virtual void mouseUp   (int x, int y, int button) override;
 
-	virtual void precompute() override;
-	virtual void render()     override;
+		inline void setTooltip() {
+			tooltip = std::make_unique<UITooltip> (manager);
+			tooltip->target = this;
+			manager->overlayElements.push_back(tooltip.get());
+		}
 
-	virtual void mouseDown (int x, int y, int button) override;
-	virtual void mouseUp   (int x, int y, int button) override;
+		//using UIElement::UIElement;
+		UIButton (UIManager *manager, bool allowCheck = false) : UIElement (manager) {
 
-	inline void setTooltip() {
-		tooltip = std::make_unique<UITooltip> (manager);
-		tooltip->target = this;
-		manager->overlayElements.push_back(tooltip.get());
-	}
+			this->manager    = manager;
+			this->allowCheck = allowCheck;
 
-	//using UIElement::UIElement;
-	UIButton (UIManager *manager, bool allowCheck = false) : UIElement (manager) {
+			style = allowCheck ? "checkbutton" : "button";
+			precompute();
 
-		this->manager    = manager;
-		this->allowCheck = allowCheck;
+		}
 
-		style = allowCheck ? "checkbutton" : "button";
-		precompute();
-
-	}
-
+	};
 };
-
-#endif

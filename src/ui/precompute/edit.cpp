@@ -26,7 +26,7 @@
  *
  */
 
-void UIEdit::precompute() {
+void ui::UIEdit::precompute() {
 
 	/* Leave */
 

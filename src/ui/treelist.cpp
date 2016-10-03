@@ -22,7 +22,7 @@
 
 #include "ui/treelist.h"
 
-void UITreeListNode::renderLines() {
+void ui::UITreeListNode::renderLines() {
 
 	int depth = this->depth-treeList->depth;
 	if (depth >= 3)
@@ -73,7 +73,7 @@ void UITreeListNode::renderLines() {
 
 }
 
-void UITreeListNode::render() {
+void ui::UITreeListNode::render() {
 
 	updateAbsPos();
 	btnOffset = parent == treeList ? 20 : 14;
@@ -131,7 +131,7 @@ void UITreeListNode::render() {
 
 }
 
-void UITreeListNode::mouseUp (int x, int y, int button) {
+void ui::UITreeListNode::mouseUp (int x, int y, int button) {
 
 	UIButton::mouseUp (x, y, button);
 
@@ -143,7 +143,7 @@ void UITreeListNode::mouseUp (int x, int y, int button) {
 
 }
 
-void UITreeListNode::mouseDown (int x, int y, int button) {
+void ui::UITreeListNode::mouseDown (int x, int y, int button) {
 
 	UIElement::mouseDown (x, y, button);
 
@@ -152,7 +152,7 @@ void UITreeListNode::mouseDown (int x, int y, int button) {
 
 }
 
-void UITreeList::render() {
+void ui::UITreeList::render() {
 
 	height = 0;
 	over = parent->over;

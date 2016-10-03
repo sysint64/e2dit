@@ -27,7 +27,7 @@
  *
  */
 
-void UIElement::dblClick (int x, int y, int button) {
+void ui::UIElement::dblClick (int x, int y, int button) {
 
 	if (!visible) return;
 
@@ -44,7 +44,7 @@ void UIElement::dblClick (int x, int y, int button) {
 
 }
 
-void UIElement::mouseDown (int x, int y, int button) {
+void ui::UIElement::mouseDown (int x, int y, int button) {
 
 	if (!visible) return;
 
@@ -63,7 +63,7 @@ void UIElement::mouseDown (int x, int y, int button) {
 
 }
 
-void UIElement::mouseWheel (int dx, int dy) {
+void ui::UIElement::mouseWheel (int dx, int dy) {
 
 	if (!visible) return;
 
@@ -77,7 +77,7 @@ void UIElement::mouseWheel (int dx, int dy) {
 
 }
 
-void UIElement::mouseUp (int x, int y, int button) {
+void ui::UIElement::mouseUp (int x, int y, int button) {
 
 	if (!enabled/* || !enter*/)
 		return;
@@ -97,14 +97,14 @@ void UIElement::mouseUp (int x, int y, int button) {
 
 }
 
-void UIElement::setCursor() {
+void ui::UIElement::setCursor() {
 
 	if (!enter) return;
 	manager->cursor = cursor;
 
 }
 
-void UIElement::checkFocus() {
+void ui::UIElement::checkFocus() {
 
 	/*for (const auto &it : elements) {
 
@@ -121,7 +121,7 @@ void UIElement::checkFocus() {
 
 }
 
-void UIElement::renderElement (int idx, int x, int y, int w, int h, gapi::BaseObject *el) const {
+void ui::UIElement::renderElement (int idx, int x, int y, int w, int h, gapi::BaseObject *el) const {
 
 	if (math::feq<float>(el->rotation, math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x+h, app->windowHeight-w-y)); else
 	if (math::feq<float>(el->rotation,-math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x-h, app->windowHeight+h-y)); else
@@ -139,7 +139,7 @@ void UIElement::renderElement (int idx, int x, int y, int w, int h, gapi::BaseOb
 
 }
 
-void UIElement::transformElement (int x, int y, int w, int h, gapi::BaseObject *el) const {
+void ui::UIElement::transformElement (int x, int y, int w, int h, gapi::BaseObject *el) const {
 
 	el->setPosition (glm::vec2(x, app->windowHeight-h-y));
 	el->setScale    (glm::vec2(w, h));
@@ -147,7 +147,7 @@ void UIElement::transformElement (int x, int y, int w, int h, gapi::BaseObject *
 
 }
 
-void UIElement::renderMaskElement (int maskidx, int idx, int x, int y, int w, int h, gapi::BaseObject *el) const {
+void ui::UIElement::renderMaskElement (int maskidx, int idx, int x, int y, int w, int h, gapi::BaseObject *el) const {
 
 	el->setPosition (glm::vec2(x, app->windowHeight-h-y));
 	el->setScale    (glm::vec2(w, h));
@@ -169,7 +169,7 @@ void UIElement::renderMaskElement (int maskidx, int idx, int x, int y, int w, in
 
 }
 
-void UIElement::renderColorElement (int x, int y, int w, int h, gapi::BaseObject *el, float *color) const {
+void ui::UIElement::renderColorElement (int x, int y, int w, int h, gapi::BaseObject *el, float *color) const {
 
 	el->setPosition (glm::vec2(x, app->windowHeight-y-h));
 	el->setScale    (glm::vec2(w, h));
@@ -182,7 +182,7 @@ void UIElement::renderColorElement (int x, int y, int w, int h, gapi::BaseObject
 
 }
 
-void UIElement::renderPartsElementH (int il, int ic, int ir,
+void ui::UIElement::renderPartsElementH (int il, int ic, int ir,
                                      gapi::BaseObject *el, gapi::BaseObject *ec, gapi::BaseObject *er,
                                      int x, int y, int w, bool ignoreDrawAlign) const
 {
@@ -221,7 +221,7 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 
 }
 
-void UIElement::renderPartsElementH (int il, int ic, int ir,
+void ui::UIElement::renderPartsElementH (int il, int ic, int ir,
                                      gapi::BaseObject *el, gapi::BaseObject *ec, gapi::BaseObject *er,
                                      int x, int y, int w, int h, bool ignoreDrawAlign) const
 {
@@ -234,7 +234,7 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 
 }
 
-void UIElement::renderPartsElementV90 (int it, int im, int ib,
+void ui::UIElement::renderPartsElementV90 (int it, int im, int ib,
                                        gapi::BaseObject *et, gapi::BaseObject *em, gapi::BaseObject *eb,
                                        int x, int y, int h, bool ignoreDrawAlign) const
 {
@@ -247,7 +247,7 @@ void UIElement::renderPartsElementV90 (int it, int im, int ib,
 
 }
 
-void UIElement::mouseMove (int x, int y, int button) {
+void ui::UIElement::mouseMove (int x, int y, int button) {
 
 	if (!enabled/* || !enter*/)
 		return;
@@ -260,7 +260,7 @@ void UIElement::mouseMove (int x, int y, int button) {
 
 }
 
-void UIElement::keyPressed (int key) {
+void ui::UIElement::keyPressed (int key) {
 
 	if (!visible) return;
 
@@ -274,7 +274,7 @@ void UIElement::keyPressed (int key) {
 
 }
 
-void UIElement::keyReleased (int key) {
+void ui::UIElement::keyReleased (int key) {
 
 	keyClick = false;
 
@@ -286,7 +286,7 @@ void UIElement::keyReleased (int key) {
 
 }
 
-void UIElement::textEntered (int key) {
+void ui::UIElement::textEntered (int key) {
 
 	keyClick = false;
 
@@ -298,7 +298,7 @@ void UIElement::textEntered (int key) {
 
 }
 
-void UIElement::resized (int width, int height) {
+void ui::UIElement::resized (int width, int height) {
 
 	for (const auto &kvp : elements) {
 
@@ -308,7 +308,7 @@ void UIElement::resized (int width, int height) {
 
 }
 
-void UIElement::progress() {
+void ui::UIElement::progress() {
 
 	if (!visible || !enabled)
 		return;
@@ -321,7 +321,7 @@ void UIElement::progress() {
 
 }
 
-void UIElement::focus() {
+void ui::UIElement::focus() {
 
 	if (manager->dialogOpened && !inDialog)
 		return;
@@ -337,13 +337,13 @@ void UIElement::focus() {
 
 }
 
-void UIElement::unfocus() {
+void ui::UIElement::unfocus() {
 
 	manager->unfocusedElements.push_back (this);
 
 }
 
-void UIElement::updateAbsPos() {
+void ui::UIElement::updateAbsPos() {
 
 	glm::vec2 res (0, 0);
 	UIElement *lastParent = parent;
@@ -364,7 +364,7 @@ void UIElement::updateAbsPos() {
 
 /* Render & poll *************************************************************/
 
-void UIElement::render() {
+void ui::UIElement::render() {
 
 	if (allowAlign)
 		updateAlign();
@@ -413,12 +413,12 @@ void UIElement::render() {
 
 }
 
-void UIElement::poll() {
+void ui::UIElement::poll() {
 
 
 }
 
-void UIElement::updateAlign() {
+void ui::UIElement::updateAlign() {
 
 	if (align == Align::None)
 		return;
@@ -515,7 +515,7 @@ void UIElement::updateAlign() {
 
 }
 
-void UIElement::updateVerticalAlign() {
+void ui::UIElement::updateVerticalAlign() {
 
 	switch (verticalAlign) {
 
@@ -540,7 +540,7 @@ void UIElement::updateVerticalAlign() {
 
 /* Manage Elements */
 
-void UIElement::addElement (std::unique_ptr<UIElement> el) {
+void ui::UIElement::addElement (std::unique_ptr<UIElement> el) {
 
 	/* FIXME: Allow add if not parent at element */
 
@@ -585,13 +585,13 @@ void UIElement::addElement (std::unique_ptr<UIElement> el) {
 
 }
 
-void UIElement::deleteElement (std::unique_ptr<UIElement> el) {
+void ui::UIElement::deleteElement (std::unique_ptr<UIElement> el) {
 
 	elements.erase (el->id);
 
 }
 
-void UIElement::deleteElement (const int  id) {
+void ui::UIElement::deleteElement (const int  id) {
 
 	if (elements[id] == nullptr)
 		return;
@@ -600,11 +600,11 @@ void UIElement::deleteElement (const int  id) {
 
 }
 
-UIElement *UIElement::getElement (const int id) {
+ui::UIElement *ui::UIElement::getElement (const int id) {
 	return elements[id].get();
 }
 
-UIElement *UIElement::findElement (const std::string &name) {
+ui::UIElement *ui::UIElement::findElement (const std::string &name) {
 
 	for (auto const &kvp : elements) {
 		UIElement *element = kvp.second.get();
@@ -628,7 +628,7 @@ UIElement *UIElement::findElement (const std::string &name) {
 
 }
 
-std::unique_ptr<UIElement> UIElement::takeElement (const int id) {
+std::unique_ptr<ui::UIElement> ui::UIElement::takeElement (const int id) {
 
 	auto el = std::move (elements[id]);
 	elements.erase (id);

@@ -20,8 +20,7 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef E2DIT_UI_TREELIST_H
-#define E2DIT_UI_TREELIST_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -32,77 +31,74 @@
 
 #include "renderer/base_object.h"
 
-class UITreeList;
-class UITreeListNode : public UIButton {
-private:
-	std::unique_ptr<gapi::BaseObject> expandElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	UITreeList *treeList = nullptr;
+namespace ui {
+	class UITreeList;
+	class UITreeListNode : public UIButton {
+	private:
+		std::unique_ptr<gapi::BaseObject> expandElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		UITreeList *treeList = nullptr;
 
-	int  heightIn = 0;
-	int  btnOffset = 0;
-	bool buttonEnter = false;
+		int  heightIn = 0;
+		int  btnOffset = 0;
+		bool buttonEnter = false;
 
-	void renderLines();
+		void renderLines();
 
-public:
+	public:
+		bool open      = true;
+		bool allowHide = true;
 
-	bool open      = true;
-	bool allowHide = true;
+		virtual void precompute() override;
+		virtual void render()     override;
 
-	virtual void precompute() override;
-	virtual void render()     override;
+		virtual void mouseUp   (int x, int y, int button) override;
+		virtual void mouseDown (int x, int y, int button) override;
 
-	virtual void mouseUp   (int x, int y, int button) override;
-	virtual void mouseDown (int x, int y, int button) override;
+		UITreeListNode (UIManager *manager, UITreeList *treeList) : UIButton (manager) {
 
-	UITreeListNode (UIManager *manager, UITreeList *treeList) : UIButton (manager) {
+			this->manager  = manager;
+			this->treeList = treeList;
 
-		this->manager  = manager;
-		this->treeList = treeList;
+			style = "treelistnode";
 
-		style = "treelistnode";
+			textAlign  = Align::Left;
+			drawChilds = false;
 
-		textAlign  = Align::Left;
-		drawChilds = false;
+			precompute();
 
-		precompute();
+		}
 
-	}
+	};
 
+	class UITreeList : public UIElement {
+	private:
+		UIElement *lastCheck = nullptr;
+
+	public:
+		friend UITreeListNode;
+		UITreeListNode *selected = nullptr;
+		bool drawLines = true;
+
+		virtual void render() override;
+
+		UITreeList (UIManager *manager) : UIElement (manager) {
+
+			this->manager = manager;
+			precompute();
+
+		}
+
+		inline void checkElement (UITreeListNode *el) {
+
+			//assert (el->parent == this); TODO: Make method for check if el has child of this
+
+			if (lastCheck != nullptr)
+				lastCheck->checked = false;
+
+			el->checked = true;
+			lastCheck   = el;
+			selected    = el;
+		}
+
+	};
 };
-
-class UITreeList : public UIElement {
-private:
-	UIElement *lastCheck = nullptr;
-
-public:
-
-	friend UITreeListNode;
-	UITreeListNode *selected = nullptr;
-	bool drawLines = true;
-
-	virtual void render() override;
-
-	UITreeList (UIManager *manager) : UIElement (manager) {
-
-		this->manager = manager;
-		precompute();
-
-	}
-
-	inline void checkElement (UITreeListNode *el) {
-
-		//assert (el->parent == this); TODO: Make method for check if el has child of this
-
-		if (lastCheck != nullptr)
-			lastCheck->checked = false;
-
-		el->checked = true;
-		lastCheck   = el;
-		selected    = el;
-
-	}
-
-};
-
-#endif

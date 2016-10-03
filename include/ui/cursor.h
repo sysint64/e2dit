@@ -20,8 +20,7 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef E2DIT_UI_CURSOR_H
-#define E2DIT_UI_CURSOR_H
+#pragma once
 
 #include <SFML/Window.hpp>
 
@@ -126,5 +125,3 @@ public:
 	}
 
 };
-
-#endif

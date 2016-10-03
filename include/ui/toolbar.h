@@ -29,128 +29,132 @@
 #include "renderer/base_object.h"
 #include <string>
 
-class UIToolbarSplit : public UIElement {
-protected:
-	std::unique_ptr<gapi::BaseObject> splitElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+namespace ui {
 
-public:
+	class UIToolbarSplit : public UIElement {
+	protected:
+		std::unique_ptr<gapi::BaseObject> splitElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
-	virtual void precompute() override;
-	virtual void render()     override;
+	public:
 
-	UIToolbarSplit (UIManager *manager) : UIElement (manager) {
+		virtual void precompute() override;
+		virtual void render()     override;
 
-		this->style   = "toolbar";
-		this->manager = manager;
+		UIToolbarSplit (UIManager *manager) : UIElement (manager) {
 
-		precompute();
+			this->style   = "toolbar";
+			this->manager = manager;
 
-	}
+			precompute();
 
-};
+		}
 
-class UIToolbarTab : public UIButton {
-public:
+	};
 
-	UIToolbarTab (UIManager *manager) : UIButton (manager) {
+	class UIToolbarTab : public UIButton {
+	public:
 
-		style         = "toolbartab";
-		drawChilds    = false;
-		iconLeft      = 12;
-		allowCheck    = true;
-		this->manager = manager;
+		UIToolbarTab (UIManager *manager) : UIButton (manager) {
 
-		precompute();
+			style         = "toolbartab";
+			drawChilds    = false;
+			iconLeft      = 12;
+			allowCheck    = true;
+			this->manager = manager;
 
-	}
+			precompute();
 
-};
+		}
 
-class UIToolbar;
-class UIToolbarItem : public UIElement {
-protected:
-	std::unique_ptr<gapi::BaseObject> iconElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	UIToolbar *toolbar = nullptr;
+	};
 
-public:
-	std::string leaveElement = "leave";
-	std::string enterElement = "enter";
-	std::string clickElement = "click";
+	class UIToolbar;
+	class UIToolbarItem : public UIElement {
+	protected:
+		std::unique_ptr<gapi::BaseObject> iconElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		UIToolbar *toolbar = nullptr;
 
-	int iconOffset[2];
-	std::wstring caption;
-	bool allowCheck = true;
-	float alphas[3];
+	public:
+		std::string leaveElement = "leave";
+		std::string enterElement = "enter";
+		std::string clickElement = "click";
 
-	virtual void precompute() override;
-	virtual void render()     override;
+		int iconOffset[2];
+		std::wstring caption;
+		bool allowCheck = true;
+		float alphas[3];
 
-	virtual void mouseDown (int x, int y, int button) override;
+		virtual void precompute() override;
+		virtual void render()     override;
 
-	UIToolbarItem (UIManager *manager, UIToolbar *toolbar) : UIElement (manager) {
+		virtual void mouseDown (int x, int y, int button) override;
 
-		style  = "toolbaritem";
-		width  = manager->toolIcons->sizeIcon;
-		height = manager->toolIcons->sizeIcon+18+manager->theme->fontHeight+2;
+		UIToolbarItem (UIManager *manager, UIToolbar *toolbar) : UIElement (manager) {
 
-		this->manager = manager;
-		this->toolbar = toolbar;
+			style  = "toolbaritem";
+			width  = manager->toolIcons->sizeIcon;
+			height = manager->toolIcons->sizeIcon+18+manager->theme->fontHeight+2;
 
-		precompute();
+			this->manager = manager;
+			this->toolbar = toolbar;
 
-	}
+			precompute();
 
-	UIToolbarItem (UIManager *manager) : UIElement (manager) {
+		}
 
-		style  = "toolbaritem";
-		width  = manager->toolIcons->sizeIcon;
-		height = manager->toolIcons->sizeIcon+18+manager->theme->fontHeight+2;
-		this->manager = manager;
+		UIToolbarItem (UIManager *manager) : UIElement (manager) {
 
-		precompute();
+			style  = "toolbaritem";
+			width  = manager->toolIcons->sizeIcon;
+			height = manager->toolIcons->sizeIcon+18+manager->theme->fontHeight+2;
+			this->manager = manager;
 
-	}
+			precompute();
 
-};
+		}
 
-class UIToolbar : public UICheckedElements {
-protected:
-	std::unique_ptr<gapi::BaseObject> bgElement    = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> splitElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	};
 
-	int shadowHeight = 0;
-	int tabOffset    = 0;
+	class UIToolbar : public UICheckedElements {
+	protected:
+		std::unique_ptr<gapi::BaseObject> bgElement    = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> splitElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
-	virtual void updateAlign() override;
+		int shadowHeight = 0;
+		int tabOffset    = 0;
 
-public:
+		virtual void updateAlign() override;
 
-	UIElement *lastTool = nullptr;
+	public:
 
-	int tabsOffset = 20;
-	int tabSize    = 150;
+		UIElement *lastTool = nullptr;
 
-	virtual void precompute() override;
-	virtual void render()     override;
+		int tabsOffset = 20;
+		int tabSize    = 150;
 
-	UIToolbar (UIManager *manager) : UICheckedElements (manager) {
+		virtual void precompute() override;
+		virtual void render()     override;
 
-		align = Align::Top;
-		style = "toolbar";
-		this->manager = manager;
+		UIToolbar (UIManager *manager) : UICheckedElements (manager) {
 
-		precompute();
+			align = Align::Top;
+			style = "toolbar";
+			this->manager = manager;
 
-	}
+			precompute();
 
-	void checkTool (UIElement *tool) {
+		}
 
-		if (lastTool != nullptr)
-			lastTool->checked = false;
+		void checkTool (UIElement *tool) {
 
-		tool->checked = true;
-		lastTool = tool;
+			if (lastTool != nullptr)
+				lastTool->checked = false;
 
-	}
+			tool->checked = true;
+			lastTool = tool;
+
+		}
+
+	};
 
 };

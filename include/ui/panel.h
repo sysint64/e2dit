@@ -39,144 +39,145 @@
 #include "renderer/data_render.h"
 #include "renderer/base_object.h"
 
-class UIPanel : public UIElement {
-protected:
+namespace ui {
+	class UIPanel : public UIElement {
+	protected:
+		std::unique_ptr<gapi::BaseObject> scrollBg [6];
+		std::unique_ptr<gapi::BaseObject> scrollBtn[6];
 
-	std::unique_ptr<gapi::BaseObject> scrollBg [6];
-	std::unique_ptr<gapi::BaseObject> scrollBtn[6];
+		std::unique_ptr<gapi::BaseObject> split       = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> header      = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> expandArrow = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> quadElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
-	std::unique_ptr<gapi::BaseObject> split       = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> header      = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> expandArrow = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> quadElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		float backgroundLight [4];
+		float backgroundDark  [4];
+		float backgroundAction[4];
+		float textColor[4];
 
-	float backgroundLight [4];
-	float backgroundDark  [4];
-	float backgroundAction[4];
-	float textColor[4];
+		/* Scroll */
 
-	/* Scroll */
+		int hsOffset  = 0; int vsOffset  = 0; // Horizontal && Vertical Offset for UI Elements in Px
+		int hbOffset  = 0; int vbOffset  = 0; // Horizontal && Vertical Offset for Scroll Buttons in Px
+		int lhbOffset = 0; int lvbOffset = 0; // Last Horizontal && Vertical Buttons Offset in Px
 
-	int hsOffset  = 0; int vsOffset  = 0; // Horizontal && Vertical Offset for UI Elements in Px
-	int hbOffset  = 0; int vbOffset  = 0; // Horizontal && Vertical Offset for Scroll Buttons in Px
-	int lhbOffset = 0; int lvbOffset = 0; // Last Horizontal && Vertical Buttons Offset in Px
+		int scrollOffset = 0;
 
-	int scrollOffset = 0;
+		/* Split */
 
-	/* Split */
+		int  splitX, splitY;
+		int  splitW, splitH;
+		int  curSize;
+		int  panelSize;
+		bool clicked;
+		bool scrollClicked;
+		bool splitClick   = false;
+		int  headerSize   = 0;
+		int  lastWidth    = 0;
+		int  lastHeight   = 0;
+		bool scrollVEnter = false;
+		bool scrollHEnter = false;
+		bool splitEnter   = false;
+		bool headerEnter  = false;
+		bool drag         = false;
+		int  headerHeight = 0;
 
-	int  splitX, splitY;
-	int  splitW, splitH;
-	int  curSize;
-	int  panelSize;
-	bool clicked;
-	bool scrollClicked;
-	bool splitClick   = false;
-	int  headerSize   = 0;
-	int  lastWidth    = 0;
-	int  lastHeight   = 0;
-	bool scrollVEnter = false;
-	bool scrollHEnter = false;
-	bool splitEnter   = false;
-	bool headerEnter  = false;
-	bool drag         = false;
-	int  headerHeight = 0;
+		/* */
 
-	/* */
+		bool scrollHClick = false;
+		bool scrollVClick = false;
 
-	bool scrollHClick = false;
-	bool scrollVClick = false;
+		/* */
 
-	/* */
+		int hbSize = 0; // Horizontal button size
+		int vbSize = 0; // Vertical button size
 
-	int hbSize = 0; // Horizontal button size
-	int vbSize = 0; // Vertical button size
+		int hbMin = 0; int hbMax = 0;
+		int vbMin = 0; int vbMax = 0;
 
-	int hbMin = 0; int hbMax = 0;
-	int vbMin = 0; int vbMax = 0;
+		void updateScroll();
+		void pollScroll();
+		void calculateSplit();
+		void renderSplit();
+		virtual void updateAlign() override;
 
-	void updateScroll();
-	void pollScroll();
-	void calculateSplit();
-	void renderSplit();
-	virtual void updateAlign() override;
+	public:
+		int minSize = 40;
+		int maxSize = 999;
 
-public:
+		int scrollDelta = 20;
 
-	int minSize = 40;
-	int maxSize = 999;
+		bool showScrollX = true;
+		bool showScrollY = true;
 
-	int scrollDelta = 20;
+		enum class Background {Transparent, Light, Dark, Action};
+		Background background = Background::Light;
+		bool allowResize = false;
+		bool allowHide   = false;
+		bool allowDrag   = false;
+		bool open        = true;
+		bool blackSplit  = false;
+		bool showSplit   = true;
 
-	bool showScrollX = true;
-	bool showScrollY = true;
+		UIElement *test;
 
-	enum class Background {Transparent, Light, Dark, Action};
-	Background background = Background::Light;
-	bool allowResize = false;
-	bool allowHide   = false;
-	bool allowDrag   = false;
-	bool open        = true;
-	bool blackSplit  = false;
-	bool showSplit   = true;
+		std::wstring caption = L"Hello World";
+		std::vector<UIElement*> joinElements;
 
-	UIElement *test;
+		/* Scroll */
 
-	std::wstring caption = L"Hello World";
-	std::vector<UIElement*> joinElements;
+		void addScrollXByPx (int pxVal);  void addScrollXByPct (int pctVal);
+		void addScrollYByPx (int pxVal);  void addScrollYByPct (int pctVal);
+		void setScrollYByPx (int pxVal);  void setScrollYByPct (int pctVal);
+		void setScrollXByPx (int pxVal);  void setScrollXByPct (int pctVal);
+		/*   ^^^^^^^^^^^^^^                    ^^^^^^^^^^^^^^^
+		     By Pixels                         By Percent                */
 
-	/* Scroll */
+		inline int getScrollYByPx() { return vsOffset; }
+		inline int getScrollXByPx() { return hsOffset; }
 
-	void addScrollXByPx (int pxVal);  void addScrollXByPct (int pctVal);
-	void addScrollYByPx (int pxVal);  void addScrollYByPct (int pctVal);
-	void setScrollYByPx (int pxVal);  void setScrollYByPct (int pctVal);
-	void setScrollXByPx (int pxVal);  void setScrollXByPct (int pctVal);
-	/*   ^^^^^^^^^^^^^^                    ^^^^^^^^^^^^^^^
-	     By Pixels                         By Percent                */
+		void scrollToElement (UIElement *el);
 
-	inline int getScrollYByPx() { return vsOffset; }
-	inline int getScrollXByPx() { return hsOffset; }
+		/* Main */
 
-	void scrollToElement (UIElement *el);
+		virtual void precompute() override;
+		virtual void render()     override;
+		virtual void progress()   override;
+		virtual void setCursor()  override;
 
-	/* Main */
+		/* Events */
 
-	virtual void precompute() override;
-	virtual void render()     override;
-	virtual void progress()   override;
-	virtual void setCursor()  override;
+		virtual void mouseDown  (int x, int y, int button)  override;
+		virtual void mouseUp    (int x, int y, int button)  override;
+		virtual void mouseWheel (int dx, int dy)            override;
 
-	/* Events */
+		/* Constructor */
 
-	virtual void mouseDown  (int x, int y, int button)  override;
-	virtual void mouseUp    (int x, int y, int button)  override;
-	virtual void mouseWheel (int dx, int dy)            override;
+		UIPanel (UIManager *manager) : UIElement (manager) {
 
-	/* Constructor */
+			allowScroll = true;
+			alignSize   = true;
+			allowAlign  = false; // for call updateAlign manualy
 
-	UIPanel (UIManager *manager) : UIElement (manager) {
+			for (int i = 0; i < 6; ++i) {
 
-		allowScroll = true;
-		alignSize   = true;
-		allowAlign  = false; // for call updateAlign manualy
+				scrollBg [i] = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+				scrollBtn[i] = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
-		for (int i = 0; i < 6; ++i) {
+				if (i >= 3) {
 
-			scrollBg [i] = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-			scrollBtn[i] = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+					scrollBg [i]->setRotation (math::pi/2.f);
+					scrollBtn[i]->setRotation (math::pi/2.f);
 
-			if (i >= 3) {
-
-				scrollBg [i]->setRotation (math::pi/2.f);
-				scrollBtn[i]->setRotation (math::pi/2.f);
+				}
 
 			}
 
+			this->manager = manager;
+			precompute();
+
 		}
 
-		this->manager = manager;
-		precompute();
-
-	}
+	};
 
 };

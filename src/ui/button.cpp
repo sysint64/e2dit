@@ -30,7 +30,7 @@
  * Render Button
  */
 
-void UIButton::render() {
+void ui::UIButton::render() {
 
 	if (drawChilds)
 		UIElement::render();
@@ -143,7 +143,7 @@ void UIButton::render() {
  * Render Button Skin
  */
 
-void UIButton::renderSkin() {
+void ui::UIButton::renderSkin() {
 
 	/* Tables Indices */
 
@@ -172,7 +172,7 @@ void UIButton::renderSkin() {
  * @param offset: Offset Render
  */
 
-void UIButton::renderText (const Align align, const std::wstring &text, const int offset) {
+void ui::UIButton::renderText (const Align align, const std::wstring &text, const int offset) {
 
 	/* Tables Indices */
 
@@ -222,7 +222,7 @@ void UIButton::renderText (const Align align, const std::wstring &text, const in
 
 }
 
-void UIButton::mouseDown (int x, int y, int button) {
+void ui::UIButton::mouseDown (int x, int y, int button) {
 
 	UIElement::mouseDown (x, y, button);
 
@@ -245,7 +245,7 @@ void UIButton::mouseDown (int x, int y, int button) {
 
 }
 
-void UIButton::mouseUp (int x, int y, int button) {
+void ui::UIButton::mouseUp (int x, int y, int button) {
 
 	UIElement::mouseUp (x, y, button);
 

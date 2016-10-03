@@ -20,8 +20,7 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru
  */
 
-#ifndef E2DIT_UI_GROUPED_H
-#define E2DIT_UI_GROUPED_H
+#pragma once
 
 #include <string>
 
@@ -31,28 +30,28 @@
 
 #include "renderer/base_object.h"
 
-class UIGrouped : public UICheckedElements {
-protected:
+namespace ui {
+	class UIGrouped : public UICheckedElements {
+	protected:
 
-	std::unique_ptr<gapi::BaseObject> splitElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	int spacing = 0;
+		std::unique_ptr<gapi::BaseObject> splitElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		int spacing = 0;
 
-public:
+	public:
 
-	virtual void precompute() override;
-	virtual void render()     override;
+		virtual void precompute() override;
+		virtual void render()     override;
 
-	UIGrouped (UIManager *manager, bool multiSelect = false, int spacing = 0) : UICheckedElements (manager) {
+		UIGrouped (UIManager *manager, bool multiSelect = false, int spacing = 0) : UICheckedElements (manager) {
 
-		this->manager     = manager;
-		this->multiSelect = multiSelect;
-		this->spacing     = spacing;
+			this->manager     = manager;
+			this->multiSelect = multiSelect;
+			this->spacing     = spacing;
 
-		style = "grouped";
-		precompute();
+			style = "grouped";
+			precompute();
 
-	}
+		}
 
+	};
 };
-
-#endif

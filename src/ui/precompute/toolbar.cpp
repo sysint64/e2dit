@@ -23,11 +23,7 @@
 #include "ui/toolbar.h"
 #include "utility/renderer.h"
 
-/**
- * User Interface Precompute Texture Atlas values
- */
-
-void UIToolbar::precompute() {
+void ui::UIToolbar::precompute() {
 
 	precomputeElement (0, style, "background");
 
@@ -38,7 +34,7 @@ void UIToolbar::precompute() {
 
 }
 
-void UIToolbarItem::precompute() {
+void ui::UIToolbarItem::precompute() {
 
 	precomputeText (0, style+leaveElement);
 	precomputeText (1, style+enterElement);
@@ -50,7 +46,7 @@ void UIToolbarItem::precompute() {
 
 }
 
-void UIToolbarSplit::precompute() {
+void ui::UIToolbarSplit::precompute() {
 
 	precomputeElement (0, style, "split");
 	width = iWidths[0]+10;

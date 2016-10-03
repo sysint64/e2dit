@@ -29,54 +29,56 @@
 #include "renderer/texture.h"
 #include "renderer/color.h"
 
-class UIColorPanel : public UIElement {
-private:
-	std::unique_ptr<gapi::BaseObject> quadElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	gapi::Texture *gridTexture = nullptr;
+namespace ui {
+	class UIColorPanel : public UIElement {
+	private:
+		std::unique_ptr<gapi::BaseObject> quadElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		gapi::Texture *gridTexture = nullptr;
 
-public:
-	gapi::Color color;
+	public:
+		gapi::Color color;
 
-	virtual void render();
-	virtual void mouseUp (int x, int y, int button) override;
+		virtual void render();
+		virtual void mouseUp (int x, int y, int button) override;
 
-	UIColorPanel (UIManager *manager, gapi::Texture *gridTexture = nullptr) : UIElement(manager) {
+		UIColorPanel (UIManager *manager, gapi::Texture *gridTexture = nullptr) : UIElement(manager) {
 
-		this->manager     = manager;
-		this->gridTexture = gridTexture;
+			this->manager     = manager;
+			this->gridTexture = gridTexture;
 
-		offsetsX[0] = 0.f; offsetsY[0] = 0.f;
-		fWidths [0] = 1.f; fHeights[0] = 1.f;
+			offsetsX[0] = 0.f; offsetsY[0] = 0.f;
+			fWidths [0] = 1.f; fHeights[0] = 1.f;
 
-	}
+		}
 
-	static std::unique_ptr<UIColorPanel> createInstance(UIManager *manager,
-	                                                    int w, int h, int x, int y,
-	                                                    float R, float G, float B, float A)
-	{
-		std::unique_ptr<UIColorPanel> instance = std::make_unique<UIColorPanel> (manager);
+		static std::unique_ptr<UIColorPanel> createInstance(UIManager *manager,
+		                                                    int w, int h, int x, int y,
+		                                                    float R, float G, float B, float A)
+		{
+			std::unique_ptr<UIColorPanel> instance = std::make_unique<UIColorPanel> (manager);
 
-		instance->width  = w;
-		instance->height = h;
-		instance->left   = x;
-		instance->top    = y;
-		instance->color.RGB.set(R, G, B);
-		instance->color.alpha = A;
+			instance->width  = w;
+			instance->height = h;
+			instance->left   = x;
+			instance->top    = y;
+			instance->color.RGB.set(R, G, B);
+			instance->color.alpha = A;
 
-		return instance;
-	}
+			return instance;
+		}
 
-	inline  void update() {
+		inline  void update() {
 
-		if (!gridTexture)
-			return;
+			if (!gridTexture)
+				return;
 
-		float tfw = static_cast<float>(gridTexture->width );
-		float tfh = static_cast<float>(gridTexture->height);
+			float tfw = static_cast<float>(gridTexture->width );
+			float tfh = static_cast<float>(gridTexture->height);
 
-		fWidths [0] = static_cast<float>(width ) / tfw;
-		fHeights[0] = static_cast<float>(height) / tfh;
+			fWidths [0] = static_cast<float>(width ) / tfw;
+			fHeights[0] = static_cast<float>(height) / tfh;
 
-	}
+		}
 
+	};
 };

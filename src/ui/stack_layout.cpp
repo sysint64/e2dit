@@ -33,7 +33,7 @@
  * +-------------+
  */
 
-void UIStackLayout::addElement (std::unique_ptr<UIElement> el) {
+void ui::UIStackLayout::addElement (std::unique_ptr<UIElement> el) {
 
 	if (!parent)
 		Application::getInstance()->log.ewrite ("Can't add element, element don't has parent!");
@@ -50,7 +50,7 @@ void UIStackLayout::addElement (std::unique_ptr<UIElement> el) {
  * \brief Render and recalculate location and sizes of elements
  */
 
-void UIStackLayout::render() {
+void ui::UIStackLayout::render() {
 
 	updateAbsPos();
 

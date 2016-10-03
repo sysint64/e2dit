@@ -29,90 +29,94 @@
 #include "utility/filesystem.h"
 #include "renderer/color.h"
 
-class UILoader {
-private:
-	Application *app      = Application::getInstance();
-	UITreeList  *treeList = nullptr;
-	UIToolbar   *toolbar  = nullptr;
+namespace ui {
 
-	void placeElements (DataMap::DataNode *rootNode, UIElement *uiParent);
+	class UILoader {
+	private:
+		Application *app      = Application::getInstance();
+		UITreeList  *treeList = nullptr;
+		ui::UIToolbar   *toolbar  = nullptr;
 
-	std::unique_ptr<UIElement> createElement      (DataMap::DataNode *elementNode);
+		void placeElements (DataMap::DataNode *rootNode, UIElement *uiParent);
 
-	std::unique_ptr<UIElement> createPanel        (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createButton       (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createEdit         (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createStackLayout  (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createToolbar      (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createToolbarTab   (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createToolbarItem  (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createColorPanel   (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createDialog       (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createImage        (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createLabel        (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createGrouped      (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createDropMenu     (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createListMenu     (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createMenuItem     (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createMenuHr       (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createTallMenuItem (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createTreeList     (DataMap::DataNode *elementNode);
-	std::unique_ptr<UIElement> createTreeListNode (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createElement      (DataMap::DataNode *elementNode);
 
-	int                readInt     (DataMap::DataNode *elementNode, const std::string &paramName, const int defaultVal = 0);
-	float              readFloat   (DataMap::DataNode *elementNode, const std::string &paramName, const float defaultVal = 0.f);
-	bool               readBool    (DataMap::DataNode *elementNode, const std::string &paramName, const bool defaultVal = false);
-	std::string        readString  (DataMap::DataNode *elementNode, const std::string &paramName, const std::string &defaultVal = "");
-	std::wstring       readUString (DataMap::DataNode *elementNode, const std::string &paramName, const std::wstring &defaultVal = L"");
+		std::unique_ptr<UIElement> createPanel        (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createButton       (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createEdit         (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createStackLayout  (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createToolbar      (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createToolbarTab   (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createToolbarItem  (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createColorPanel   (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createDialog       (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createImage        (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createLabel        (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createGrouped      (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createDropMenu     (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createListMenu     (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createMenuItem     (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createMenuHr       (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createTallMenuItem (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createTreeList     (DataMap::DataNode *elementNode);
+		std::unique_ptr<UIElement> createTreeListNode (DataMap::DataNode *elementNode);
 
-	std::array<int, 4> readRect    (DataMap::DataNode *elementNode, const std::string &paramName, const bool autoFill = true);
-	gapi::Color        readColor   (DataMap::DataNode *elementNode, const std::string &paramName);
-	Align              readAlign   (DataMap::DataNode *elementNode, const std::string &paramName);
-	void               readIcon    (UIButton *element, DataMap::DataNode *elementNode);
+		int                readInt     (DataMap::DataNode *elementNode, const std::string &paramName, const int defaultVal = 0);
+		float              readFloat   (DataMap::DataNode *elementNode, const std::string &paramName, const float defaultVal = 0.f);
+		bool               readBool    (DataMap::DataNode *elementNode, const std::string &paramName, const bool defaultVal = false);
+		std::string        readString  (DataMap::DataNode *elementNode, const std::string &paramName, const std::string &defaultVal = "");
+		std::wstring       readUString (DataMap::DataNode *elementNode, const std::string &paramName, const std::wstring &defaultVal = L"");
 
-public:
-	std::unique_ptr<DataMap> data = nullptr;
-	StringRes *stringsRes;
-	UIManager *manager = nullptr;
-	UIElement *root = nullptr;
+		std::array<int, 4> readRect    (DataMap::DataNode *elementNode, const std::string &paramName, const bool autoFill = true);
+		gapi::Color        readColor   (DataMap::DataNode *elementNode, const std::string &paramName);
+		Align              readAlign   (DataMap::DataNode *elementNode, const std::string &paramName);
+		void               readIcon    (UIButton *element, DataMap::DataNode *elementNode);
 
-	UILoader (UIManager *manager) : manager (manager) {
-		data = std::make_unique<DataMap> ();
-	}
+	public:
+		std::unique_ptr<DataMap> data = nullptr;
+		StringRes *stringsRes;
+		UIManager *manager = nullptr;
+		UIElement *root = nullptr;
 
-	UILoader (UIManager *manager, StringRes *stringsRes, const std::string &fileName,
-		UIElement *root = nullptr, DataMap::ReadType rt = DataMap::ReadType::Text)
-			: manager(manager), stringsRes(stringsRes), root(root)
-	{
+		UILoader (UIManager *manager) : manager (manager) {
+			data = std::make_unique<DataMap> ();
+		}
 
-		data = std::make_unique<DataMap>();
-		data->hierarchy = true;
+		UILoader (UIManager *manager, StringRes *stringsRes, const std::string &fileName,
+			UIElement *root = nullptr, DataMap::ReadType rt = DataMap::ReadType::Text)
+				: manager(manager), stringsRes(stringsRes), root(root)
+		{
 
-		if (root == nullptr)
-			this->root = manager->root.get();
+			data = std::make_unique<DataMap>();
+			data->hierarchy = true;
 
-		switch (rt) {
+			if (root == nullptr)
+				this->root = manager->root.get();
 
-			case DataMap::ReadType::Bin  : loadFromBin  (app->resPath+"/ui/layouts/"+fileName); break;
-			case DataMap::ReadType::Text : loadFromText (app->resPath+"/ui/layouts/"+fileName); break;
-			default : return;
+			switch (rt) {
+
+				case DataMap::ReadType::Bin  : loadFromBin  (app->resPath+"/ui/layouts/"+fileName); break;
+				case DataMap::ReadType::Text : loadFromText (app->resPath+"/ui/layouts/"+fileName); break;
+				default : return;
+
+			}
 
 		}
 
-	}
+		inline void loadFromText (const std::string &fileName) {
 
-	inline void loadFromText (const std::string &fileName) {
+			data->loadFromText (fileName.c_str());
+			placeElements (data->root.get(), root);
 
-		data->loadFromText (fileName.c_str());
-		placeElements (data->root.get(), root);
+		}
 
-	}
+		inline void loadFromBin (const std::string &fileName) {
 
-	inline void loadFromBin (const std::string &fileName) {
+			data->loadFromBin (fileName.c_str());
+			placeElements (data->root.get(), root);
 
-		data->loadFromBin (fileName.c_str());
-		placeElements (data->root.get(), root);
+		}
 
-	}
+	};
 
 };

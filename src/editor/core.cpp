@@ -62,7 +62,7 @@ Core::Core (sf::Window *window) {
 	R::init (app);
 
 	//skin    = std::make_unique<Texture> (app->resPath+"/ui/skins/light/controls.png");
-	uiTheme = std::make_unique<UITheme> (app->resPath+"/ui/skins/light/controls.e2t", DataMap::ReadType::Text, R::Textures::skin.get(), font12);
+	uiTheme = std::make_unique<ui::UITheme> (app->resPath+"/ui/skins/light/controls.e2t", DataMap::ReadType::Text, R::Textures::skin.get(), font12);
 	uiTheme->fontHeight   = 12;
 	uiTheme->font12Height = 12;
 	uiTheme->font14Height = 14;
@@ -86,10 +86,10 @@ Core::Core (sf::Window *window) {
 	uiManager->uiDataRender = new gapi::SpriteData(false, false, true);
 
 	std::unique_ptr<gapi::Texture> iconsTex = std::make_unique<gapi::Texture> (app->resPath+"/ui/icons/icons.png");
-	uiManager->icons = std::make_unique<UIMainIcons> (uiManager, std::move (iconsTex), 18.f, 9, 3);
+	uiManager->icons = std::make_unique<ui::UIMainIcons> (uiManager, std::move (iconsTex), 18.f, 9, 3);
 
 	iconsTex = std::make_unique<gapi::Texture> (app->resPath+"/ui/icons/main_toolbar_icons.png");
-	uiManager->toolIcons = std::make_unique<UIToolIcons> (uiManager, std::move (iconsTex), 48.f, 1, 1);
+	uiManager->toolIcons = std::make_unique<ui::UIToolIcons> (uiManager, std::move (iconsTex), 48.f, 1, 1);
 
 	stringsRes = std::make_unique<StringRes>();
 
@@ -97,7 +97,7 @@ Core::Core (sf::Window *window) {
 	stringsRes->addResource (app->resPath+"/strings/en/menu.e2t");
 	stringsRes->addResource (app->resPath+"/strings/en/dialogs/color_dialog.e2t");
 
-	std::unique_ptr<UILoader> loader = std::make_unique<UILoader> (uiManager, stringsRes.get(), "test.e2t");
+	std::unique_ptr<ui::UILoader> loader = std::make_unique<ui::UILoader> (uiManager, stringsRes.get(), "test.e2t");
 	colorDialog = std::make_unique<ui::ColorDialog> (uiManager, stringsRes.get(), "dialogs/color_dialog.e2t");
 
 	//

@@ -25,7 +25,7 @@
 #include "utility/renderer.h"
 #include "utility/string.h"
 
-void UICheckbox::render() {
+void ui::UICheckbox::render() {
 
 	UIElement::render();
 	updateAbsPos();
@@ -56,7 +56,7 @@ void UICheckbox::render() {
 
 }
 
-void UICheckbox::mouseDown (int x, int y, int button) {
+void ui::UICheckbox::mouseDown (int x, int y, int button) {
 
 	if (enter) checked = !checked;
 

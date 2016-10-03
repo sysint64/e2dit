@@ -28,22 +28,26 @@
 #include "renderer/base_object.h"
 #include <string>
 
-class UILabel : public UIElement {
-public:
-	std::wstring caption;
-	Align textAlign = Align::None;
+namespace ui {
 
-	UILabel (UIManager *manager) : UIElement(manager) {
+	class UILabel : public UIElement {
+	public:
+		std::wstring caption;
+		Align textAlign = Align::None;
 
-		this->manager = manager;
-		this->height  = manager->theme->fontHeight;
+		UILabel (UIManager *manager) : UIElement(manager) {
 
-		style = "label";
-		precompute();
+			this->manager = manager;
+			this->height  = manager->theme->fontHeight;
 
-	}
+			style = "label";
+			precompute();
 
-	virtual void render();
-	virtual void precompute();
+		}
+
+		virtual void render();
+		virtual void precompute();
+
+	};
 
 };

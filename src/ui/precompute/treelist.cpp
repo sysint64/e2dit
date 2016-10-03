@@ -22,7 +22,7 @@
 
 #include "ui/treelist.h"
 
-void UITreeListNode::precompute() {
+void ui::UITreeListNode::precompute() {
 
 	UIButton::precompute();
 

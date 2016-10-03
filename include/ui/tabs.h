@@ -26,23 +26,25 @@
 #include "ui/button.h"
 #include "ui/manager.h"
 
-class UITab : public UIButton {
-public:
+namespace ui {
+	class UITab : public UIButton {
+	public:
 
-	UITab (UIManager *manager) : UIButton (manager, true) {
+		UITab (UIManager *manager) : UIButton (manager, true) {
 
-		this->manager = manager;
+			this->manager = manager;
 
-		iconLeft = 5;
-		iconTop  = 1;
-		style    = "tabbutton";
-		precompute();
+			iconLeft = 5;
+			iconTop  = 1;
+			style    = "tabbutton";
+			precompute();
 
-	}
+		}
 
-};
+	};
 
-class UITabs : public UIElement {
-public:
+	class UITabs : public UIElement {
+	public:
 
+	};
 };

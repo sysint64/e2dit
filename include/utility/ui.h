@@ -40,7 +40,7 @@ inline bool pointInRect (int X, int Y, int Xe, int Ye, int W, int H) {
 
 }
 
-inline bool pointInElement (int X, int Y, UIElement *element) {
+inline bool pointInElement (int X, int Y, ui::UIElement *element) {
 	return pointInRect (X, Y, element->absLeft, element->absTop, element->width, element->height);
 }
 

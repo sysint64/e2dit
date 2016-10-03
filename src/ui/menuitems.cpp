@@ -23,7 +23,7 @@
 #include "ui/menuitems.h"
 #include "utility/renderer.h"
 
-void UIMenuItem::render() {
+void ui::UIMenuItem::render() {
 
 	if (menu && menu->visible)
 		enter = true;
@@ -39,7 +39,7 @@ void UIMenuItem::render() {
 
 }
 
-void UITallMenuItem::render() {
+void ui::UITallMenuItem::render() {
 
 	UIButton::render();
 

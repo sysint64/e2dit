@@ -30,26 +30,28 @@
 
 #include <string>
 
-class UIImage : public UIElement {
-private:
-	std::unique_ptr<gapi::BaseObject> imageElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+namespace ui {
+	class UIImage : public UIElement {
+	private:
+		std::unique_ptr<gapi::BaseObject> imageElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
-public:
-	std::unique_ptr<gapi::Texture> texture;
+	public:
+		std::unique_ptr<gapi::Texture> texture;
 
-	void loadImage (const std::string &fileName);
-	void cropImage (int ox, int oy, int cw, int ch);
-	void cropImage (const std::array<int, 4> &cropRect);
+		void loadImage (const std::string &fileName);
+		void cropImage (int ox, int oy, int cw, int ch);
+		void cropImage (const std::array<int, 4> &cropRect);
 
-	UIImage (UIManager *manager) : UIElement(manager) {
+		UIImage (UIManager *manager) : UIElement(manager) {
 
-		this->manager = manager;
+			this->manager = manager;
 
-		offsetsX[0] = 0.f; offsetsY[0] = 0.f;
-		fWidths [0] = 1.f; fHeights[0] = 1.f;
+			offsetsX[0] = 0.f; offsetsY[0] = 0.f;
+			fWidths [0] = 1.f; fHeights[0] = 1.f;
 
-	}
+		}
 
-	virtual void render();
+		virtual void render();
 
+	};
 };

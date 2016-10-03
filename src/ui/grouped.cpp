@@ -23,7 +23,7 @@
 #include "ui/grouped.h"
 #include "utility/math.h"
 
-void UIGrouped::render() {
+void ui::UIGrouped::render() {
 
 	if (allowAlign)
 		updateAlign();

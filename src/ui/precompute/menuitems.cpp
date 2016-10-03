@@ -22,7 +22,7 @@
 
 #include "ui/menuitems.h"
 
-void UITallMenuItem::precompute() {
+void ui::UITallMenuItem::precompute() {
 
 	UIButton::precompute();
 

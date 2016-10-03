@@ -27,7 +27,7 @@
 
 /* List Menu */
 
-void UIListMenu::render() {
+void ui::UIListMenu::render() {
 
 	if (allowAlign)
 		updateAlign();
@@ -117,7 +117,7 @@ void UIListMenu::render() {
 
 }
 
-void UIListMenu::mouseDown (int x, int y, int button) {
+void ui::UIListMenu::mouseDown (int x, int y, int button) {
 
 	closeSubMenus();
 

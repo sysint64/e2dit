@@ -9,10 +9,10 @@
 class MapEditor {
 public:
 	std::unique_ptr<Scene> scene;
-	UIPanel *rootPane;
-	UIPanel *activePane;
+	ui::UIPanel *rootPane;
+	ui::UIPanel *activePane;
 	std::vector<Pane*> panes;
-	UIManager *uiManager = UIManager::getInstance();
+	ui::UIManager *uiManager = ui::UIManager::getInstance();
 
 	virtual void render();
 	virtual void step();
@@ -24,5 +24,5 @@ public:
 	}
 
 	void initUI();
-	void splitView(Orientation orientation);
+	void splitView(ui::Orientation orientation);
 };

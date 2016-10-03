@@ -28,70 +28,72 @@
 
 #include "renderer/base_object.h"
 
-/* Menu */
+namespace ui {
 
-class UIListMenu : public UIElement {
-protected:
-	std::unique_ptr<gapi::BaseObject> drawElements[12];
-	gapi::BaseObject *drawElementsPtr[12];
-	int indices[12];
-	float delay = 0.f; // Menu delay
+	class UIListMenu : public UIElement {
+	protected:
+		std::unique_ptr<gapi::BaseObject> drawElements[12];
+		gapi::BaseObject *drawElementsPtr[12];
+		int indices[12];
+		float delay = 0.f; // Menu delay
 
-	UIElement  *lastCheck  = nullptr;
-	UIListMenu *openedMenu = nullptr;
-	bool setedTime = false;
+		UIElement  *lastCheck  = nullptr;
+		UIListMenu *openedMenu = nullptr;
+		bool setedTime = false;
 
-public:
-	bool checkList   = false;
-	bool transparent = false;
-	bool popup       = true;
+	public:
+		bool checkList   = false;
+		bool transparent = false;
+		bool popup       = true;
 
-	std::string listitemstyle;
+		std::string listitemstyle;
 
-	inline void closeSubMenus() const {
+		inline void closeSubMenus() const {
 
-		if (!openedMenu) return;
+			if (!openedMenu) return;
 
-		openedMenu->visible = false;
-		openedMenu->closeSubMenus();
-
-	}
-
-	virtual void precompute() override;
-	virtual void render()     override;
-
-	virtual void mouseDown (int x, int y, int button) override;
-
-	UIListMenu (UIManager *manager) : UIElement (manager) {
-
-		for (int i = 0; i < 12; ++i) {
-
-			drawElements   [i] = std::make_unique<gapi::BaseObject>(manager->uiDataRender, app->screenCamera.get());
-			drawElementsPtr[i] = drawElements[i].get();
-
-			indices[i] = i;
+			openedMenu->visible = false;
+			openedMenu->closeSubMenus();
 
 		}
 
-		this->manager = manager;
+		virtual void precompute() override;
+		virtual void render()     override;
 
-		style         = "listmenu";
-		listitemstyle = "listitem";
+		virtual void mouseDown (int x, int y, int button) override;
 
-		precompute();
+		UIListMenu (UIManager *manager) : UIElement (manager) {
 
-	}
+			for (int i = 0; i < 12; ++i) {
 
-	inline void checkElement (UIElement *el) {
+				drawElements   [i] = std::make_unique<gapi::BaseObject>(manager->uiDataRender, app->screenCamera.get());
+				drawElementsPtr[i] = drawElements[i].get();
 
-		assert (el->parent == this);
+				indices[i] = i;
 
-		if (lastCheck != nullptr)
-			lastCheck->checked = false;
+			}
 
-		el->checked = true;
-		lastCheck   = el;
+			this->manager = manager;
 
-	}
+			style         = "listmenu";
+			listitemstyle = "listitem";
+
+			precompute();
+
+		}
+
+		inline void checkElement (UIElement *el) {
+
+			assert (el->parent == this);
+
+			if (lastCheck != nullptr)
+				lastCheck->checked = false;
+
+			el->checked = true;
+			lastCheck   = el;
+
+		}
+
+	};
 
 };

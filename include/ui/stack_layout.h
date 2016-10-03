@@ -25,18 +25,22 @@
 #include "ui/element.h"
 #include "ui/manager.h"
 
-enum class Orientation {Horizontal, Vertical};
-class UIStackLayout : public UIElement {
-public:
-	Orientation orientation = Orientation::Vertical;
+namespace ui {
 
-	virtual void render() override;
-	virtual void addElement    (std::unique_ptr<UIElement> el) override;
-	//virtual void deleteElement (std::unique_ptr<UIElement> el) override;
-	//virtual void deleteElement (const int id) override;
+	enum class Orientation {Horizontal, Vertical};
+	class UIStackLayout : public UIElement {
+	public:
+		Orientation orientation = Orientation::Vertical;
 
-	UIStackLayout (UIManager *manager) : UIElement (manager) {
-		this->manager = manager;
-	}
+		virtual void render() override;
+		virtual void addElement    (std::unique_ptr<UIElement> el) override;
+		//virtual void deleteElement (std::unique_ptr<UIElement> el) override;
+		//virtual void deleteElement (const int id) override;
+
+		UIStackLayout (UIManager *manager) : UIElement (manager) {
+			this->manager = manager;
+		}
+
+	};
 
 };

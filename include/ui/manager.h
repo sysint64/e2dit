@@ -41,132 +41,125 @@
 #define ICONS_COUNT        11
 #define TOOL_ICONS_COUNT   4
 
-class UIManager;
+namespace ui {
+	class UIManager;
 
-/**
- * @param count: Count of Icons
- * @param size : Size of Tile Icon
- */
+	template <int count>
+	class UIIcons {
+	public:
 
-template <int count>
-class UIIcons {
-public:
+		std::unique_ptr<gapi::Texture> tex;
 
-	std::unique_ptr<gapi::Texture> tex;
+		float offsetsX[count][count];
+		float offsetsY[count][count];
+		float width; float height;
+		float sizeIcon;
+		int   texBindId;
 
-	float offsetsX[count][count];
-	float offsetsY[count][count];
-	float width; float height;
-	float sizeIcon;
-	int   texBindId;
+		UIManager *manager;
 
-	UIManager *manager;
+		UIIcons (UIManager *manager, std::unique_ptr<gapi::Texture> tex, float sizeIcon, int margin, int spacing);
+		void render (int x, int y, int ox, int oy, gapi::BaseObject *iconElement);
 
-	UIIcons (UIManager *manager, std::unique_ptr<gapi::Texture> tex, float sizeIcon, int margin, int spacing);
-	void render (int x, int y, int ox, int oy, gapi::BaseObject *iconElement);
+	};
 
-};
+	typedef UIIcons<ICONS_COUNT>      UIMainIcons;
+	typedef UIIcons<TOOL_ICONS_COUNT> UIToolIcons;
 
-typedef UIIcons<ICONS_COUNT>      UIMainIcons;
-typedef UIIcons<TOOL_ICONS_COUNT> UIToolIcons;
+	class Panel;
+	class UIDialog;
+	class UIManager {
+	private:
+		Application *app = Application::getInstance();
+		std::vector<std::string> debugStrings;
+		int lastId = 0;
 
-/**
- * Manager of UI Elements
- */
+	public:
 
-class Panel;
-class UIDialog;
-class UIManager {
-private:
-	Application *app = Application::getInstance();
-	std::vector<std::string> debugStrings;
-	int lastId = 0;
+		friend UIElement;
 
-public:
+		/* UI State */
 
-	friend UIElement;
+		bool dialogOpened = false;
+		bool freezUI      = false;
+		int  currentLayer = 0;
 
-	/* UI State */
+		sf::Window *window;
 
-	bool dialogOpened = false;
-	bool freezUI      = false;
-	int  currentLayer = 0;
+		/* Icons */
 
-	sf::Window *window;
+		std::unique_ptr<UIMainIcons> icons;
+		std::unique_ptr<UIToolIcons> toolIcons;
 
-	/* Icons */
+		/* Render */
 
-	std::unique_ptr<UIMainIcons> icons;
-	std::unique_ptr<UIToolIcons> toolIcons;
+		gapi::DataRender *uiDataRender;
+		static const int themeTexID = 3;
+		float disabledAlpha = 0.65f;
 
-	/* Render */
+		/* */
 
-	gapi::DataRender *uiDataRender;
-	static const int themeTexID = 3;
-	float disabledAlpha = 0.65f;
+		std::vector<glm::vec4>  scissorStack;
+		std::vector<UIElement*> overlayElements;
+		std::vector<UIElement*> unfocusedElements;
+		std::vector<UIElement*> elementsStack; // For poll elements
+		std::map<int, bool>     disablePollMap;
 
-	/* */
+		std::unique_ptr<UIElement> root;
 
-	std::vector<glm::vec4>  scissorStack;
-	std::vector<UIElement*> overlayElements;
-	std::vector<UIElement*> unfocusedElements;
-	std::vector<UIElement*> elementsStack; // For poll elements
-	std::map<int, bool>     disablePollMap;
+		/* */
 
-	std::unique_ptr<UIElement> root;
+		UIElement *focusedElement = nullptr;
+		UIElement *underMouse     = nullptr;
+		gapi::Shader *atlasShader;
+		gapi::Shader *atlasMaskShader;
+		gapi::Shader *colorShader;
+		UITheme *theme;
 
-	/* */
+		CursorIco cursor = CursorIco::Normal;
 
-	UIElement *focusedElement = nullptr;
-	UIElement *underMouse     = nullptr;
-	gapi::Shader *atlasShader;
-	gapi::Shader *atlasMaskShader;
-	gapi::Shader *colorShader;
-	UITheme *theme;
+		UIManager (sf::Window *window, gapi::Shader *atlasMaskShader, gapi::Shader *atlasShader, gapi::Shader *colorShader, UITheme *theme);
+		UIManager() {
+			root = std::make_unique<UIElement> (this);
+			root->isRoot = true;
+		}
 
-	CursorIco cursor = CursorIco::Normal;
+		static UIManager *getInstance();
+		void render();
 
-	UIManager (sf::Window *window, gapi::Shader *atlasMaskShader, gapi::Shader *atlasShader, gapi::Shader *colorShader, UITheme *theme);
-	UIManager() {
-		root = std::make_unique<UIElement> (this);
-		root->isRoot = true;
-	}
+		/* Manage */
 
-	static UIManager *getInstance();
-	void render();
+		void addElement    (std::unique_ptr<UIElement> el);
+		void deleteElement (std::unique_ptr<UIElement> el);
+		void deleteElement (const int  id);
+		void blur();
+		void poll();
 
-	/* Manage */
+		UIElement *findElement (const std::string &name);
 
-	void addElement    (std::unique_ptr<UIElement> el);
-	void deleteElement (std::unique_ptr<UIElement> el);
-	void deleteElement (const int  id);
-	void blur();
-	void poll();
+		/* Scissor */
 
-	UIElement *findElement (const std::string &name);
+		void pushScissor (int sx, int sy, int sw, int sh);
+		void popScissor();
+		void setScissor();
 
-	/* Scissor */
+		/* Events */
 
-	void pushScissor (int sx, int sy, int sw, int sh);
-	void popScissor();
-	void setScissor();
+		void dblClick    (int x, int y, int button);
+		void mouseDown   (int x, int y, int button);
+		void mouseUp     (int x, int y, int button);
+		void mouseMove   (int x, int y, int button);
+		void mouseWheel  (int dx, int dy);
 
-	/* Events */
+		void keyDown     (int key);
+		void resized     (int width, int height);
+		void keyPressed  (int key);
+		void keyReleased (int key);
+		void textEntered (int key);
 
-	void dblClick    (int x, int y, int button);
-	void mouseDown   (int x, int y, int button);
-	void mouseUp     (int x, int y, int button);
-	void mouseMove   (int x, int y, int button);
-	void mouseWheel  (int dx, int dy);
+		void step();
 
-	void keyDown     (int key);
-	void resized     (int width, int height);
-	void keyPressed  (int key);
-	void keyReleased (int key);
-	void textEntered (int key);
-
-	void step();
-
-	/* Debug */
-	void putString (const std::wstring &str, float r = 1.f, float g = 1.f, float b = 1.f);
+		/* Debug */
+		void putString (const std::wstring &str, float r = 1.f, float g = 1.f, float b = 1.f);
+	};
 };

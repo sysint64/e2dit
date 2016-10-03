@@ -26,7 +26,7 @@
  * User Interface Precompute Texture Atlas values
  */
 
-void UIPanel::precompute() {
+void ui::UIPanel::precompute() {
 
 	/* ScrollHorizontal */
 

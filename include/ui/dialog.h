@@ -28,87 +28,89 @@
 
 #include "renderer/base_object.h"
 
-class UIDialog : public UIPanel {
-protected:
+namespace ui {
 
-	const int edgeWidth = 15;
-	enum class Edge {
-		None,
-		TopLeftCorner,
-		TopRightCorner,
-		BottomLeftCorner,
-		BottomRightCorner,
-		TopSide,
-		BottomSide,
-		LeftSide,
-		RightSide
-	};
+	class UIDialog : public UIPanel {
+	protected:
+		const int edgeWidth = 15;
+		enum class Edge {
+			None,
+			TopLeftCorner,
+			TopRightCorner,
+			BottomLeftCorner,
+			BottomRightCorner,
+			TopSide,
+			BottomSide,
+			LeftSide,
+			RightSide
+		};
 
-	std::unique_ptr<gapi::BaseObject> drawElements[13];
-	gapi::BaseObject *drawElementsPtr[13];
-	int indices[13];
+		std::unique_ptr<gapi::BaseObject> drawElements[13];
+		gapi::BaseObject *drawElementsPtr[13];
+		int indices[13];
 
-	int lastLeft   = 0;
-	int lastTop    = 0;
-	int lastWidth  = 0;
-	int lastHeight = 0;
+		int lastLeft   = 0;
+		int lastTop    = 0;
+		int lastWidth  = 0;
+		int lastHeight = 0;
 
-	int   captionArea [4];
-	float buttonsTop  [2];
-	float buttonsRight[2];
-	float opacity     [4];
+		int   captionArea [4];
+		float buttonsTop  [2];
+		float buttonsRight[2];
+		float opacity     [4];
 
-	bool  headerClick   = false;
-	bool  maximizeEnter = false;
-	bool  closeEnter    = false;
-	bool  edgeClick     = false;
-	bool  btnDown       = false;
-	Edge  edgeEnter     = Edge::None;
+		bool  headerClick   = false;
+		bool  maximizeEnter = false;
+		bool  closeEnter    = false;
+		bool  edgeClick     = false;
+		bool  btnDown       = false;
+		Edge  edgeEnter     = Edge::None;
 
-	void renderButtons (int x, int y);
-	void handleResize();
-	void handleEdgeEnter();
+		void renderButtons (int x, int y);
+		void handleResize();
+		void handleEdgeEnter();
 
-public:
+	public:
+		std::wstring caption    = L"Hello World!";
+		bool maximized          = false;
+		bool allowResize        = false;
+		bool showMaximizeButton = true;
 
-	std::wstring caption    = L"Hello World!";
-	bool maximized          = false;
-	bool allowResize        = false;
-	bool showMaximizeButton = true;
+		int minWidth  = 100;
+		int minHeight = 40;
+		int maxWidth  = 1000;
+		int maxHeight = 1000;
 
-	int minWidth  = 100;
-	int minHeight = 40;
-	int maxWidth  = 1000;
-	int maxHeight = 1000;
+		virtual void render()     override;
+		virtual void precompute() override;
+		virtual void setCursor()  override;
 
-	virtual void render()     override;
-	virtual void precompute() override;
-	virtual void setCursor()  override;
+		virtual void mouseDown (int x, int y, int button) override;
+		virtual void mouseUp   (int x, int y, int button) override;
 
-	virtual void mouseDown (int x, int y, int button) override;
-	virtual void mouseUp   (int x, int y, int button) override;
+		void show();
+		void hide();
 
-	void show();
-	void hide();
+		UIDialog (UIManager *manager) : UIPanel (manager) {
 
-	UIDialog (UIManager *manager) : UIPanel (manager) {
+			this->style   = "dialog";
+			this->manager = manager;
 
-		this->style   = "dialog";
-		this->manager = manager;
+			//visible = false;
 
-		//visible = false;
+			for (int i = 0; i < 13; ++i) {
 
-		for (int i = 0; i < 13; ++i) {
+				drawElements   [i] = std::make_unique<gapi::BaseObject>(manager->uiDataRender, app->screenCamera.get());
+				drawElementsPtr[i] = drawElements[i].get();
 
-			drawElements   [i] = std::make_unique<gapi::BaseObject>(manager->uiDataRender, app->screenCamera.get());
-			drawElementsPtr[i] = drawElements[i].get();
+				indices[i] = i;
 
-			indices[i] = i;
+			}
+
+			precompute();
 
 		}
 
-		precompute();
-
-	}
+	};
 
 };

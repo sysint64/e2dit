@@ -22,7 +22,7 @@
 
 #include "ui/dropmenu.h"
 
-void UIDropMenu::precompute() {
+void ui::UIDropMenu::precompute() {
 
 	UIButton::precompute();
 

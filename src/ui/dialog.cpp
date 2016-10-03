@@ -22,7 +22,7 @@
 
 #include "ui/dialog.h"
 
-void UIDialog::setCursor() {
+void ui::UIDialog::setCursor() {
 	if (maximized || !visible)
 		return;
 
@@ -39,7 +39,7 @@ void UIDialog::setCursor() {
 
 }
 
-void UIDialog::render() {
+void ui::UIDialog::render() {
 
 	if (headerClick && !edgeClick && !btnDown) {
 
@@ -86,7 +86,7 @@ void UIDialog::render() {
 
 }
 
-void UIDialog::handleResize() {
+void ui::UIDialog::handleResize() {
 
 	if (!allowResize || !edgeClick)
 		return;
@@ -144,7 +144,7 @@ void UIDialog::handleResize() {
 
 }
 
-void UIDialog::handleEdgeEnter() {
+void ui::UIDialog::handleEdgeEnter() {
 
 	if (!allowResize || edgeClick)
 		return;
@@ -178,7 +178,7 @@ void UIDialog::handleEdgeEnter() {
 
 }
 
-void UIDialog::renderButtons (int x, int y) {
+void ui::UIDialog::renderButtons (int x, int y) {
 
 	/* Draw buttons */
 	// Close button
@@ -206,7 +206,7 @@ void UIDialog::renderButtons (int x, int y) {
 
 }
 
-void UIDialog::mouseDown (int x, int y, int button) {
+void ui::UIDialog::mouseDown (int x, int y, int button) {
 
 	UIElement::mouseDown (x, y, button);
 
@@ -228,7 +228,7 @@ void UIDialog::mouseDown (int x, int y, int button) {
 
 }
 
-void UIDialog::mouseUp (int x, int y, int button) {
+void ui::UIDialog::mouseUp (int x, int y, int button) {
 
 	headerClick = false;
 	edgeClick   = false;
@@ -252,7 +252,7 @@ void UIDialog::mouseUp (int x, int y, int button) {
 
 }
 
-void UIDialog::show() {
+void ui::UIDialog::show() {
 
 	visible = true;
 	layer   = manager->currentLayer+1;
@@ -261,7 +261,7 @@ void UIDialog::show() {
 
 }
 
-void UIDialog::hide() {
+void ui::UIDialog::hide() {
 
 	visible = false;
 	manager->currentLayer--;

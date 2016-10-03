@@ -26,14 +26,14 @@
 /* Scroll */
 /* By Pixel */
 
-void UIPanel::addScrollXByPx (int pxVal) { scrollX += pxVal; }
-void UIPanel::addScrollYByPx (int pxVal) { scrollY += pxVal; }
-void UIPanel::setScrollXByPx (int pxVal) { scrollX  = pxVal; }
-void UIPanel::setScrollYByPx (int pxVal) { scrollY  = pxVal; }
+void ui::UIPanel::addScrollXByPx (int pxVal) { scrollX += pxVal; }
+void ui::UIPanel::addScrollYByPx (int pxVal) { scrollY += pxVal; }
+void ui::UIPanel::setScrollXByPx (int pxVal) { scrollX  = pxVal; }
+void ui::UIPanel::setScrollYByPx (int pxVal) { scrollY  = pxVal; }
 
 /* By Percent */
 
-void UIPanel::addScrollXByPct (int pctVal) {
+void ui::UIPanel::addScrollXByPct (int pctVal) {
 
 	hbOffset += round(static_cast<float>(hbMax-hbSize)*static_cast<float>(pctVal)/100.f);;
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
@@ -43,7 +43,7 @@ void UIPanel::addScrollXByPct (int pctVal) {
 
 }
 
-void UIPanel::addScrollYByPct (int pctVal) {
+void ui::UIPanel::addScrollYByPct (int pctVal) {
 
 	vbOffset += round(static_cast<float>(vbMax-vbSize)*static_cast<float>(pctVal)/100.f);
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
@@ -53,7 +53,7 @@ void UIPanel::addScrollYByPct (int pctVal) {
 
 }
 
-void UIPanel::setScrollYByPct (int pctVal) {
+void ui::UIPanel::setScrollYByPct (int pctVal) {
 
 	vbOffset = static_cast<int>(round(static_cast<float>(vbMax-vbSize)*static_cast<float>(pctVal)/100.f));
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
@@ -63,7 +63,7 @@ void UIPanel::setScrollYByPct (int pctVal) {
 
 }
 
-void UIPanel::setScrollXByPct (int pctVal) {
+void ui::UIPanel::setScrollXByPct (int pctVal) {
 
 	hbOffset = static_cast<int>(round(static_cast<float>(hbMax-hbSize)*static_cast<float>(pctVal)/100.f));
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
@@ -73,7 +73,7 @@ void UIPanel::setScrollXByPct (int pctVal) {
 
 }
 
-void UIPanel::scrollToElement (UIElement *el) {
+void ui::UIPanel::scrollToElement (UIElement *el) {
 
 	if (test == nullptr)
 		return;
@@ -91,7 +91,7 @@ void UIPanel::scrollToElement (UIElement *el) {
 
 }
 
-void UIPanel::setCursor() {
+void ui::UIPanel::setCursor() {
 
 	if (!allowResize || !open || scrollHClick || scrollVClick) return;
 	if (align == Align::Top || align == Align::Bottom) {
@@ -118,13 +118,13 @@ void UIPanel::setCursor() {
 
 }
 
-void UIPanel::progress() {
+void ui::UIPanel::progress() {
 
 
 
 }
 
-void UIPanel::updateAlign() {
+void ui::UIPanel::updateAlign() {
 
 	if (align == Align::None)
 		return;
@@ -221,7 +221,7 @@ void UIPanel::updateAlign() {
 
 /* Render Panel */
 
-void UIPanel::render() {
+void ui::UIPanel::render() {
 
 	splitEnter = false;
 	int lastPaddingTop = paddingTop;
@@ -371,7 +371,7 @@ void UIPanel::render() {
 
 }
 
-void UIPanel::renderSplit() {
+void ui::UIPanel::renderSplit() {
 	if (allowResize || showSplit) {
 
 		int n = blackSplit ? 12 : 13;
@@ -380,7 +380,7 @@ void UIPanel::renderSplit() {
 	}
 }
 
-void UIPanel::calculateSplit() {
+void ui::UIPanel::calculateSplit() {
 
 	int n = blackSplit ? 12 : 13;
 
@@ -425,7 +425,7 @@ void UIPanel::calculateSplit() {
 
 }
 
-void UIPanel::pollScroll() {
+void ui::UIPanel::pollScroll() {
 
 	if (!allowScroll || !open)
 		return;
@@ -505,7 +505,7 @@ void UIPanel::pollScroll() {
 
 /* Events */
 
-void UIPanel::mouseDown (int x, int y, int button) {
+void ui::UIPanel::mouseDown (int x, int y, int button) {
 
 	UIElement::mouseDown (x, y, button);
 
@@ -556,7 +556,7 @@ void UIPanel::mouseDown (int x, int y, int button) {
 
 }
 
-void UIPanel::mouseUp (int x, int y, int button) {
+void ui::UIPanel::mouseUp (int x, int y, int button) {
 
 	UIElement::mouseUp (x, y, button);
 
@@ -571,7 +571,7 @@ void UIPanel::mouseUp (int x, int y, int button) {
 
 }
 
-void UIPanel::mouseWheel (int dx, int dy) {
+void ui::UIPanel::mouseWheel (int dx, int dy) {
 
 	if (!allowScroll || !open)
 		return;
@@ -615,7 +615,7 @@ void UIPanel::mouseWheel (int dx, int dy) {
 
 /* Update scroll buttons positions */
 
-void UIPanel::updateScroll() {
+void ui::UIPanel::updateScroll() {
 	if (!allowScroll)
 		return;
 

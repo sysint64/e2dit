@@ -22,7 +22,7 @@
 
 #include "ui/tooltip.h"
 
-void UITooltip::precompute() {
+void ui::UITooltip::precompute() {
 
 	precomputeText    (0, style);
 

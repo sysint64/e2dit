@@ -25,7 +25,7 @@
 /* Calculate Tex Coords for Icons */
 
 template <int count>
-UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<gapi::Texture> tex, float sizeIcon, int margin, int spacing) {
+ui::UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<gapi::Texture> tex, float sizeIcon, int margin, int spacing) {
 
 	this->sizeIcon = sizeIcon;
 	this->tex      = std::move (tex);
@@ -49,7 +49,7 @@ UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<gapi::Texture> tex,
 }
 
 template <int count>
-void UIIcons<count>::render (int x, int y, int ox, int oy, gapi::BaseObject *iconElement) {
+void ui::UIIcons<count>::render (int x, int y, int ox, int oy, gapi::BaseObject *iconElement) {
 
 	glUniform1i (manager->atlasShader->locations["Texture"], texBindId);
 	glUniform2f (manager->atlasShader->locations["Size"]   , width, height);
@@ -67,10 +67,10 @@ void UIIcons<count>::render (int x, int y, int ox, int oy, gapi::BaseObject *ico
 
 }
 
-template class UIIcons<ICONS_COUNT>;
-template class UIIcons<TOOL_ICONS_COUNT>;
+template class ui::UIIcons<ICONS_COUNT>;
+template class ui::UIIcons<TOOL_ICONS_COUNT>;
 
-UIManager::UIManager (sf::Window *window,
+ui::UIManager::UIManager (sf::Window *window,
                       gapi::Shader *atlasMaskShader,
                       gapi::Shader *atlasShader,
                       gapi::Shader *colorShader,
@@ -86,7 +86,7 @@ UIManager::UIManager (sf::Window *window,
 	root->isRoot = true;
 }
 
-UIManager *UIManager::getInstance() {
+ui::UIManager *ui::UIManager::getInstance() {
 	static UIManager *manager = nullptr;
 
 	if (manager != nullptr)
@@ -96,7 +96,7 @@ UIManager *UIManager::getInstance() {
 	return manager;
 }
 
-UIElement *UIManager::findElement (const std::string &name) {
+ui::UIElement *ui::UIManager::findElement (const std::string &name) {
 	auto element = root->findElement (name);
 
 	if (!element)
@@ -105,16 +105,16 @@ UIElement *UIManager::findElement (const std::string &name) {
 	return element;
 }
 
-void UIManager::addElement (std::unique_ptr<UIElement> el) {
+void ui::UIManager::addElement (std::unique_ptr<UIElement> el) {
 	root->addElement (std::move(el));
 }
 
-void UIManager::deleteElement (std::unique_ptr<UIElement> el) {
+void ui::UIManager::deleteElement (std::unique_ptr<UIElement> el) {
 
 
 }
 
-void UIManager::deleteElement (const int id) {
+void ui::UIManager::deleteElement (const int id) {
 
 
 
@@ -122,7 +122,7 @@ void UIManager::deleteElement (const int id) {
 
 /* Push new scissor to stack */
 
-void UIManager::pushScissor (int sx, int sy, int sw, int sh) {
+void ui::UIManager::pushScissor (int sx, int sy, int sw, int sh) {
 
 	if (scissorStack.size() == 0)
 		glEnable (GL_SCISSOR_TEST);
@@ -134,7 +134,7 @@ void UIManager::pushScissor (int sx, int sy, int sw, int sh) {
 
 /* Pop scissor from stack */
 
-void UIManager::popScissor() {
+void ui::UIManager::popScissor() {
 
 	scissorStack.pop_back();
 
@@ -145,7 +145,7 @@ void UIManager::popScissor() {
 
 /* Set OpenGL Scissor by last scissor from stack */
 
-void UIManager::setScissor() {
+void ui::UIManager::setScissor() {
 
 	int scx = scissorStack.back()[0]; int scy = scissorStack.back()[1];
 	int scw = scissorStack.back()[2]; int sch = scissorStack.back()[3];
@@ -165,7 +165,7 @@ void UIManager::setScissor() {
 
 }
 
-void UIManager::poll() {
+void ui::UIManager::poll() {
 
 	//if (freezUI)
 	//	return;
@@ -236,7 +236,7 @@ void UIManager::poll() {
 
 }
 
-void UIManager::render() {
+void ui::UIManager::render() {
 
 	/* Bind Theme Skin */
 
@@ -290,13 +290,13 @@ void UIManager::render() {
 
 /* Events */
 
-void UIManager::mouseMove (int x, int y, int button) {
+void ui::UIManager::mouseMove (int x, int y, int button) {
 
 	root->mouseMove (x, y, button);
 
 }
 
-void UIManager::mouseDown (int x, int y, int button) {
+void ui::UIManager::mouseDown (int x, int y, int button) {
 
 	for (int i = elementsStack.size()-1; i >= 0; --i) {
 
@@ -317,19 +317,19 @@ void UIManager::mouseDown (int x, int y, int button) {
 
 }
 
-void UIManager::mouseWheel (int dx, int dy) {
+void ui::UIManager::mouseWheel (int dx, int dy) {
 
 	root->mouseWheel (dx, dy);
 
 }
 
-void UIManager::dblClick (int x, int y, int button) {
+void ui::UIManager::dblClick (int x, int y, int button) {
 
 	root->dblClick (x, y, button);
 
 }
 
-void UIManager::mouseUp (int x, int y, int button) {
+void ui::UIManager::mouseUp (int x, int y, int button) {
 
 	for (int i = elementsStack.size()-1; i >= 0; --i) {
 
@@ -355,7 +355,7 @@ void UIManager::mouseUp (int x, int y, int button) {
 
 /* Unfocus Elements in unfocusedElements */
 
-void UIManager::blur() {
+void ui::UIManager::blur() {
 
 	for (auto el : unfocusedElements) {
 
@@ -372,7 +372,7 @@ void UIManager::blur() {
 
 }
 
-void UIManager::keyPressed (int key) {
+void ui::UIManager::keyPressed (int key) {
 
 	if (focusedElement != nullptr) {
 
@@ -402,16 +402,16 @@ void UIManager::keyPressed (int key) {
 
 }
 
-void UIManager::keyReleased (int key) {
+void ui::UIManager::keyReleased (int key) {
 	root->keyReleased (key);
 }
 
-void UIManager::textEntered (int key) {
+void ui::UIManager::textEntered (int key) {
 
 	root->textEntered (key);
 
 }
 
-void UIManager::resized (int width, int height) {
+void ui::UIManager::resized (int width, int height) {
 	root->resized (width, height);
 }

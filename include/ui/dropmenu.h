@@ -20,62 +20,61 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru
  */
 
-#ifndef E2DIT_UI_DROPMENU_H
-#define E2DIT_UI_DROPMENU_H
+#pragma once
 
 #include "ui/button.h"
 #include "ui/listmenu.h"
 
-class UIDropMenu : public UIButton {
-private:
-	UIListMenu *menu = nullptr;
-	bool isMenu      = false;
-	int  menuOffsets[3];
+namespace ui {
+	class UIDropMenu : public UIButton {
+	private:
+		UIListMenu *menu = nullptr;
+		bool isMenu      = false;
+		int  menuOffsets[3];
 
-	std::unique_ptr<gapi::BaseObject> arrowElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> arrowElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
-public:
-	bool autoSizeMenu = true;
-	void updateMenu();
+	public:
+		bool autoSizeMenu = true;
+		void updateMenu();
 
-	UIDropMenu (UIManager *manager, bool isMenu = false) : UIButton(manager) {
+		UIDropMenu (UIManager *manager, bool isMenu = false) : UIButton(manager) {
 
-		this->manager = manager;
-		this->isMenu  = isMenu;
+			this->manager = manager;
+			this->isMenu  = isMenu;
 
-		drawChilds = false;
-		style = isMenu ? "flatbutton" : "droplist";
-		precompute();
+			drawChilds = false;
+			style = isMenu ? "flatbutton" : "droplist";
+			precompute();
 
-	}
-
-	inline void setMenu (std::unique_ptr<UIListMenu> m) {
-
-		menu = m.get();
-		menu->visible = false;
-		addElement (std::move(m));
-
-	}
-
-	virtual void addElement (std::unique_ptr<UIElement> el) override {
-		menu = dynamic_cast<UIListMenu*>(el.get());
-
-		if (menu) {
-			menu->visible = false;
-			menu->overlay = true;
-			manager->overlayElements.push_back(menu);
-			UIElement::addElement (std::move(el));
-		} else {
-			UIElement::addElement (std::move(el));
 		}
 
-	}
+		inline void setMenu (std::unique_ptr<UIListMenu> m) {
 
-	virtual void precompute() override;
-	virtual void render()     override;
+			menu = m.get();
+			menu->visible = false;
+			addElement (std::move(m));
 
-	virtual void mouseUp (int x, int y, int button) override;
+		}
 
+		virtual void addElement (std::unique_ptr<UIElement> el) override {
+			menu = dynamic_cast<UIListMenu*>(el.get());
+
+			if (menu) {
+				menu->visible = false;
+				menu->overlay = true;
+				manager->overlayElements.push_back(menu);
+				UIElement::addElement (std::move(el));
+			} else {
+				UIElement::addElement (std::move(el));
+			}
+
+		}
+
+		virtual void precompute() override;
+		virtual void render()     override;
+
+		virtual void mouseUp (int x, int y, int button) override;
+
+	};
 };
-
-#endif

@@ -26,7 +26,7 @@
  *
  */
 
-void UIButton::precompute() {
+void ui::UIButton::precompute() {
 
 	/* Leave */
 

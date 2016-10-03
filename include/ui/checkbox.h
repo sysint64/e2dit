@@ -27,31 +27,33 @@
 
 #include "renderer/base_object.h"
 
-class UICheckbox : public UIElement {
-protected:
-	std::unique_ptr<gapi::BaseObject> boxElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> focusElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+namespace ui {
+	class UICheckbox : public UIElement {
+	protected:
+		std::unique_ptr<gapi::BaseObject> boxElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> focusElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
-	int focusOffsets[2]; // Left, Top
+		int focusOffsets[2]; // Left, Top
 
-public:
+	public:
 
-	std::wstring caption = L"Test Checkbox";
+		std::wstring caption = L"Test Checkbox";
 
-	virtual void precompute() override;
-	virtual void render()     override;
+		virtual void precompute() override;
+		virtual void render()     override;
 
-	/* Events */
+		/* Events */
 
-	virtual void mouseDown (int x, int y, int button) override;
+		virtual void mouseDown (int x, int y, int button) override;
 
-	UICheckbox (UIManager *manager) : UIElement (manager) {
+		UICheckbox (UIManager *manager) : UIElement (manager) {
 
-		autoSize = true;
-		style = "checkbox";
-		this->manager = manager;
-		precompute();
+			autoSize = true;
+			style = "checkbox";
+			this->manager = manager;
+			precompute();
 
-	}
+		}
 
+	};
 };

@@ -23,7 +23,7 @@
 #include "ui/toolbar.h"
 #include <boost/range/adaptor/reversed.hpp>
 
-void UIToolbar::render() {
+void ui::UIToolbar::render() {
 
 	updateAlign();
 	updateAbsPos();
@@ -80,7 +80,7 @@ void UIToolbar::render() {
 
 }
 
-void UIToolbarItem::render() {
+void ui::UIToolbarItem::render() {
 
 	int ai = enter ? 1 : (checked ? 2 : 0);
 	int ci = enter ? 3 : (checked ? 6 : 0);
@@ -102,21 +102,21 @@ void UIToolbarItem::render() {
 
 }
 
-void UIToolbarItem::mouseDown (int x, int y, int button) {
+void ui::UIToolbarItem::mouseDown (int x, int y, int button) {
 
 	if (enter)
 		toolbar->checkTool (this);
 
 }
 
-void UIToolbarSplit::render() {
+void ui::UIToolbarSplit::render() {
 
 	updateAbsPos();
 	renderElement (0, absLeft+5, absTop-1, iWidths[0], iHeights[0], splitElement.get());
 
 }
 
-void UIToolbar::updateAlign() {
+void ui::UIToolbar::updateAlign() {
 
 	if (align == Align::None)
 		return;

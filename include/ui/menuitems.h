@@ -28,87 +28,89 @@
 
 #include "renderer/texture.h"
 
-class UIMenuItem : public UIButton {
-public:
-	UIListMenu *menu = nullptr;
-	std::wstring shortKey;
+namespace ui {
+	class UIMenuItem : public UIButton {
+	public:
+		UIListMenu *menu = nullptr;
+		std::wstring shortKey;
 
-	virtual void render() override;
+		virtual void render() override;
 
-	inline void setMenu (std::unique_ptr<UIListMenu> m) {
+		inline void setMenu (std::unique_ptr<UIListMenu> m) {
 
-		menu = m.get();
-		menu->visible = false;
-		addElement (std::move(m));
-
-	}
-
-	virtual void addElement (std::unique_ptr<UIElement> el) override {
-		menu = dynamic_cast<UIListMenu*>(el.get());
-
-		if (menu) {
+			menu = m.get();
 			menu->visible = false;
-			manager->overlayElements.push_back(menu);
-			UIElement::addElement (std::move(el));
-		} else {
-			UIElement::addElement (std::move(el));
+			addElement (std::move(m));
+
 		}
 
-	}
+		virtual void addElement (std::unique_ptr<UIElement> el) override {
+			menu = dynamic_cast<UIListMenu*>(el.get());
 
-	UIMenuItem (UIManager *manager) : UIButton (manager) {
+			if (menu) {
+				menu->visible = false;
+				manager->overlayElements.push_back(menu);
+				UIElement::addElement (std::move(el));
+			} else {
+				UIElement::addElement (std::move(el));
+			}
 
-		this->manager = manager;
+		}
 
-		clickElement = "enter";
-		style = "listitem";
+		UIMenuItem (UIManager *manager) : UIButton (manager) {
 
-		textAlign  = Align::Left;
-		showIcon   = true;
-		drawChilds = false;
+			this->manager = manager;
 
-		precompute();
+			clickElement = "enter";
+			style = "listitem";
 
-	}
+			textAlign  = Align::Left;
+			showIcon   = true;
+			drawChilds = false;
 
-};
+			precompute();
 
-class UITallMenuItem : public UIButton {
-private:
-	float descColors[6];
-	std::unique_ptr<gapi::BaseObject> maskElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		}
 
-public:
-	std::unique_ptr<gapi::Texture> texture;
-	std::wstring desc;
+	};
 
-	virtual void render()     override;
-	virtual void precompute() override;
+	class UITallMenuItem : public UIButton {
+	private:
+		float descColors[6];
+		std::unique_ptr<gapi::BaseObject> maskElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
-	inline void loadImage (const std::string &fileName) {
-		texture = std::make_unique<gapi::Texture> (fileName.c_str());
-	}
+	public:
+		std::unique_ptr<gapi::Texture> texture;
+		std::wstring desc;
 
-	UITallMenuItem (UIManager *manager) : UIButton (manager) {
+		virtual void render()     override;
+		virtual void precompute() override;
 
-		this->manager = manager;
+		inline void loadImage (const std::string &fileName) {
+			texture = std::make_unique<gapi::Texture> (fileName.c_str());
+		}
 
-		clickElement = "enter";
-		style = "tallmenuitem";
+		UITallMenuItem (UIManager *manager) : UIButton (manager) {
 
-		textAlign = Align::Left;
-		showIcon  = true;
-		noRenderText = true;
+			this->manager = manager;
 
-		precompute();
+			clickElement = "enter";
+			style = "tallmenuitem";
 
-	}
+			textAlign = Align::Left;
+			showIcon  = true;
+			noRenderText = true;
 
-};
+			precompute();
 
-class UIMenuHr : public UIElement {
-public:
-	UIMenuHr (UIManager *manager) : UIElement (manager) {
-		this->manager = manager;
-	}
+		}
+
+	};
+
+	class UIMenuHr : public UIElement {
+	public:
+		UIMenuHr (UIManager *manager) : UIElement (manager) {
+			this->manager = manager;
+		}
+	};
 };

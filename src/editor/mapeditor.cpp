@@ -20,16 +20,16 @@ MapEditor *MapEditor::getInstance() {
 
 void MapEditor::initUI() {
 	std::unique_ptr<Pane> pane = std::make_unique<Pane>(uiManager);
-	pane->align = Align::Client;
-	pane->onFocus = [this](UIElement *el) { activePane = (UIPanel*) el; };
+	pane->align = ui::Align::Client;
+	pane->onFocus = [this](ui::UIElement *el) { activePane = (ui::UIPanel*) el; };
 	rootPane = pane.get();
 	uiManager->addElement(std::move(pane));
 	activePane = rootPane;
 }
 
-void MapEditor::splitView(Orientation orientation) {
+void MapEditor::splitView(ui::Orientation orientation) {
 	std::unique_ptr<Pane> pane = std::make_unique<Pane>(uiManager, orientation);
-	pane->onFocus = [this](UIElement *el) { activePane = (UIPanel*) el; };
+	pane->onFocus = [this](ui::UIElement *el) { activePane = (ui::UIPanel*) el; };
 	auto panePtr = pane.get();
 
 	assert(activePane != nullptr);

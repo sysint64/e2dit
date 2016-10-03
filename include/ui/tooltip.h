@@ -25,47 +25,49 @@
 #include "ui/element.h"
 #include "ui/manager.h"
 
-class UITooltip : public UIElement {
-protected:
+namespace ui {
+	class UITooltip : public UIElement {
+	protected:
 
-	std::unique_ptr<gapi::BaseObject> leftElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> rightElement  = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> middleElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> leftElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> rightElement  = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> middleElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
-	float alpha = 0.f;
-	std::string leftParam  = "left";
-	std::string rightParam = "right";
+		float alpha = 0.f;
+		std::string leftParam  = "left";
+		std::string rightParam = "right";
 
-	int leftArea  [4]; int rightArea  [4];
-	int topArea   [4]; int bottomtArea[4];
-	int leftOffset[2]; int rightOffset[2];
-	float time = 0;
-	bool hidden = true;
+		int leftArea  [4]; int rightArea  [4];
+		int topArea   [4]; int bottomtArea[4];
+		int leftOffset[2]; int rightOffset[2];
+		float time = 0;
+		bool hidden = true;
 
-public:
+	public:
 
-	UIElement *target;
+		UIElement *target;
 
-	virtual void precompute() override;
-	virtual void render()     override;
+		virtual void precompute() override;
+		virtual void render()     override;
 
-	inline void setHidden (const bool value) {
+		inline void setHidden (const bool value) {
 
-		if (hidden == value)
-			return;
+			if (hidden == value)
+				return;
 
-		time = 0.f;
-		hidden = value;
+			time = 0.f;
+			hidden = value;
 
-	}
+		}
 
-	UITooltip (UIManager *manager) : UIElement (manager) {
+		UITooltip (UIManager *manager) : UIElement (manager) {
 
-		align = Align::Left;
-		this->manager = manager;
-		style = "tooltip";
-		precompute();
+			align = Align::Left;
+			this->manager = manager;
+			style = "tooltip";
+			precompute();
 
-	}
+		}
 
+	};
 };

@@ -4,10 +4,10 @@
 #include <ui/panel.h>
 #include <ui/all.h>
 
-class Pane : public UIPanel {
+class Pane : public ui::UIPanel {
 private:
 	void initParams() {
-		background = UIPanel::Background::Transparent;
+		background = ui::UIPanel::Background::Transparent;
 		blackSplit = true;
 		showSplit = true;
 		allowResize = true;
@@ -15,30 +15,30 @@ private:
 		allowScroll = false;
 	}
 public:
-	Orientation orientation;
+	ui::Orientation orientation;
 	float percent = 50.f;
 
-	Pane(UIManager *manager) : UIPanel(manager) {
+	Pane(ui::UIManager *manager) : ui::UIPanel(manager) {
 		initParams();
 	}
 
-	Pane(UIManager *manager, Orientation orientation) : UIPanel(manager) {
+	Pane(ui::UIManager *manager, ui::Orientation orientation) : ui::UIPanel(manager) {
 		initParams();
 		this->orientation = orientation;
 
 		switch (orientation) {
-			case Orientation::Horizontal:
-				align = Align::Left;
+			case ui::Orientation::Horizontal:
+				align = ui::Align::Left;
 				break;
 
-			case Orientation::Vertical:
-				align = Align::Top;
+			case ui::Orientation::Vertical:
+				align = ui::Align::Top;
 		}
 	}
 
 	inline void calcSize() {
 		switch (orientation) {
-			case Orientation::Horizontal:
+			case ui::Orientation::Horizontal:
 				width = static_cast<int>(static_cast<float>(parent->width)*(percent/100.f));
 
 				if (width < minSize)
@@ -46,7 +46,7 @@ public:
 
 				break;
 
-			case Orientation::Vertical:
+			case ui::Orientation::Vertical:
 				height = static_cast<int>(static_cast<float>(parent->height)*(percent/100.f));
 
 				if (height < minSize)
@@ -58,11 +58,11 @@ public:
 
 	inline  void getPercent() {
 		switch (orientation) {
-			case Orientation::Horizontal:
+			case ui::Orientation::Horizontal:
 				percent = width*100.f/parent->width;
 				break;
 
-			case Orientation::Vertical:
+			case ui::Orientation::Vertical:
 				percent = height*100.f/parent->height;
 				break;
 		}
@@ -70,11 +70,11 @@ public:
 
 	virtual void render() override {
 		switch (orientation) {
-			case Orientation::Horizontal:
+			case ui::Orientation::Horizontal:
 				maxSize = parent->width - minSize;
 				break;
 
-			case Orientation::Vertical:
+			case ui::Orientation::Vertical:
 				maxSize = parent->height - minSize;
 				break;
 		}
@@ -85,6 +85,6 @@ public:
 			calcSize();
 		}
 
-		UIPanel::render();
+		ui::UIPanel::render();
 	}
 };

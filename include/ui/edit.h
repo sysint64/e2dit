@@ -38,131 +38,125 @@
 #include "renderer/data_render.h"
 #include "renderer/base_object.h"
 
-/**
- * UIEdit - Editable Field
- *
- * @method copyText  : Copy Selected Text to Clipboard
- * @method pasteText : Paste Selected Text from Clipboard
- * @method parseExpr : Parse simple Expressions, example: 2+4 converted to 6
- */
 
-const wchar_t splitChars[] = L" ,.;:?'!|/\\~*+-=(){}<>[]#%&^@$№`\"";
-enum class UITextFilter {Text, Int, Float};
-class UIEdit : public UIElement {
-protected:
+namespace ui {
+	const wchar_t splitChars[] = L" ,.;:?'!|/\\~*+-=(){}<>[]#%&^@$№`\"";
+	enum class UITextFilter {Text, Int, Float};
+	class UIEdit : public UIElement {
+	protected:
+		float selectColor[4];
+		float selectOffset[2]; // Offset top and bottom
+		int   trackWay      = 0;
+		int   lastMouseX    = 0;
+		bool  wholeTrackWay = 0;
+		int   test          = 0;
 
-	float selectColor[4];
-	float selectOffset[2]; // Offset top and bottom
-	int   trackWay      = 0;
-	int   lastMouseX    = 0;
-	bool  wholeTrackWay = 0;
-	int   test          = 0;
+		/* Params */
 
-	/* Params */
+		std::string leaveElement = "leave";
+		std::string enterElement = "enter";
+		std::string clickElement = "click";
+		std::string focusElement = "focus";
 
-	std::string leaveElement = "leave";
-	std::string enterElement = "enter";
-	std::string clickElement = "click";
-	std::string focusElement = "focus";
+		/* Render Objects */
 
-	/* Render Objects */
+		std::unique_ptr<gapi::BaseObject> leftElement       = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> rightElement      = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> middleElement     = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> stickElement      = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> selectElement     = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> leftArrowElement  = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		std::unique_ptr<gapi::BaseObject> rightArrowElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
-	std::unique_ptr<gapi::BaseObject> leftElement       = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> rightElement      = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> middleElement     = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> stickElement      = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> selectElement     = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> leftArrowElement  = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<gapi::BaseObject> rightArrowElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+		/* Stick */
 
-	/* Stick */
+		int   stickChPos     = 0;
+		int   stickPxPos     = 0;
+		float stickTime      = 0;
+		bool  showStick      = false;
+		int   lastStickChPos = 0;
+		bool  firstRender    = true;
 
-	int   stickChPos     = 0;
-	int   stickPxPos     = 0;
-	float stickTime      = 0;
-	bool  showStick      = false;
-	int   lastStickChPos = 0;
-	bool  firstRender    = true;
+		/* Text */
 
-	/* Text */
+		int textPosX   = 0;
+		int textPosY   = 0;
+		int textOffset = 0;
 
-	int textPosX   = 0;
-	int textPosY   = 0;
-	int textOffset = 0;
+		int  cWidth; // FIXME: Rename
 
-	int  cWidth; // FIXME: Rename
+		/* Work With Text */
 
-	/* Work With Text */
+		void  copyText();
+		void  pasteText();
+		float parseExpr();
 
-	void  copyText();
-	void  pasteText();
-	float parseExpr();
+		void  updateSelect();
+		void  setStickPos (int x, int y);
 
-	void  updateSelect();
-	void  setStickPos (int x, int y);
+		void  addVal (const int acc);
 
-	void  addVal (const int acc);
+		/* Draw methods */
 
-	/* Draw methods */
+		void  renderSkin();
 
-	void  renderSkin();
+	public:
+		UITextFilter filter = UITextFilter::Int;
 
-public:
+		/* Track Mode */
 
-	UITextFilter filter = UITextFilter::Int;
+		glm::vec2 trackRange { -999, 999 };
+		int       trackStep = 2;
+		bool      trackMode = true;
 
-	/* Track Mode */
+		/* Display Text */
 
-	glm::vec2 trackRange { -999, 999 };
-	int       trackStep = 2;
-	bool      trackMode = true;
+		std::wstring text   = L"";
+		std::wstring before = L"";
+		std::wstring after  = L"";
 
-	/* Display Text */
+		/* Select */
 
-	std::wstring text   = L"";
-	std::wstring before = L"";
-	std::wstring after  = L"";
+		int selStart = 0;
+		int selEnd   = 0;
 
-	/* Select */
+		/* Functors: Callback Events */
 
-	int selStart = 0;
-	int selEnd   = 0;
+		std::function<void(UIElement*)>      onChange      = nullptr;
+		std::function<void(UIElement*, int)> onTextEntered = nullptr;
 
-	/* Functors: Callback Events */
+		bool trackBar = false;
+		bool expr     = false;
 
-	std::function<void(UIElement*)>      onChange      = nullptr;
-	std::function<void(UIElement*, int)> onTextEntered = nullptr;
+		/* */
 
-	bool trackBar = false;
-	bool expr     = false;
+		virtual void precompute() override;
+		virtual void render()     override;
+		virtual void setCursor()  override;
+		virtual void focus()      override;
 
-	/* */
+		/* Events */
 
-	virtual void precompute() override;
-	virtual void render()     override;
-	virtual void setCursor()  override;
-	virtual void focus()      override;
+		virtual void keyPressed  (int key) override;
+		virtual void textEntered (int key) override;
 
-	/* Events */
+		virtual void dblClick    (int x, int y, int button) override;
+		virtual void mouseDown   (int x, int y, int button) override;
+		virtual void mouseMove   (int x, int y, int button) override;
+		virtual void mouseUp     (int x, int y, int button) override;
 
-	virtual void keyPressed  (int key) override;
-	virtual void textEntered (int key) override;
+		/* Constructor */
 
-	virtual void dblClick    (int x, int y, int button) override;
-	virtual void mouseDown   (int x, int y, int button) override;
-	virtual void mouseMove   (int x, int y, int button) override;
-	virtual void mouseUp     (int x, int y, int button) override;
+		UIEdit (UIManager *manager) : UIElement (manager) {
 
-	/* Constructor */
+			this->manager = manager;
+			this->cursor  = CursorIco::IBeam;
 
-	UIEdit (UIManager *manager) : UIElement (manager) {
+			style = "edit";
+			precompute();
 
-		this->manager = manager;
-		this->cursor  = CursorIco::IBeam;
+		}
 
-		style = "edit";
-		precompute();
-
-	}
+	};
 
 };
