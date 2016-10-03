@@ -327,9 +327,3 @@ Panel
 		caption: "Boundings"
 		padding: 10
 		allowDrag: true
-
-Panel
-	align: client
-	background: transparent
-	name: "rootPane"
-	

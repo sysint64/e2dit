@@ -5,18 +5,26 @@
 #include <ui/all.h>
 
 class Pane : public UIPanel {
-public:
-	Orientation orientation;
-	float percent = 50.f;
-
-	Pane(UIManager *manager, Orientation orientation) : UIPanel(manager) {
-		this->orientation = orientation;
+private:
+	void initParams() {
 		background = UIPanel::Background::Transparent;
 		blackSplit = true;
 		showSplit = true;
 		allowResize = true;
-		minSize = 400;
+		minSize = 200;
 		allowScroll = false;
+	}
+public:
+	Orientation orientation;
+	float percent = 50.f;
+
+	Pane(UIManager *manager) : UIPanel(manager) {
+		initParams();
+	}
+
+	Pane(UIManager *manager, Orientation orientation) : UIPanel(manager) {
+		initParams();
+		this->orientation = orientation;
 
 		switch (orientation) {
 			case Orientation::Horizontal:

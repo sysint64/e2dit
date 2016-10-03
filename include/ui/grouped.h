@@ -34,7 +34,7 @@
 class UIGrouped : public UICheckedElements {
 protected:
 
-	std::unique_ptr<BaseObject> splitElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> splitElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	int spacing = 0;
 
 public:

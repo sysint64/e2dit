@@ -20,43 +20,23 @@
 
 #include "renderer/camera.h"
 
-/**
- * Constructor
- *
- * @param width
- * @param height
- */
 
-Camera::Camera (int width, int height) : viewWidth (width), viewHeight (height) {
+gapi::Camera::Camera (int width, int height) : viewWidth (width), viewHeight (height) {
 	setPosition (glm::vec2(0, 0));
 	zoom = 1.f;
 }
 
-/**
- * Update Camera Position
- * @param vec New Position
- */
-
-void Camera::setPosition (glm::vec2 vec) {
+void gapi::Camera::setPosition (glm::vec2 vec) {
 	position   = vec;
 	needUpdate = true;
 }
 
-/**
- * Update Camera Zoom
- * @param zoom New Zoom
- */
-
-void Camera::setZoom (float zoom) {
+void gapi::Camera::setZoom (float zoom) {
 	this->zoom = zoom;
 	needUpdate = true;
 }
 
-/**
- * Update Camera Matrices
- */
-
-void Camera::updateMatrices() {
+void gapi::Camera::updateMatrices() {
 	viewMatrix       = glm::lookAt (glm::vec3 (position, 1), glm::vec3 (position, 0), glm::vec3(0, 1, 0));
 	projectionMatrix = glm::ortho  (0.0f, (float) viewWidth, 0.0f, (float) viewHeight/*, -1.0f, 10.0f*/);
 
@@ -68,11 +48,7 @@ void Camera::updateMatrices() {
 	}
 }
 
-/**
- * Update Camera
- */
-
-void Camera::update() {
+void gapi::Camera::update() {
 	//if (needUpdate)
 		updateMatrices();
 }

@@ -21,100 +21,55 @@
 #include "renderer/texture.h"
 #include "utility/filesystem.h"
 
-/**
- * Create Texture
- *
- * @param fileName
- * @param filter
- * @param wrapS
- * @param wrapT
- */
-
-Texture::Texture (const std::string &fileName, GLuint filter, GLuint wrapS, GLuint wrapT)
+gapi::Texture::Texture (const std::string &fileName, GLuint filter, GLuint wrapS, GLuint wrapT)
 		: filter (filter), wrapS (wrapS), wrapT (wrapT)
 {
 
-	/* Create Texture buffer */
-
 	glGenTextures (1, &handle);
-
-	/* Check texture exist */
 
 	if (!fs::exists (fileName)) {
 
-		/* if not exist, then write error to log */
-
 		Application::getInstance()->log.write ("Load texture error : %s", fileName.c_str());
 		loaded = false;
-
-		/* And Exit */
 
 		return;
 
 	}
 
-	/* Load texture */
-
 	data = SOIL_load_image (fileName.c_str(), &width, &height, nullptr, SOIL_LOAD_RGBA);
 	update();
 
-	/* Save Texture path */
 	this->fileName = fileName;
 
 }
 
-/**
- * Destructor
- */
-
-Texture::~Texture() {
-
-	/* Destroy buffer & data */
+gapi::Texture::~Texture() {
 
 	glDeleteTextures     (1, &handle);
 	SOIL_free_image_data (data);
 
 }
 
-/**
- * Bind texture
- */
-
-void Texture::bind() const {
+void gapi::Texture::bind() const {
 
 	glBindTexture (GL_TEXTURE_2D, handle);
 
 }
 
-/**
- * Unbind texture
- */
-
-void Texture::unbind() const {
+void gapi::Texture::unbind() const {
 
 	glBindTexture (GL_TEXTURE_2D, 0);
 
 }
 
-/**
- * Update Texture Parameters
- */
-
-void Texture::update() const {
-
-	/* Bind Textuew */
+void gapi::Texture::update() const {
 
 	glBindTexture   (GL_TEXTURE_2D, handle);
 	glTexImage2D    (GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-	/* Display Parameters */
-
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     wrapS);
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     wrapT);
-
-	/* Build Mipmaps if true */
 
 	if (buildMipmaps) {
 

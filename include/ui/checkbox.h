@@ -29,8 +29,8 @@
 
 class UICheckbox : public UIElement {
 protected:
-	std::unique_ptr<BaseObject> boxElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> focusElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> boxElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> focusElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 	int focusOffsets[2]; // Left, Top
 

@@ -512,7 +512,7 @@ std::unique_ptr<UIElement> UILoader::createToolbarItem (DataMap::DataNode *eleme
 
 std::unique_ptr<UIElement> UILoader::createColorPanel (DataMap::DataNode *elementNode) {
 
-	Texture *gridTexture = R::Textures::gridLight.get();
+	gapi::Texture *gridTexture = R::Textures::gridLight.get();
 
 	auto grid = elementNode->params.find ("grid");
 	auto end  = elementNode->params.end();

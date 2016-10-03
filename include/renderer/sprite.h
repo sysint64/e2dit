@@ -17,57 +17,56 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef H_E2DIT_RENDERER_SPRITE
-#define H_E2DIT_RENDERER_SPRITE
+#pragma once
 
 #include "renderer/data_render.h"
 #include <glm/glm.hpp>
 
-class SpriteData : public DataRender {
-public:	
+namespace gapi {
+	class SpriteData : public DataRender {
+	public:
 
-	SpriteData (bool dynamic = false, bool center = true, bool strip = false) {
+		SpriteData (bool dynamic = false, bool center = true, bool strip = false) {
 
-		this->dynamic = dynamic;
+			this->dynamic = dynamic;
 
-		// QUAD
+			// QUAD
 
-		if (center) {
-			
-			addVertex (glm::vec2 (-0.5f, -0.5f), glm::vec2 (0.0f, 1.0f));
-			addVertex (glm::vec2 ( 0.5f, -0.5f), glm::vec2 (1.0f, 1.0f));
-			addVertex (glm::vec2 ( 0.5f,  0.5f), glm::vec2 (1.0f, 0.0f));
-			addVertex (glm::vec2 (-0.5f,  0.5f), glm::vec2 (0.0f, 0.0f));
+			if (center) {
 
-		} else {
+				addVertex (glm::vec2 (-0.5f, -0.5f), glm::vec2 (0.0f, 1.0f));
+				addVertex (glm::vec2 ( 0.5f, -0.5f), glm::vec2 (1.0f, 1.0f));
+				addVertex (glm::vec2 ( 0.5f,  0.5f), glm::vec2 (1.0f, 0.0f));
+				addVertex (glm::vec2 (-0.5f,  0.5f), glm::vec2 (0.0f, 0.0f));
 
-			addVertex (glm::vec2 (0.0f, 0.0f), glm::vec2 (0.0f, 1.0f));
-			addVertex (glm::vec2 (1.0f, 0.0f), glm::vec2 (1.0f, 1.0f));
-			addVertex (glm::vec2 (1.0f, 1.0f), glm::vec2 (1.0f, 0.0f));
-			addVertex (glm::vec2 (0.0f, 1.0f), glm::vec2 (0.0f, 0.0f));
+			} else {
+
+				addVertex (glm::vec2 (0.0f, 0.0f), glm::vec2 (0.0f, 1.0f));
+				addVertex (glm::vec2 (1.0f, 0.0f), glm::vec2 (1.0f, 1.0f));
+				addVertex (glm::vec2 (1.0f, 1.0f), glm::vec2 (1.0f, 0.0f));
+				addVertex (glm::vec2 (0.0f, 1.0f), glm::vec2 (0.0f, 0.0f));
+
+			}
+
+			/* Add Indices */
+
+			if (strip) {
+
+				renderMode = GL_TRIANGLE_STRIP;
+
+				addIndex(0); addIndex(3);
+				addIndex(1); addIndex(2);
+
+			} else {
+
+				renderMode = GL_TRIANGLES;
+
+				addIndex(0); addIndex(3); addIndex(1);
+				addIndex(2); addIndex(3); addIndex(1);
+
+			}
 
 		}
 
-		/* Add Indices */
-
-		if (strip) {
-
-			renderMode = GL_TRIANGLE_STRIP;
-
-			addIndex(0); addIndex(3);
-			addIndex(1); addIndex(2);
-
-		} else {
-
-			renderMode = GL_TRIANGLES;
-
-			addIndex(0); addIndex(3); addIndex(1);
-			addIndex(2); addIndex(3); addIndex(1);
-
-		}
-
-	}
-
+	};
 };
-
-#endif

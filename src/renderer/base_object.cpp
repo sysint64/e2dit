@@ -20,11 +20,8 @@
 
 #include "renderer/base_object.h"
 
-/**
- * Render Data & update matrices
- */
 
-void BaseObject::render() {
+void gapi::BaseObject::render() {
 
 	/* if is invisible, then no render */
 
@@ -42,36 +39,19 @@ void BaseObject::render() {
 
 }
 
-/**
- * Convert world Position to Screen
- * @return Screen Position
- */
-
-glm::vec2 BaseObject::worldToScreen() const {
+glm::vec2 gapi::BaseObject::worldToScreen() const {
 
 	return position-camera->position;
 
 }
 
-/**
- * Convert Custom Position to Screen
- *
- * @param screenPos
- * @return Screen Position
- */
-
-glm::vec2 BaseObject::worldToScreen (const glm::vec2 screenPos) const {
+glm::vec2 gapi::BaseObject::worldToScreen (const glm::vec2 screenPos) const {
 
 	return screenPos-camera->position;
 
 }
 
-/**
- * Update Rotation
- * @param ang new Angle
- */
-
-void BaseObject::setRotation (const float ang) {
+void gapi::BaseObject::setRotation (const float ang) {
 
 	/* Check current Angle */
 
@@ -86,12 +66,7 @@ void BaseObject::setRotation (const float ang) {
 
 }
 
-/**
- * Update Position
- * @param pos new Position
- */
-
-void BaseObject::setPosition (const glm::vec2 pos) {
+void gapi::BaseObject::setPosition (const glm::vec2 pos) {
 
 	/* Check current Position */
 
@@ -106,12 +81,7 @@ void BaseObject::setPosition (const glm::vec2 pos) {
 
 }
 
-/**
- * Update Position
- * @param scl new Scale
- */
-
-void BaseObject::setScale (const glm::vec2 scl) {
+void gapi::BaseObject::setScale (const glm::vec2 scl) {
 
 	/* Check current Scale */
 
@@ -126,11 +96,7 @@ void BaseObject::setScale (const glm::vec2 scl) {
 
 }
 
-/**
- * Update Matrices
- */
-
-void BaseObject::updateModelMatrix() {
+void gapi::BaseObject::updateModelMatrix() {
 
 	/* Create main matrices */
 

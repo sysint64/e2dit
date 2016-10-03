@@ -110,33 +110,33 @@ protected:
 
 	/* Render */
 
-	void renderElement         (int idx, int x, int y, int w, int h, BaseObject *el) const;
-	void transformElement      (int x, int y, int w, int h, BaseObject *el) const;
-	void renderMaskElement     (int maskidx, int idx, int x, int y, int w, int h, BaseObject *el) const;
-	void renderColorElement    (int x, int y, int w, int h, BaseObject *el, float *color) const;
+	void renderElement         (int idx, int x, int y, int w, int h, gapi::BaseObject *el) const;
+	void transformElement      (int x, int y, int w, int h, gapi::BaseObject *el) const;
+	void renderMaskElement     (int maskidx, int idx, int x, int y, int w, int h, gapi::BaseObject *el) const;
+	void renderColorElement    (int x, int y, int w, int h, gapi::BaseObject *el, float *color) const;
 
 	void renderPartsElementH   (int il, int ic, int ir,
-	                            BaseObject *el, BaseObject *ec, BaseObject *er,
+	                            gapi::BaseObject *el, gapi::BaseObject *ec, gapi::BaseObject *er,
 	                            int x, int y, int w, bool ignoreDrawAlign = false) const;
 
 	void renderPartsElementH   (int il, int ic, int ir,
-	                            BaseObject *el, BaseObject *ec, BaseObject *er,
+	                            gapi::BaseObject *el, gapi::BaseObject *ec, gapi::BaseObject *er,
 	                            int x, int y, int w, int h, bool ignoreDrawAlign = false) const;
 
 	void renderPartsElementV   (int it, int im, int ib,
-	                            BaseObject *et, BaseObject *em, BaseObject *eb,
+	                            gapi::BaseObject *et, gapi::BaseObject *em, gapi::BaseObject *eb,
 	                            int x, int y, int h, bool ignoreDrawAlign = false) const;
 
 	void renderPartsElementV90 (int it, int im, int ib,
-	                            BaseObject *et, BaseObject *em, BaseObject *eb,
+	                            gapi::BaseObject *et, gapi::BaseObject *em, gapi::BaseObject *eb,
 	                            int x, int y, int h, bool ignoreDrawAlign = false) const;
 
 	inline void renderPartsElementBlock (int itl, int itc, int itr,
 	                                     int iml, int imc, int imr,
 	                                     int ibl, int ibc, int ibr,
-	                                     BaseObject *etl, BaseObject *etc, BaseObject *etr,
-	                                     BaseObject *eml, BaseObject *emc, BaseObject *emr,
-	                                     BaseObject *ebl, BaseObject *ebc, BaseObject *ebr,
+	                                     gapi::BaseObject *etl, gapi::BaseObject *etc, gapi::BaseObject *etr,
+	                                     gapi::BaseObject *eml, gapi::BaseObject *emc, gapi::BaseObject *emr,
+	                                     gapi::BaseObject *ebl, gapi::BaseObject *ebc, gapi::BaseObject *ebr,
 	                                     int x, int y, int w, int h) const
 	{
 
@@ -148,7 +148,7 @@ protected:
 
 	}
 
-	inline void renderPartsElementBlock (int pts[9], BaseObject *els[9],
+	inline void renderPartsElementBlock (int pts[9], gapi::BaseObject *els[9],
 	                                     int x, int y, int w, int h) const
 	{
 		renderPartsElementBlock (pts[0], pts[1], pts[2],

@@ -24,7 +24,7 @@
 
 void UIImage::loadImage (const std::string &fileName) {
 
-	texture = std::make_unique<Texture> (fileName.c_str());
+	texture = std::make_unique<gapi::Texture> (fileName.c_str());
 
 	width  = texture->width;
 	height = texture->height;

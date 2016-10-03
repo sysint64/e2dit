@@ -17,56 +17,55 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef E2DIT_RENDERER_DATA_RENDER_H
-#define E2DIT_RENDERER_DATA_RENDER_H
+#pragma once
 
 #include "GL/glew.h"
 #include <vector>
 #include <glm/glm.hpp>
 #include "utility/application.h"
 
-class DataRender {
-private:
-	GLuint vId, tId, iId;
-	GLuint VAO;
-	Application *app = Application::getInstance();
-	bool created = false;
+namespace gapi {
+	class DataRender {
+	private:
+		GLuint vId, tId, iId;
+		GLuint VAO;
+		Application *app = Application::getInstance();
+		bool created = false;
 
-	void createVBO();
+		void createVBO();
 
-	void createVAO_21(); // for OpenGL 2.1
-	void createVAO_33(); // for OpenGL 3.3
-	void createVAO_43(); // for OpenGL 4.3
+		void createVAO_21(); // for OpenGL 2.1
+		void createVAO_33(); // for OpenGL 3.3
+		void createVAO_43(); // for OpenGL 4.3
 
-public:
-	std::vector <glm::vec2> vertexBuffer;
-	std::vector <glm::vec2> texCoordsBuffer;
-	std::vector <GLuint>    indices;
+	public:
+		std::vector <glm::vec2> vertexBuffer;
+		std::vector <glm::vec2> texCoordsBuffer;
+		std::vector <GLuint>    indices;
 
-	bool dynamic;
-	int  renderMode = GL_TRIANGLES;
+		bool dynamic;
+		int  renderMode = GL_TRIANGLES;
 
-	DataRender (bool dynamic = false) : dynamic (dynamic) {}
-	virtual ~DataRender();
+		DataRender (bool dynamic = false) : dynamic (dynamic) {}
+		virtual ~DataRender();
 
-	void setAttrs();
-	virtual void renderVBO();
+		void setAttrs();
+		virtual void renderVBO();
 
-	void render();
-	void bind();
+		void render();
+		void bind();
 
-	inline void addVertex (glm::vec2 v, glm::vec2 tc) {
+		inline void addVertex (glm::vec2 v, glm::vec2 tc) {
 
-		vertexBuffer   .push_back (v);
-		texCoordsBuffer.push_back (tc);
+			vertexBuffer   .push_back (v);
+			texCoordsBuffer.push_back (tc);
 
-	}
+		}
 
-	inline void addIndex (GLuint index) {
+		inline void addIndex (GLuint index) {
 
-		indices.push_back (index);
+			indices.push_back (index);
 
-	}
+		}
+	};
 };
-
-#endif

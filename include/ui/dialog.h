@@ -44,8 +44,8 @@ protected:
 		RightSide
 	};
 
-	std::unique_ptr<BaseObject> drawElements[13];
-	BaseObject *drawElementsPtr[13];
+	std::unique_ptr<gapi::BaseObject> drawElements[13];
+	gapi::BaseObject *drawElementsPtr[13];
 	int indices[13];
 
 	int lastLeft   = 0;
@@ -100,7 +100,7 @@ public:
 
 		for (int i = 0; i < 13; ++i) {
 
-			drawElements   [i] = std::make_unique<BaseObject>(manager->uiDataRender, app->screenCamera.get());
+			drawElements   [i] = std::make_unique<gapi::BaseObject>(manager->uiDataRender, app->screenCamera.get());
 			drawElementsPtr[i] = drawElements[i].get();
 
 			indices[i] = i;

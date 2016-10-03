@@ -20,13 +20,8 @@
 
 #include "renderer/data_render.h"
 
-/**
- * Destructor
- */
 
-DataRender::~DataRender() {
-
-	/* Delete all buffers */
+gapi::DataRender::~DataRender() {
 
 	glDeleteBuffers (1, &vId);
 	glDeleteBuffers (1, &tId);
@@ -34,12 +29,7 @@ DataRender::~DataRender() {
 
 }
 
-/**
- * Create VBO
- * @param dynamic if true then data may change
- */
-
-void DataRender::createVBO() {
+void gapi::DataRender::createVBO() {
 
 	/* Create Vertex Buffer */
 
@@ -98,7 +88,7 @@ void DataRender::createVBO() {
  * Create VAO for OpenGL 2.1
  */
 
-void DataRender::createVAO_21() {
+void gapi::DataRender::createVAO_21() {
 
 	/* Create VAO buffer */
 
@@ -124,7 +114,7 @@ void DataRender::createVAO_21() {
  * Create VAO for OpenGL 3.3
  */
 
-void DataRender::createVAO_33() {
+void gapi::DataRender::createVAO_33() {
 
 	/* Create VAO buffer */
 
@@ -157,7 +147,7 @@ void DataRender::createVAO_33() {
  * Create VAO for OpenGL 4.3
  */
 
-void DataRender::createVAO_43() {
+void gapi::DataRender::createVAO_43() {
 
 }
 
@@ -165,7 +155,7 @@ void DataRender::createVAO_43() {
  * Bind VBO Buffers
  */
 
-void DataRender::bind() {
+void gapi::DataRender::bind() {
 
 	if (!created) {
 
@@ -214,7 +204,7 @@ void DataRender::bind() {
  * Render VBO Data
  */
 
-void DataRender::render() {
+void gapi::DataRender::render() {
 
 	/* Check to create VBO */
 
@@ -241,11 +231,7 @@ void DataRender::render() {
 
 }
 
-/**
- * Render
- */
-
-void DataRender::renderVBO() {
+void gapi::DataRender::renderVBO() {
 
 	glDrawElements (renderMode, indices.size(), GL_UNSIGNED_INT, nullptr);
 

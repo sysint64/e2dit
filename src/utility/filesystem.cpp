@@ -65,10 +65,7 @@ namespace fs {
 
 	bool exists (const std::string &fn) {
 
-		if (access(fn.c_str(), F_OK) != 0)
-			return false;
-
-		return true;
+		return access(fn.c_str(), F_OK) == 0;
 
 	}
 

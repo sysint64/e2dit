@@ -31,7 +31,7 @@
 
 class UIToolbarSplit : public UIElement {
 protected:
-	std::unique_ptr<BaseObject> splitElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> splitElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 public:
 
@@ -69,7 +69,7 @@ public:
 class UIToolbar;
 class UIToolbarItem : public UIElement {
 protected:
-	std::unique_ptr<BaseObject> iconElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> iconElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	UIToolbar *toolbar = nullptr;
 
 public:
@@ -115,8 +115,8 @@ public:
 
 class UIToolbar : public UICheckedElements {
 protected:
-	std::unique_ptr<BaseObject> bgElement    = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> splitElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> bgElement    = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> splitElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 	int shadowHeight = 0;
 	int tabOffset    = 0;

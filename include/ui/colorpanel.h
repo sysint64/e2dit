@@ -31,8 +31,8 @@
 
 class UIColorPanel : public UIElement {
 private:
-	std::unique_ptr<BaseObject> quadElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	Texture *gridTexture = nullptr;
+	std::unique_ptr<gapi::BaseObject> quadElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	gapi::Texture *gridTexture = nullptr;
 
 public:
 	gapi::Color color;
@@ -40,7 +40,7 @@ public:
 	virtual void render();
 	virtual void mouseUp (int x, int y, int button) override;
 
-	UIColorPanel (UIManager *manager, Texture *gridTexture = nullptr) : UIElement(manager) {
+	UIColorPanel (UIManager *manager, gapi::Texture *gridTexture = nullptr) : UIElement(manager) {
 
 		this->manager     = manager;
 		this->gridTexture = gridTexture;

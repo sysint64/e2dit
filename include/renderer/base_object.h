@@ -17,8 +17,7 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef E2DIT_RENDERER_BASE_OBJECT_H
-#define E2DIT_RENDERER_BASE_OBJECT_H
+#pragma once
 
 #include "data_render.h"
 #include "camera.h"
@@ -30,40 +29,40 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_access.hpp>
 
-class BaseObject {
-private:
-	glm::vec2   pivot;
-	//bool        customPivot = false;
+namespace gapi {
+	class BaseObject {
+	private:
+		glm::vec2   pivot;
+		//bool        customPivot = false;
 
-public:
-	DataRender *data;
-	Camera     *camera;
+	public:
+		DataRender *data;
+		gapi::Camera *camera;
 
-	glm::mat4   modelMatrix;
-	glm::mat4   MVPMatrix;
+		glm::mat4   modelMatrix;
+		glm::mat4   MVPMatrix;
 
-	bool        needUpdate  = true;
-	bool        visible     = true;
+		bool        needUpdate  = true;
+		bool        visible     = true;
 
-	float       rotation = 0;
-	glm::vec2   position = glm::vec2(0, 0);
-	glm::vec2   scale    = glm::vec2(1, 1);
+		float       rotation = 0;
+		glm::vec2   position = glm::vec2(0, 0);
+		glm::vec2   scale    = glm::vec2(1, 1);
 
-	virtual void render();
-	virtual ~BaseObject() {}
+		virtual void render();
+		virtual ~BaseObject() {}
 
-	BaseObject (DataRender *data, Camera *camera)
-		: data (data), camera (camera) {}
+		BaseObject (DataRender *data, gapi::Camera *camera)
+			: data(data), camera(camera) {}
 
-	glm::vec2 worldToScreen () const;
-	glm::vec2 worldToScreen (const glm::vec2 screenPos) const;
+		glm::vec2 worldToScreen () const;
+		glm::vec2 worldToScreen (const glm::vec2 screenPos) const;
 
-	void updateModelMatrix();
+		void updateModelMatrix();
 
-	void setRotation (const float ang);
-	void setPosition (const glm::vec2 pos);
-	void setScale    (const glm::vec2 scl);
+		void setRotation (const float ang);
+		void setPosition (const glm::vec2 pos);
+		void setScale    (const glm::vec2 scl);
 
+	};
 };
-
-#endif

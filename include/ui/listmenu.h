@@ -32,8 +32,8 @@
 
 class UIListMenu : public UIElement {
 protected:
-	std::unique_ptr<BaseObject> drawElements[12];
-	BaseObject *drawElementsPtr[12];
+	std::unique_ptr<gapi::BaseObject> drawElements[12];
+	gapi::BaseObject *drawElementsPtr[12];
 	int indices[12];
 	float delay = 0.f; // Menu delay
 
@@ -66,7 +66,7 @@ public:
 
 		for (int i = 0; i < 12; ++i) {
 
-			drawElements   [i] = std::make_unique<BaseObject>(manager->uiDataRender, app->screenCamera.get());
+			drawElements   [i] = std::make_unique<gapi::BaseObject>(manager->uiDataRender, app->screenCamera.get());
 			drawElementsPtr[i] = drawElements[i].get();
 
 			indices[i] = i;

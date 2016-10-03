@@ -76,19 +76,17 @@ public:
 class UITallMenuItem : public UIButton {
 private:
 	float descColors[6];
-	std::unique_ptr<BaseObject> maskElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> maskElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 public:
-	std::unique_ptr<Texture> texture;
+	std::unique_ptr<gapi::Texture> texture;
 	std::wstring desc;
 
 	virtual void render()     override;
 	virtual void precompute() override;
 
 	inline void loadImage (const std::string &fileName) {
-
-		texture = std::make_unique<Texture> (fileName.c_str());
-
+		texture = std::make_unique<gapi::Texture> (fileName.c_str());
 	}
 
 	UITallMenuItem (UIManager *manager) : UIButton (manager) {

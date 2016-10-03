@@ -32,7 +32,7 @@ private:
 	bool isMenu      = false;
 	int  menuOffsets[3];
 
-	std::unique_ptr<BaseObject> arrowElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> arrowElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 public:
 	bool autoSizeMenu = true;

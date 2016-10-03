@@ -17,38 +17,37 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef E2DIT_RENDERER_TEXTURE_H
-#define E2DIT_RENDERER_TEXTURE_H
+#pragma once
 
 #include "GL/glew.h"
 #include "utility/application.h"
 #include <string>
 #include "SOIL.h"
 
-class Texture {
-public:
-	int      width;
-	int      height;
 
-	GLuint   handle;
-	bool     loaded       = true;
-	bool     buildMipmaps = false;
-	GLuint   filter;
-	GLuint   wrapS;
-	GLuint   wrapT;
+namespace gapi {
+	class Texture {
+	public:
+		int      width;
+		int      height;
 
-	unsigned char *data;
-	std::string    fileName;
+		GLuint   handle;
+		bool     loaded       = true;
+		bool     buildMipmaps = false;
+		GLuint   filter;
+		GLuint   wrapS;
+		GLuint   wrapT;
 
-	Texture (const std::string &fileName, GLuint filter = GL_LINEAR,
-	                                      GLuint wrapS  = GL_CLAMP_TO_EDGE,
-	                                      GLuint wrapT  = GL_CLAMP_TO_EDGE);
-	~Texture ();
+		unsigned char *data;
+		std::string    fileName;
 
-	void bind  () const;
-	void unbind() const;
-	void update() const;
+		Texture (const std::string &fileName, GLuint filter = GL_LINEAR,
+		                                      GLuint wrapS  = GL_CLAMP_TO_EDGE,
+		                                      GLuint wrapT  = GL_CLAMP_TO_EDGE);
+		~Texture ();
 
+		void bind  () const;
+		void unbind() const;
+		void update() const;
+	};
 };
-
-#endif

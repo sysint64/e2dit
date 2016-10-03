@@ -35,7 +35,7 @@
 class UITreeList;
 class UITreeListNode : public UIButton {
 private:
-	std::unique_ptr<BaseObject> expandElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> expandElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 	UITreeList *treeList = nullptr;
 
 	int  heightIn = 0;

@@ -21,98 +21,55 @@
 #include <utility/filesystem.h>
 #include "renderer/shader.h"
 
-/**
- * Get Shader Status, if fail, then write Error to log
- *
- * @param shader
- * @param param
- * @return GL_TRUE if all is OK
- */
-
-GLint Shader::shaderStatus (GLuint &shader, GLenum param) const {
+GLint gapi::Shader::shaderStatus (GLuint &shader, GLenum param) const {
 
 	GLint  status, length;
 	GLchar buffer[1024];
 
 	glGetShaderiv (shader, param, &status);
 
-	/* Check status */
-
 	if (status != GL_TRUE) {
-
-		/* If fail, then write error to log */
 
 		glGetShaderInfoLog (shader, 1024, &length, buffer);
 		app->log.write (("Shader error ("+fileName+"): %s\n").c_str(), (const char*) buffer);
 
 	}
 
-	/* return Shader Status */
-
 	return status;
 
 }
 
-/**
- * Get Program Status, if fail, then write Error to log
- *
-  * @param program
-  * @param param
-  * @return GL_TRUE if all is OK
- */
-
-GLint Shader::programStatus (GLuint &program, GLenum param) const {
+GLint gapi::Shader::programStatus (GLuint &program, GLenum param) const {
 
 	GLint status, length;
 	GLchar buffer[1024];
 
 	glGetProgramiv (program, param, &status);
 
-	/* Check status */
-
 	if (status != GL_TRUE) {
-
-		/* If fail, then write error to log */
 
 		glGetProgramInfoLog (program, 1024, &length, buffer);
 		app->log.write (("Shader program error ("+fileName+"): %s\n").c_str(), (const char*) buffer);
 
 	}
 
-	/* return Program Status */
-
 	return status;
 
 }
 
-/**
- * Bin Shader
- */
-
-void Shader::bind() const {
+void gapi::Shader::bind() const {
 
 	glUseProgram (program);
 
 }
 
-/**
- * Unbind Shader
- */
-
-void Shader::unbind() const {
+void gapi::Shader::unbind() const {
 
 	glUseProgram (0);
 
 }
 
-/**
- * Load And Create Shader
- * @param fileName
- */
-
-void Shader::load (const std::string &fileName) {
-
-	/* Get Application Instance */
+void gapi::Shader::load (const std::string &fileName) {
 
 	app = Application::getInstance();
 
@@ -139,16 +96,9 @@ void Shader::load (const std::string &fileName) {
 	char *cp = fp;  // Current Buffer
 	int  *ci = &fi; // Current Counter
 
-	/* Current Char */
-
-	char ch;
-
-	/* Traverse all file */
+	char ch; /* Current Char */
 
 	while (!feof (in)) {
-
-		/* Get Char */
-
 		ch = fgetc (in);
 
 		/* if is not macros */
@@ -167,22 +117,16 @@ void Shader::load (const std::string &fileName) {
 		char id[256]; // Macros Buffer
 		int  ii = 0;
 
-		/* Get new char */
-
 		ch = fgetc (in);
 
-		/* While not end line or file */
-
 		while (ch != EOF && ch != '\n' && ch != '\r') {
-
-			/* Add new char on macros name & get next char */
 
 			id[ii] = ch; ii++;
 			ch = fgetc (in);
 
 		}
 
-		/* end mactos */
+		/* end macros */
 
 		id[ii] = '\0';
 
@@ -222,8 +166,6 @@ void Shader::load (const std::string &fileName) {
 		}
 
 	}
-
-	/* End File, close */
 
 	fp[fi-1] = '\0'; vp[vi-1] = '\0';
 	fclose (in);
@@ -265,26 +207,13 @@ void Shader::load (const std::string &fileName) {
 
 }
 
-/**
- * Constructor, load shader
- * @param fileName
- */
-
-Shader::Shader (const std::string &fileName) {
+gapi::Shader::Shader (const std::string &fileName) {
 
 	load (fileName);
 
 }
 
-/**
- * Constructor, load shader & initialize Shader Locations
- *
- * @param fileName
- * @param vloc: Shader Location Names
- */
-
-#include <iostream>
-Shader::Shader (const std::string &fileName, std::vector<std::string> vlocs) {
+gapi::Shader::Shader (const std::string &fileName, std::vector<std::string> vlocs) {
 
 	load (fileName);
 

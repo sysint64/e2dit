@@ -80,7 +80,7 @@ public:
 
 	/* Screen */
 
-	std::unique_ptr<Camera>   screenCamera;
+	std::unique_ptr<gapi::Camera> screenCamera;
 	std::unique_ptr<UICursor> cursor;
 
 	/* Cursor */

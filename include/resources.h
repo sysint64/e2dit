@@ -12,15 +12,15 @@ public:
 	class Textures {
 	public:
 
-		static std::unique_ptr<Texture> skin;
-		static std::unique_ptr<Texture> gridLight;
-		static std::unique_ptr<Texture> gridDark;
+		static std::unique_ptr<gapi::Texture> skin;
+		static std::unique_ptr<gapi::Texture> gridLight;
+		static std::unique_ptr<gapi::Texture> gridDark;
 
 		static void init (Application *app) {
 
-			skin      = std::make_unique<Texture> (app->resPath+"/ui/skins/light/controls.png");
-			gridLight = std::make_unique<Texture> (app->resPath+"/ui/icons/transparent_grid_light.png", GL_LINEAR, GL_REPEAT, GL_REPEAT);
-			gridDark  = std::make_unique<Texture> (app->resPath+"/ui/icons/transparent_grid_dark.png" , GL_LINEAR, GL_REPEAT, GL_REPEAT);
+			skin      = std::make_unique<gapi::Texture> (app->resPath+"/ui/skins/light/controls.png");
+			gridLight = std::make_unique<gapi::Texture> (app->resPath+"/ui/icons/transparent_grid_light.png", GL_LINEAR, GL_REPEAT, GL_REPEAT);
+			gridDark  = std::make_unique<gapi::Texture> (app->resPath+"/ui/icons/transparent_grid_dark.png" , GL_LINEAR, GL_REPEAT, GL_REPEAT);
 
 		}
 
@@ -29,11 +29,11 @@ public:
 	class Shaders {
 	public:
 
-		static std::unique_ptr<Shader> atlasShader;
-		static std::unique_ptr<Shader> colorShader;
-		static std::unique_ptr<Shader> atlasMaskShader;
-		static std::unique_ptr<Shader> colorLineShader;
-		static std::unique_ptr<Shader> colorPickerShader;
+		static std::unique_ptr<gapi::Shader> atlasShader;
+		static std::unique_ptr<gapi::Shader> colorShader;
+		static std::unique_ptr<gapi::Shader> atlasMaskShader;
+		static std::unique_ptr<gapi::Shader> colorLineShader;
+		static std::unique_ptr<gapi::Shader> colorPickerShader;
 
 		static void init (Application *app) {
 
@@ -45,19 +45,19 @@ public:
 
 			std::string GL = "GL"+std::to_string(app->OGLMajor);
 
-			atlasShader       = std::make_unique<Shader> (app->resPath+"/glsl/"+GL+"/tex_atlas.glsl"     , atlasLocations);
-			colorShader       = std::make_unique<Shader> (app->resPath+"/glsl/"+GL+"/colorize.glsl"      , colorLocations);
-			atlasMaskShader   = std::make_unique<Shader> (app->resPath+"/glsl/"+GL+"/tex_atlas_mask.glsl", atlasMaskLocations);
-			colorLineShader   = std::make_unique<Shader> (app->resPath+"/glsl/"+GL+"/color_line.glsl"    , colorLineLocations);
-			colorPickerShader = std::make_unique<Shader> (app->resPath+"/glsl/"+GL+"/color_picker.glsl"  , colorPickerLocations);
+			atlasShader       = std::make_unique<gapi::Shader> (app->resPath+"/glsl/"+GL+"/tex_atlas.glsl"     , atlasLocations);
+			colorShader       = std::make_unique<gapi::Shader> (app->resPath+"/glsl/"+GL+"/colorize.glsl"      , colorLocations);
+			atlasMaskShader   = std::make_unique<gapi::Shader> (app->resPath+"/glsl/"+GL+"/tex_atlas_mask.glsl", atlasMaskLocations);
+			colorLineShader   = std::make_unique<gapi::Shader> (app->resPath+"/glsl/"+GL+"/color_line.glsl"    , colorLineLocations);
+			colorPickerShader = std::make_unique<gapi::Shader> (app->resPath+"/glsl/"+GL+"/color_picker.glsl"  , colorPickerLocations);
 
 		}
 
 	};
 
 	static void init (Application *app) {
-		Textures::init (app);
-		Shaders::init  (app);
+		Textures::init(app);
+		Shaders ::init(app);
 	}
 
 };

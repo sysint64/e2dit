@@ -28,9 +28,9 @@
 class UITooltip : public UIElement {
 protected:
 
-	std::unique_ptr<BaseObject> leftElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> rightElement  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> middleElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> leftElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> rightElement  = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> middleElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 	float alpha = 0.f;
 	std::string leftParam  = "left";

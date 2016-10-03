@@ -51,11 +51,11 @@ protected:
 
 	/* Render Objects */
 
-	std::unique_ptr<BaseObject> leftElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> rightElement  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> middleElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> iconElement   = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> iconElement2  = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> leftElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> rightElement  = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> middleElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> iconElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> iconElement2  = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 	int focusOffsets[3]; // Left, Top, Width
 

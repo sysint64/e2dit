@@ -25,26 +25,28 @@
 #include "GL/glew.h"
 #include "utility/application.h"
 
-class Shader {
-private:
-	typedef std::map<std::string, GLuint> Locations;
-	Application *app;
+namespace gapi {
+	class Shader {
+	private:
+		typedef std::map<std::string, GLuint> Locations;
+		Application *app;
 
-	GLint shaderStatus  (GLuint &shader , GLenum param) const;
-	GLint programStatus (GLuint &program, GLenum param) const;
+		GLint shaderStatus  (GLuint &shader , GLenum param) const;
+		GLint programStatus (GLuint &program, GLenum param) const;
 
-	void load (const std::string &fileName);
+		void load (const std::string &fileName);
 
-public:
+	public:
 
-	std::string fileName;
-	Locations locations;
+		std::string fileName;
+		Locations locations;
 
-	GLuint program;
+		GLuint program;
 
-	void bind() const;
-	void unbind() const;
+		void bind() const;
+		void unbind() const;
 
-	Shader (const std::string &fileName);
-	Shader (const std::string &fileName, std::vector<std::string> vlocs);
+		Shader (const std::string &fileName);
+		Shader (const std::string &fileName, std::vector<std::string> vlocs);
+	};
 };

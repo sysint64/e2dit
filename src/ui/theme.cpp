@@ -22,7 +22,7 @@
 
 #include "ui/theme.h"
 
-UITheme::UITheme (const std::string &fileName, ReadType rt, Texture *skin, FTGLfont *font) {
+UITheme::UITheme (const std::string &fileName, ReadType rt, gapi::Texture *skin, FTGLfont *font) {
 
 	this->skin = skin;
 	this->font = font;
@@ -38,7 +38,6 @@ UITheme::UITheme (const std::string &fileName, ReadType rt, Texture *skin, FTGLf
 
 		case ReadType::Bin  : loadFromBin  (fileName.c_str()); break;
 		case ReadType::Text : loadFromText (fileName.c_str()); break;
-		default             : return;
 
 	}
 

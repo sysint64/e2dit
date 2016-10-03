@@ -43,7 +43,7 @@
 Core::Core (sf::Window *window) {
 
 	this->window = window;
-	app->screenCamera = std::make_unique<Camera>(app->screenWidth, app->screenHeight);
+	app->screenCamera = std::make_unique<gapi::Camera>(app->screenWidth, app->screenHeight);
 
 	//uiManager = std::make_shared<UIManager>();
 	auto font12 = ftglCreateTextureFont ((app->resPath+"/fonts/ttf-dejavu/DejaVuSans.ttf").c_str());
@@ -83,12 +83,12 @@ Core::Core (sf::Window *window) {
 //	                                           R::Shaders::colorShader    .get(),
 //	                                           uiTheme.get());
 
-	uiManager->uiDataRender = new SpriteData (false, false, true);
+	uiManager->uiDataRender = new gapi::SpriteData(false, false, true);
 
-	std::unique_ptr<Texture> iconsTex = std::make_unique<Texture> (app->resPath+"/ui/icons/icons.png");
+	std::unique_ptr<gapi::Texture> iconsTex = std::make_unique<gapi::Texture> (app->resPath+"/ui/icons/icons.png");
 	uiManager->icons = std::make_unique<UIMainIcons> (uiManager, std::move (iconsTex), 18.f, 9, 3);
 
-	iconsTex = std::make_unique<Texture> (app->resPath+"/ui/icons/main_toolbar_icons.png");
+	iconsTex = std::make_unique<gapi::Texture> (app->resPath+"/ui/icons/main_toolbar_icons.png");
 	uiManager->toolIcons = std::make_unique<UIToolIcons> (uiManager, std::move (iconsTex), 48.f, 1, 1);
 
 	stringsRes = std::make_unique<StringRes>();
@@ -103,14 +103,6 @@ Core::Core (sf::Window *window) {
 	//
 
 	editor->initUI();
-
-	setTimeout(1.f, [this]() {
-		editor->splitView(Orientation::Horizontal);
-	});
-
-	setTimeout(2.f, [this]() {
-		editor->splitView(Orientation::Vertical);
-	});
 
 	//StringRes testRes;
 	//testRes.addResource ("../res/strings/eng/menu.e2t");

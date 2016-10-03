@@ -20,8 +20,7 @@
  * Author: Kabylin Andrey <andrey@kabylin.ru>
  */
 
-#ifndef E2DIT_UI_THEME_H
-#define E2DIT_UI_THEME_H
+#pragma once
 
 #include "utility/data_map.h"
 #include "renderer/texture.h"
@@ -32,7 +31,7 @@ using namespace FTGL;
 
 class UITheme : public DataMap {
 public:
-	Texture  *skin;
+	gapi::Texture *skin;
 
 	FTGLfont *font; // Main font
 	FTGLfont *font12;
@@ -46,8 +45,6 @@ public:
 
 public:
 
-	UITheme (const std::string &fileName, ReadType rt, Texture *skin, FTGLfont *font);
+	UITheme (const std::string &fileName, ReadType rt, gapi::Texture *skin, FTGLfont *font);
 
 };
-
-#endif

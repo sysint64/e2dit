@@ -22,12 +22,10 @@
 
 #include "ui/manager.h"
 
-/**
- * Calculate Tex Coords for Icons
- */
+/* Calculate Tex Coords for Icons */
 
 template <int count>
-UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float sizeIcon, int margin, int spacing) {
+UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<gapi::Texture> tex, float sizeIcon, int margin, int spacing) {
 
 	this->sizeIcon = sizeIcon;
 	this->tex      = std::move (tex);
@@ -50,17 +48,8 @@ UIIcons<count>::UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float
 
 }
 
-/**
- * Render Icon
- *
- * @param  x: Left Position of Icon
- * @param  y: Top  Position of Icon
- * @param ox: Offset by X on Icons Table
- * @param ox: Offset by Y on Icons Table
- */
-
 template <int count>
-void UIIcons<count>::render (int x, int y, int ox, int oy, BaseObject *iconElement) {
+void UIIcons<count>::render (int x, int y, int ox, int oy, gapi::BaseObject *iconElement) {
 
 	glUniform1i (manager->atlasShader->locations["Texture"], texBindId);
 	glUniform2f (manager->atlasShader->locations["Size"]   , width, height);
@@ -81,25 +70,21 @@ void UIIcons<count>::render (int x, int y, int ox, int oy, BaseObject *iconEleme
 template class UIIcons<ICONS_COUNT>;
 template class UIIcons<TOOL_ICONS_COUNT>;
 
-/**
- * Constructor, Create Root Element and
- */
-
-UIManager::UIManager (sf::Window *window, Shader *atlasMaskShader, Shader *atlasShader, Shader *colorShader, UITheme *theme) :
-	window (window), atlasMaskShader (atlasMaskShader), atlasShader (atlasShader), colorShader (colorShader), theme (theme)
-
+UIManager::UIManager (sf::Window *window,
+                      gapi::Shader *atlasMaskShader,
+                      gapi::Shader *atlasShader,
+                      gapi::Shader *colorShader,
+                      UITheme *theme)
+		: window(window),
+		  atlasMaskShader(atlasMaskShader),
+		  atlasShader(atlasShader),
+		  colorShader(colorShader),
+		  theme(theme)
 {
-
 	/* Create Root of Elements */
-
 	root = std::make_unique<UIElement> (this);
 	root->isRoot = true;
-
 }
-
-/**
- *
- */
 
 UIManager *UIManager::getInstance() {
 	static UIManager *manager = nullptr;
@@ -111,11 +96,6 @@ UIManager *UIManager::getInstance() {
 	return manager;
 }
 
-/**
- * Find element with name
- * @param name
- */
-
 UIElement *UIManager::findElement (const std::string &name) {
 	auto element = root->findElement (name);
 
@@ -125,29 +105,14 @@ UIElement *UIManager::findElement (const std::string &name) {
 	return element;
 }
 
-/**
- * Insert new UI Element in Root
- * @param el: new UI Element
- */
-
 void UIManager::addElement (std::unique_ptr<UIElement> el) {
 	root->addElement (std::move(el));
 }
-
-/**
- * Delete element el from manager and memory
- * @param el: UI Element
- */
 
 void UIManager::deleteElement (std::unique_ptr<UIElement> el) {
 
 
 }
-
-/**
- * Delete element el from manager and memory by id
- * @param id: id of UI Element
- */
 
 void UIManager::deleteElement (const int id) {
 
@@ -155,14 +120,7 @@ void UIManager::deleteElement (const int id) {
 
 }
 
-/**
- * Push new scissor to stack
- *
- * @param sx: Scissor Position X
- * @param sy: Scissor Position Y
- * @param sw: Scissor Width
- * @param sh: Scissor Height
- */
+/* Push new scissor to stack */
 
 void UIManager::pushScissor (int sx, int sy, int sw, int sh) {
 
@@ -174,9 +132,7 @@ void UIManager::pushScissor (int sx, int sy, int sw, int sh) {
 
 }
 
-/**
- * Pop scissor fomr stack
- */
+/* Pop scissor from stack */
 
 void UIManager::popScissor() {
 
@@ -187,9 +143,7 @@ void UIManager::popScissor() {
 
 }
 
-/**
- * Set OpenGL Scissor by last scissor from stack
- */
+/* Set OpenGL Scissor by last scissor from stack */
 
 void UIManager::setScissor() {
 
@@ -210,10 +164,6 @@ void UIManager::setScissor() {
 	glScissor (scx, scy, scw-scx, sch-scy);
 
 }
-
-/**
- * Poll UI Elements
- */
 
 void UIManager::poll() {
 
@@ -285,10 +235,6 @@ void UIManager::poll() {
 	}
 
 }
-
-/**
- * Render UI Elements
- */
 
 void UIManager::render() {
 
@@ -407,9 +353,7 @@ void UIManager::mouseUp (int x, int y, int button) {
 
 }
 
-/**
- * Unfocus Elements in unfocusedElements
- */
+/* Unfocus Elements in unfocusedElements */
 
 void UIManager::blur() {
 
@@ -427,11 +371,6 @@ void UIManager::blur() {
 	unfocusedElements.clear();
 
 }
-
-/**
- * On Key Pressed Events
- * @param key: Code of Pressed key
- */
 
 void UIManager::keyPressed (int key) {
 
@@ -463,21 +402,9 @@ void UIManager::keyPressed (int key) {
 
 }
 
-/**
- * On Key Released Events
- * @param key: Code of Released key
- */
-
 void UIManager::keyReleased (int key) {
-
 	root->keyReleased (key);
-
 }
-
-/**
- * On Key Enered Events
- * @param key: Code of Entered key
- */
 
 void UIManager::textEntered (int key) {
 
@@ -485,15 +412,6 @@ void UIManager::textEntered (int key) {
 
 }
 
-/**
- * On Resized Event
- *
- * @param width : New Screen Width
- * @param height: New Screen Height
- */
-
 void UIManager::resized (int width, int height) {
-
 	root->resized (width, height);
-
 }

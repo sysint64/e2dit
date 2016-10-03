@@ -121,7 +121,7 @@ void UIElement::checkFocus() {
 
 }
 
-void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *el) const {
+void UIElement::renderElement (int idx, int x, int y, int w, int h, gapi::BaseObject *el) const {
 
 	if (math::feq<float>(el->rotation, math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x+h, app->windowHeight-w-y)); else
 	if (math::feq<float>(el->rotation,-math::pi/2.f, math::pi/180.f)) el->setPosition (glm::vec2(x-h, app->windowHeight+h-y)); else
@@ -139,7 +139,7 @@ void UIElement::renderElement (int idx, int x, int y, int w, int h, BaseObject *
 
 }
 
-void UIElement::transformElement (int x, int y, int w, int h, BaseObject *el) const {
+void UIElement::transformElement (int x, int y, int w, int h, gapi::BaseObject *el) const {
 
 	el->setPosition (glm::vec2(x, app->windowHeight-h-y));
 	el->setScale    (glm::vec2(w, h));
@@ -147,7 +147,7 @@ void UIElement::transformElement (int x, int y, int w, int h, BaseObject *el) co
 
 }
 
-void UIElement::renderMaskElement (int maskidx, int idx, int x, int y, int w, int h, BaseObject *el) const {
+void UIElement::renderMaskElement (int maskidx, int idx, int x, int y, int w, int h, gapi::BaseObject *el) const {
 
 	el->setPosition (glm::vec2(x, app->windowHeight-h-y));
 	el->setScale    (glm::vec2(w, h));
@@ -169,7 +169,7 @@ void UIElement::renderMaskElement (int maskidx, int idx, int x, int y, int w, in
 
 }
 
-void UIElement::renderColorElement (int x, int y, int w, int h, BaseObject *el, float *color) const {
+void UIElement::renderColorElement (int x, int y, int w, int h, gapi::BaseObject *el, float *color) const {
 
 	el->setPosition (glm::vec2(x, app->windowHeight-y-h));
 	el->setScale    (glm::vec2(w, h));
@@ -183,7 +183,7 @@ void UIElement::renderColorElement (int x, int y, int w, int h, BaseObject *el, 
 }
 
 void UIElement::renderPartsElementH (int il, int ic, int ir,
-                                     BaseObject *el, BaseObject *ec, BaseObject *er,
+                                     gapi::BaseObject *el, gapi::BaseObject *ec, gapi::BaseObject *er,
                                      int x, int y, int w, bool ignoreDrawAlign) const
 {
 
@@ -222,7 +222,7 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 }
 
 void UIElement::renderPartsElementH (int il, int ic, int ir,
-                                     BaseObject *el, BaseObject *ec, BaseObject *er,
+                                     gapi::BaseObject *el, gapi::BaseObject *ec, gapi::BaseObject *er,
                                      int x, int y, int w, int h, bool ignoreDrawAlign) const
 {
 
@@ -235,7 +235,7 @@ void UIElement::renderPartsElementH (int il, int ic, int ir,
 }
 
 void UIElement::renderPartsElementV90 (int it, int im, int ib,
-                                       BaseObject *et, BaseObject *em, BaseObject *eb,
+                                       gapi::BaseObject *et, gapi::BaseObject *em, gapi::BaseObject *eb,
                                        int x, int y, int h, bool ignoreDrawAlign) const
 {
 

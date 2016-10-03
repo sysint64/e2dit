@@ -52,7 +52,7 @@ template <int count>
 class UIIcons {
 public:
 
-	std::unique_ptr<Texture> tex;
+	std::unique_ptr<gapi::Texture> tex;
 
 	float offsetsX[count][count];
 	float offsetsY[count][count];
@@ -62,8 +62,8 @@ public:
 
 	UIManager *manager;
 
-	UIIcons (UIManager *manager, std::unique_ptr<Texture> tex, float sizeIcon, int margin, int spacing);
-	void render (int x, int y, int ox, int oy, BaseObject *iconElement);
+	UIIcons (UIManager *manager, std::unique_ptr<gapi::Texture> tex, float sizeIcon, int margin, int spacing);
+	void render (int x, int y, int ox, int oy, gapi::BaseObject *iconElement);
 
 };
 
@@ -101,7 +101,7 @@ public:
 
 	/* Render */
 
-	DataRender *uiDataRender;
+	gapi::DataRender *uiDataRender;
 	static const int themeTexID = 3;
 	float disabledAlpha = 0.65f;
 
@@ -119,18 +119,17 @@ public:
 
 	UIElement *focusedElement = nullptr;
 	UIElement *underMouse     = nullptr;
-	Shader    *atlasShader;
-	Shader    *atlasMaskShader;
-	Shader    *colorShader;
-	UITheme   *theme;
+	gapi::Shader *atlasShader;
+	gapi::Shader *atlasMaskShader;
+	gapi::Shader *colorShader;
+	UITheme *theme;
 
 	CursorIco cursor = CursorIco::Normal;
 
-	UIManager (sf::Window *window, Shader *atlasMaskShader, Shader *atlasShader, Shader *colorShader, UITheme *theme);
+	UIManager (sf::Window *window, gapi::Shader *atlasMaskShader, gapi::Shader *atlasShader, gapi::Shader *colorShader, UITheme *theme);
 	UIManager() {
 		root = std::make_unique<UIElement> (this);
 		root->isRoot = true;
-		puts("!!!!!!!!!!!!!!");
 	}
 
 	static UIManager *getInstance();

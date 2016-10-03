@@ -44,8 +44,8 @@ namespace ui {
 	private:
 		Application *app = Application::getInstance();
 
-		std::unique_ptr<BaseObject> quadElement;
-		std::unique_ptr<BaseObject> lineElement;
+		std::unique_ptr<gapi::BaseObject> quadElement;
+		std::unique_ptr<gapi::BaseObject> lineElement;
 		std::unique_ptr<UILoader>   loader;
 
 		UIManager *manager;
@@ -57,8 +57,8 @@ namespace ui {
 
 		Palette colorPalette = HSB_H;
 
-		Shader *colorPickerShader;
-		Shader *colorLineShader;
+		gapi::Shader *colorPickerShader;
+		gapi::Shader *colorLineShader;
 
 		// UI Elements in dialog
 
@@ -122,8 +122,8 @@ namespace ui {
 			this->manager = manager;
 			loader = std::make_unique<UILoader> (manager, stringsRes, layout);
 
-			quadElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-			lineElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+			quadElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+			lineElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 			colorPickerShader = R::Shaders::colorPickerShader.get();
 			colorLineShader   = R::Shaders::colorLineShader  .get();
@@ -132,7 +132,7 @@ namespace ui {
 
 		}
 
-		inline void transformElement (int x, int y, int w, int h, BaseObject *el) const {
+		inline void transformElement (int x, int y, int w, int h, gapi::BaseObject *el) const {
 
 			el->setPosition (glm::vec2(x, app->windowHeight-h-y));
 			el->setScale    (glm::vec2(w, h));

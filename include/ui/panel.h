@@ -42,13 +42,13 @@
 class UIPanel : public UIElement {
 protected:
 
-	std::unique_ptr<BaseObject> scrollBg [6];
-	std::unique_ptr<BaseObject> scrollBtn[6];
+	std::unique_ptr<gapi::BaseObject> scrollBg [6];
+	std::unique_ptr<gapi::BaseObject> scrollBtn[6];
 
-	std::unique_ptr<BaseObject> split       = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> header      = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> expandArrow = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-	std::unique_ptr<BaseObject> quadElement = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> split       = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> header      = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> expandArrow = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+	std::unique_ptr<gapi::BaseObject> quadElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 	float backgroundLight [4];
 	float backgroundDark  [4];
@@ -162,8 +162,8 @@ public:
 
 		for (int i = 0; i < 6; ++i) {
 
-			scrollBg [i] = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
-			scrollBtn[i] = std::make_unique<BaseObject> (manager->uiDataRender, app->screenCamera.get());
+			scrollBg [i] = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
+			scrollBtn[i] = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
 			if (i >= 3) {
 
