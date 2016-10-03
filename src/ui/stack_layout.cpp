@@ -33,15 +33,15 @@
  * +-------------+
  */
 
-void ui::UIStackLayout::addElement (std::unique_ptr<UIElement> el) {
+void ui::StackLayout::addElement (std::unique_ptr<Widget> el) {
 
 	if (!parent)
 		Application::getInstance()->log.ewrite ("Can't add element, element don't has parent!");
 
-	std::unique_ptr<UIElement> row = std::make_unique<UIElement>(manager);
+	std::unique_ptr<Widget> row = std::make_unique<Widget>(manager);
 	auto _row = row.get();
 
-	UIElement::addElement (std::move(row));
+	Widget::addElement (std::move(row));
 	_row->addElement (std::move(el));
 
 }
@@ -50,7 +50,7 @@ void ui::UIStackLayout::addElement (std::unique_ptr<UIElement> el) {
  * \brief Render and recalculate location and sizes of elements
  */
 
-void ui::UIStackLayout::render() {
+void ui::StackLayout::render() {
 
 	updateAbsPos();
 
@@ -60,8 +60,8 @@ void ui::UIStackLayout::render() {
 
 	for (const auto &kvp : elements) {
 
-		UIElement *el = kvp.second.get();
-		UIElement *child = (*(el->elements.begin())).second.get(); // Get first element
+		Widget *el = kvp.second.get();
+		Widget *child = (*(el->elements.begin())).second.get(); // Get first element
 
 		if (orientation == Orientation::Vertical) {
 

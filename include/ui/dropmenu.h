@@ -26,9 +26,9 @@
 #include "ui/listmenu.h"
 
 namespace ui {
-	class UIDropMenu : public UIButton {
+	class DropMenu : public Button {
 	private:
-		UIListMenu *menu = nullptr;
+		ListMenu *menu = nullptr;
 		bool isMenu      = false;
 		int  menuOffsets[3];
 
@@ -38,7 +38,7 @@ namespace ui {
 		bool autoSizeMenu = true;
 		void updateMenu();
 
-		UIDropMenu (UIManager *manager, bool isMenu = false) : UIButton(manager) {
+		DropMenu (Manager *manager, bool isMenu = false) : Button(manager) {
 
 			this->manager = manager;
 			this->isMenu  = isMenu;
@@ -49,7 +49,7 @@ namespace ui {
 
 		}
 
-		inline void setMenu (std::unique_ptr<UIListMenu> m) {
+		inline void setMenu (std::unique_ptr<ListMenu> m) {
 
 			menu = m.get();
 			menu->visible = false;
@@ -57,16 +57,16 @@ namespace ui {
 
 		}
 
-		virtual void addElement (std::unique_ptr<UIElement> el) override {
-			menu = dynamic_cast<UIListMenu*>(el.get());
+		virtual void addElement (std::unique_ptr<Widget> el) override {
+			menu = dynamic_cast<ListMenu*>(el.get());
 
 			if (menu) {
 				menu->visible = false;
 				menu->overlay = true;
 				manager->overlayElements.push_back(menu);
-				UIElement::addElement (std::move(el));
+				Widget::addElement (std::move(el));
 			} else {
-				UIElement::addElement (std::move(el));
+				Widget::addElement (std::move(el));
 			}
 
 		}

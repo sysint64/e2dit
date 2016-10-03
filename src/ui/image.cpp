@@ -22,7 +22,7 @@
 
 #include "ui/image.h"
 
-void ui::UIImage::loadImage (const std::string &fileName) {
+void ui::Image::loadImage (const std::string &fileName) {
 
 	texture = std::make_unique<gapi::Texture> (fileName.c_str());
 
@@ -31,7 +31,7 @@ void ui::UIImage::loadImage (const std::string &fileName) {
 
 }
 
-void ui::UIImage::cropImage (int ox, int oy, int cw, int ch) {
+void ui::Image::cropImage (int ox, int oy, int cw, int ch) {
 
 	float tfw = static_cast<float>(texture->width );
 	float tfh = static_cast<float>(texture->height);
@@ -47,11 +47,11 @@ void ui::UIImage::cropImage (int ox, int oy, int cw, int ch) {
 
 }
 
-void ui::UIImage::cropImage (const std::array<int, 4> &cropRect) {
-	ui::UIImage::cropImage (cropRect[0], cropRect[1], cropRect[2], cropRect[3]);
+void ui::Image::cropImage (const std::array<int, 4> &cropRect) {
+	ui::Image::cropImage (cropRect[0], cropRect[1], cropRect[2], cropRect[3]);
 }
 
-void ui::UIImage::render() {
+void ui::Image::render() {
 
 	updateAbsPos();
 

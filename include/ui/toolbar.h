@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/button.h"
 #include "ui/manager.h"
 
@@ -31,7 +31,7 @@
 
 namespace ui {
 
-	class UIToolbarSplit : public UIElement {
+	class ToolbarSplit : public Widget {
 	protected:
 		std::unique_ptr<gapi::BaseObject> splitElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
@@ -40,7 +40,7 @@ namespace ui {
 		virtual void precompute() override;
 		virtual void render()     override;
 
-		UIToolbarSplit (UIManager *manager) : UIElement (manager) {
+		ToolbarSplit (Manager *manager) : Widget (manager) {
 
 			this->style   = "toolbar";
 			this->manager = manager;
@@ -51,10 +51,10 @@ namespace ui {
 
 	};
 
-	class UIToolbarTab : public UIButton {
+	class ToolbarTab : public Button {
 	public:
 
-		UIToolbarTab (UIManager *manager) : UIButton (manager) {
+		ToolbarTab (Manager *manager) : Button (manager) {
 
 			style         = "toolbartab";
 			drawChilds    = false;
@@ -68,11 +68,11 @@ namespace ui {
 
 	};
 
-	class UIToolbar;
-	class UIToolbarItem : public UIElement {
+	class Toolbar;
+	class ToolbarItem : public Widget {
 	protected:
 		std::unique_ptr<gapi::BaseObject> iconElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-		UIToolbar *toolbar = nullptr;
+		Toolbar *toolbar = nullptr;
 
 	public:
 		std::string leaveElement = "leave";
@@ -89,7 +89,7 @@ namespace ui {
 
 		virtual void mouseDown (int x, int y, int button) override;
 
-		UIToolbarItem (UIManager *manager, UIToolbar *toolbar) : UIElement (manager) {
+		ToolbarItem (Manager *manager, Toolbar *toolbar) : Widget (manager) {
 
 			style  = "toolbaritem";
 			width  = manager->toolIcons->sizeIcon;
@@ -102,7 +102,7 @@ namespace ui {
 
 		}
 
-		UIToolbarItem (UIManager *manager) : UIElement (manager) {
+		ToolbarItem (Manager *manager) : Widget (manager) {
 
 			style  = "toolbaritem";
 			width  = manager->toolIcons->sizeIcon;
@@ -115,7 +115,7 @@ namespace ui {
 
 	};
 
-	class UIToolbar : public UICheckedElements {
+	class Toolbar : public UICheckedElements {
 	protected:
 		std::unique_ptr<gapi::BaseObject> bgElement    = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 		std::unique_ptr<gapi::BaseObject> splitElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
@@ -127,7 +127,7 @@ namespace ui {
 
 	public:
 
-		UIElement *lastTool = nullptr;
+		Widget *lastTool = nullptr;
 
 		int tabsOffset = 20;
 		int tabSize    = 150;
@@ -135,7 +135,7 @@ namespace ui {
 		virtual void precompute() override;
 		virtual void render()     override;
 
-		UIToolbar (UIManager *manager) : UICheckedElements (manager) {
+		Toolbar (Manager *manager) : UICheckedElements (manager) {
 
 			align = Align::Top;
 			style = "toolbar";
@@ -145,7 +145,7 @@ namespace ui {
 
 		}
 
-		void checkTool (UIElement *tool) {
+		void checkTool (Widget *tool) {
 
 			if (lastTool != nullptr)
 				lastTool->checked = false;

@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 #include "ui/button.h"
 
@@ -30,15 +30,15 @@
 
 namespace ui {
 
-	class UIListMenu : public UIElement {
+	class ListMenu : public Widget {
 	protected:
 		std::unique_ptr<gapi::BaseObject> drawElements[12];
 		gapi::BaseObject *drawElementsPtr[12];
 		int indices[12];
 		float delay = 0.f; // Menu delay
 
-		UIElement  *lastCheck  = nullptr;
-		UIListMenu *openedMenu = nullptr;
+		Widget  *lastCheck  = nullptr;
+		ListMenu *openedMenu = nullptr;
 		bool setedTime = false;
 
 	public:
@@ -62,7 +62,7 @@ namespace ui {
 
 		virtual void mouseDown (int x, int y, int button) override;
 
-		UIListMenu (UIManager *manager) : UIElement (manager) {
+		ListMenu (Manager *manager) : Widget (manager) {
 
 			for (int i = 0; i < 12; ++i) {
 
@@ -82,7 +82,7 @@ namespace ui {
 
 		}
 
-		inline void checkElement (UIElement *el) {
+		inline void checkElement (Widget *el) {
 
 			assert (el->parent == this);
 

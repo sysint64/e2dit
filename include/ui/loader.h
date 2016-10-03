@@ -31,35 +31,35 @@
 
 namespace ui {
 
-	class UILoader {
+	class Loader {
 	private:
 		Application *app      = Application::getInstance();
-		UITreeList  *treeList = nullptr;
-		ui::UIToolbar   *toolbar  = nullptr;
+		TreeList  *treeList = nullptr;
+		ui::Toolbar   *toolbar  = nullptr;
 
-		void placeElements (DataMap::DataNode *rootNode, UIElement *uiParent);
+		void placeElements (DataMap::DataNode *rootNode, Widget *uiParent);
 
-		std::unique_ptr<UIElement> createElement      (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createElement      (DataMap::DataNode *elementNode);
 
-		std::unique_ptr<UIElement> createPanel        (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createButton       (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createEdit         (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createStackLayout  (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createToolbar      (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createToolbarTab   (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createToolbarItem  (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createColorPanel   (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createDialog       (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createImage        (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createLabel        (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createGrouped      (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createDropMenu     (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createListMenu     (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createMenuItem     (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createMenuHr       (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createTallMenuItem (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createTreeList     (DataMap::DataNode *elementNode);
-		std::unique_ptr<UIElement> createTreeListNode (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createPanel        (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createButton       (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createEdit         (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createStackLayout  (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createToolbar      (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createToolbarTab   (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createToolbarItem  (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createColorPanel   (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createDialog       (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createImage        (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createLabel        (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createGrouped      (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createDropMenu     (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createListMenu     (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createMenuItem     (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createMenuHr       (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createTallMenuItem (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createTreeList     (DataMap::DataNode *elementNode);
+		std::unique_ptr<Widget> createTreeListNode (DataMap::DataNode *elementNode);
 
 		int                readInt     (DataMap::DataNode *elementNode, const std::string &paramName, const int defaultVal = 0);
 		float              readFloat   (DataMap::DataNode *elementNode, const std::string &paramName, const float defaultVal = 0.f);
@@ -70,20 +70,20 @@ namespace ui {
 		std::array<int, 4> readRect    (DataMap::DataNode *elementNode, const std::string &paramName, const bool autoFill = true);
 		gapi::Color        readColor   (DataMap::DataNode *elementNode, const std::string &paramName);
 		Align              readAlign   (DataMap::DataNode *elementNode, const std::string &paramName);
-		void               readIcon    (UIButton *element, DataMap::DataNode *elementNode);
+		void               readIcon    (Button *element, DataMap::DataNode *elementNode);
 
 	public:
 		std::unique_ptr<DataMap> data = nullptr;
 		StringRes *stringsRes;
-		UIManager *manager = nullptr;
-		UIElement *root = nullptr;
+		Manager *manager = nullptr;
+		Widget *root = nullptr;
 
-		UILoader (UIManager *manager) : manager (manager) {
+		Loader (Manager *manager) : manager (manager) {
 			data = std::make_unique<DataMap> ();
 		}
 
-		UILoader (UIManager *manager, StringRes *stringsRes, const std::string &fileName,
-			UIElement *root = nullptr, DataMap::ReadType rt = DataMap::ReadType::Text)
+		Loader (Manager *manager, StringRes *stringsRes, const std::string &fileName,
+			Widget *root = nullptr, DataMap::ReadType rt = DataMap::ReadType::Text)
 				: manager(manager), stringsRes(stringsRes), root(root)
 		{
 

@@ -22,9 +22,9 @@
 
 #include "ui/treelist.h"
 
-void ui::UITreeListNode::precompute() {
+void ui::TreeListNode::precompute() {
 
-	UIButton::precompute();
+	Button::precompute();
 
 	precomputeElement (12, style, "openicon");
 	precomputeElement (13, style, "closeicon");

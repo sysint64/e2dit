@@ -22,7 +22,7 @@
 
 #include "ui/label.h"
 
-void ui::UILabel::render() {
+void ui::Label::render() {
 
 	updateAbsPos();
 	height = manager->theme->fontHeight;

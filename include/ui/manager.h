@@ -24,7 +24,7 @@
 
 #include <vector>
 #include <glm/glm.hpp>
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/theme.h"
 #include "ui/cursor.h"
 
@@ -42,10 +42,10 @@
 #define TOOL_ICONS_COUNT   4
 
 namespace ui {
-	class UIManager;
+	class Manager;
 
 	template <int count>
-	class UIIcons {
+	class Icons {
 	public:
 
 		std::unique_ptr<gapi::Texture> tex;
@@ -56,27 +56,26 @@ namespace ui {
 		float sizeIcon;
 		int   texBindId;
 
-		UIManager *manager;
+		Manager *manager;
 
-		UIIcons (UIManager *manager, std::unique_ptr<gapi::Texture> tex, float sizeIcon, int margin, int spacing);
+		Icons (Manager *manager, std::unique_ptr<gapi::Texture> tex, float sizeIcon, int margin, int spacing);
 		void render (int x, int y, int ox, int oy, gapi::BaseObject *iconElement);
 
 	};
 
-	typedef UIIcons<ICONS_COUNT>      UIMainIcons;
-	typedef UIIcons<TOOL_ICONS_COUNT> UIToolIcons;
+	typedef Icons<ICONS_COUNT>      UIMainIcons;
+	typedef Icons<TOOL_ICONS_COUNT> UIToolIcons;
 
 	class Panel;
-	class UIDialog;
-	class UIManager {
+	class Dialog;
+	class Manager {
 	private:
 		Application *app = Application::getInstance();
 		std::vector<std::string> debugStrings;
 		int lastId = 0;
 
 	public:
-
-		friend UIElement;
+		friend Widget;
 
 		/* UI State */
 
@@ -100,42 +99,42 @@ namespace ui {
 		/* */
 
 		std::vector<glm::vec4>  scissorStack;
-		std::vector<UIElement*> overlayElements;
-		std::vector<UIElement*> unfocusedElements;
-		std::vector<UIElement*> elementsStack; // For poll elements
+		std::vector<Widget*> overlayElements;
+		std::vector<Widget*> unfocusedElements;
+		std::vector<Widget*> elementsStack; // For poll elements
 		std::map<int, bool>     disablePollMap;
 
-		std::unique_ptr<UIElement> root;
+		std::unique_ptr<Widget> root;
 
 		/* */
 
-		UIElement *focusedElement = nullptr;
-		UIElement *underMouse     = nullptr;
+		Widget *focusedElement = nullptr;
+		Widget *underMouse     = nullptr;
 		gapi::Shader *atlasShader;
 		gapi::Shader *atlasMaskShader;
 		gapi::Shader *colorShader;
-		UITheme *theme;
+		Theme *theme;
 
 		CursorIco cursor = CursorIco::Normal;
 
-		UIManager (sf::Window *window, gapi::Shader *atlasMaskShader, gapi::Shader *atlasShader, gapi::Shader *colorShader, UITheme *theme);
-		UIManager() {
-			root = std::make_unique<UIElement> (this);
+		Manager (sf::Window *window, gapi::Shader *atlasMaskShader, gapi::Shader *atlasShader, gapi::Shader *colorShader, Theme *theme);
+		Manager() {
+			root = std::make_unique<Widget> (this);
 			root->isRoot = true;
 		}
 
-		static UIManager *getInstance();
+		static Manager *getInstance();
 		void render();
 
 		/* Manage */
 
-		void addElement    (std::unique_ptr<UIElement> el);
-		void deleteElement (std::unique_ptr<UIElement> el);
+		void addElement    (std::unique_ptr<Widget> el);
+		void deleteElement (std::unique_ptr<Widget> el);
 		void deleteElement (const int  id);
 		void blur();
 		void poll();
 
-		UIElement *findElement (const std::string &name);
+		Widget *findElement (const std::string &name);
 
 		/* Scissor */
 

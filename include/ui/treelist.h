@@ -26,17 +26,17 @@
 #include <vector>
 
 #include "ui/button.h"
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 
 #include "renderer/base_object.h"
 
 namespace ui {
-	class UITreeList;
-	class UITreeListNode : public UIButton {
+	class TreeList;
+	class TreeListNode : public Button {
 	private:
 		std::unique_ptr<gapi::BaseObject> expandElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
-		UITreeList *treeList = nullptr;
+		TreeList *treeList = nullptr;
 
 		int  heightIn = 0;
 		int  btnOffset = 0;
@@ -54,7 +54,7 @@ namespace ui {
 		virtual void mouseUp   (int x, int y, int button) override;
 		virtual void mouseDown (int x, int y, int button) override;
 
-		UITreeListNode (UIManager *manager, UITreeList *treeList) : UIButton (manager) {
+		TreeListNode (Manager *manager, TreeList *treeList) : Button (manager) {
 
 			this->manager  = manager;
 			this->treeList = treeList;
@@ -70,25 +70,25 @@ namespace ui {
 
 	};
 
-	class UITreeList : public UIElement {
+	class TreeList : public Widget {
 	private:
-		UIElement *lastCheck = nullptr;
+		Widget *lastCheck = nullptr;
 
 	public:
-		friend UITreeListNode;
-		UITreeListNode *selected = nullptr;
+		friend TreeListNode;
+		TreeListNode *selected = nullptr;
 		bool drawLines = true;
 
 		virtual void render() override;
 
-		UITreeList (UIManager *manager) : UIElement (manager) {
+		TreeList (Manager *manager) : Widget (manager) {
 
 			this->manager = manager;
 			precompute();
 
 		}
 
-		inline void checkElement (UITreeListNode *el) {
+		inline void checkElement (TreeListNode *el) {
 
 			//assert (el->parent == this); TODO: Make method for check if el has child of this
 

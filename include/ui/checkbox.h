@@ -22,13 +22,13 @@
 
 #pragma once
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 
 #include "renderer/base_object.h"
 
 namespace ui {
-	class UICheckbox : public UIElement {
+	class Checkbox : public Widget {
 	protected:
 		std::unique_ptr<gapi::BaseObject> boxElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 		std::unique_ptr<gapi::BaseObject> focusElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
@@ -46,7 +46,7 @@ namespace ui {
 
 		virtual void mouseDown (int x, int y, int button) override;
 
-		UICheckbox (UIManager *manager) : UIElement (manager) {
+		Checkbox (Manager *manager) : Widget (manager) {
 
 			autoSize = true;
 			style = "checkbox";

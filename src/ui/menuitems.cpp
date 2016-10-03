@@ -23,12 +23,12 @@
 #include "ui/menuitems.h"
 #include "utility/renderer.h"
 
-void ui::UIMenuItem::render() {
+void ui::MenuItem::render() {
 
 	if (menu && menu->visible)
 		enter = true;
 
-	UIButton::render();
+	Button::render();
 
 	if (shortKey.size() != 0) {
 
@@ -41,7 +41,7 @@ void ui::UIMenuItem::render() {
 
 void ui::UITallMenuItem::render() {
 
-	UIButton::render();
+	Button::render();
 
 	int n  = 0; int tn = 0; int to = 0;
 	if (enter) { n = 3; tn = 1; to = 2; }

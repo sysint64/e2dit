@@ -25,7 +25,7 @@
 
 void ui::ColorDialog::onCreate() {
 
-	dialog = dynamic_cast<UIDialog*>(manager->findElement("colorDialog"));
+	dialog = dynamic_cast<Dialog*>(manager->findElement("colorDialog"));
 
 	colorPicker  = manager->findElement ("colorPicker");
 	colorLine    = manager->findElement ("colorLine");
@@ -34,36 +34,36 @@ void ui::ColorDialog::onCreate() {
 
 	// Text fields
 
-	fieldHSB_RGB[HSB_H]  =       (UIEdit*) manager->findElement ("eHSB_H");
-	fieldHSB_RGB[HSB_S]  =       (UIEdit*) manager->findElement ("eHSB_S");
-	fieldHSB_RGB[HSB_B]  =       (UIEdit*) manager->findElement ("eHSB_B");
+	fieldHSB_RGB[HSB_H]  =       (Edit*) manager->findElement ("eHSB_H");
+	fieldHSB_RGB[HSB_S]  =       (Edit*) manager->findElement ("eHSB_S");
+	fieldHSB_RGB[HSB_B]  =       (Edit*) manager->findElement ("eHSB_B");
 
-	fieldHSB_RGB[RGB_R]  =       (UIEdit*) manager->findElement ("eRGB_R");
-	fieldHSB_RGB[RGB_G]  =       (UIEdit*) manager->findElement ("eRGB_G");
-	fieldHSB_RGB[RGB_B]  =       (UIEdit*) manager->findElement ("eRGB_B");
+	fieldHSB_RGB[RGB_R]  =       (Edit*) manager->findElement ("eRGB_R");
+	fieldHSB_RGB[RGB_G]  =       (Edit*) manager->findElement ("eRGB_G");
+	fieldHSB_RGB[RGB_B]  =       (Edit*) manager->findElement ("eRGB_B");
 
 	// Buttons
 
-	buttonHSB_RGB[HSB_H] =     (UIButton*) manager->findElement ("bHSB_H");
-	buttonHSB_RGB[HSB_S] =     (UIButton*) manager->findElement ("bHSB_S");
-	buttonHSB_RGB[HSB_B] =     (UIButton*) manager->findElement ("bHSB_B");
+	buttonHSB_RGB[HSB_H] =     (Button*) manager->findElement ("bHSB_H");
+	buttonHSB_RGB[HSB_S] =     (Button*) manager->findElement ("bHSB_S");
+	buttonHSB_RGB[HSB_B] =     (Button*) manager->findElement ("bHSB_B");
 
-	buttonHSB_RGB[RGB_R] =     (UIButton*) manager->findElement ("bRGB_R");
-	buttonHSB_RGB[RGB_G] =     (UIButton*) manager->findElement ("bRGB_G");
-	buttonHSB_RGB[RGB_B] =     (UIButton*) manager->findElement ("bRGB_B");
+	buttonHSB_RGB[RGB_R] =     (Button*) manager->findElement ("bRGB_R");
+	buttonHSB_RGB[RGB_G] =     (Button*) manager->findElement ("bRGB_G");
+	buttonHSB_RGB[RGB_B] =     (Button*) manager->findElement ("bRGB_B");
 
-	fieldAlpha           =       (UIEdit*) manager->findElement ("alpha");
-	fieldHEX             =       (UIEdit*) manager->findElement ("HEX");
+	fieldAlpha           =       (Edit*) manager->findElement ("alpha");
+	fieldHEX             =       (Edit*) manager->findElement ("HEX");
 
 	// Grouped
 
-	groupedHSB           =    (UIGrouped*) manager->findElement ("gHSB");
-	groupedRGB           =    (UIGrouped*) manager->findElement ("gRGB");
+	groupedHSB           =    (Grouped*) manager->findElement ("gHSB");
+	groupedRGB           =    (Grouped*) manager->findElement ("gRGB");
 
 	// Color
 
-	newColor             = (UIColorPanel*) manager->findElement ("newColor");
-	oldColor             = (UIColorPanel*) manager->findElement ("oldColor");
+	newColor             = (ColorPanel*) manager->findElement ("newColor");
+	oldColor             = (ColorPanel*) manager->findElement ("oldColor");
 
 	// Settings
 
@@ -73,20 +73,20 @@ void ui::ColorDialog::onCreate() {
 	lastCursorPickerLeft = cursorPicker->left;
 	lastCursorPickerTop  = cursorPicker->top;
 
-	UIElement *lastColorsPanel = manager->findElement ("lastColorsPanel");
+	Widget *lastColorsPanel = manager->findElement ("lastColorsPanel");
 
 	// create lastColors
 	for (int i = 0; i < 7; ++i) {
-		std::unique_ptr<UIColorPanel> borderBlack;
-		std::unique_ptr<UIColorPanel> borderWhite;
-		std::unique_ptr<UIColorPanel> colorPanel;
+		std::unique_ptr<ColorPanel> borderBlack;
+		std::unique_ptr<ColorPanel> borderWhite;
+		std::unique_ptr<ColorPanel> colorPanel;
 
-		borderBlack = UIColorPanel::createInstance (this->manager, 28, 28, 32*i, 0, 0, 0, 0, 1.f);
-		borderWhite = UIColorPanel::createInstance (this->manager, 26, 26, 1+32*i, 1, 1.f, 1.f, 1.f, 1.f);
-		colorPanel  = UIColorPanel::createInstance (this->manager, 24, 24, 2+32*i, 2, 0.f, 0.5f, 0.9f, 1.f);
+		borderBlack = ColorPanel::createInstance (this->manager, 28, 28, 32*i, 0, 0, 0, 0, 1.f);
+		borderWhite = ColorPanel::createInstance (this->manager, 26, 26, 1+32*i, 1, 1.f, 1.f, 1.f, 1.f);
+		colorPanel  = ColorPanel::createInstance (this->manager, 24, 24, 2+32*i, 2, 0.f, 0.5f, 0.9f, 1.f);
 
-		colorPanel->onClick = [this](UIElement* el) {
-			color = dynamic_cast<UIColorPanel*>(el)->color;
+		colorPanel->onClick = [this](Widget* el) {
+			color = dynamic_cast<ColorPanel*>(el)->color;
 			RGB2HEX();
 			updateUI();
 			fieldsToCursor();
@@ -125,7 +125,7 @@ void ui::ColorDialog::bindEvents() {
 	// Text Fields
 	// HSB
 
-	fieldHSB_RGB[HSB_H]->onChange = [this](UIElement* el) {
+	fieldHSB_RGB[HSB_H]->onChange = [this](Widget* el) {
 		color.HSB.H = std::stoi(fieldHSB_RGB[HSB_H]->text);
 		color.HSB2RGB();
 
@@ -134,7 +134,7 @@ void ui::ColorDialog::bindEvents() {
 		fieldsToCursor();
 	};
 
-	fieldHSB_RGB[HSB_S]->onChange = [this](UIElement* el) {
+	fieldHSB_RGB[HSB_S]->onChange = [this](Widget* el) {
 		color.HSB.S = std::stoi(fieldHSB_RGB[HSB_S]->text);
 		color.HSB2RGB();
 
@@ -143,7 +143,7 @@ void ui::ColorDialog::bindEvents() {
 		fieldsToCursor();
 	};
 
-	fieldHSB_RGB[HSB_B]->onChange = [this](UIElement* el) {
+	fieldHSB_RGB[HSB_B]->onChange = [this](Widget* el) {
 		color.HSB.B = std::stoi(fieldHSB_RGB[HSB_B]->text);
 		color.HSB2RGB();
 
@@ -154,7 +154,7 @@ void ui::ColorDialog::bindEvents() {
 
 	// RGB
 
-	fieldHSB_RGB[RGB_R]->onChange = [this](UIElement* el) {
+	fieldHSB_RGB[RGB_R]->onChange = [this](Widget* el) {
 		color.RGB.R = std::stoi(fieldHSB_RGB[RGB_R]->text) / 255.f;
 		color.RGB2HSB();
 
@@ -163,7 +163,7 @@ void ui::ColorDialog::bindEvents() {
 		fieldsToCursor();
 	};
 
-	fieldHSB_RGB[RGB_G]->onChange = [this](UIElement* el) {
+	fieldHSB_RGB[RGB_G]->onChange = [this](Widget* el) {
 		color.RGB.G = std::stoi(fieldHSB_RGB[RGB_G]->text) / 255.f;
 		color.RGB2HSB();
 
@@ -172,7 +172,7 @@ void ui::ColorDialog::bindEvents() {
 		fieldsToCursor();
 	};
 
-	fieldHSB_RGB[RGB_B]->onChange = [this](UIElement* el) {
+	fieldHSB_RGB[RGB_B]->onChange = [this](Widget* el) {
 		color.RGB.B = std::stoi(fieldHSB_RGB[RGB_B]->text) / 255.f;
 		color.RGB2HSB();
 
@@ -183,7 +183,7 @@ void ui::ColorDialog::bindEvents() {
 
 	// HEX
 
-	fieldHEX->onChange = [this](UIElement* el) {
+	fieldHEX->onChange = [this](Widget* el) {
 		if (HEX2RGB (fieldHEX->text)) {
 			lastHEX = fieldHEX->text;
 			updateUI();
@@ -191,7 +191,7 @@ void ui::ColorDialog::bindEvents() {
 		}
 	};
 
-	fieldHEX->onBlur = [this](UIElement* el) {
+	fieldHEX->onBlur = [this](Widget* el) {
 		if (fieldHEX->text.length() == 3) {
 			std::wstring newText = L"";
 
@@ -209,7 +209,7 @@ void ui::ColorDialog::bindEvents() {
 
 	// Alpha
 
-	fieldAlpha->onChange = [this](UIElement* el) {
+	fieldAlpha->onChange = [this](Widget* el) {
 		color.alpha = std::stoi(fieldAlpha->text) / 100.f;
 		newColor->color = color;
 	};
@@ -217,21 +217,21 @@ void ui::ColorDialog::bindEvents() {
 	// Buttons
 	// HSB
 
-	buttonHSB_RGB[HSB_H]->onClick = [this](UIElement* el) {
+	buttonHSB_RGB[HSB_H]->onClick = [this](Widget* el) {
 		colorPalette = HSB_H;
 		groupedRGB->uncheck();
 		norm = glm::vec3(100.f, 100.f, 360.f);
 		fieldsToCursor();
 	};
 
-	buttonHSB_RGB[HSB_S]->onClick = [this](UIElement* el) {
+	buttonHSB_RGB[HSB_S]->onClick = [this](Widget* el) {
 		colorPalette = HSB_S;
 		groupedRGB->uncheck();
 		norm = glm::vec3(360.f, 100.f, 100.f);
 		fieldsToCursor();
 	};
 
-	buttonHSB_RGB[HSB_B]->onClick = [this](UIElement* el) {
+	buttonHSB_RGB[HSB_B]->onClick = [this](Widget* el) {
 		colorPalette = HSB_B;
 		groupedRGB->uncheck();
 		norm = glm::vec3(360.f, 100.f, 100.f);
@@ -240,21 +240,21 @@ void ui::ColorDialog::bindEvents() {
 
 	// RGB
 
-	buttonHSB_RGB[RGB_R]->onClick = [this](UIElement* el) {
+	buttonHSB_RGB[RGB_R]->onClick = [this](Widget* el) {
 		colorPalette = RGB_R;
 		groupedHSB->uncheck();
 		norm = glm::vec3(1.f, 1.f, 1.f);
 		fieldsToCursor();
 	};
 
-	buttonHSB_RGB[RGB_G]->onClick = [this](UIElement* el) {
+	buttonHSB_RGB[RGB_G]->onClick = [this](Widget* el) {
 		colorPalette = RGB_G;
 		groupedHSB->uncheck();
 		norm = glm::vec3(1.f, 1.f, 1.f);
 		fieldsToCursor();
 	};
 
-	buttonHSB_RGB[RGB_B]->onClick = [this](UIElement* el) {
+	buttonHSB_RGB[RGB_B]->onClick = [this](Widget* el) {
 		colorPalette = RGB_B;
 		groupedHSB->uncheck();
 		norm = glm::vec3(1.f, 1.f, 1.f);

@@ -21,7 +21,7 @@ MapEditor *MapEditor::getInstance() {
 void MapEditor::initUI() {
 	std::unique_ptr<Pane> pane = std::make_unique<Pane>(uiManager);
 	pane->align = ui::Align::Client;
-	pane->onFocus = [this](ui::UIElement *el) { activePane = (ui::UIPanel*) el; };
+	pane->onFocus = [this](ui::Widget *el) { activePane = (ui::Panel*) el; };
 	rootPane = pane.get();
 	uiManager->addElement(std::move(pane));
 	activePane = rootPane;
@@ -29,7 +29,7 @@ void MapEditor::initUI() {
 
 void MapEditor::splitView(ui::Orientation orientation) {
 	std::unique_ptr<Pane> pane = std::make_unique<Pane>(uiManager, orientation);
-	pane->onFocus = [this](ui::UIElement *el) { activePane = (ui::UIPanel*) el; };
+	pane->onFocus = [this](ui::Widget *el) { activePane = (ui::Panel*) el; };
 	auto panePtr = pane.get();
 
 	assert(activePane != nullptr);

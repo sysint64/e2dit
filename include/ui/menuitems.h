@@ -29,14 +29,15 @@
 #include "renderer/texture.h"
 
 namespace ui {
-	class UIMenuItem : public UIButton {
+
+	class MenuItem : public Button {
 	public:
-		UIListMenu *menu = nullptr;
+		ListMenu *menu = nullptr;
 		std::wstring shortKey;
 
 		virtual void render() override;
 
-		inline void setMenu (std::unique_ptr<UIListMenu> m) {
+		inline void setMenu (std::unique_ptr<ListMenu> m) {
 
 			menu = m.get();
 			menu->visible = false;
@@ -44,20 +45,20 @@ namespace ui {
 
 		}
 
-		virtual void addElement (std::unique_ptr<UIElement> el) override {
-			menu = dynamic_cast<UIListMenu*>(el.get());
+		virtual void addElement (std::unique_ptr<Widget> el) override {
+			menu = dynamic_cast<ListMenu*>(el.get());
 
 			if (menu) {
 				menu->visible = false;
 				manager->overlayElements.push_back(menu);
-				UIElement::addElement (std::move(el));
+				Widget::addElement (std::move(el));
 			} else {
-				UIElement::addElement (std::move(el));
+				Widget::addElement (std::move(el));
 			}
 
 		}
 
-		UIMenuItem (UIManager *manager) : UIButton (manager) {
+		MenuItem (Manager *manager) : Button (manager) {
 
 			this->manager = manager;
 
@@ -74,7 +75,7 @@ namespace ui {
 
 	};
 
-	class UITallMenuItem : public UIButton {
+	class UITallMenuItem : public Button {
 	private:
 		float descColors[6];
 		std::unique_ptr<gapi::BaseObject> maskElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
@@ -90,7 +91,7 @@ namespace ui {
 			texture = std::make_unique<gapi::Texture> (fileName.c_str());
 		}
 
-		UITallMenuItem (UIManager *manager) : UIButton (manager) {
+		UITallMenuItem (Manager *manager) : Button (manager) {
 
 			this->manager = manager;
 
@@ -107,10 +108,11 @@ namespace ui {
 
 	};
 
-	class UIMenuHr : public UIElement {
+	class UIMenuHr : public Widget {
 	public:
-		UIMenuHr (UIManager *manager) : UIElement (manager) {
+		UIMenuHr (Manager *manager) : Widget (manager) {
 			this->manager = manager;
 		}
 	};
+
 };

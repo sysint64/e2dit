@@ -27,7 +27,7 @@
 
 /* List Menu */
 
-void ui::UIListMenu::render() {
+void ui::ListMenu::render() {
 
 	if (allowAlign)
 		updateAlign();
@@ -41,7 +41,7 @@ void ui::UIListMenu::render() {
 
 	for (const auto &kvp : elements) {
 
-		UIElement *el = kvp.second.get();
+		Widget *el = kvp.second.get();
 
 		if (dynamic_cast<UIMenuHr*>(el)) {
 
@@ -67,7 +67,7 @@ void ui::UIListMenu::render() {
 		ey += el->height+1;
 		el->render();
 
-		UIMenuItem *item = dynamic_cast<UIMenuItem*>(el);
+		MenuItem *item = dynamic_cast<MenuItem*>(el);
 
 		if (!item)
 			continue;
@@ -117,13 +117,13 @@ void ui::UIListMenu::render() {
 
 }
 
-void ui::UIListMenu::mouseDown (int x, int y, int button) {
+void ui::ListMenu::mouseDown (int x, int y, int button) {
 
 	closeSubMenus();
 
 	for (const auto &kvp : elements) {
 
-		UIElement *el = kvp.second.get();
+		Widget *el = kvp.second.get();
 		el->mouseDown (x, y, button);
 
 		if (!checkList) return;

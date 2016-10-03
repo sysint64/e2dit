@@ -23,7 +23,7 @@
 #include "ui/toolbar.h"
 #include "utility/renderer.h"
 
-void ui::UIToolbar::precompute() {
+void ui::Toolbar::precompute() {
 
 	precomputeElement (0, style, "background");
 
@@ -34,7 +34,7 @@ void ui::UIToolbar::precompute() {
 
 }
 
-void ui::UIToolbarItem::precompute() {
+void ui::ToolbarItem::precompute() {
 
 	precomputeText (0, style+leaveElement);
 	precomputeText (1, style+enterElement);
@@ -46,7 +46,7 @@ void ui::UIToolbarItem::precompute() {
 
 }
 
-void ui::UIToolbarSplit::precompute() {
+void ui::ToolbarSplit::precompute() {
 
 	precomputeElement (0, style, "split");
 	width = iWidths[0]+10;

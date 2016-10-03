@@ -45,7 +45,7 @@ Core::Core (sf::Window *window) {
 	this->window = window;
 	app->screenCamera = std::make_unique<gapi::Camera>(app->screenWidth, app->screenHeight);
 
-	//uiManager = std::make_shared<UIManager>();
+	//uiManager = std::make_shared<Manager>();
 	auto font12 = ftglCreateTextureFont ((app->resPath+"/fonts/ttf-dejavu/DejaVuSans.ttf").c_str());
 	auto font14 = ftglCreateTextureFont ((app->resPath+"/fonts/ttf-dejavu/DejaVuSans.ttf").c_str());
 	auto font16 = ftglCreateTextureFont ((app->resPath+"/fonts/ttf-dejavu/DejaVuSans.ttf").c_str());
@@ -62,7 +62,7 @@ Core::Core (sf::Window *window) {
 	R::init (app);
 
 	//skin    = std::make_unique<Texture> (app->resPath+"/ui/skins/light/controls.png");
-	uiTheme = std::make_unique<ui::UITheme> (app->resPath+"/ui/skins/light/controls.e2t", DataMap::ReadType::Text, R::Textures::skin.get(), font12);
+	uiTheme = std::make_unique<ui::Theme> (app->resPath+"/ui/skins/light/controls.e2t", DataMap::ReadType::Text, R::Textures::skin.get(), font12);
 	uiTheme->fontHeight   = 12;
 	uiTheme->font12Height = 12;
 	uiTheme->font14Height = 14;
@@ -77,7 +77,7 @@ Core::Core (sf::Window *window) {
 	uiManager->atlasShader     = R::Shaders::atlasShader    .get();
 	uiManager->atlasMaskShader = R::Shaders::atlasMaskShader.get();
 	uiManager->colorShader     = R::Shaders::colorShader    .get();
-//	uiManager   = std::make_unique<UIManager> (window,
+//	uiManager   = std::make_unique<Manager> (window,
 //	                                           R::Shaders::atlasMaskShader.get(),
 //	                                           R::Shaders::atlasShader    .get(),
 //	                                           R::Shaders::colorShader    .get(),
@@ -97,7 +97,7 @@ Core::Core (sf::Window *window) {
 	stringsRes->addResource (app->resPath+"/strings/en/menu.e2t");
 	stringsRes->addResource (app->resPath+"/strings/en/dialogs/color_dialog.e2t");
 
-	std::unique_ptr<ui::UILoader> loader = std::make_unique<ui::UILoader> (uiManager, stringsRes.get(), "test.e2t");
+	std::unique_ptr<ui::Loader> loader = std::make_unique<ui::Loader> (uiManager, stringsRes.get(), "test.e2t");
 	colorDialog = std::make_unique<ui::ColorDialog> (uiManager, stringsRes.get(), "dialogs/color_dialog.e2t");
 
 	//
@@ -114,25 +114,25 @@ Core::Core (sf::Window *window) {
 
 	/*
 
-	std::unique_ptr<UICheckbox> cb1 = std::make_unique<UICheckbox> (uiManager.get());
+	std::unique_ptr<Checkbox> cb1 = std::make_unique<Checkbox> (uiManager.get());
 	cb1->top = 100;
 	cb1->left = 50;
 
 	//
 
-	std::unique_ptr<UITab> tab = std::make_unique<UITab>(uiManager.get());
+	std::unique_ptr<Tab> tab = std::make_unique<Tab>(uiManager.get());
 	tab->caption = L"Tab 1";
 	tab->width = 80;
 
-	std::unique_ptr<UITab> tab3 = std::make_unique<UITab>(uiManager.get());
+	std::unique_ptr<Tab> tab3 = std::make_unique<Tab>(uiManager.get());
 	tab3->caption = L"Tab 3";
 	tab3->width = 80;
 
-	std::unique_ptr<UITab> tab2 = std::make_unique<UITab>(uiManager.get());
+	std::unique_ptr<Tab> tab2 = std::make_unique<Tab>(uiManager.get());
 	tab2->caption = L"Tab 2";
 	tab2->width = 80;
 
-	std::unique_ptr<UIGrouped> tabs = std::make_unique<UIGrouped> (uiManager.get(), false, 2);
+	std::unique_ptr<Grouped> tabs = std::make_unique<Grouped> (uiManager.get(), false, 2);
 	auto _tabs = tabs.get();
 
 	_tabs->left = 5;
@@ -153,20 +153,20 @@ Core::Core (sf::Window *window) {
 
 	_tabs->checkElement (_tab);
 
-	/*std::unique_ptr<UIImage> image1 = std::make_unique<UIImage> (uiManager.get());
+	/*std::unique_ptr<Image> image1 = std::make_unique<Image> (uiManager.get());
 	image1->left = 250;
 	image1->top  = 150;
 	image1->loadImage ("../set.png");
 	image1->cropImage (16, 290, 350, 258);
 	_p3->addElement (std::move(image1));*/
 
-	/*std::unique_ptr<UILabel> label1 = std::make_unique<UILabel> (uiManager.get());
+	/*std::unique_ptr<Label> label1 = std::make_unique<Label> (uiManager.get());
 	label1->left = 10;
 	label1->top  = 40;
 	label1->caption = L"Hello World!";
 	_p3->addElement (std::move(label1));
 
-	std::unique_ptr<UIDialog> dialog = std::make_unique<UIDialog> (uiManager.get());
+	std::unique_ptr<Dialog> dialog = std::make_unique<Dialog> (uiManager.get());
 
 	dialog->left   = 100;
 	dialog->top    = 100;

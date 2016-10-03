@@ -4,10 +4,10 @@
 #include <ui/panel.h>
 #include <ui/all.h>
 
-class Pane : public ui::UIPanel {
+class Pane : public ui::Panel {
 private:
 	void initParams() {
-		background = ui::UIPanel::Background::Transparent;
+		background = ui::Panel::Background::Transparent;
 		blackSplit = true;
 		showSplit = true;
 		allowResize = true;
@@ -18,11 +18,11 @@ public:
 	ui::Orientation orientation;
 	float percent = 50.f;
 
-	Pane(ui::UIManager *manager) : ui::UIPanel(manager) {
+	Pane(ui::Manager *manager) : ui::Panel(manager) {
 		initParams();
 	}
 
-	Pane(ui::UIManager *manager, ui::Orientation orientation) : ui::UIPanel(manager) {
+	Pane(ui::Manager *manager, ui::Orientation orientation) : ui::Panel(manager) {
 		initParams();
 		this->orientation = orientation;
 
@@ -85,6 +85,6 @@ public:
 			calcSize();
 		}
 
-		ui::UIPanel::render();
+		ui::Panel::render();
 	}
 };

@@ -42,14 +42,14 @@ namespace ui {
 	using namespace boost::assign;
 	enum class Align {None, Left, Center, Right, Client, Bottom, Top, Middle, All, ParentWidth, ParentHeight};
 
-	class UIManager;
-	class UIPanel;
-	class UIButton;
-	class UITreeListNode;
-	class UITreeList;
-	class UIStackLayout;
+	class Manager;
+	class Panel;
+	class Button;
+	class TreeListNode;
+	class TreeList;
+	class StackLayout;
 
-	class UIElement {
+	class Widget {
 	protected:
 		Application *app = Application::getInstance();
 
@@ -68,11 +68,11 @@ namespace ui {
 
 		/* Navigation (for focus) */
 
-		UIElement *next = nullptr;
-		UIElement *prev = nullptr;
+		Widget *next = nullptr;
+		Widget *prev = nullptr;
 
-		UIElement *lastEl  = nullptr;
-		UIElement *firstEl = nullptr;
+		Widget *lastEl  = nullptr;
+		Widget *firstEl = nullptr;
 
 		int wrapperWidth, wrapperHeight;
 		int wrapperWidthClamped, wrapperHeightClamped;
@@ -166,11 +166,11 @@ namespace ui {
 
 	public:
 
-		friend UIManager;
-		friend UIPanel;
-		friend UITreeListNode;
-		friend UITreeList;
-		friend UIStackLayout;
+		friend Manager;
+		friend Panel;
+		friend TreeListNode;
+		friend TreeList;
+		friend StackLayout;
 
 		std::vector<void*> metaData;  ///< Extended data
 
@@ -222,8 +222,8 @@ namespace ui {
 		bool withoutSkin = false; ///< No draw skin element if true
 		bool allowScroll = false;
 
-		UIElement *parent  = nullptr; ///< Parent element
-		UIManager *manager = nullptr; ///< Elements manager
+		Widget *parent  = nullptr; ///< Parent element
+		Manager *manager = nullptr; ///< Elements manager
 
 		CursorIco cursor    = CursorIco::Normal; ///< System cursor icon
 		Align drawAlign     = Align::All;        ///< Skin draw align: Left [-]; Center -; Right ->; All <->
@@ -234,17 +234,17 @@ namespace ui {
 
 		/* Functors: Callback Events */
 
-		std::function<void(UIElement*)>                onClick      = nullptr;
-		std::function<void(UIElement*)>                onProgress   = nullptr;
-		std::function<void(UIElement*)>                onFocus      = nullptr;
-		std::function<void(UIElement*)>                onBlur       = nullptr;
-		std::function<void(UIElement*, int)>           onKeyPressed = nullptr;
-		std::function<void(UIElement*, int, int, int)> onMouseDown  = nullptr;
-		std::function<void(UIElement*, int, int, int)> onDblClick   = nullptr;
+		std::function<void(Widget*)>                onClick      = nullptr;
+		std::function<void(Widget*)>                onProgress   = nullptr;
+		std::function<void(Widget*)>                onFocus      = nullptr;
+		std::function<void(Widget*)>                onBlur       = nullptr;
+		std::function<void(Widget*, int)>           onKeyPressed = nullptr;
+		std::function<void(Widget*, int, int, int)> onMouseDown  = nullptr;
+		std::function<void(Widget*, int, int, int)> onDblClick   = nullptr;
 
 		/* Childrens */
 
-		std::map<int, std::unique_ptr<UIElement>> elements;
+		std::map<int, std::unique_ptr<Widget>> elements;
 
 		inline bool isEnter()   { return enter;   }
 		inline bool isLeave()   { return leave;   }
@@ -254,7 +254,7 @@ namespace ui {
 
 		/* Methods */
 
-		UIElement (UIManager *manager) {
+		Widget (Manager *manager) {
 
 			this->manager = manager;
 			precompute();
@@ -272,7 +272,7 @@ namespace ui {
 			return allowScroll && scrollElementHeight != 0 && scrollY > 0 && scrollY < maxScrollY();
 		}
 
-		virtual ~UIElement() {}
+		virtual ~Widget() {}
 
 		virtual void focus();
 		virtual void unfocus();
@@ -293,13 +293,13 @@ namespace ui {
 
 		/* Manage Elements */
 
-		virtual void addElement    (std::unique_ptr<UIElement> el);
-		virtual void deleteElement (std::unique_ptr<UIElement> el);
+		virtual void addElement    (std::unique_ptr<Widget> el);
+		virtual void deleteElement (std::unique_ptr<Widget> el);
 		virtual void deleteElement (const int id);
 
-		UIElement *findElement (const std::string &name);
-		UIElement *getElement  (const int id);
-		std::unique_ptr<UIElement> takeElement (const int id);
+		Widget *findElement (const std::string &name);
+		Widget *getElement  (const int id);
+		std::unique_ptr<Widget> takeElement (const int id);
 
 		/* Manager Elements Events */
 
@@ -322,16 +322,16 @@ namespace ui {
 
 	};
 
-	class UICheckedElements : public UIElement {
+	class UICheckedElements : public Widget {
 	protected:
-		UIElement *lastSelected = nullptr;
+		Widget *lastSelected = nullptr;
 
 	public:
 
-		friend UIButton;
+		friend Button;
 		bool multiSelect = false;
 
-		inline void checkElement (UIElement* el) {
+		inline void checkElement (Widget* el) {
 
 			if (el->parent != this)
 				return;
@@ -371,7 +371,7 @@ namespace ui {
 
 		}
 
-		UICheckedElements (UIManager *manager) : UIElement (manager) {
+		UICheckedElements (Manager *manager) : Widget (manager) {
 
 			this->manager = manager;
 			precompute();

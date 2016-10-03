@@ -23,7 +23,7 @@
 #include "ui/tooltip.h"
 #include "utility/math.h"
 
-void ui::UITooltip::render() {
+void ui::Tooltip::render() {
 
 	if (hidden && math::feq<float>(alpha, 0.f, 0.01f))
 		return;

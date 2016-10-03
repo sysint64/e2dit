@@ -22,7 +22,7 @@
 
 #include "ui/dialog.h"
 
-void ui::UIDialog::precompute() {
+void ui::Dialog::precompute() {
 
 	/* Top */
 

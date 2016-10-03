@@ -22,7 +22,7 @@
 
 #include "ui/colorpanel.h"
 
-void ui::UIColorPanel::render() {
+void ui::ColorPanel::render() {
 
 	updateAbsPos();
 
@@ -47,7 +47,7 @@ void ui::UIColorPanel::render() {
 
 }
 
-void ui::UIColorPanel::mouseUp (int x, int y, int button) {
+void ui::ColorPanel::mouseUp (int x, int y, int button) {
 	if (onClick != nullptr)
 		onClick (this);
 }

@@ -25,7 +25,7 @@
 #include "resources.h"
 
 
-void ui::UILoader::placeElements (DataMap::DataNode *rootNode, UIElement *uiParent) {
+void ui::Loader::placeElements (DataMap::DataNode *rootNode, Widget *uiParent) {
 
 	for (const auto &it : rootNode->childs) {
 
@@ -36,7 +36,7 @@ void ui::UILoader::placeElements (DataMap::DataNode *rootNode, UIElement *uiPare
 
 		auto elPtr = el.get();
 
-		auto grouped = dynamic_cast<UIGrouped*> (uiParent);
+		auto grouped = dynamic_cast<Grouped*> (uiParent);
 
 		if (grouped)
 			grouped->autoCheck();
@@ -49,7 +49,7 @@ void ui::UILoader::placeElements (DataMap::DataNode *rootNode, UIElement *uiPare
 }
 
 
-std::array<int, 4> ui::UILoader::readRect (DataMap::DataNode *elementNode, const std::string &paramName, const bool autoFill) {
+std::array<int, 4> ui::Loader::readRect (DataMap::DataNode *elementNode, const std::string &paramName, const bool autoFill) {
 
 	auto end = elementNode->params.end();
 
@@ -112,7 +112,7 @@ std::array<int, 4> ui::UILoader::readRect (DataMap::DataNode *elementNode, const
 }
 
 
-ui::Align ui::UILoader::readAlign (DataMap::DataNode *elementNode, const std::string &paramName) {
+ui::Align ui::Loader::readAlign (DataMap::DataNode *elementNode, const std::string &paramName) {
 
 	auto end   = elementNode->params.end();
 	auto align = elementNode->params.find (paramName);
@@ -140,7 +140,7 @@ ui::Align ui::UILoader::readAlign (DataMap::DataNode *elementNode, const std::st
 }
 
 
-std::wstring ui::UILoader::readUString (DataMap::DataNode *elementNode, const std::string &paramName, const std::wstring &defaultVal) {
+std::wstring ui::Loader::readUString (DataMap::DataNode *elementNode, const std::string &paramName, const std::wstring &defaultVal) {
 	auto ustring = elementNode->params.find (paramName);
 	auto end     = elementNode->params.end();
 
@@ -151,7 +151,7 @@ std::wstring ui::UILoader::readUString (DataMap::DataNode *elementNode, const st
 }
 
 
-std::string ui::UILoader::readString (DataMap::DataNode *elementNode, const std::string &paramName, const std::string &defaultVal) {
+std::string ui::Loader::readString (DataMap::DataNode *elementNode, const std::string &paramName, const std::string &defaultVal) {
 	auto val = elementNode->params.find (paramName);
 	auto end = elementNode->params.end();
 
@@ -162,7 +162,7 @@ std::string ui::UILoader::readString (DataMap::DataNode *elementNode, const std:
 }
 
 
-int ui::UILoader::readInt (DataMap::DataNode *elementNode, const std::string &paramName, const int defaultVal) {
+int ui::Loader::readInt (DataMap::DataNode *elementNode, const std::string &paramName, const int defaultVal) {
 	auto val = elementNode->params.find (paramName);
 	auto end = elementNode->params.end();
 
@@ -173,7 +173,7 @@ int ui::UILoader::readInt (DataMap::DataNode *elementNode, const std::string &pa
 }
 
 
-float ui::UILoader::readFloat (DataMap::DataNode *elementNode, const std::string &paramName, const float defaultVal) {
+float ui::Loader::readFloat (DataMap::DataNode *elementNode, const std::string &paramName, const float defaultVal) {
 	auto val = elementNode->params.find (paramName);
 	auto end = elementNode->params.end();
 
@@ -184,7 +184,7 @@ float ui::UILoader::readFloat (DataMap::DataNode *elementNode, const std::string
 }
 
 
-bool ui::UILoader::readBool (DataMap::DataNode *elementNode, const std::string &paramName, const bool defaultVal) {
+bool ui::Loader::readBool (DataMap::DataNode *elementNode, const std::string &paramName, const bool defaultVal) {
 	auto val = elementNode->params.find (paramName);
 	auto end = elementNode->params.end();
 
@@ -195,7 +195,7 @@ bool ui::UILoader::readBool (DataMap::DataNode *elementNode, const std::string &
 }
 
 
-void ui::UILoader::readIcon (UIButton *element, DataMap::DataNode *elementNode) {
+void ui::Loader::readIcon (Button *element, DataMap::DataNode *elementNode) {
 
 	auto showIcon    = elementNode->params.find ("showicon");
 	auto showIcon2   = elementNode->params.find ("showicon2");
@@ -221,7 +221,7 @@ void ui::UILoader::readIcon (UIButton *element, DataMap::DataNode *elementNode) 
 }
 
 
-gapi::Color ui::UILoader::readColor (DataMap::DataNode *elementNode, const std::string &paramName) {
+gapi::Color ui::Loader::readColor (DataMap::DataNode *elementNode, const std::string &paramName) {
 
 	float c[4] = {0.f, 0.f, 0.f, 1.f};
 
@@ -244,9 +244,9 @@ gapi::Color ui::UILoader::readColor (DataMap::DataNode *elementNode, const std::
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createElement (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createElement (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = nullptr;
+	std::unique_ptr<Widget> element = nullptr;
 
 	if (elementNode->name == "panel" )       element = createPanel        (elementNode); else
 	if (elementNode->name == "stacklayout")  element = createStackLayout  (elementNode); else
@@ -320,17 +320,17 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createElement (DataMap::DataNode *e
 	element->paddingBottom = paddingRect[2]; element->paddingLeft  = paddingRect[3];
 
 	if (elementNode->name == "colorpanel")
-		dynamic_cast<UIColorPanel*>(element.get())->update();
+		dynamic_cast<ColorPanel*>(element.get())->update();
 
 	return element;
 
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createPanel (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createPanel (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIPanel> (manager);
-	auto panel = dynamic_cast<UIPanel*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<Panel> (manager);
+	auto panel = dynamic_cast<Panel*>(element.get());
 
 	auto background  = elementNode->params.find ("background");
 	auto end         = elementNode->params.end();
@@ -346,16 +346,16 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createPanel (DataMap::DataNode *ele
 	if (background != end) {
 
 		if (background->second[0].str == "transparent")
-			panel->background = UIPanel::Background::Transparent;
+			panel->background = Panel::Background::Transparent;
 
 		if (background->second[0].str == "light")
-			panel->background = UIPanel::Background::Light;
+			panel->background = Panel::Background::Light;
 
 		if (background->second[0].str == "dark")
-			panel->background = UIPanel::Background::Dark;
+			panel->background = Panel::Background::Dark;
 
 		if (background->second[0].str == "action")
-			panel->background = UIPanel::Background::Action;
+			panel->background = Panel::Background::Action;
 
 	}
 
@@ -364,10 +364,10 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createPanel (DataMap::DataNode *ele
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createImage (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createImage (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIImage> (manager);
-	auto image = dynamic_cast<UIImage*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<Image> (manager);
+	auto image = dynamic_cast<Image*>(element.get());
 	auto src = readString(elementNode, "src");
 
 	if (src == "")
@@ -384,10 +384,10 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createImage (DataMap::DataNode *ele
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createStackLayout (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createStackLayout (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIStackLayout> (manager);
-	auto layout = dynamic_cast<UIStackLayout*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<StackLayout> (manager);
+	auto layout = dynamic_cast<StackLayout*>(element.get());
 
 	auto orient = elementNode->params.find ("orientation");
 	auto end    = elementNode->params.end();
@@ -402,12 +402,12 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createStackLayout (DataMap::DataNod
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createButton (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createButton (DataMap::DataNode *elementNode) {
 
 	bool allowCheck = readBool (elementNode, "allowcheck");
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIButton> (manager, allowCheck);
-	auto button = dynamic_cast<UIButton*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<Button> (manager, allowCheck);
+	auto button = dynamic_cast<Button*>(element.get());
 
 	button->caption   = readUString (elementNode, "caption");
 	button->textAlign = readAlign   (elementNode, "textalign");
@@ -422,10 +422,10 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createButton (DataMap::DataNode *el
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createLabel (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createLabel (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UILabel> (manager);
-	auto label = dynamic_cast<UILabel*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<Label> (manager);
+	auto label = dynamic_cast<Label*>(element.get());
 
 	label->caption   = readUString (elementNode, "caption");
 	label->textAlign = readAlign   (elementNode, "textalign");
@@ -435,10 +435,10 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createLabel (DataMap::DataNode *ele
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createEdit (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createEdit (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIEdit> (manager);
-	auto edit = dynamic_cast<UIEdit*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<Edit> (manager);
+	auto edit = dynamic_cast<Edit*>(element.get());
 
 	edit->text   = readUString (elementNode, "text");
 	edit->before = readUString (elementNode, "before");
@@ -449,21 +449,21 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createEdit (DataMap::DataNode *elem
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createGrouped (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createGrouped (DataMap::DataNode *elementNode) {
 
 	bool multiSelect = readBool (elementNode, "multiselect");
 	int  spacing     = readInt  (elementNode, "spacing");
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIGrouped> (manager, multiSelect, spacing);
+	std::unique_ptr<Widget> element = std::make_unique<Grouped> (manager, multiSelect, spacing);
 	return element;
 
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createToolbar (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createToolbar (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIToolbar> (manager);
-	UIToolbar *toolbar = dynamic_cast<UIToolbar*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<Toolbar> (manager);
+	Toolbar *toolbar = dynamic_cast<Toolbar*>(element.get());
 	toolbar->tabsOffset = readInt(elementNode, "tabsoffset", 20);
 	this->toolbar = toolbar;
 	return element;
@@ -471,10 +471,10 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createToolbar (DataMap::DataNode *e
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createToolbarTab (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createToolbarTab (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIToolbarTab> (manager);
-	auto toolbarTab = dynamic_cast<UIToolbarTab*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<ToolbarTab> (manager);
+	auto toolbarTab = dynamic_cast<ToolbarTab*>(element.get());
 
 	toolbarTab->caption = readUString (elementNode, "caption");
 	toolbarTab->parent = toolbar;
@@ -490,10 +490,10 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createToolbarTab (DataMap::DataNode
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createToolbarItem (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createToolbarItem (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIToolbarItem> (manager);
-	auto toolbarItem = dynamic_cast<UIToolbarItem*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<ToolbarItem> (manager);
+	auto toolbarItem = dynamic_cast<ToolbarItem*>(element.get());
 
 	toolbarItem->caption = readUString (elementNode, "caption");
 
@@ -510,7 +510,7 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createToolbarItem (DataMap::DataNod
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createColorPanel (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createColorPanel (DataMap::DataNode *elementNode) {
 
 	gapi::Texture *gridTexture = R::Textures::gridLight.get();
 
@@ -523,8 +523,8 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createColorPanel (DataMap::DataNode
 		if (grid->second[0].str == "none" ) gridTexture = nullptr;
 	}
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIColorPanel> (manager, gridTexture);
-	auto colorPanel = dynamic_cast<UIColorPanel*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<ColorPanel> (manager, gridTexture);
+	auto colorPanel = dynamic_cast<ColorPanel*>(element.get());
 
 	colorPanel->color = readColor (elementNode, "color");
 	return element;
@@ -532,10 +532,10 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createColorPanel (DataMap::DataNode
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createDialog (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createDialog (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIDialog> (manager);
-	auto dialog = dynamic_cast<UIDialog*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<Dialog> (manager);
+	auto dialog = dynamic_cast<Dialog*>(element.get());
 	dialog->caption = readUString (elementNode, "caption");
 
 	return element;
@@ -543,10 +543,10 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createDialog (DataMap::DataNode *el
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createTreeList (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createTreeList (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UITreeList> (manager);
-	auto treeList = dynamic_cast<UITreeList*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<TreeList> (manager);
+	auto treeList = dynamic_cast<TreeList*>(element.get());
 	this->treeList = treeList;
 
 	return element;
@@ -554,13 +554,13 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createTreeList (DataMap::DataNode *
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createTreeListNode (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createTreeListNode (DataMap::DataNode *elementNode) {
 
 	if (treeList == nullptr)
 		return nullptr;
 
-	std::unique_ptr<UIElement> element = std::make_unique<UITreeListNode> (manager, treeList);
-	auto listNode = dynamic_cast<UITreeListNode*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<TreeListNode> (manager, treeList);
+	auto listNode = dynamic_cast<TreeListNode*>(element.get());
 
 	listNode->caption   = readUString (elementNode, "caption");
 	listNode->allowHide = readBool    (elementNode, "allowhide", true);
@@ -571,10 +571,10 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createTreeListNode (DataMap::DataNo
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createListMenu (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createListMenu (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIListMenu> (manager);
-	auto listMenu = dynamic_cast<UIListMenu*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<ListMenu> (manager);
+	auto listMenu = dynamic_cast<ListMenu*>(element.get());
 
 	listMenu->transparent = readBool (elementNode, "transparent");
 	listMenu->popup       = readBool (elementNode, "popup");
@@ -585,11 +585,11 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createListMenu (DataMap::DataNode *
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createDropMenu (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createDropMenu (DataMap::DataNode *elementNode) {
 
 	bool flat = readBool(elementNode, "flat");
-	std::unique_ptr<UIElement> element = std::make_unique<UIDropMenu> (manager, flat);
-	auto listMenu = dynamic_cast<UIDropMenu*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<DropMenu> (manager, flat);
+	auto listMenu = dynamic_cast<DropMenu*>(element.get());
 
 	listMenu->caption = readUString (elementNode, "caption");
 
@@ -598,10 +598,10 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createDropMenu (DataMap::DataNode *
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createMenuItem (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createMenuItem (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UIMenuItem> (manager);
-	auto menuItem = dynamic_cast<UIMenuItem*>(element.get());
+	std::unique_ptr<Widget> element = std::make_unique<MenuItem> (manager);
+	auto menuItem = dynamic_cast<MenuItem*>(element.get());
 
 	menuItem->caption   = readUString (elementNode, "caption");
 	menuItem->shortKey  = readUString (elementNode, "shortkey");
@@ -616,15 +616,15 @@ std::unique_ptr<ui::UIElement> ui::UILoader::createMenuItem (DataMap::DataNode *
 }
 
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createMenuHr (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createMenuHr (DataMap::DataNode *elementNode) {
 
 	return std::make_unique<UIMenuHr> (manager);
 
 }
 
-std::unique_ptr<ui::UIElement> ui::UILoader::createTallMenuItem (DataMap::DataNode *elementNode) {
+std::unique_ptr<ui::Widget> ui::Loader::createTallMenuItem (DataMap::DataNode *elementNode) {
 
-	std::unique_ptr<UIElement> element = std::make_unique<UITallMenuItem> (manager);
+	std::unique_ptr<Widget> element = std::make_unique<UITallMenuItem> (manager);
 	auto menuItem = dynamic_cast<UITallMenuItem*>(element.get());
 
 	menuItem->caption   = readUString (elementNode, "caption");

@@ -22,7 +22,7 @@
 
 #include "ui/checkbox.h"
 
-void ui::UICheckbox::precompute() {
+void ui::Checkbox::precompute() {
 
 	/* Leave */
 

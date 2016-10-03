@@ -26,14 +26,14 @@
 /* Scroll */
 /* By Pixel */
 
-void ui::UIPanel::addScrollXByPx (int pxVal) { scrollX += pxVal; }
-void ui::UIPanel::addScrollYByPx (int pxVal) { scrollY += pxVal; }
-void ui::UIPanel::setScrollXByPx (int pxVal) { scrollX  = pxVal; }
-void ui::UIPanel::setScrollYByPx (int pxVal) { scrollY  = pxVal; }
+void ui::Panel::addScrollXByPx (int pxVal) { scrollX += pxVal; }
+void ui::Panel::addScrollYByPx (int pxVal) { scrollY += pxVal; }
+void ui::Panel::setScrollXByPx (int pxVal) { scrollX  = pxVal; }
+void ui::Panel::setScrollYByPx (int pxVal) { scrollY  = pxVal; }
 
 /* By Percent */
 
-void ui::UIPanel::addScrollXByPct (int pctVal) {
+void ui::Panel::addScrollXByPct (int pctVal) {
 
 	hbOffset += round(static_cast<float>(hbMax-hbSize)*static_cast<float>(pctVal)/100.f);;
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
@@ -43,7 +43,7 @@ void ui::UIPanel::addScrollXByPct (int pctVal) {
 
 }
 
-void ui::UIPanel::addScrollYByPct (int pctVal) {
+void ui::Panel::addScrollYByPct (int pctVal) {
 
 	vbOffset += round(static_cast<float>(vbMax-vbSize)*static_cast<float>(pctVal)/100.f);
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
@@ -53,7 +53,7 @@ void ui::UIPanel::addScrollYByPct (int pctVal) {
 
 }
 
-void ui::UIPanel::setScrollYByPct (int pctVal) {
+void ui::Panel::setScrollYByPct (int pctVal) {
 
 	vbOffset = static_cast<int>(round(static_cast<float>(vbMax-vbSize)*static_cast<float>(pctVal)/100.f));
 	math::clamp (&vbOffset, 0, vbMax-vbSize);
@@ -63,7 +63,7 @@ void ui::UIPanel::setScrollYByPct (int pctVal) {
 
 }
 
-void ui::UIPanel::setScrollXByPct (int pctVal) {
+void ui::Panel::setScrollXByPct (int pctVal) {
 
 	hbOffset = static_cast<int>(round(static_cast<float>(hbMax-hbSize)*static_cast<float>(pctVal)/100.f));
 	math::clamp (&hbOffset, 0, hbMax-hbSize);
@@ -73,7 +73,7 @@ void ui::UIPanel::setScrollXByPct (int pctVal) {
 
 }
 
-void ui::UIPanel::scrollToElement (UIElement *el) {
+void ui::Panel::scrollToElement (Widget *el) {
 
 	if (test == nullptr)
 		return;
@@ -91,7 +91,7 @@ void ui::UIPanel::scrollToElement (UIElement *el) {
 
 }
 
-void ui::UIPanel::setCursor() {
+void ui::Panel::setCursor() {
 
 	if (!allowResize || !open || scrollHClick || scrollVClick) return;
 	if (align == Align::Top || align == Align::Bottom) {
@@ -118,13 +118,13 @@ void ui::UIPanel::setCursor() {
 
 }
 
-void ui::UIPanel::progress() {
+void ui::Panel::progress() {
 
 
 
 }
 
-void ui::UIPanel::updateAlign() {
+void ui::Panel::updateAlign() {
 
 	if (align == Align::None)
 		return;
@@ -136,7 +136,7 @@ void ui::UIPanel::updateAlign() {
 
 	for (const auto &kvp : parent->elements) {
 
-		UIElement *el = kvp.second.get();
+		Widget *el = kvp.second.get();
 
 		if (el == this)
 			break;
@@ -221,7 +221,7 @@ void ui::UIPanel::updateAlign() {
 
 /* Render Panel */
 
-void ui::UIPanel::render() {
+void ui::Panel::render() {
 
 	splitEnter = false;
 	int lastPaddingTop = paddingTop;
@@ -343,7 +343,7 @@ void ui::UIPanel::render() {
 
 	/* Render childs */
 
-	UIElement::render();
+	Widget::render();
 	paddingTop = lastPaddingTop;
 	manager->popScissor();
 
@@ -371,7 +371,7 @@ void ui::UIPanel::render() {
 
 }
 
-void ui::UIPanel::renderSplit() {
+void ui::Panel::renderSplit() {
 	if (allowResize || showSplit) {
 
 		int n = blackSplit ? 12 : 13;
@@ -380,7 +380,7 @@ void ui::UIPanel::renderSplit() {
 	}
 }
 
-void ui::UIPanel::calculateSplit() {
+void ui::Panel::calculateSplit() {
 
 	int n = blackSplit ? 12 : 13;
 
@@ -425,7 +425,7 @@ void ui::UIPanel::calculateSplit() {
 
 }
 
-void ui::UIPanel::pollScroll() {
+void ui::Panel::pollScroll() {
 
 	if (!allowScroll || !open)
 		return;
@@ -505,9 +505,9 @@ void ui::UIPanel::pollScroll() {
 
 /* Events */
 
-void ui::UIPanel::mouseDown (int x, int y, int button) {
+void ui::Panel::mouseDown (int x, int y, int button) {
 
-	UIElement::mouseDown (x, y, button);
+	Widget::mouseDown (x, y, button);
 
 	lhbOffset = hbOffset;
 	lvbOffset = vbOffset;
@@ -525,8 +525,8 @@ void ui::UIPanel::mouseDown (int x, int y, int button) {
 
 	for (const auto &kvp : parent->elements) {
 
-		UIElement *el = kvp.second.get();
-		UIPanel *panel = dynamic_cast<UIPanel*>(el);
+		Widget *el = kvp.second.get();
+		Panel *panel = dynamic_cast<Panel*>(el);
 
 		if (!panel)
 			continue;
@@ -556,9 +556,9 @@ void ui::UIPanel::mouseDown (int x, int y, int button) {
 
 }
 
-void ui::UIPanel::mouseUp (int x, int y, int button) {
+void ui::Panel::mouseUp (int x, int y, int button) {
 
-	UIElement::mouseUp (x, y, button);
+	Widget::mouseUp (x, y, button);
 
 	scrollHClick = false;
 	scrollVClick = false;
@@ -571,13 +571,13 @@ void ui::UIPanel::mouseUp (int x, int y, int button) {
 
 }
 
-void ui::UIPanel::mouseWheel (int dx, int dy) {
+void ui::Panel::mouseWheel (int dx, int dy) {
 
 	if (!allowScroll || !open)
 		return;
 
-	UIElement::mouseWheel (dx, dy);
-	UIElement *el = manager->underMouse;
+	Widget::mouseWheel (dx, dy);
+	Widget *el = manager->underMouse;
 
 	bool underCanScrollX = false;
 	bool underCanScrollY = false;
@@ -615,7 +615,7 @@ void ui::UIPanel::mouseWheel (int dx, int dy) {
 
 /* Update scroll buttons positions */
 
-void ui::UIPanel::updateScroll() {
+void ui::Panel::updateScroll() {
 	if (!allowScroll)
 		return;
 

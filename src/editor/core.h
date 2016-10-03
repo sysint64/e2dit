@@ -49,8 +49,8 @@ public:
 
 	/* UI */
 
-	ui::UIManager *uiManager = ui::UIManager::getInstance();
-	std::unique_ptr<ui::UITheme> uiTheme;
+	ui::Manager *uiManager = ui::Manager::getInstance();
+	std::unique_ptr<ui::Theme> uiTheme;
 
 	/* Dialogs */
 	std::unique_ptr<ui::ColorDialog> colorDialog;

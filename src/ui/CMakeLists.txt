@@ -15,30 +15,31 @@ set(PRECOMPUTE precompute/button.cpp
 		precompute/dialog.cpp
 		precompute/tooltip.cpp)
 
-set(DIALOGS dialogs/color_dialog.cpp
+set(DIALOGS dialogs/color_dialog.cpp ../../include/ui/dialogs/color_dialog.h
 		dialogs/color_dialog_view.cpp)
 
-set(SOURCES ${PRECOMPUTE} ${DIALOGS} button.cpp
-		checkbox.cpp
-		grouped.cpp
-		treelist.cpp
-		edit.cpp
-		element.cpp
-		image.cpp
-		label.cpp
-		manager.cpp
-		listmenu.cpp
-		menuitems.cpp
-		dropmenu.cpp
-		panel.cpp
-		tabs.cpp
-		theme.cpp
-		toolbar.cpp
-		dialog.cpp
-		loader.cpp
-		stack_layout.cpp
-		tooltip.cpp
-		colorpanel.cpp)
+set(SOURCES ${PRECOMPUTE} ${DIALOGS} button.cpp ../../include/ui/button.h
+		checkbox.cpp ../../include/ui/checkbox.h
+		grouped.cpp ../../include/ui/grouped.h
+		treelist.cpp ../../include/ui/treelist.h
+		edit.cpp ../../include/ui/edit.h
+		widget.cpp ../../include/ui/widget.h
+		image.cpp ../../include/ui/image.h
+		label.cpp ../../include/ui/label.h
+		manager.cpp ../../include/ui/manager.h
+		listmenu.cpp ../../include/ui/listmenu.h
+		menuitems.cpp ../../include/ui/menuitems.h
+		dropmenu.cpp ../../include/ui/dropmenu.h
+		panel.cpp ../../include/ui/panel.h
+		tabs.cpp ../../include/ui/tabs.h
+		theme.cpp ../../include/ui/theme.h
+		toolbar.cpp ../../include/ui/toolbar.h
+		dialog.cpp ../../include/ui/dialog.h
+		loader.cpp ../../include/ui/loader.h
+		stack_layout.cpp ../../include/ui/stack_layout.h
+		tooltip.cpp ../../include/ui/tooltip.h
+		colorpanel.cpp ../../include/ui/colorpanel.h
+		../../include/ui/cursor.h)
 
 if (APPLE)
 	set(SOURCES ${SOURCES} cursor.mm)

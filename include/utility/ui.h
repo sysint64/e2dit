@@ -25,7 +25,7 @@
 #include "renderer/shader.h"
 #include "utility/string.h"
 #include "FTGL/ftgl.h"
-#include "ui/element.h"
+#include "ui/widget.h"
 
 using namespace FTGL;
 
@@ -40,7 +40,7 @@ inline bool pointInRect (int X, int Y, int Xe, int Ye, int W, int H) {
 
 }
 
-inline bool pointInElement (int X, int Y, ui::UIElement *element) {
+inline bool pointInElement (int X, int Y, ui::Widget *element) {
 	return pointInRect (X, Y, element->absLeft, element->absTop, element->width, element->height);
 }
 

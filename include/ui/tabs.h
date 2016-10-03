@@ -22,15 +22,15 @@
 
 #pragma once
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/button.h"
 #include "ui/manager.h"
 
 namespace ui {
-	class UITab : public UIButton {
+	class Tab : public Button {
 	public:
 
-		UITab (UIManager *manager) : UIButton (manager, true) {
+		Tab (Manager *manager) : Button (manager, true) {
 
 			this->manager = manager;
 
@@ -43,7 +43,7 @@ namespace ui {
 
 	};
 
-	class UITabs : public UIElement {
+	class Tabs : public Widget {
 	public:
 
 	};

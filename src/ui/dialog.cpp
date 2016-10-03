@@ -22,7 +22,7 @@
 
 #include "ui/dialog.h"
 
-void ui::UIDialog::setCursor() {
+void ui::Dialog::setCursor() {
 	if (maximized || !visible)
 		return;
 
@@ -39,7 +39,7 @@ void ui::UIDialog::setCursor() {
 
 }
 
-void ui::UIDialog::render() {
+void ui::Dialog::render() {
 
 	if (headerClick && !edgeClick && !btnDown) {
 
@@ -63,7 +63,7 @@ void ui::UIDialog::render() {
 	if (maximized) {
 
 		align = Align::Client;
-		UIPanel::render();
+		Panel::render();
 		renderButtons (x, y);
 
 		return;
@@ -71,7 +71,7 @@ void ui::UIDialog::render() {
 	}
 
 	renderPartsElementBlock (indices, drawElementsPtr, absLeft-iWidths[0], absTop-iHeights[1], width+(iWidths[0] << 1), height+iHeights[1]+iHeights[7]);
-	UIPanel::render();
+	Panel::render();
 
 	/* Draw Text */
 
@@ -86,7 +86,7 @@ void ui::UIDialog::render() {
 
 }
 
-void ui::UIDialog::handleResize() {
+void ui::Dialog::handleResize() {
 
 	if (!allowResize || !edgeClick)
 		return;
@@ -144,7 +144,7 @@ void ui::UIDialog::handleResize() {
 
 }
 
-void ui::UIDialog::handleEdgeEnter() {
+void ui::Dialog::handleEdgeEnter() {
 
 	if (!allowResize || edgeClick)
 		return;
@@ -178,7 +178,7 @@ void ui::UIDialog::handleEdgeEnter() {
 
 }
 
-void ui::UIDialog::renderButtons (int x, int y) {
+void ui::Dialog::renderButtons (int x, int y) {
 
 	/* Draw buttons */
 	// Close button
@@ -206,9 +206,9 @@ void ui::UIDialog::renderButtons (int x, int y) {
 
 }
 
-void ui::UIDialog::mouseDown (int x, int y, int button) {
+void ui::Dialog::mouseDown (int x, int y, int button) {
 
-	UIElement::mouseDown (x, y, button);
+	Widget::mouseDown (x, y, button);
 
 	int yOffset = abs(captionArea[1]-iOffsetsY[1]);
 	int hy = absTop+yOffset-iHeights[1];
@@ -228,7 +228,7 @@ void ui::UIDialog::mouseDown (int x, int y, int button) {
 
 }
 
-void ui::UIDialog::mouseUp (int x, int y, int button) {
+void ui::Dialog::mouseUp (int x, int y, int button) {
 
 	headerClick = false;
 	edgeClick   = false;
@@ -252,7 +252,7 @@ void ui::UIDialog::mouseUp (int x, int y, int button) {
 
 }
 
-void ui::UIDialog::show() {
+void ui::Dialog::show() {
 
 	visible = true;
 	layer   = manager->currentLayer+1;
@@ -261,7 +261,7 @@ void ui::UIDialog::show() {
 
 }
 
-void ui::UIDialog::hide() {
+void ui::Dialog::hide() {
 
 	visible = false;
 	manager->currentLayer--;

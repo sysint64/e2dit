@@ -23,7 +23,7 @@
 #include "ui/toolbar.h"
 #include <boost/range/adaptor/reversed.hpp>
 
-void ui::UIToolbar::render() {
+void ui::Toolbar::render() {
 
 	updateAlign();
 	updateAbsPos();
@@ -36,7 +36,7 @@ void ui::UIToolbar::render() {
 
 	for (const auto &kvp : boost::adaptors::reverse(elements)) {
 
-		UIElement *tab = kvp.second.get();
+		Widget *tab = kvp.second.get();
 
 		tabx -= tab->width-tabOffset;
 
@@ -68,7 +68,7 @@ void ui::UIToolbar::render() {
 
 	for (const auto &kvp : lastSelected->elements) {
 
-		UIElement *el = kvp.second.get();
+		Widget *el = kvp.second.get();
 
 		el->left = elx;
 		el->top  = ely;
@@ -80,7 +80,7 @@ void ui::UIToolbar::render() {
 
 }
 
-void ui::UIToolbarItem::render() {
+void ui::ToolbarItem::render() {
 
 	int ai = enter ? 1 : (checked ? 2 : 0);
 	int ci = enter ? 3 : (checked ? 6 : 0);
@@ -102,21 +102,21 @@ void ui::UIToolbarItem::render() {
 
 }
 
-void ui::UIToolbarItem::mouseDown (int x, int y, int button) {
+void ui::ToolbarItem::mouseDown (int x, int y, int button) {
 
 	if (enter)
 		toolbar->checkTool (this);
 
 }
 
-void ui::UIToolbarSplit::render() {
+void ui::ToolbarSplit::render() {
 
 	updateAbsPos();
 	renderElement (0, absLeft+5, absTop-1, iWidths[0], iHeights[0], splitElement.get());
 
 }
 
-void ui::UIToolbar::updateAlign() {
+void ui::Toolbar::updateAlign() {
 
 	if (align == Align::None)
 		return;
@@ -129,7 +129,7 @@ void ui::UIToolbar::updateAlign() {
 
 	for (const auto &kvp : parent->elements) {
 
-		UIElement *el = kvp.second.get();
+		Widget *el = kvp.second.get();
 
 		if (el == this)
 			break;

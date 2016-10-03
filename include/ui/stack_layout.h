@@ -22,22 +22,22 @@
 
 #pragma once
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 
 namespace ui {
 
 	enum class Orientation {Horizontal, Vertical};
-	class UIStackLayout : public UIElement {
+	class StackLayout : public Widget {
 	public:
 		Orientation orientation = Orientation::Vertical;
 
 		virtual void render() override;
-		virtual void addElement    (std::unique_ptr<UIElement> el) override;
-		//virtual void deleteElement (std::unique_ptr<UIElement> el) override;
+		virtual void addElement    (std::unique_ptr<Widget> el) override;
+		//virtual void deleteElement (std::unique_ptr<Widget> el) override;
 		//virtual void deleteElement (const int id) override;
 
-		UIStackLayout (UIManager *manager) : UIElement (manager) {
+		StackLayout (Manager *manager) : Widget (manager) {
 			this->manager = manager;
 		}
 

@@ -22,7 +22,7 @@
 
 #include "ui/treelist.h"
 
-void ui::UITreeListNode::renderLines() {
+void ui::TreeListNode::renderLines() {
 
 	int depth = this->depth-treeList->depth;
 	if (depth >= 3)
@@ -73,7 +73,7 @@ void ui::UITreeListNode::renderLines() {
 
 }
 
-void ui::UITreeListNode::render() {
+void ui::TreeListNode::render() {
 
 	updateAbsPos();
 	btnOffset = parent == treeList ? 20 : 14;
@@ -87,7 +87,7 @@ void ui::UITreeListNode::render() {
 	width = treeList->width-20*depth;
 	left  = 20;
 
-	UIButton::render();
+	Button::render();
 
 	heightIn = iHeights[2];
 
@@ -114,8 +114,8 @@ void ui::UITreeListNode::render() {
 
 	for (const auto &kvp : elements) {
 
-		UIElement *el = kvp.second.get();
-		UITreeListNode *node = dynamic_cast<UITreeListNode*> (el);
+		Widget *el = kvp.second.get();
+		TreeListNode *node = dynamic_cast<TreeListNode*> (el);
 
 		if (!node)
 			continue;
@@ -131,9 +131,9 @@ void ui::UITreeListNode::render() {
 
 }
 
-void ui::UITreeListNode::mouseUp (int x, int y, int button) {
+void ui::TreeListNode::mouseUp (int x, int y, int button) {
 
-	UIButton::mouseUp (x, y, button);
+	Button::mouseUp (x, y, button);
 
 	if (!allowHide)
 		return;
@@ -143,21 +143,21 @@ void ui::UITreeListNode::mouseUp (int x, int y, int button) {
 
 }
 
-void ui::UITreeListNode::mouseDown (int x, int y, int button) {
+void ui::TreeListNode::mouseDown (int x, int y, int button) {
 
-	UIElement::mouseDown (x, y, button);
+	Widget::mouseDown (x, y, button);
 
 	if (isEnter() && button == mouseLeft)
 		treeList->checkElement (this);
 
 }
 
-void ui::UITreeList::render() {
+void ui::TreeList::render() {
 
 	height = 0;
 	over = parent->over;
 
-	UIElement::render();
+	Widget::render();
 	overHeight = height;
 
 }

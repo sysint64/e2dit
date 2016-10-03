@@ -32,7 +32,7 @@
 #include "utility/input.h"
 #include "utility/system.h"
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 
 #include "renderer/shader.h"
@@ -40,7 +40,7 @@
 #include "renderer/base_object.h"
 
 namespace ui {
-	class UIPanel : public UIElement {
+	class Panel : public Widget {
 	protected:
 		std::unique_ptr<gapi::BaseObject> scrollBg [6];
 		std::unique_ptr<gapi::BaseObject> scrollBtn[6];
@@ -119,10 +119,10 @@ namespace ui {
 		bool blackSplit  = false;
 		bool showSplit   = true;
 
-		UIElement *test;
+		Widget *test;
 
 		std::wstring caption = L"Hello World";
-		std::vector<UIElement*> joinElements;
+		std::vector<Widget*> joinElements;
 
 		/* Scroll */
 
@@ -136,7 +136,7 @@ namespace ui {
 		inline int getScrollYByPx() { return vsOffset; }
 		inline int getScrollXByPx() { return hsOffset; }
 
-		void scrollToElement (UIElement *el);
+		void scrollToElement (Widget *el);
 
 		/* Main */
 
@@ -153,7 +153,7 @@ namespace ui {
 
 		/* Constructor */
 
-		UIPanel (UIManager *manager) : UIElement (manager) {
+		Panel (Manager *manager) : Widget (manager) {
 
 			allowScroll = true;
 			alignSize   = true;

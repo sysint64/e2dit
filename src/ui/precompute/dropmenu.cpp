@@ -22,9 +22,9 @@
 
 #include "ui/dropmenu.h"
 
-void ui::UIDropMenu::precompute() {
+void ui::DropMenu::precompute() {
 
-	UIButton::precompute();
+	Button::precompute();
 
 	precomputeElement  (12, style, "mark"); // Last id at button is 11
 	precomputeIntArray (style, "offsets", menuOffsets, 3);

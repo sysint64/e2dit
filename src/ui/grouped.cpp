@@ -23,7 +23,7 @@
 #include "ui/grouped.h"
 #include "utility/math.h"
 
-void ui::UIGrouped::render() {
+void ui::Grouped::render() {
 
 	if (allowAlign)
 		updateAlign();
@@ -37,7 +37,7 @@ void ui::UIGrouped::render() {
 
 	for (const auto &kvp : elements) {
 
-		UIElement *el = kvp.second.get();
+		Widget *el = kvp.second.get();
 
 		if (!el->autoSize) {
 
@@ -55,8 +55,8 @@ void ui::UIGrouped::render() {
 
 	partWidth += spacing;
 
-	UIElement *firstElement = elements. begin()->second.get();
-	UIElement *lastElement  = elements.rbegin()->second.get();
+	Widget *firstElement = elements. begin()->second.get();
+	Widget *lastElement  = elements.rbegin()->second.get();
 
 	if (spacing == 0) {
 
@@ -67,7 +67,7 @@ void ui::UIGrouped::render() {
 
 	for (const auto &kvp : elements) {
 
-		UIElement *el = kvp.second.get();
+		Widget *el = kvp.second.get();
 
 		el->top  = 0;
 		el->left = offset;

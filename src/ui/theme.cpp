@@ -22,7 +22,7 @@
 
 #include "ui/theme.h"
 
-ui::UITheme::UITheme (const std::string &fileName, ReadType rt, gapi::Texture *skin, FTGLfont *font) {
+ui::Theme::Theme (const std::string &fileName, ReadType rt, gapi::Texture *skin, FTGLfont *font) {
 
 	this->skin = skin;
 	this->font = font;

@@ -22,7 +22,7 @@
 
 #include "ui/grouped.h"
 
-void ui::UIGrouped::precompute() {
+void ui::Grouped::precompute() {
 
 	precomputeElement (0, style, "split");
 

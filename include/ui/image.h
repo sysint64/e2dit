@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 
 #include "renderer/base_object.h"
@@ -31,7 +31,7 @@
 #include <string>
 
 namespace ui {
-	class UIImage : public UIElement {
+	class Image : public Widget {
 	private:
 		std::unique_ptr<gapi::BaseObject> imageElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 
@@ -42,7 +42,7 @@ namespace ui {
 		void cropImage (int ox, int oy, int cw, int ch);
 		void cropImage (const std::array<int, 4> &cropRect);
 
-		UIImage (UIManager *manager) : UIElement(manager) {
+		Image (Manager *manager) : Widget(manager) {
 
 			this->manager = manager;
 

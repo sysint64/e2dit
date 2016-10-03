@@ -24,7 +24,7 @@
 
 #include <string>
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 #include "ui/tooltip.h"
 
@@ -32,7 +32,7 @@
 
 
 namespace ui {
-	class UIButton : public UIElement {
+	class Button : public Widget {
 	protected:
 		bool drawChilds = true;
 		int  iconLeft   = 2;
@@ -61,7 +61,7 @@ namespace ui {
 		void renderSkin();
 
 	public:
-		std::unique_ptr<UITooltip> tooltip = nullptr;
+		std::unique_ptr<Tooltip> tooltip = nullptr;
 
 		/* Icon */
 
@@ -84,13 +84,13 @@ namespace ui {
 		virtual void mouseUp   (int x, int y, int button) override;
 
 		inline void setTooltip() {
-			tooltip = std::make_unique<UITooltip> (manager);
+			tooltip = std::make_unique<Tooltip> (manager);
 			tooltip->target = this;
 			manager->overlayElements.push_back(tooltip.get());
 		}
 
-		//using UIElement::UIElement;
-		UIButton (UIManager *manager, bool allowCheck = false) : UIElement (manager) {
+		//using Widget::Widget;
+		Button (Manager *manager, bool allowCheck = false) : Widget (manager) {
 
 			this->manager    = manager;
 			this->allowCheck = allowCheck;

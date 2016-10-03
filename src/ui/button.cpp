@@ -30,10 +30,10 @@
  * Render Button
  */
 
-void ui::UIButton::render() {
+void ui::Button::render() {
 
 	if (drawChilds)
-		UIElement::render();
+		Widget::render();
 
 	updateAbsPos();
 
@@ -143,7 +143,7 @@ void ui::UIButton::render() {
  * Render Button Skin
  */
 
-void ui::UIButton::renderSkin() {
+void ui::Button::renderSkin() {
 
 	/* Tables Indices */
 
@@ -172,7 +172,7 @@ void ui::UIButton::renderSkin() {
  * @param offset: Offset Render
  */
 
-void ui::UIButton::renderText (const Align align, const std::wstring &text, const int offset) {
+void ui::Button::renderText (const Align align, const std::wstring &text, const int offset) {
 
 	/* Tables Indices */
 
@@ -222,9 +222,9 @@ void ui::UIButton::renderText (const Align align, const std::wstring &text, cons
 
 }
 
-void ui::UIButton::mouseDown (int x, int y, int button) {
+void ui::Button::mouseDown (int x, int y, int button) {
 
-	UIElement::mouseDown (x, y, button);
+	Widget::mouseDown (x, y, button);
 
 	if (!allowCheck)
 		return;
@@ -245,9 +245,9 @@ void ui::UIButton::mouseDown (int x, int y, int button) {
 
 }
 
-void ui::UIButton::mouseUp (int x, int y, int button) {
+void ui::Button::mouseUp (int x, int y, int button) {
 
-	UIElement::mouseUp (x, y, button);
+	Widget::mouseUp (x, y, button);
 
 	if (allowCheck || !enter)
 		return;

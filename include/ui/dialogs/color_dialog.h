@@ -24,7 +24,7 @@
 
 #include "utility/renderer.h"
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/edit.h"
 #include "ui/grouped.h"
 #include "ui/colorpanel.h"
@@ -46,9 +46,9 @@ namespace ui {
 
 		std::unique_ptr<gapi::BaseObject> quadElement;
 		std::unique_ptr<gapi::BaseObject> lineElement;
-		std::unique_ptr<UILoader>   loader;
+		std::unique_ptr<Loader>   loader;
 
-		UIManager *manager;
+		Manager *manager;
 
 		enum {
 			HSB_H = 0, HSB_S = 1, HSB_B = 2,
@@ -62,23 +62,23 @@ namespace ui {
 
 		// UI Elements in dialog
 
-		UIDialog  *dialog;
+		Dialog  *dialog;
 
-		UIElement *colorPicker;
-		UIElement *colorLine;
-		UIElement *cursorPicker;
-		UIElement *cursorLine;
+		Widget *colorPicker;
+		Widget *colorLine;
+		Widget *cursorPicker;
+		Widget *cursorLine;
 
-		UIGrouped *groupedHSB;
-		UIGrouped *groupedRGB;
+		Grouped *groupedHSB;
+		Grouped *groupedRGB;
 
-		UIButton  *buttonHSB_RGB[6];
-		UIEdit    *fieldHSB_RGB[6];
-		UIEdit    *fieldAlpha;
-		UIEdit    *fieldHEX;
+		Button  *buttonHSB_RGB[6];
+		Edit    *fieldHSB_RGB[6];
+		Edit    *fieldAlpha;
+		Edit    *fieldHEX;
 
-		UIColorPanel *newColor;
-		UIColorPanel *oldColor;
+		ColorPanel *newColor;
+		ColorPanel *oldColor;
 
 		std::wstring lastHEX = L"";
 		bool validHEX = false;
@@ -99,7 +99,7 @@ namespace ui {
 
 		glm::vec3 scroll;
 		glm::vec3 norm = glm::vec3(100.f, 100.f, 360.f);
-		std::vector<UIColorPanel*> lastColors;
+		std::vector<ColorPanel*> lastColors;
 
 		void handleCursors();
 		void cursor2ColorXY();
@@ -117,10 +117,10 @@ namespace ui {
 	public:
 		gapi::Color color;
 
-		ColorDialog (UIManager *manager, StringRes *stringsRes, const std::string &layout) {
+		ColorDialog (Manager *manager, StringRes *stringsRes, const std::string &layout) {
 
 			this->manager = manager;
-			loader = std::make_unique<UILoader> (manager, stringsRes, layout);
+			loader = std::make_unique<Loader> (manager, stringsRes, layout);
 
 			quadElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 			lineElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());

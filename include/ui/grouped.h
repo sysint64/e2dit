@@ -24,14 +24,14 @@
 
 #include <string>
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 #include "ui/button.h"
 
 #include "renderer/base_object.h"
 
 namespace ui {
-	class UIGrouped : public UICheckedElements {
+	class Grouped : public UICheckedElements {
 	protected:
 
 		std::unique_ptr<gapi::BaseObject> splitElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
@@ -42,7 +42,7 @@ namespace ui {
 		virtual void precompute() override;
 		virtual void render()     override;
 
-		UIGrouped (UIManager *manager, bool multiSelect = false, int spacing = 0) : UICheckedElements (manager) {
+		Grouped (Manager *manager, bool multiSelect = false, int spacing = 0) : UICheckedElements (manager) {
 
 			this->manager     = manager;
 			this->multiSelect = multiSelect;

@@ -24,7 +24,7 @@
 
 void ui::UITallMenuItem::precompute() {
 
-	UIButton::precompute();
+	Button::precompute();
 
 	precomputeElement (12, style, "mask");
 	precomputeElement (13, style, "border");

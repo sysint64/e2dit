@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 
 #include "renderer/base_object.h"
@@ -30,12 +30,12 @@
 
 namespace ui {
 
-	class UILabel : public UIElement {
+	class Label : public Widget {
 	public:
 		std::wstring caption;
 		Align textAlign = Align::None;
 
-		UILabel (UIManager *manager) : UIElement(manager) {
+		Label (Manager *manager) : Widget(manager) {
 
 			this->manager = manager;
 			this->height  = manager->theme->fontHeight;

@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 
 #include "renderer/base_object.h"
@@ -30,7 +30,7 @@
 #include "renderer/color.h"
 
 namespace ui {
-	class UIColorPanel : public UIElement {
+	class ColorPanel : public Widget {
 	private:
 		std::unique_ptr<gapi::BaseObject> quadElement = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
 		gapi::Texture *gridTexture = nullptr;
@@ -41,7 +41,7 @@ namespace ui {
 		virtual void render();
 		virtual void mouseUp (int x, int y, int button) override;
 
-		UIColorPanel (UIManager *manager, gapi::Texture *gridTexture = nullptr) : UIElement(manager) {
+		ColorPanel (Manager *manager, gapi::Texture *gridTexture = nullptr) : Widget(manager) {
 
 			this->manager     = manager;
 			this->gridTexture = gridTexture;
@@ -51,11 +51,11 @@ namespace ui {
 
 		}
 
-		static std::unique_ptr<UIColorPanel> createInstance(UIManager *manager,
+		static std::unique_ptr<ColorPanel> createInstance(Manager *manager,
 		                                                    int w, int h, int x, int y,
 		                                                    float R, float G, float B, float A)
 		{
-			std::unique_ptr<UIColorPanel> instance = std::make_unique<UIColorPanel> (manager);
+			std::unique_ptr<ColorPanel> instance = std::make_unique<ColorPanel> (manager);
 
 			instance->width  = w;
 			instance->height = h;

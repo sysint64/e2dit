@@ -22,7 +22,7 @@
 
 #include "ui/label.h"
 
-void ui::UILabel::precompute() {
+void ui::Label::precompute() {
 
 	precomputeText (0, style);
 

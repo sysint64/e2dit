@@ -9,10 +9,10 @@
 class MapEditor {
 public:
 	std::unique_ptr<Scene> scene;
-	ui::UIPanel *rootPane;
-	ui::UIPanel *activePane;
+	ui::Panel *rootPane;
+	ui::Panel *activePane;
 	std::vector<Pane*> panes;
-	ui::UIManager *uiManager = ui::UIManager::getInstance();
+	ui::Manager *uiManager = ui::Manager::getInstance();
 
 	virtual void render();
 	virtual void step();

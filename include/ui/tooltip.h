@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 
 namespace ui {
-	class UITooltip : public UIElement {
+	class Tooltip : public Widget {
 	protected:
 
 		std::unique_ptr<gapi::BaseObject> leftElement   = std::make_unique<gapi::BaseObject> (manager->uiDataRender, app->screenCamera.get());
@@ -45,7 +45,7 @@ namespace ui {
 
 	public:
 
-		UIElement *target;
+		Widget *target;
 
 		virtual void precompute() override;
 		virtual void render()     override;
@@ -60,7 +60,7 @@ namespace ui {
 
 		}
 
-		UITooltip (UIManager *manager) : UIElement (manager) {
+		Tooltip (Manager *manager) : Widget (manager) {
 
 			align = Align::Left;
 			this->manager = manager;

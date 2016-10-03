@@ -30,7 +30,7 @@
 using namespace FTGL;
 
 namespace ui {
-	class UITheme : public DataMap {
+	class Theme : public DataMap {
 	public:
 		gapi::Texture *skin;
 
@@ -46,7 +46,7 @@ namespace ui {
 
 	public:
 
-		UITheme (const std::string &fileName, ReadType rt, gapi::Texture *skin, FTGLfont *font);
+		Theme (const std::string &fileName, ReadType rt, gapi::Texture *skin, FTGLfont *font);
 
 	};
 };

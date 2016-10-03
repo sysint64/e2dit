@@ -31,7 +31,7 @@
 #include "utility/math.h"
 #include "utility/input.h"
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 
 #include "renderer/shader.h"
@@ -42,7 +42,7 @@
 namespace ui {
 	const wchar_t splitChars[] = L" ,.;:?'!|/\\~*+-=(){}<>[]#%&^@$№`\"";
 	enum class UITextFilter {Text, Int, Float};
-	class UIEdit : public UIElement {
+	class Edit : public Widget {
 	protected:
 		float selectColor[4];
 		float selectOffset[2]; // Offset top and bottom
@@ -122,8 +122,8 @@ namespace ui {
 
 		/* Functors: Callback Events */
 
-		std::function<void(UIElement*)>      onChange      = nullptr;
-		std::function<void(UIElement*, int)> onTextEntered = nullptr;
+		std::function<void(Widget*)>      onChange      = nullptr;
+		std::function<void(Widget*, int)> onTextEntered = nullptr;
 
 		bool trackBar = false;
 		bool expr     = false;
@@ -147,7 +147,7 @@ namespace ui {
 
 		/* Constructor */
 
-		UIEdit (UIManager *manager) : UIElement (manager) {
+		Edit (Manager *manager) : Widget (manager) {
 
 			this->manager = manager;
 			this->cursor  = CursorIco::IBeam;

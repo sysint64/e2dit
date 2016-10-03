@@ -26,9 +26,9 @@
  * Render Editable Field
  */
 
-void ui::UIEdit::render() {
+void ui::Edit::render() {
 
-	UIElement::render();
+	Widget::render();
 	updateAbsPos();
 
 	test = 2;
@@ -187,7 +187,7 @@ void ui::UIEdit::render() {
  * Render Button Skin
  */
 
-void ui::UIEdit::renderSkin() {
+void ui::Edit::renderSkin() {
 
 	/* Tables Indices */
 
@@ -208,7 +208,7 @@ void ui::UIEdit::renderSkin() {
 
 }
 
-void ui::UIEdit::updateSelect() {
+void ui::Edit::updateSelect() {
 
 	if (pressed (keyShift)) {
 
@@ -232,7 +232,7 @@ void ui::UIEdit::updateSelect() {
  * @param y: Cursor Position Y
  */
 
-void ui::UIEdit::setStickPos (int x, int y) {
+void ui::Edit::setStickPos (int x, int y) {
 
 	int bmax   = x-textPosX; // Get max text width from begin string to Mouse X
 	int twidth = ftglGetTextWidth (manager->theme->font, text);
@@ -275,10 +275,10 @@ void ui::UIEdit::setStickPos (int x, int y) {
 
 }
 
-void ui::UIEdit::setCursor() {
+void ui::Edit::setCursor() {
 
 	if (!trackMode || (pointInRect (app->mouseX, app->mouseY, absLeft+14, absTop, width-28, height) && enabled && trackMode)) {
-		UIElement::setCursor();
+		Widget::setCursor();
 		return;
 	}
 
@@ -286,7 +286,7 @@ void ui::UIEdit::setCursor() {
 
 /* Events */
 
-void ui::UIEdit::addVal(const int acc) {
+void ui::Edit::addVal(const int acc) {
 
 	int val = std::stoi(text);
 	val += acc;
@@ -298,9 +298,9 @@ void ui::UIEdit::addVal(const int acc) {
 
 }
 
-void ui::UIEdit::focus() {
+void ui::Edit::focus() {
 
-	UIElement::focus();
+	Widget::focus();
 
 	lastStickChPos = stickChPos;
 	stickChPos = text.size();
@@ -310,7 +310,7 @@ void ui::UIEdit::focus() {
 
 }
 
-void ui::UIEdit::mouseDown (int x, int y, int button) {
+void ui::Edit::mouseDown (int x, int y, int button) {
 
 	if (!enter || !focused)
 		return;
@@ -321,7 +321,7 @@ void ui::UIEdit::mouseDown (int x, int y, int button) {
 
 }
 
-void ui::UIEdit::mouseUp (int x, int y, int button) {
+void ui::Edit::mouseUp (int x, int y, int button) {
 
 	if (wholeTrackWay > 0) {
 		wholeTrackWay = 0;
@@ -362,7 +362,7 @@ void ui::UIEdit::mouseUp (int x, int y, int button) {
 
 }
 
-void ui::UIEdit::mouseMove (int x, int y, int button) {
+void ui::Edit::mouseMove (int x, int y, int button) {
 
 	if (!enter || button != mouseLeft)
 		return;
@@ -389,7 +389,7 @@ void ui::UIEdit::mouseMove (int x, int y, int button) {
 
 }
 
-void ui::UIEdit::dblClick (int x, int y, int button) {
+void ui::Edit::dblClick (int x, int y, int button) {
 
 	if (!enter || button != mouseLeft)
 		return;
@@ -453,7 +453,7 @@ void ui::UIEdit::dblClick (int x, int y, int button) {
 
 }
 
-void ui::UIEdit::keyPressed (int key) {
+void ui::Edit::keyPressed (int key) {
 
 	if (!focused)
 		return;
@@ -575,7 +575,7 @@ void ui::UIEdit::keyPressed (int key) {
 
 }
 
-void ui::UIEdit::textEntered (int key) {
+void ui::Edit::textEntered (int key) {
 
 	if (!focused)
 		return;
@@ -635,14 +635,14 @@ void ui::UIEdit::textEntered (int key) {
 
 /* Work With Text */
 
-void ui::UIEdit::copyText() {
+void ui::Edit::copyText() {
 
 }
 
-void ui::UIEdit::pasteText() {
+void ui::Edit::pasteText() {
 
 }
 
-float ui::UIEdit::parseExpr() {
+float ui::Edit::parseExpr() {
 	return 0;
 }

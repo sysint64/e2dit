@@ -22,10 +22,10 @@
 
 #include "ui/dropmenu.h"
 
-void ui::UIDropMenu::render() {
+void ui::DropMenu::render() {
 
 	overHeight = 1000;
-	UIButton::render();
+	Button::render();
 
 	if (!menu || isMenu)
 		return;
@@ -37,7 +37,7 @@ void ui::UIDropMenu::render() {
 
 }
 
-void ui::UIDropMenu::updateMenu() {
+void ui::DropMenu::updateMenu() {
 
 	menu->top  = height+menuOffsets[2];
 	menu->left = menuOffsets[0];
@@ -47,7 +47,7 @@ void ui::UIDropMenu::updateMenu() {
 
 }
 
-void ui::UIDropMenu::mouseUp (int x, int y, int button) {
+void ui::DropMenu::mouseUp (int x, int y, int button) {
 
 	if (!menu)
 		return;

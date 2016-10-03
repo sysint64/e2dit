@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "ui/element.h"
+#include "ui/widget.h"
 #include "ui/manager.h"
 #include "ui/panel.h"
 
@@ -30,7 +30,7 @@
 
 namespace ui {
 
-	class UIDialog : public UIPanel {
+	class Dialog : public Panel {
 	protected:
 		const int edgeWidth = 15;
 		enum class Edge {
@@ -91,7 +91,7 @@ namespace ui {
 		void show();
 		void hide();
 
-		UIDialog (UIManager *manager) : UIPanel (manager) {
+		Dialog (Manager *manager) : Panel (manager) {
 
 			this->style   = "dialog";
 			this->manager = manager;

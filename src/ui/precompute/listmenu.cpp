@@ -22,7 +22,7 @@
 
 #include "ui/listmenu.h"
 
-void ui::UIListMenu::precompute() {
+void ui::ListMenu::precompute() {
 
 	/* Top */
 
