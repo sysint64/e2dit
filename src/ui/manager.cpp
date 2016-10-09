@@ -376,21 +376,21 @@ void ui::Manager::keyPressed (int key) {
 
 	if (focusedElement != nullptr) {
 
-		if (pressed (keyShift) && pressed (keyTab) && focusedElement->prev != nullptr) {
+		if (keyboard::pressed (keyShift) && keyboard::pressed (keyTab) && focusedElement->prev != nullptr) {
 
 			focusedElement->prev->focus();
 			blur();
 
 		} else
 
-		if (pressed (keyTab) && focusedElement->next != nullptr) {
+		if (keyboard::pressed (keyTab) && focusedElement->next != nullptr) {
 
 			focusedElement->next->focus();
 			blur();
 
 		}
 
-		if (pressed (keyEnter)) {
+		if (keyboard::pressed (keyEnter)) {
 
 			focusedElement->keyClick = true;
 

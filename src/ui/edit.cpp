@@ -210,7 +210,7 @@ void ui::Edit::renderSkin() {
 
 void ui::Edit::updateSelect() {
 
-	if (pressed (keyShift)) {
+	if (keyboard::pressed (keyShift)) {
 
 		if (selStart == selEnd)
 			selStart = lastStickChPos;
@@ -477,8 +477,8 @@ void ui::Edit::keyPressed (int key) {
 
 		/* Clipboard */
 
-		case keyC : if (pressed (keyCtrl)) copyText();  break;
-		case keyV : if (pressed (keyCtrl)) pasteText(); break;
+		case keyC : if (keyboard::pressed (keyCtrl)) copyText();  break;
+		case keyV : if (keyboard::pressed (keyCtrl)) pasteText(); break;
 
 		/* Erase */
 

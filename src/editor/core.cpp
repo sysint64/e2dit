@@ -39,6 +39,8 @@
 
 #include "utility/strings_res.h"
 #include "resources.h"
+#include "settings.h"
+#include <boost/algorithm/string.hpp>
 
 Core::Core (sf::Window *window) {
 
@@ -97,12 +99,21 @@ Core::Core (sf::Window *window) {
 	stringsRes->addResource (app->resPath+"/strings/en/menu.e2t");
 	stringsRes->addResource (app->resPath+"/strings/en/dialogs/color_dialog.e2t");
 
-	std::unique_ptr<ui::Loader> loader = std::make_unique<ui::Loader> (uiManager, stringsRes.get(), "test.e2t");
+	//std::unique_ptr<ui::Loader> loader = std::make_unique<ui::Loader> (uiManager, stringsRes.get(), "test.e2t");
+	ui::Loader(uiManager, stringsRes.get(), "test.e2t");
 	colorDialog = std::make_unique<ui::ColorDialog> (uiManager, stringsRes.get(), "dialogs/color_dialog.e2t");
 
 	//
 
 	editor->initUI();
+
+	settings->shortKeys["Shift Ctrl Up"] = new Command([this]() {
+		editor->splitView(ui::Orientation::Horizontal);
+	});
+
+	settings->shortKeys["Shift Ctrl Left"] = new Command([this]() {
+		editor->splitView(ui::Orientation::Vertical);
+	});
 
 	//StringRes testRes;
 	//testRes.addResource ("../res/strings/eng/menu.e2t");
@@ -189,5 +200,20 @@ void Core::render() {
 }
 
 void Core::step() {
+}
 
+void Core::handleShortKeys (sf::Event::KeyEvent event) {
+	std::string hash = "";
+
+	if (event.shift)   hash += "Shift ";
+	if (event.alt)     hash += "Alt ";
+	if (event.control) hash += "Ctrl ";
+
+	hash += keyboard::map[event.code];
+	boost::trim_right(hash);
+
+	if (settings->shortKeys.find(hash) == settings->shortKeys.end())
+		return;
+
+	settings->shortKeys[hash]->execute();
 }

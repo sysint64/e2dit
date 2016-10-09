@@ -606,7 +606,7 @@ ui::Widget *ui::Widget::getElement (const int id) {
 
 ui::Widget *ui::Widget::findElement (const std::string &name) {
 
-	for (auto const &kvp : elements) {
+	for (const auto &kvp : elements) {
 		Widget *element = kvp.second.get();
 
 		if (!element)

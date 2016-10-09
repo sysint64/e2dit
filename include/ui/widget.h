@@ -165,7 +165,6 @@ namespace ui {
 		}
 
 	public:
-
 		friend Manager;
 		friend Panel;
 		friend TreeListNode;
@@ -327,7 +326,6 @@ namespace ui {
 		Widget *lastSelected = nullptr;
 
 	public:
-
 		friend Button;
 		bool multiSelect = false;
 

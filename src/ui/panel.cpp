@@ -599,7 +599,7 @@ void ui::Panel::mouseWheel (int dx, int dy) {
 
 	}
 
-	if (pressed(keyShift)) { // Inverse
+	if (keyboard::pressed(keyShift)) { // Inverse
 
 		if (wrapperHeight > height && showScrollY && !underCanScrollY) addScrollYByPx (-dx*scrollDelta);
 		if (wrapperWidth  > width  && showScrollX && !underCanScrollX) addScrollXByPx (-dy*scrollDelta);

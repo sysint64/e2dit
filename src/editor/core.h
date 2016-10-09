@@ -39,12 +39,17 @@
 
 #include "boost/assign/std/vector.hpp"
 #include "mapeditor.h"
+#include "settings.h"
 
 class Application;
 class Core {
+private:
+	void handleShortKeys (sf::Event::KeyEvent event);
+
 public:
-	Application *app    = Application::getInstance();
-	MapEditor   *editor = MapEditor  ::getInstance();
+	Application *app      = Application::getInstance();
+	MapEditor   *editor   = MapEditor  ::getInstance();
+	Settings    *settings = Settings   ::getInstance();
 	sf::Window  *window;
 
 	/* UI */
@@ -65,8 +70,8 @@ public:
 
 	/* Events */
 
-	void onKeyPressed  (int key);
-	void onKeyReleased (int key);
+	void onKeyPressed  (sf::Event::KeyEvent event);
+	void onKeyReleased (sf::Event::KeyEvent event);
 	void onTextEntered (unsigned int key);
 	void onMouseMove   (int x, int y);
 	void onMouseDown   (int x, int y, int button);

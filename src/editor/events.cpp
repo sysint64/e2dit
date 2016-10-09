@@ -26,21 +26,22 @@
 
 #include "core.h"
 
-void Core::onKeyPressed (int key) {
+void Core::onKeyPressed (sf::Event::KeyEvent event) {
 
-	uiManager->keyPressed (key);
+	uiManager->keyPressed(event.code);
+	handleShortKeys(event);
 
 }
 
-void Core::onKeyReleased (int key) {
+void Core::onKeyReleased (sf::Event::KeyEvent event) {
 
-	uiManager->keyReleased (key);
+	uiManager->keyReleased(event.code);
 
 }
 
 void Core::onTextEntered (unsigned int key) {
 
-	uiManager->textEntered (key);
+	uiManager->textEntered(key);
 
 }
 

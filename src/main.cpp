@@ -55,13 +55,13 @@ int main (int argc, char** argv) {
 
 	app->binPath = fs::getExeDir();
 	// app->resPath = fs::upFolder(fs::upFolder(app->binPath))+"/res"; TODO: Uncomment in production
-	app->resPath = "/home/dev/dev/e2dit/res";
+	app->resPath = "/home/dev/dev/e2dit/res";  // TODO: Hardcode path
 
 	puts(app->binPath.c_str());
 	puts(app->resPath.c_str());
 
 	setlocale (LC_CTYPE, "");
-	app->log.create ("/home/dev/dev/e2dit/build/log.txt");
+	app->log.create ("/home/dev/dev/e2dit/build/log.txt");  // TODO: Hardcode path
 
 	/* Initialize OpenGL */
 
@@ -212,9 +212,9 @@ int main (int argc, char** argv) {
 
 				/* Keyboard */
 
-				case sf::Event::KeyPressed  : core->onKeyPressed  (ev.key.code);      break;
+				case sf::Event::KeyPressed  : core->onKeyPressed  (ev.key);      break;
 				case sf::Event::TextEntered : core->onTextEntered (ev.text.unicode);  break;
-				case sf::Event::KeyReleased : core->onKeyReleased (ev.key.code);      break;
+				case sf::Event::KeyReleased : core->onKeyReleased (ev.key);      break;
 
 				default : break;
 			}

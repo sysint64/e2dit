@@ -27,7 +27,7 @@
 
 namespace ui {
 
-	enum class Orientation {Horizontal, Vertical};
+	enum class Orientation {None, Horizontal, Vertical};
 	class StackLayout : public Widget {
 	public:
 		Orientation orientation = Orientation::Vertical;

@@ -25,8 +25,6 @@
 
 #include "utility/system.h"
 
-/* List Menu */
-
 void ui::ListMenu::render() {
 
 	if (allowAlign)

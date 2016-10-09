@@ -1,0 +1,20 @@
+General
+	language: "en"
+
+ShortKeys
+	View
+		Pane
+			Single: "Ctrl 1"
+			Close: "Ctrl W"
+			Last: "Ctrl E"
+			splitHorizontal: "Shift Ctrl Up"
+			splitVertical: "Shift Ctrl Left"
+
+LastColors
+	color1: 0, 255, 0, 100
+	color2: 0, 255, 0, 100
+	color3: 0, 255, 0, 100
+	color4: 0, 255, 0, 100
+	color5: 0, 255, 0, 100
+	color6: 0, 255, 0, 100
+	color7: 0, 255, 0, 100

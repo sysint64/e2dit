@@ -34,8 +34,8 @@ namespace ui {
 	class Loader {
 	private:
 		Application *app      = Application::getInstance();
-		TreeList  *treeList = nullptr;
-		ui::Toolbar   *toolbar  = nullptr;
+		TreeList    *treeList = nullptr;
+		Toolbar     *toolbar  = nullptr;
 
 		void placeElements (DataMap::DataNode *rootNode, Widget *uiParent);
 
@@ -94,11 +94,8 @@ namespace ui {
 				this->root = manager->root.get();
 
 			switch (rt) {
-
 				case DataMap::ReadType::Bin  : loadFromBin  (app->resPath+"/ui/layouts/"+fileName); break;
 				case DataMap::ReadType::Text : loadFromText (app->resPath+"/ui/layouts/"+fileName); break;
-				default : return;
-
 			}
 
 		}

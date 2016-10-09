@@ -68,6 +68,15 @@ public:
 		DataNode *parent = nullptr;
 		std::vector <std::unique_ptr<DataNode>> childs;
 
+		DataNode *findChild(const std::string &name) {
+			for (const auto &it : childs) {
+				if (it->name == name)
+					return it.get();
+			}
+
+			return nullptr;
+		}
+
 	} typedef DataNode;
 
 private:
